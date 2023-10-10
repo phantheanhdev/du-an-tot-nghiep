@@ -4,7 +4,7 @@
         <div id="page-wrapper" class="gray-bg">
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary box-shadow mb-3">
                 <div class="container">
-                    <a class="navbar-brand" href="/Account/Login">QR MENU</a>
+                    <a class="navbar-brand" href="restaurant-manager">QR MENU</a>
                     <button class="custom-toggler navbar-toggler" type="button" data-toggle="collapse"
                         data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false"
                         aria-label="Toggle navigation">
@@ -22,56 +22,45 @@
                                     </a>
                                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                         <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=en&returnUrl=/Restaurant/RestaurantManager">English</a>
+                                            <a href="/home/SetCulture?culture=en&returnUrl=/restaurant-manager">English</a>
+                                        </li>
+                                        <li class="dropdown-item">
+                                            <a href="/home/SetCulture?culture=es&returnUrl=/restaurant-manager">Spanish</a>
+                                        </li>
+                                        <li class="dropdown-item">
+                                            <a href="/home/SetCulture?culture=de&returnUrl=/restaurant-manager">German</a>
+                                        </li>
+                                        <li class="dropdown-item">
+                                            <a href="/home/SetCulture?culture=ru&returnUrl=/restaurant-manager">Russian</a>
+                                        </li>
+                                        <li class="dropdown-item">
+                                            <a href="/home/SetCulture?culture=zh&returnUrl=/restaurant-manager">Chinese</a>
+                                        </li>
+                                        <li class="dropdown-item">
+                                            <a href="/home/SetCulture?culture=ar&returnUrl=/restaurant-manager">Arabic</a>
+                                        </li>
+                                        <li class="dropdown-item">
+                                            <a href="/home/SetCulture?culture=hi&returnUrl=/restaurant-manager">Hindi</a>
                                         </li>
                                         <li class="dropdown-item">
                                             <a
-                                                href="/home/SetCulture?culture=es&returnUrl=/Restaurant/RestaurantManager">Spanish</a>
+                                                href="/home/SetCulture?culture=pt&returnUrl=/restaurant-manager">Portuguse</a>
+                                        </li>
+                                        <li class="dropdown-item">
+                                            <a href="/home/SetCulture?culture=tr&returnUrl=/restaurant-manager">Turkish</a>
+                                        </li>
+                                        <li class="dropdown-item">
+                                            <a href="/home/SetCulture?culture=ja&returnUrl=/restaurant-manager">Japanese</a>
+                                        </li>
+                                        <li class="dropdown-item">
+                                            <a href="/home/SetCulture?culture=fr&returnUrl=/restaurant-manager">French</a>
+                                        </li>
+                                        <li class="dropdown-item">
+                                            <a href="/home/SetCulture?culture=pl&returnUrl=/restaurant-manager">Polish</a>
                                         </li>
                                         <li class="dropdown-item">
                                             <a
-                                                href="/home/SetCulture?culture=de&returnUrl=/Restaurant/RestaurantManager">German</a>
-                                        </li>
-                                        <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=ru&returnUrl=/Restaurant/RestaurantManager">Russian</a>
-                                        </li>
-                                        <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=zh&returnUrl=/Restaurant/RestaurantManager">Chinese</a>
-                                        </li>
-                                        <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=ar&returnUrl=/Restaurant/RestaurantManager">Arabic</a>
-                                        </li>
-                                        <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=hi&returnUrl=/Restaurant/RestaurantManager">Hindi</a>
-                                        </li>
-                                        <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=pt&returnUrl=/Restaurant/RestaurantManager">Portuguse</a>
-                                        </li>
-                                        <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=tr&returnUrl=/Restaurant/RestaurantManager">Turkish</a>
-                                        </li>
-                                        <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=ja&returnUrl=/Restaurant/RestaurantManager">Japanese</a>
-                                        </li>
-                                        <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=fr&returnUrl=/Restaurant/RestaurantManager">French</a>
-                                        </li>
-                                        <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=pl&returnUrl=/Restaurant/RestaurantManager">Polish</a>
-                                        </li>
-                                        <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=it&returnUrl=/Restaurant/RestaurantManager">&#x130;talian</a>
+                                                href="/home/SetCulture?culture=it&returnUrl=/restaurant-manager">&#x130;talian</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -85,7 +74,8 @@
                                 <div class="dropdown profile-element">
                                     <a class="nav-link" data-toggle="dropdown" aria-expanded="false">
                                         <span>
-                                            <i class="fa fa-cutlery mr-2"></i><i class="fa fa-chevron-down ml-1"></i>
+                                            <i class="fa fa-cutlery mr-2"></i>
+                                            <i class="fa fa-chevron-down ml-1"></i>
                                         </span>
                                     </a>
                                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -108,8 +98,6 @@
             </nav>
             <div class="wrapper wrapper-content">
                 <div class="container" style="height: 100%;">
-
-
 
                     <div class="row">
                         <div class="col-lg-3">
