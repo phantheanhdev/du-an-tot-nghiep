@@ -1,5 +1,5 @@
-@include('user.layout.header');
+@include('admin.layout.header');
 
 @yield('main-content');
 
-@include('user.layout.footer');
+@include('admin.layout.footer');
