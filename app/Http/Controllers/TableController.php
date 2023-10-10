@@ -62,4 +62,10 @@ class TableController extends Controller
     {
         //
     }
+
+    // trang đầu tiên khi chuyển hướng về admin
+    public function restaurant_manager()
+    {
+        return view('admin.restaurant-manager');
+    }
 }
