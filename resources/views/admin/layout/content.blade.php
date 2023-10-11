@@ -292,6 +292,36 @@
                         </div>
                     </div>
 
+                    <div class="modal inmodal" id="pay-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content animated fadeIn">
+                                <div class="ibox">
+                                    <div class="ibox-content">
+                                        <p class="p-y m-t text-center">
+                                            <i class="fa fa-remove text-warning fa-5x"></i>
+                                            <button type="button" class="close mr-3" data-dismiss="modal">
+                                                <span aria-hidden="true">&#xD7;</span><span
+                                                    class="sr-only">Close</span>
+                                            </button>
+                                        </p>
+                                        <div class="modal-header">
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="text-center">All orders will be saved as completed and paid. Do
+                                                you approve the
+                                                payment?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary text-white"
+                                                data-dismiss="modal" style="color:#910400;">No</button> <a
+                                                onclick="payOrder()" class="btn btn-primary text-white">Yes</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -318,6 +348,7 @@
 
     <script src="{{ asset('/admin/js/signalr/dist/browser/signalr.min.js') }}"></script>
     <script src="{{ asset('/admin/js/restaurantManagerController.js') }}"></script>
+    <script src="{{ asset('/admin/js/ordersOfTableController.js') }}"></script>
 </body>
 
 </html>
