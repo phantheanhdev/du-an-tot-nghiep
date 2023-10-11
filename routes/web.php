@@ -15,10 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+Route::get('/', [TableController::class, 'restaurant_manager']);
 
 // =========================== admin ==================================
 Route::get('restaurant-manager', [TableController::class, 'restaurant_manager']);
