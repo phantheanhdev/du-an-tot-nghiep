@@ -22,5 +22,8 @@ Route::get('/', [TableController::class, 'restaurant_manager']);
 Route::get('restaurant-manager', [TableController::class, 'restaurant_manager']);
 Route::get('qr-builder', [QrController::class, 'qr_builder']);
 
+// table
+Route::resource('table', TableController::class);
+
 // =========================== user ====================================
 Route::get('home', [HomeController::class, 'home']);

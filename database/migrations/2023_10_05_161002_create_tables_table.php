@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('tables', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('type')->comment('Table type 2,4,6...');
+            $table->string('type')->comment('Table type 2,5,10...');
+            $table->string('qr');
             $table->timestamps();
         });
     }

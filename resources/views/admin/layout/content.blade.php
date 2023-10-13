@@ -172,13 +172,20 @@
                                         class="btn btn-outline btn-primary btn-block"><i
                                             class="fa fa-columns fa-square-kanban float-left mt-1"></i>ORDER
                                         BOARD</button>
-
+                                    {{-- qr builder --}}
                                     <button id="qr-builder" onclick="getLink('qr-builder')"
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa fa-columns fa-square-kanban fa-sharp fa-solid fa-qrcode float-left mt-1"
                                             style="color: #d35352;"></i>
                                         QR Builder
                                     </button>
+                                    {{-- tale --}}
+                                    <button id="table" onclick="getLink('table')"
+                                        class="btn btn-outline btn-primary btn-block">
+                                        <i class="fa-regular fa-table fa fa-columns fa-square-kanban fa-sharp fa-solid float-left mt-1" style="color: #d35352;"></i>
+                                        Tables
+                                    </button>
+
 
                                 </div>
                             </div>
@@ -219,6 +226,9 @@
                                         return;
                                     case 'qr-builder':
                                         window.location.href = '/qr-builder';
+                                        return;
+                                    case 'table':
+                                        window.location.href = '/table';
                                         return;
                                     default:
                                         return;

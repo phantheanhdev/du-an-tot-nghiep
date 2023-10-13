@@ -12,7 +12,9 @@ class TableController extends Controller
      */
     public function index()
     {
-        //
+        $all_table = Table::all();
+
+        return view('admin.table.index', ['all_table' => $all_table]);
     }
 
     /**
@@ -20,7 +22,7 @@ class TableController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.table.create');
     }
 
     /**
