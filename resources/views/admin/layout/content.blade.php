@@ -182,7 +182,8 @@
                                     {{-- tale --}}
                                     <button id="table" onclick="getLink('table')"
                                         class="btn btn-outline btn-primary btn-block">
-                                        <i class="fa-regular fa-table fa fa-columns fa-square-kanban fa-sharp fa-solid float-left mt-1" style="color: #d35352;"></i>
+                                        <i class="fa-regular fa-table fa fa-columns fa-square-kanban fa-sharp fa-solid float-left mt-1"
+                                            style="color: #d35352;"></i>
                                         Tables
                                     </button>
 
@@ -237,7 +238,7 @@
                         </script>
 
                         {{-- nội dung chính bỏ vào đây main-content --}}
-                        @yield('main-content');
+                        @yield('main-content')
 
                     </div>
 
@@ -359,6 +360,9 @@
     <script src="{{ asset('/admin/js/signalr/dist/browser/signalr.min.js') }}"></script>
     <script src="{{ asset('/admin/js/restaurantManagerController.js') }}"></script>
     <script src="{{ asset('/admin/js/ordersOfTableController.js') }}"></script>
+
+    {{-- js xử lý riêng từng file --}}
+    <script src="{{ asset('/admin/js/table/create-table.js') }}"></script>
 </body>
 
 </html>

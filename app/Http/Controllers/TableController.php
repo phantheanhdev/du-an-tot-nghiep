@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Table;
 use Illuminate\Http\Request;
+use Symfony\Component\VarDumper\VarDumper;
 
 class TableController extends Controller
 {
@@ -30,7 +31,7 @@ class TableController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        var_dump($request->all());
     }
 
     /**
