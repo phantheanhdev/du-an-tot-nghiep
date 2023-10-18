@@ -186,8 +186,21 @@
                                             style="color: #d35352;"></i>
                                         Tables
                                     </button>
+                                    {{--category--}}
+                                    <button id="category" onclick="getLink('category')"
+                                        class="btn btn-outline btn-primary btn-block">
+                                        <i class="fa-regular fa-table fa fa-columns fa-square-kanban fa-sharp fa-solid float-left mt-1"
+                                            style="color: #d35352;"></i>
+                                            Categories
+                                    </button>
 
-
+                                    {{--product--}}
+                                    <button id="table" onclick="getLink('product')"
+                                        class="btn btn-outline btn-primary btn-block">
+                                        <i class="fa-regular fa-table fa fa-columns fa-square-kanban fa-sharp fa-solid float-left mt-1"
+                                            style="color: #d35352;"></i>
+                                            Menu Product
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -207,14 +220,8 @@
                                     case 'qr':
                                         window.location.href = '/qrcode';
                                         return;
-                                    case 'menu':
-                                        window.location.href = '/menuproduct';
-                                        return;
                                     case 'menuFeatures':
                                         window.location.href = '/menuproductfeature';
-                                        return;
-                                    case 'category':
-                                        window.location.href = '/menuCategory';
                                         return;
                                     case 'settings':
                                         window.location.href = '/Restaurant/settings';
@@ -231,6 +238,12 @@
                                     case 'table':
                                         window.location.href = '/table';
                                         return;
+                                    case 'category':
+                                        window.location.href = '/category';
+                                    return;
+                                    case 'product':
+                                    window.location.href = '/product';
+                                    return;
                                     default:
                                         return;
                                 }
@@ -363,6 +376,56 @@
 
     {{-- js xử lý riêng từng file --}}
     <script src="{{ asset('/admin/js/table/create-table.js') }}"></script>
+
+    <script>
+        $(function() {
+            function readURL(input, selector) {
+                if (input.files && input.files[0]) {
+                    let reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        $(selector).attr('src', e.target.result);
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $("#image").change(function() {
+                readURL(this, '#image_preview');
+            });
+
+        });
+    </script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+     <script src="{{ asset('backend/assets/js/code.js') }}"></script>
+
+     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+     <script type="text/javascript" src="{{ asset('backend/assets/js/tagsinput.js') }}"></script>
+
+
+     <script>
+         @if (Session::has('message'))
+             var type = "{{ Session::get('alert-type', 'info') }}"
+             switch (type) {
+                 case 'info':
+                     toastr.info(" {{ Session::get('message') }} ");
+                     break;
+
+                 case 'success':
+                     toastr.success(" {{ Session::get('message') }} ");
+                     break;
+
+                 case 'warning':
+                     toastr.warning(" {{ Session::get('message') }} ");
+                     break;
+
+                 case 'error':
+                     toastr.error(" {{ Session::get('message') }} ");
+                     break;
+             }
+         @endif
+     </script>
 </body>
 
 </html>

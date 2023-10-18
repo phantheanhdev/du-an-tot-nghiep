@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -12,54 +13,73 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $category = Category::all();
+        return view('admin.categories.index', compact('category'));
     }
-
+    public function create()
+    {
+        return view('admin.categories.create');
+    }
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function store(CategoryRequest $request)
     {
-        //
+            if ($request->isMethod('post')) {
+            $params = $request->post();
+            unset($params['_token']);
+
+            if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                // Upload the file and get its path
+                $imagePath = $request->file('image')->store('public/images');
+                $request->image = $imagePath;
+            }
+
+            // Create a new category instance
+            $category = new Category;
+            $category->name = $request->name;
+            $category->note = $request->note;
+            $category->status = $request->status;
+            $category->image = $request->image;
+            $category->save();
+
+            if ($category->save()) {
+                $notification = array(
+                    "message" => "Add category successfully",
+                    "alert-type" => "success",
+                );
+                return redirect()->route('category.index')->with($notification);
+            }
+        }
+
+        return view('admin.categories.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Category $category)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Category $category)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Category $category)
+    public function delete($id)
     {
-        //
+        if($id){
+            $category = Category::where('id', $id);
+            $delete = $category->delete();
+            if($delete){
+                $notification = array(
+                    "message"=> "Delete category successfully",
+                    "alert-type" =>"success",
+                );
+                return redirect()->route('category.index')->with($notification);
+            }else{
+                $notification = array(
+                    "message"=> "Delete category fail",
+                    "alert-type" =>"success",
+                );
+                return redirect()->back()->with($notification);
+            }
+        }
+        return;
     }
 }
