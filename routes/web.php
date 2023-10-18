@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TableController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+// =========================== admin ==================================
+Route::get('restaurant-manager', [TableController::class, 'restaurant_manager']);
+
+
+// =========================== user ====================================
+Route::get('home', [HomeController::class, 'home']);
