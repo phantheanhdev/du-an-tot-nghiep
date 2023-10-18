@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\QrController;
 use App\Http\Controllers\TableController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,14 +16,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+Route::get('/', [TableController::class, 'restaurant_manager']);
 
 // =========================== admin ==================================
 Route::get('restaurant-manager', [TableController::class, 'restaurant_manager']);
+Route::get('qr-builder', [QrController::class, 'qr_builder']);
 
+// table
+Route::resource('table', TableController::class);
 
 // =========================== user ====================================
 Route::get('home', [HomeController::class, 'home']);

@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Table;
 use Illuminate\Http\Request;
-use Symfony\Component\VarDumper\VarDumper;
 
-class TableController extends Controller
+class QrController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $all_table = Table::all();
-
-        return view('admin.table.index', ['all_table' => $all_table]);
+        //
     }
 
     /**
@@ -23,7 +19,7 @@ class TableController extends Controller
      */
     public function create()
     {
-        return view('admin.table.create');
+        //
     }
 
     /**
@@ -31,13 +27,13 @@ class TableController extends Controller
      */
     public function store(Request $request)
     {
-        var_dump($request->all());
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Table $table)
+    public function show(string $id)
     {
         //
     }
@@ -45,7 +41,7 @@ class TableController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Table $table)
+    public function edit(string $id)
     {
         //
     }
@@ -53,7 +49,7 @@ class TableController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Table $table)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -61,14 +57,13 @@ class TableController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Table $table)
+    public function destroy(string $id)
     {
         //
     }
 
-    // trang đầu tiên khi chuyển hướng về admin
-    public function restaurant_manager()
+    public function qr_builder()
     {
-        return view('admin.restaurant-manager');
+        return view('admin.qr-builder');
     }
 }
