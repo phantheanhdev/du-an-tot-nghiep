@@ -189,16 +189,16 @@
                                     {{--category--}}
                                     <button id="category" onclick="getLink('category')"
                                         class="btn btn-outline btn-primary btn-block">
-                                        <i class="fa-regular fa-table fa fa-columns fa-square-kanban fa-sharp fa-solid float-left mt-1"
-                                            style="color: #d35352;"></i>
+                                        <i class="fa-solid fa-bars fa-square-kanban fa-sharp fa-solid float-left mt-1"
+                                        style="color: #d35352;"></i>
                                             Categories
                                     </button>
 
                                     {{--product--}}
                                     <button id="table" onclick="getLink('product')"
                                         class="btn btn-outline btn-primary btn-block">
-                                        <i class="fa-regular fa-table fa fa-columns fa-square-kanban fa-sharp fa-solid float-left mt-1"
-                                            style="color: #d35352;"></i>
+                                        <i class="fa-solid fa-mug-hot  fa-square-kanban fa-sharp fa-solid float-left mt-1"
+                                        style="color: #d35352;"></i>
                                             Menu Product
                                     </button>
                                 </div>

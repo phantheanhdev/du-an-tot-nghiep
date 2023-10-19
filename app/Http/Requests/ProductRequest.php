@@ -20,9 +20,47 @@ class ProductRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
-        return [
-            //
-        ];
+    { $rules = [];
+
+        // Lấy phương thức đang hoạt động
+        $currentAction = $this->route()->getActionMethod();
+
+        switch ($this->method()) {
+            case 'POST':
+                switch ($currentAction) {
+                    case 'create':
+                        $rules = [
+                            'name' => 'required|unique:products|max:255',
+                            'price' => 'required|numeric',
+                            'item' => 'nullable|string',
+                            'image' => ['nullable', 'image'],
+                            'description' => 'required|string',
+                            'category_id' => 'required|integer',
+                            'status' => 'required|in:active,inactive',
+                        ];
+                        break;
+                        case 'edit':
+                            $id = $this->route('id');
+                            $rules = [
+                                'name' => [
+                                    'required',
+                                    Rule::unique('products')->ignore($id),
+                                    'max:255',
+                                ],
+                                'price' => 'required|numeric',
+                                'item' => 'nullable|string',
+                                'image' => ['nullable', 'image'],
+                                'description' => 'required|string',
+                                'category_id' => 'required|integer',
+                                'status' => 'required|in:active,inactive',
+                            ];
+                            break;
+                    default:
+                        break;
+                }
+                break;
+        }
+
+        return $rules;
     }
 }
