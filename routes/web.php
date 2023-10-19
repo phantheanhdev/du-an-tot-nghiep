@@ -31,7 +31,7 @@ Route::prefix('category')->group(function () {
     Route::get('/', [CategoryController::class, 'index'])->name('category.index');
     Route::match(['get'], 'create', [CategoryController::class, 'create'])->name('category.create');
     Route::match(['post'], 'store', [CategoryController::class, 'store'])->name('category.store');
-    // Route::match(['get', 'post'], 'edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
+    Route::match(['get', 'post'], 'edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
     Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
 
 });

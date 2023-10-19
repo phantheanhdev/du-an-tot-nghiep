@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -54,10 +55,39 @@ class CategoryController extends Controller
 
         return view('admin.categories.create');
     }
-
-    public function edit(Category $category)
+    public function edit(CategoryRequest $request, $id)
     {
-        //
+        $category = Category::findOrFail($id);
+
+        if ($request->isMethod('post')) {
+            $params = $request->post();
+            unset($params['_token']);
+
+            if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                // Delete the old image
+                Storage::delete('public/' . $category->image);
+
+                // Upload the new image and get its path
+                $imagePath = $request->file('image')->store('public/images');
+                $category->image = $imagePath;
+            } else {
+                $imagePath = $category->image;
+            }
+
+            $category->name = $request->name;
+            $category->note = $request->note;
+            $category->status = $request->status;
+            $category->image = $imagePath;
+            $category->save();
+
+            $notification = array(
+                "message" => "Update category successfully",
+                "alert-type" => "success",
+            );
+            return redirect()->route('category.index')->with($notification);
+        }
+
+        return view('admin.categories.edit', compact('category'));
     }
 
 

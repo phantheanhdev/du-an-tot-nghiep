@@ -33,21 +33,23 @@ class CategoryRequest extends FormRequest
                         $rules = [
                             'name' => 'required|unique:categories|max:255',
                             'note'=> 'nullable',
-                            'image'=> 'nullable|image',
+                            'image' => ['nullable', 'image'],
                             'status' => 'required|in:active,inactive',
                         ];
                         break;
-                    case 'edit':
-                        $id = $this->route('id');
-                        $rules = [
-                            'name' => [
-                                'required', Rule::unique('categories')->ignore($id), 'max:255',
-                                'note'=> 'nullable',
-                                'image'=> 'nullable|image',
+                        case 'edit':
+                            $id = $this->route('id');
+                            $rules = [
+                                'name' => [
+                                    'required',
+                                    Rule::unique('categories')->ignore($id),
+                                    'max:255',
+                                ],
+                                'note' => 'nullable',
+                                'image' => ['nullable', 'image'],
                                 'status' => 'required|in:active,inactive',
-                            ]
-                        ];
-                        break;
+                            ];
+                            break;
                     default:
                         break;
                 }

@@ -42,7 +42,7 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td><img width="100px" height="100px"
-                                                src="{{ $item->image ? '' . Storage::url($item->image) : 'https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg' }}"
+                                                src="{{ $item->image ? '' . Storage::url($item->image) : 'https://www.freeiconspng.com/uploads/img-landscape-photo-photography-picture-icon-12.png' }}"
                                                 alt=""></td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->note}}</td>
@@ -54,12 +54,12 @@
                                             @endif
                                         </td>
                                         <td>
-                                        <a href="">
-                                            <a id="edit" href="">
+                                            <a id="edit" href="{{ route('category.edit', ['id' => $item->id]) }}">
                                                 <button class="btn btn-secondary">Sửa</button>
                                             </a>
                                             <a id="delete" href="{{ route('category.delete', ['id' => $item->id]) }}">
                                                 <button class="btn btn-primary">Xóa</button>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
