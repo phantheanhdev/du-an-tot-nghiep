@@ -33,7 +33,7 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="status">Status</label>
-                        <select id="status" name="status">
+                        <select id="status" name="status" class="form-control">
                             <option value=""></option>
                             <option value="active">Active</option>
                             <option value="inactive">inactive</option>

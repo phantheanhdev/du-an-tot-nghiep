@@ -11,7 +11,7 @@
                     Cập nhật sản phẩm
                 </h3>
                 <hr>
-                <form method="POST" action="{{ route('product.edit', ['id' => $product->id]) }}" enctype="multipart/form-data" id="edit_product">
+                <form method="POST" action="{{ route('edit', ['id' => $product->id]) }}" enctype="multipart/form-data" id="edit_product">
                     @method('POST')
                     @csrf
                     <div class="mb-3">
@@ -24,7 +24,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Price</label>
-                        <input type="number" name="price" class="form-control" value="{{ $product->price }}">
+                        <input type="number" name="price"  min="0" class="form-control" value="{{ $product->price }}">
                         <div class="form-text" id="price" style="color: red"></div>
                         @error('price')
                         <span class="text-danger">{{ $message }}</span>
@@ -63,6 +63,7 @@
                     <div class="mb-3">
                         <label class="form-label" for="status">Status</label>
                         <select id="status" name="status" class="form-control">
+                            <option value=""></option>
                             <option value="active" {{ $product->status == 'active' ? 'selected' : '' }}>Active</option>
                             <option value="inactive" {{ $product->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
                         </select>
@@ -80,7 +81,7 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    <buttontype="submit" class="btn btn-primary mr-2" id="btn_edit_product">Update</button>
+                    <button type="submit" class="btn btn-primary mr-2" id="btn_edit_product">Update</button>
                     <button type="reset" class="btn btn-primary">Reset</button>
                 </form>
             </div>

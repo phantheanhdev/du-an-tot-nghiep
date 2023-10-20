@@ -51,8 +51,10 @@ class ProductController extends Controller
                 return redirect()->route('product.index')->with($notification);
             }
         }
+        $category = Category::all();
         return view('admin.products.create', compact('category'));
     }
+
 
     public function edit(ProductRequest $request, $id)
     {
@@ -88,8 +90,8 @@ class ProductController extends Controller
             );
             return redirect()->route('product.index')->with($notification);
         }
-
-        return view('admin.products.edit', compact('product'));
+        $category = Category::all();
+        return view('admin.products.edit', compact('product','category'));
     }
 
     public function delete($id)

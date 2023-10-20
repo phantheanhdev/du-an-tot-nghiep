@@ -38,14 +38,12 @@ Route::prefix('category')->group(function () {
 });
 
 //products
-Route::prefix('product')->group(function () {
-    Route::get('/', [ProductController::class, 'index'])->name('product.index');
-    Route::match(['get','post'], 'create', [ProductController::class, 'create'])->name('product.create');
+Route::get('product', [ProductController::class, 'index'])->name('product.index');
+Route::match(['GET','POST'], '/create', [ProductController::class, 'create'])->name('create');
+Route::match(['GET','POST'], '/edit/{id}', [ProductController::class, 'edit'])->name('edit');
+Route::get('delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
+Route::get('/', [TableController::class, 'restaurant_manager']);
 
-    Route::match(['get', 'post'], 'edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
-    Route::get('delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
-
-});
 
 // =========================== user ====================================
 Route::get('home', [HomeController::class, 'home']);
