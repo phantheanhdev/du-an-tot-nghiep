@@ -9,8 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
         let valid = true;
 
         // Kiểm tra trường Tên bàn
-        if (createTableName.value.trim() === '' || createTableName.value.length < 5 || createTableName.value.length > 100) {
-            createTableErName.innerHTML = 'Tên bàn không hợp lệ (độ dài từ 5-100 ký tự)';
+        const tableNameValue = createTableName.value.trim();
+        if (!/^\d{1,10}$/.test(tableNameValue)) {
+            createTableErName.innerHTML = 'Tên bàn không hợp lệ (số nguyên từ 1 đến 10 ký tự)';
             valid = false;
         } else {
             createTableErName.innerHTML = '';
@@ -29,4 +30,3 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-

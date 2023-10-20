@@ -9,9 +9,9 @@
                     @csrf
 
                     <div class="mb-3">
-                        <label class="form-label">Tên bàn</label>
-                        <input type="text" class="form-control" placeholder="Bàn 1" value="Bàn " name="name"
-                            id="create_table_name" required>
+                        <label class="form-label">Số bàn</label>
+                        <input type="number" class="form-control" placeholder="1" name="name" id="create_table_name"
+                            required>
                         <div class="form-text" id="create_table_er_name" style="color: red"></div>
                     </div>
                     <div class="mb-3">
