@@ -19,9 +19,9 @@ class ProductController extends Controller
         return view('admin.products.index', compact('product'));
     }
 
-    public function create(ProductRequest $request)
+    
+    public function add(Request $request)
     {
-        $category = Category::all();
         if ($request->isMethod('post')) {
             $params = $request->post();
             unset($params['_token']);
@@ -51,7 +51,8 @@ class ProductController extends Controller
                 return redirect()->route('product.index')->with($notification);
             }
         }
-        return view('admin.products.create', compact('category'));
+        $category = Category::all();
+        return view('admin.products.add', compact('category'));
     }
 
     public function edit(ProductRequest $request, $id)

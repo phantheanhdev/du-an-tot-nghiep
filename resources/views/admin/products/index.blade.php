@@ -16,7 +16,7 @@
                         <i class="fa fa-long-arrow-left mt-1"></i>
                     </a>
                     Quản lý menu đồ ăn
-                    <a href="{{ route('product.create') }}" class="float-right">
+                    <a href="{{route('create')}}" class="float-right">
                         <button class="btn btn-primary">Thêm đồ ăn</button>
                     </a>
                 </h3>
