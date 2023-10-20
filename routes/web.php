@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QrController;
 use App\Http\Controllers\TableController;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +26,26 @@ Route::get('qr-builder', [QrController::class, 'qr_builder']);
 
 // table
 Route::resource('table', TableController::class);
+
+//category
+Route::prefix('category')->group(function () {
+    Route::get('/', [CategoryController::class, 'index'])->name('category.index');
+    Route::match(['get'], 'create', [CategoryController::class, 'create'])->name('category.create');
+    Route::match(['post'], 'store', [CategoryController::class, 'store'])->name('category.store');
+    Route::match(['get', 'post'], 'edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
+    Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
+
+});
+
+//products
+Route::prefix('product')->group(function () {
+    Route::get('/', [ProductController::class, 'index'])->name('product.index');
+    Route::match(['get','post'], 'create', [ProductController::class, 'create'])->name('product.create');
+
+    Route::match(['get', 'post'], 'edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
+    Route::get('delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
+
+});
 
 // =========================== user ====================================
 Route::get('home', [HomeController::class, 'home']);

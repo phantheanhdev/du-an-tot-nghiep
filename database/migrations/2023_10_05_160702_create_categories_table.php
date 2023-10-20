@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('image')->nullable();
             $table->string('note')->nullable();
-            $table->integer('status');
+            $table->enum('status', ['active', 'inactive'])->default('inactive');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

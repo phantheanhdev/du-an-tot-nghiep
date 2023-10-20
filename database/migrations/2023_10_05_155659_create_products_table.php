@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('image');
             $table->string('description');
             $table->integer('category_id');
+            $table->enum('status', ['active', 'inactive'])->default('inactive');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
