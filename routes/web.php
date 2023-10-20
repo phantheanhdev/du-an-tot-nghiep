@@ -17,7 +17,12 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+//products
 
+Route::get('product', [ProductController::class, 'index'])->name('product.index');
+Route::match(['GET','POST'], '/add', [App\Http\Controllers\ProductController::class, 'add'])->name('create');
+Route::match(['get', 'post'], '/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
+Route::get('delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
 Route::get('/', [TableController::class, 'restaurant_manager']);
 
 // =========================== admin ==================================
@@ -37,15 +42,9 @@ Route::prefix('category')->group(function () {
 
 });
 
-//products
-Route::prefix('product')->group(function () {
-    Route::get('/', [ProductController::class, 'index'])->name('product.index');
-    Route::match(['get','post'], 'create', [ProductController::class, 'create'])->name('product.create');
 
-    Route::match(['get', 'post'], 'edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
-    Route::get('delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
 
-});
+
 
 // =========================== user ====================================
 Route::get('home', [HomeController::class, 'home']);
