@@ -33,7 +33,7 @@
                     </div>
                     <div class="form-group">
                         <label for="price">Price</label>
-                        <input type="number" name="price" id="price" class="form-control">
+                        <input type="number" name="price" id="price" min="0" class="form-control">
                         @error('price')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -70,6 +70,7 @@
                     <div class="form-group">
                         <label for="status">Status</label>
                         <select name="status" id="status" class="form-control">
+                            <option value=""></option>
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
                         </select>
@@ -87,6 +88,7 @@
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Add Product</button>
+                        <button type="reset" class="btn btn-primary">Reset</button>
                     </div>
                 </form>
             </div>

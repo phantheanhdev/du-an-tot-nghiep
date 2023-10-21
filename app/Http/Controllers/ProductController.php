@@ -19,8 +19,8 @@ class ProductController extends Controller
         return view('admin.products.index', compact('product'));
     }
 
-    
-    public function add(Request $request)
+
+    public function add(ProductRequest $request)
     {
         if ($request->isMethod('post')) {
             $params = $request->post();
@@ -89,8 +89,8 @@ class ProductController extends Controller
             );
             return redirect()->route('product.index')->with($notification);
         }
-
-        return view('admin.products.edit', compact('product'));
+        $category =Category::all();
+        return view('admin.products.edit', compact('product','category'));
     }
 
     public function delete($id)

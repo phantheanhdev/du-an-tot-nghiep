@@ -60,7 +60,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a id="edit" href="{{ route('product.edit', ['id' => $item->id]) }}">
+                                            <a id="edit" href="{{ route('edit', ['id' => $item->id]) }}">
                                                 <button class="btn btn-secondary">Sửa</button>
                                             </a>
                                             <a id="delete" href="{{ route('product.delete', ['id' => $item->id]) }}">
