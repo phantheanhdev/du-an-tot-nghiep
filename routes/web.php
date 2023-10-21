@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+//Login
+Route::match(['GET', 'POST'], '/login', [App\Http\Controllers\Login\LoginController::class, 'login'])->name('login');
+Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->name('logout');
 //products
 
 Route::get('product', [ProductController::class, 'index'])->name('product.index');
