@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class   ProductRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class   ProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -28,12 +29,12 @@ class   ProductRequest extends FormRequest
         switch ($this->method()) {
             case 'POST':
                 switch ($currentAction) {
-                    case 'create':
+                    case 'add':
                         $rules = [
                             'name' => 'required|unique:products|max:255',
-                            'price' => 'required|numeric',
+                            'price' => 'required|numeric|min:0',
                             'item' => 'nullable|string',
-                            'image' => ['nullable', 'image'],
+                            'image' => ['required', 'image'],
                             'description' => 'required|string',
                             'category_id' => 'required|integer',
                             'status' => 'required|in:active,inactive',
@@ -47,9 +48,9 @@ class   ProductRequest extends FormRequest
                                     Rule::unique('products')->ignore($id),
                                     'max:255',
                                 ],
-                                'price' => 'required|numeric',
+                                'price' => 'required|numeric|min:0',
                                 'item' => 'nullable|string',
-                                'image' => ['nullable', 'image'],
+                                'image' => 'image',
                                 'description' => 'required|string',
                                 'category_id' => 'required|integer',
                                 'status' => 'required|in:active,inactive',

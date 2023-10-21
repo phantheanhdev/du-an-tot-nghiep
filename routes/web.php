@@ -24,7 +24,7 @@ Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->n
 
 Route::get('product', [ProductController::class, 'index'])->name('product.index');
 Route::match(['GET','POST'], '/add', [App\Http\Controllers\ProductController::class, 'add'])->name('create');
-Route::match(['get', 'post'], '/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
+Route::match(['GET','POST'], '/edit/{id}', [App\Http\Controllers\ProductController::class, 'edit'])->name('edit');
 Route::get('delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
 Route::get('/', [TableController::class, 'restaurant_manager']);
 

@@ -33,7 +33,7 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="status">Status</label>
-                        <select id="status" name="status">
+                        <select id="status" name="status" class="form-control">
                             <option value=""></option>
                             <option value="active" {{ $category->status == 'active' ? 'selected' : '' }}>Active</option>
                             <option value="inactive" {{ $category->status == 'inactive' ? 'selected' : '' }}>Inactive</option>

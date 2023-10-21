@@ -42,8 +42,8 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td><img width="100px" height="100px"
-                                                src="{{ $item->image ? '' . Storage::url($item->image) : 'https://www.freeiconspng.com/uploads/img-landscape-photo-photography-picture-icon-12.png' }}"
-                                                alt=""></td>
+                                            src="{{ $item->image ? '' . Storage::url($item->image) : 'https://www.freeiconspng.com/uploads/img-landscape-photo-photography-picture-icon-12.png' }}"
+                                            alt=""></td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->note}}</td>
                                         <td>
