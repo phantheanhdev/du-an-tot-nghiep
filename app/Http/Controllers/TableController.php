@@ -71,7 +71,8 @@ class TableController extends Controller
      */
     public function edit(Table $table)
     {
-        //
+
+        return view('admin.table.edit', ['table' => $table]);
     }
 
     /**
@@ -79,7 +80,24 @@ class TableController extends Controller
      */
     public function update(Request $request, Table $table)
     {
-        //
+        $validate = $request->validate([
+            'name' => 'required',
+            'type' => 'required|integer',
+        ]);
+
+        // lấy dữ liệu từ form
+        $name = $request->input('name');
+        $type = $request->input('type');
+
+        $data = [
+            'name' => $name,
+            'type' => $type,
+            'qr' => 'https://api.qrserver.com/v1/create-qr-code/?data=http://127.0.0.1:8000?id=' . $table->id . '?table_name=' . $name . '&amp;size=200x200'
+        ];
+
+        $table->update($data);
+
+        return redirect()->route('table.index')->with(session()->flash('alert', 'Sửa bàn thành công'));
     }
 
     /**

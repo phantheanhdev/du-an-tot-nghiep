@@ -57,7 +57,7 @@
                                             <a href="{{ $table->qr }}" download="qr.png">
                                                 <button class="btn btn-info">In QR</button>
                                             </a>
-                                            <a href="">
+                                            <a href="{{ route('table.edit', $table->id) }}">
                                                 <button class="btn btn-secondary">Sửa</button>
                                             </a>
                                             <form action="{{ route('table.destroy', $table->id) }}" method="post"

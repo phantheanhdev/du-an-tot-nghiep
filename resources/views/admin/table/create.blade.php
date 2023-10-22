@@ -4,14 +4,16 @@
         <div class="ibox float-e-margins" id="boxOrder">
             <div class="ibox-content">
 
-                <div class="text-qr Rest-dark text-center p-2 d-flex">
+                <div class="text-qr Rest-dark text-center p-2 ">
                     <a href="{{ route('table.index') }}" class="btn btn-outline btn-primary btn-sm float-left">
                         <i class="fa fa-long-arrow-left mt-1"></i>
                     </a>
+                    <h4 class="">Thêm bàn</h4>
                 </div>
 
                 <div class="">
-                    <form method="POST" action="{{ route('table.store') }}" enctype="multipart/form-data" id="create_table">
+                    <form method="POST" action="{{ route('table.store') }}" enctype="multipart/form-data"
+                        id="create_table">
                         @method('POST')
                         @csrf
 
