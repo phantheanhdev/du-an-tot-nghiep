@@ -14,12 +14,11 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         if ($request->isMethod('POST')) {
-            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) //đăng nhập thành công
+            if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) //đăng nhập thành công
             {
-                return redirect('/');
+                return redirect('/')->with(session()->flash('alert', 'Đăng nhập thành công'));
             } else {
-                Session::flash('error', 'Sai mật khẩu hoặc email');
-                return redirect('/login');
+                return redirect('/login')->with(session()->flash('alert', 'sai mật khẩu'));
             }
         }
         return view('login.login');
@@ -48,5 +47,12 @@ class LoginController extends Controller
     {
 
         return view('Auth.register');
+    }
+    public function logout()
+    {
+        Auth::logout();
+
+        // Chuyển hướng người dùng về trang chủ hoặc trang đăng nhập (tùy chọn)
+        return redirect('/');
     }
 }
