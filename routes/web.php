@@ -17,10 +17,12 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 //Login
 Route::match(['GET', 'POST'], '/login', [App\Http\Controllers\Login\LoginController::class, 'login'])->name('login');
 Route::get('/logout', [App\Http\Controllers\Login\LoginController::class, 'logout'])->name('logout');
 //products
+
 Route::middleware(['auth'])->group(function () {
     Route::get('product', [ProductController::class, 'index'])->name('product.index');
     Route::match(['GET', 'POST'], '/add', [App\Http\Controllers\ProductController::class, 'add'])->name('create');
@@ -43,7 +45,9 @@ Route::middleware(['auth'])->group(function () {
         Route::match(['get', 'post'], 'edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
         Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
     });
-});
+
+
+
 
 // =========================== user ====================================
 Route::get('home', [HomeController::class, 'home']);

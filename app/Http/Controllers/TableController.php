@@ -13,7 +13,8 @@ class TableController extends Controller
      */
     public function index()
     {
-        $all_table = Table::all();
+        // lấy bảng table và sắp xếp theo id từ lớn -> bé
+        $all_table = Table::orderBy('id', 'desc')->get();
 
         return view('admin.table.index', ['all_table' => $all_table]);
     }
@@ -54,7 +55,7 @@ class TableController extends Controller
 
         Table::create($data);
 
-        return redirect()->route('table.index');
+        return redirect()->route('table.index')->with(session()->flash('alert', 'Thêm bàn thành công'));
     }
 
     /**
@@ -88,7 +89,7 @@ class TableController extends Controller
     {
         $table->delete();
 
-        return redirect()->route('table.index');
+        return redirect()->route('table.index')->with(session()->flash('alert', 'Xóa bàn thành công'));
     }
 
     // trang đầu tiên khi chuyển hướng về admin
