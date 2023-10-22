@@ -21,9 +21,12 @@
 </head>
 
 <body class="bg-gradient-primary">
-
   <div class="container">
-    @include('error')
+    @if (session('alert'))
+    <div class="alert alert-success" role="alert">
+      {{ session('alert') }}
+    </div>
+    @endif
     <!-- Outer Row -->
     <div class="row justify-content-center">
 
@@ -42,7 +45,7 @@
                   <form method="POST" action="{{route('login')}}">
                     @csrf
                     <div class="form-group">
-                      <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address...">
+                      <input type="text" name="username" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address...">
                     </div>
                     <div class="form-group">
                       <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
