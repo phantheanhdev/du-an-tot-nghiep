@@ -212,7 +212,7 @@
                                         window.location.href = 'restaurant-manager';
                                         return;
                                     case 'orderAlternative':
-                                        window.location.href = 'list-order';
+                                        window.location.href = '/list-order';
                                         return;
                                     case 'orderBoard':
                                         window.location.href = '/restaurant/orderBoard';
