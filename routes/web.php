@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QrController;
 use App\Http\Controllers\TableController;
@@ -48,3 +49,6 @@ Route::prefix('category')->group(function () {
 
 // =========================== user ====================================
 Route::get('home', [HomeController::class, 'home']);
+
+// order
+Route::get('list-order',[OrderController::class,'index']);

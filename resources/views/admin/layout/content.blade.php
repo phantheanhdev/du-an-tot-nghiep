@@ -212,7 +212,7 @@
                                         window.location.href = 'restaurant-manager';
                                         return;
                                     case 'orderAlternative':
-                                        window.location.href = '/restaurant/orders';
+                                        window.location.href = 'list-order';
                                         return;
                                     case 'orderBoard':
                                         window.location.href = '/restaurant/orderBoard';
@@ -377,7 +377,7 @@
     {{-- js xử lý riêng từng file --}}
  <script src="{{ asset('/admin/js/table/table-create.js') }}"></script>
     <script src="{{ asset('/admin/js/table/table-delete.js') }}"></script>
-  
+
 
     <script>
         $(function() {
@@ -426,7 +426,7 @@
              }
          @endif
      </script>
-   
+
 </body>
 
 </html>
