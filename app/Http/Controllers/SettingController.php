@@ -12,7 +12,7 @@ class SettingController extends Controller
      */
     public function index()
     {
-        //
+        //Khánh An đã ở đây
     }
 
     /**
@@ -60,6 +60,6 @@ class SettingController extends Controller
      */
     public function destroy(Setting $setting)
     {
-        //
+        
     }
 }
