@@ -18,4 +18,8 @@ class Product extends Model
         'description',
         'category_id',
     ];
+
+    public function orderdetail(){
+        return  $this->hasMany(OrderDetail::class);
+    }
 }
