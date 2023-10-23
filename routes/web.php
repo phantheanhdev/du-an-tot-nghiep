@@ -47,8 +47,11 @@ Route::prefix('category')->group(function () {
 
 });
 
+// order
+Route::get('list-order',[OrderController::class,'index']);
+
+
 // =========================== user ====================================
 Route::get('home', [HomeController::class, 'home']);
 
-// order
-Route::get('list-order',[OrderController::class,'index']);
+
