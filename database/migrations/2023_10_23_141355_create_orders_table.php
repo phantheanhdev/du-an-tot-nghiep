@@ -13,15 +13,13 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('qr_code');
-            $table->integer('product_id');
-            $table->integer('quantity');
+            $table->integer('table_id');
             $table->string('note')->nullable();
-            $table->double('price', 9, 0);
             $table->double('total_price', 9, 0);
             $table->integer('status');
             $table->string('customer_name');
             $table->string('customer_phone');
+            $table->date('order_day');
             $table->timestamps();
         });
     }
