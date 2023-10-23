@@ -15,9 +15,7 @@
     <link rel="stylesheet" href="{{ asset('/admin/css/site.css') }}" />
 
     {{-- awesome --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous"
-        referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         th {
             text-align: center;
@@ -34,15 +32,17 @@
 
 <body>
     <div id="wrapper">
+        @if (session('alert'))
+        <div class="alert alert-success" role="alert">
+            {{ session('alert') }}
+        </div>
+        @endif
         <div id="page-wrapper" class="gray-bg">
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary box-shadow mb-3">
                 <div class="container">
                     <a class="navbar-brand" href="restaurant-manager">QR MENU</a>
-                    <button class="custom-toggler navbar-toggler" type="button" data-toggle="collapse"
-                        data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"><i class="fa fa-bars"
-                                style="color:#fafafa; font-size:28px;"></i></span>
+                    <button class="custom-toggler navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"><i class="fa fa-bars" style="color:#fafafa; font-size:28px;"></i></span>
                     </button>
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav mx-auto">
@@ -50,62 +50,48 @@
                                 <div class="dropdown profile-element">
                                     <a class="nav-link" data-toggle="dropdown" aria-expanded="false">
                                         <span>
-                                            <i class="fa fa-globe mr-2"></i>Language<i
-                                                class="fa fa-chevron-down ml-1"></i>
+                                            <i class="fa fa-globe mr-2"></i>Language<i class="fa fa-chevron-down ml-1"></i>
                                         </span>
                                     </a>
                                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                         <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=en&returnUrl=/restaurant-manager">English</a>
+                                            <a href="/home/SetCulture?culture=en&returnUrl=/restaurant-manager">English</a>
                                         </li>
                                         <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=es&returnUrl=/restaurant-manager">Spanish</a>
+                                            <a href="/home/SetCulture?culture=es&returnUrl=/restaurant-manager">Spanish</a>
                                         </li>
                                         <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=de&returnUrl=/restaurant-manager">German</a>
+                                            <a href="/home/SetCulture?culture=de&returnUrl=/restaurant-manager">German</a>
                                         </li>
                                         <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=ru&returnUrl=/restaurant-manager">Russian</a>
+                                            <a href="/home/SetCulture?culture=ru&returnUrl=/restaurant-manager">Russian</a>
                                         </li>
                                         <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=zh&returnUrl=/restaurant-manager">Chinese</a>
+                                            <a href="/home/SetCulture?culture=zh&returnUrl=/restaurant-manager">Chinese</a>
                                         </li>
                                         <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=ar&returnUrl=/restaurant-manager">Arabic</a>
+                                            <a href="/home/SetCulture?culture=ar&returnUrl=/restaurant-manager">Arabic</a>
                                         </li>
                                         <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=hi&returnUrl=/restaurant-manager">Hindi</a>
+                                            <a href="/home/SetCulture?culture=hi&returnUrl=/restaurant-manager">Hindi</a>
                                         </li>
                                         <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=pt&returnUrl=/restaurant-manager">Portuguse</a>
+                                            <a href="/home/SetCulture?culture=pt&returnUrl=/restaurant-manager">Portuguse</a>
                                         </li>
                                         <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=tr&returnUrl=/restaurant-manager">Turkish</a>
+                                            <a href="/home/SetCulture?culture=tr&returnUrl=/restaurant-manager">Turkish</a>
                                         </li>
                                         <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=ja&returnUrl=/restaurant-manager">Japanese</a>
+                                            <a href="/home/SetCulture?culture=ja&returnUrl=/restaurant-manager">Japanese</a>
                                         </li>
                                         <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=fr&returnUrl=/restaurant-manager">French</a>
+                                            <a href="/home/SetCulture?culture=fr&returnUrl=/restaurant-manager">French</a>
                                         </li>
                                         <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=pl&returnUrl=/restaurant-manager">Polish</a>
+                                            <a href="/home/SetCulture?culture=pl&returnUrl=/restaurant-manager">Polish</a>
                                         </li>
                                         <li class="dropdown-item">
-                                            <a
-                                                href="/home/SetCulture?culture=it&returnUrl=/restaurant-manager">&#x130;talian</a>
+                                            <a href="/home/SetCulture?culture=it&returnUrl=/restaurant-manager">&#x130;talian</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -117,22 +103,27 @@
                             <li class="nav-item">
 
                                 <div class="dropdown profile-element">
+
                                     <a class="nav-link" data-toggle="dropdown" aria-expanded="false">
                                         <span>
                                             <i class="fa fa-cutlery mr-2"></i>
                                             <i class="fa fa-chevron-down ml-1"></i>
                                         </span>
                                     </a>
-                                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                        <li class="dropdown-item">
-                                            <a href="/restaurant/restaurantmanager">Management Panel</a>
-                                        </li>
 
-                                        <li class="dropdown-item">
-                                            <a href="/Account/ChangePassword">Change Password</a>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li class="dropdown-item"><a href="/Account/logout">Logout</a></li>
+                                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                        <?php if (auth()->check()) : ?>
+                                            <li class="dropdown-item">
+                                                <a href="/restaurant/restaurantmanager">Management Panel</a>
+                                            </li>
+
+                                            <li class="dropdown-item">
+                                                <a href="/Account/ChangePassword">Change Password</a>
+                                            </li>
+                                            <li class="dropdown-item"><a href="{{route('logout')}}">Logout</a></li>
+                                        <?php else : ?>
+                                            <li class="dropdown-item"><a href="{{route('login')}}">login</a></li>
+                                        <?php endif; ?>
                                     </ul>
                                 </div>
                             </li>
@@ -148,8 +139,7 @@
                         <div class="col-lg-3">
                             <div class="contact-box center-version">
                                 <a style="text-decoration:none; color:black;">
-                                    <img alt="image" class="img-lg"
-                                        src="/images/logos/80735333-a467-43a8-ad98-36c55b23711b.jpg">
+                                    <img alt="image" class="img-lg" src="/images/logos/80735333-a467-43a8-ad98-36c55b23711b.jpg">
                                     <h3 class="m-b-xs"><strong>Linh</strong></h3>
                                     <address class="m-t-md">
                                         Quang<br>
@@ -161,33 +151,33 @@
                                 </a>
 
                                 <div class="contact-box-footer">
-                                    <button id="btnOrder" onclick="getLink('restaurant-manager')"
-                                        class="btn btn-outline btn-primary btn-block">
+                                    <button id="btnOrder" onclick="getLink('restaurant-manager')" class="btn btn-outline btn-primary btn-block">
                                         <i class="fa fa-th float-left mt-1"></i>
                                         ORDERS</button>
-                                    <button id="btnOrderAlternative" onclick="getLink('orderAlternative')"
-                                        class="btn btn-outline btn-primary btn-block"><i
-                                            class="fa fa-list-ol float-left mt-1"></i>ORDERS (LIST)</button>
-                                    <button id="btnOrderBoard" onclick="getLink('orderBoard')"
-                                        class="btn btn-outline btn-primary btn-block"><i
-                                            class="fa fa-columns fa-square-kanban float-left mt-1"></i>ORDER
+                                    <button id="btnOrderAlternative" onclick="getLink('orderAlternative')" class="btn btn-outline btn-primary btn-block"><i class="fa fa-list-ol float-left mt-1"></i>ORDERS (LIST)</button>
+                                    <button id="btnOrderBoard" onclick="getLink('orderBoard')" class="btn btn-outline btn-primary btn-block"><i class="fa fa-columns fa-square-kanban float-left mt-1"></i>ORDER
                                         BOARD</button>
                                     {{-- qr builder --}}
-                                    <button id="qr-builder" onclick="getLink('qr-builder')"
-                                        class="btn btn-outline btn-primary btn-block">
-                                        <i class="fa fa-columns fa-square-kanban fa-sharp fa-solid fa-qrcode float-left mt-1"
-                                            style="color: #d35352;"></i>
+                                    <button id="qr-builder" onclick="getLink('qr-builder')" class="btn btn-outline btn-primary btn-block">
+                                        <i class="fa fa-columns fa-square-kanban fa-sharp fa-solid fa-qrcode float-left mt-1" style="color: #d35352;"></i>
                                         QR Builder
                                     </button>
                                     {{-- tale --}}
-                                    <button id="table" onclick="getLink('table')"
-                                        class="btn btn-outline btn-primary btn-block">
-                                        <i class="fa-regular fa-table fa fa-columns fa-square-kanban fa-sharp fa-solid float-left mt-1"
-                                            style="color: #d35352;"></i>
+                                    <button id="table" onclick="getLink('table')" class="btn btn-outline btn-primary btn-block">
+                                        <i class="fa-regular fa-table fa fa-columns fa-square-kanban fa-sharp fa-solid float-left mt-1" style="color: #d35352;"></i>
                                         Tables
                                     </button>
+                                    {{--category--}}
+                                    <button id="category" onclick="getLink('category')" class="btn btn-outline btn-primary btn-block">
+                                        <i class="fa-solid fa-bars fa-square-kanban fa-sharp fa-solid float-left mt-1" style="color: #d35352;"></i>
+                                        Categories
+                                    </button>
 
-
+                                    {{--product--}}
+                                    <button id="table" onclick="getLink('product')" class="btn btn-outline btn-primary btn-block">
+                                        <i class="fa-solid fa-mug-hot  fa-square-kanban fa-sharp fa-solid float-left mt-1" style="color: #d35352;"></i>
+                                        Menu Product
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -207,14 +197,8 @@
                                     case 'qr':
                                         window.location.href = '/qrcode';
                                         return;
-                                    case 'menu':
-                                        window.location.href = '/menuproduct';
-                                        return;
                                     case 'menuFeatures':
                                         window.location.href = '/menuproductfeature';
-                                        return;
-                                    case 'category':
-                                        window.location.href = '/menuCategory';
                                         return;
                                     case 'settings':
                                         window.location.href = '/Restaurant/settings';
@@ -230,6 +214,12 @@
                                         return;
                                     case 'table':
                                         window.location.href = '/table';
+                                        return;
+                                    case 'category':
+                                        window.location.href = '/category';
+                                        return;
+                                    case 'product':
+                                        window.location.href = '/product';
                                         return;
                                     default:
                                         return;
@@ -250,8 +240,7 @@
                                         <p class="p-y m-t text-center">
                                             <i class="fa fa-remove text-warning fa-5x"></i>
                                             <button type="button" class="close mr-3" data-dismiss="modal">
-                                                <span aria-hidden="true">&#xD7;</span><span
-                                                    class="sr-only">Close</span>
+                                                <span aria-hidden="true">&#xD7;</span><span class="sr-only">Close</span>
                                             </button>
                                         </p>
                                         <div class="modal-header">
@@ -260,9 +249,7 @@
                                             <p class="text-center">Are you sure you want to cancel?</p>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary text-white"
-                                                data-dismiss="modal" style="color:#910400;">No</button> <a
-                                                onclick="cancelOrder()" class="btn btn-primary text-white">Yes</a>
+                                            <button type="button" class="btn btn-secondary text-white" data-dismiss="modal" style="color:#910400;">No</button> <a onclick="cancelOrder()" class="btn btn-primary text-white">Yes</a>
                                         </div>
                                     </div>
                                 </div>
@@ -294,8 +281,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary text-white"
-                                                data-dismiss="modal" style="color:#910400;">Okey</button>
+                                            <button type="button" class="btn btn-primary text-white" data-dismiss="modal" style="color:#910400;">Okey</button>
                                         </div>
                                     </div>
                                 </div>
@@ -311,8 +297,7 @@
                                         <p class="p-y m-t text-center">
                                             <i class="fa fa-remove text-warning fa-5x"></i>
                                             <button type="button" class="close mr-3" data-dismiss="modal">
-                                                <span aria-hidden="true">&#xD7;</span><span
-                                                    class="sr-only">Close</span>
+                                                <span aria-hidden="true">&#xD7;</span><span class="sr-only">Close</span>
                                             </button>
                                         </p>
                                         <div class="modal-header">
@@ -323,9 +308,7 @@
                                                 payment?</p>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary text-white"
-                                                data-dismiss="modal" style="color:#910400;">No</button> <a
-                                                onclick="payOrder()" class="btn btn-primary text-white">Yes</a>
+                                            <button type="button" class="btn btn-secondary text-white" data-dismiss="modal" style="color:#910400;">No</button> <a onclick="payOrder()" class="btn btn-primary text-white">Yes</a>
                                         </div>
                                     </div>
                                 </div>
@@ -343,8 +326,7 @@
                 </div>
                 <div class="container" id="sm-footer">
                     <div class="text-center count-info">
-                        <button onclick="goToPanel()" class="btn btn-default mobile-cart btn-lg"><i
-                                class="fa fa-cog"></i></button>
+                        <button onclick="goToPanel()" class="btn btn-default mobile-cart btn-lg"><i class="fa fa-cog"></i></button>
 
                     </div>
                 </div>
@@ -362,7 +344,58 @@
     <script src="{{ asset('/admin/js/ordersOfTableController.js') }}"></script>
 
     {{-- js xử lý riêng từng file --}}
-    <script src="{{ asset('/admin/js/table/create-table.js') }}"></script>
+    <script src="{{ asset('/admin/js/table/table-create.js') }}"></script>
+    <script src="{{ asset('/admin/js/table/table-delete.js') }}"></script>
+
+
+    <script>
+        $(function() {
+            function readURL(input, selector) {
+                if (input.files && input.files[0]) {
+                    let reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        $(selector).attr('src', e.target.result);
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $("#image").change(function() {
+                readURL(this, '#image_preview');
+            });
+
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="{{ asset('backend/assets/js/code.js') }}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script type="text/javascript" src="{{ asset('backend/assets/js/tagsinput.js') }}"></script>
+
+
+    <script>
+        @if(Session::has('message'))
+        var type = "{{ Session::get('alert-type', 'info') }}"
+        switch (type) {
+            case 'info':
+                toastr.info(" {{ Session::get('message') }} ");
+                break;
+
+            case 'success':
+                toastr.success(" {{ Session::get('message') }} ");
+                break;
+
+            case 'warning':
+                toastr.warning(" {{ Session::get('message') }} ");
+                break;
+
+            case 'error':
+                toastr.error(" {{ Session::get('message') }} ");
+                break;
+        }
+        @endif
+    </script>
+
 </body>
 
 </html>

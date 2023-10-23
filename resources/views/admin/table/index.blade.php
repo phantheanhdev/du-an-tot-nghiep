@@ -1,8 +1,18 @@
 @extends('admin.layout.content')
 @section('main-content')
     <div class="col-md-9">
+
         <div class="ibox float-e-margins" id="boxOrder">
+            {{-- thông báo --}}
+
+            @if (session('alert'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('alert') }}
+                </div>
+            @endif
+
             <div class="ibox-content">
+
                 <div class="sk-spinner sk-spinner-wave">
                     <div class="sk-rect1"></div>
                     <div class="sk-rect2"></div>
@@ -43,16 +53,21 @@
                                         <td>
                                             <img src="{{ $table->qr }}" alt="" width="100" height="100">
                                         </td>
-                                        <td>
-                                            <a href="{{ $table->qr }}" download="qr.png"">
+                                        <td class="d-flex justify-content-around">
+                                            <a href="{{ $table->qr }}" download="qr.png">
                                                 <button class="btn btn-info">In QR</button>
                                             </a>
-                                            <a href="">
+                                            <a href="{{ route('table.edit', $table->id) }}">
                                                 <button class="btn btn-secondary">Sửa</button>
                                             </a>
-                                            <a href="">
-                                                <button class="btn btn-primary">Xóa</button>
-                                            </a>
+                                            <form action="{{ route('table.destroy', $table->id) }}" method="post"
+                                                id="table-form-delete">
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button class="btn btn-primary" type="submit"
+                                                    id="table-btn-delete">Xóa</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach

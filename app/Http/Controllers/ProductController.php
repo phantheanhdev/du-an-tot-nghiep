@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -12,54 +15,101 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $product = Product::all();
+        return view('admin.products.index', compact('product'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    public function add(ProductRequest $request)
     {
-        //
+        if ($request->isMethod('post')) {
+            $params = $request->post();
+            unset($params['_token']);
+
+            if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                $imagePath = $request->file('image')->store('public/images');
+                $request->image = $imagePath;
+            }
+
+            $product = new Product;
+            $product->name = $request->name;
+            $product->price = $request->price;
+            $product->item = $request->item;
+            $product->description = $request->description;
+            $product->category_id = $request->category_id;
+            $product->status = $request->status;
+            $product->image = $request->image;
+
+            $product->save();
+
+
+            if ($product->save()) {
+                $notification = array(
+                    "message" => "Add product successfully",
+                    "alert-type" => "success",
+                );
+                return redirect()->route('product.index')->with($notification);
+            }
+        }
+        $category = Category::all();
+        return view('admin.products.add', compact('category'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function edit(ProductRequest $request, $id)
     {
-        //
+        $product = Product::findOrFail($id);
+
+        if ($request->isMethod('post')) {
+            $params = $request->post();
+            unset($params['_token']);
+
+            if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                // Delete the old image
+                Storage::delete('public/' . $product->image);
+
+                // Upload the new image and get its path
+                $imagePath = $request->file('image')->store('public/images');
+                $product->image = $imagePath;
+            } else {
+                $imagePath = $product->image;
+            }
+
+            $product->name = $request->name;
+            $product->price = $request->price;
+            $product->item = $request->item;
+            $product->description = $request->description;
+            $product->category_id = $request->category_id;
+            $product->status = $request->status;
+            $product->image = $imagePath;
+            $product->save();
+
+            $notification = array(
+                "message" => "Update product successfully",
+                "alert-type" => "success",
+            );
+            return redirect()->route('product.index')->with($notification);
+        }
+        $category =Category::all();
+        return view('admin.products.edit', compact('product','category'));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Product $product)
+    public function delete($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Product $product)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Product $product)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Product $product)
-    {
-        //
+        if ($id) {
+            $product = Product::where('id', $id);
+            $deleted = $product->delete();
+            if ($deleted) {
+                $notification = array(
+                    "message" => "Deleted Product successfully",
+                    "alert-type" => "success",
+                );
+            } else {
+                $notification = array(
+                    "message" => "Delete product failed",
+                    "alert-type" => "error",
+                );
+            }
+        }
+        return redirect()->back()->with($notification);
     }
 }
