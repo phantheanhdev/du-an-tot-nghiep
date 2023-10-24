@@ -25,14 +25,15 @@ Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->n
 //products
 
 Route::get('product', [ProductController::class, 'index'])->name('product.index');
-Route::match(['GET','POST'], '/add', [App\Http\Controllers\ProductController::class, 'add'])->name('create');
+Route::match(['GET', 'POST'], '/add', [App\Http\Controllers\ProductController::class, 'add'])->name('create');
 Route::match(['get', 'post'], '/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
 Route::get('delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
-Route::get('/', [TableController::class, 'restaurant_manager']);
+Route::get('/', [TableController::class, 'restaurant_manager'])->name('restaurant_manager');
 
 // =========================== admin ==================================
-Route::get('restaurant-manager', [TableController::class, 'restaurant_manager']);
-Route::get('qr-builder', [QrController::class, 'qr_builder']);
+Route::get('restaurant-manager', [TableController::class, 'restaurant_manager'])->name('restaurant-manager');
+Route::get('order-of-table/{id}', [TableController::class, 'order_of_table'])->name('order-of-table');
+Route::get('qr-builder', [QrController::class, 'qr_builder'])->name('qr-builder');
 
 // table
 Route::resource('table', TableController::class);
@@ -44,14 +45,11 @@ Route::prefix('category')->group(function () {
     Route::match(['post'], 'store', [CategoryController::class, 'store'])->name('category.store');
     Route::match(['get', 'post'], 'edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
     Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
-
 });
 
 // order
-Route::get('list-order',[OrderController::class,'index']);
+Route::get('list-order', [OrderController::class, 'index']);
 
 
 // =========================== user ====================================
 Route::get('home', [HomeController::class, 'home']);
-
-
