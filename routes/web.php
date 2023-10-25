@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QrController;
@@ -43,6 +44,14 @@ Route::get('qr-builder', [QrController::class, 'qr_builder'])->name('qr-builder'
         Route::match(['post'], 'store', [CategoryController::class, 'store'])->name('category.store');
         Route::match(['get', 'post'], 'edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
         Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
+    });
+
+    //staff
+    Route::prefix('staff')->group(function () {
+        Route::get('/', [EmployeeController::class, 'index'])->name('employee.index');
+        Route::match(['get','post'], 'create', [EmployeeController::class, 'create'])->name('employee.create');
+        Route::match(['get', 'post'], 'edit/{id}', [EmployeeController::class, 'edit'])->name('employee.edit');
+        Route::get('delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
     });
 
 
