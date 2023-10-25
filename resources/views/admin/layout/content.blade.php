@@ -201,6 +201,12 @@
                                         style="color: #d35352;"></i>
                                             Menu Product
                                     </button>
+
+                                    {{--employee--}}
+                                    <button id="staff" onclick="getLink('staff')" class="btn btn-outline btn-primary btn-block">
+                                        <i class="fa-solid fa-bars fa-square-kanban fa-sharp fa-solid float-left mt-1" style="color: #d35352;"></i>
+                                        Staff
+                                    </button>
                                 </div>
                             </div>
                         </div>
