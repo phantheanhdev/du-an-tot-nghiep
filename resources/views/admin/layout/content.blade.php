@@ -360,13 +360,7 @@
                     <div class="float-right"> <strong>Version</strong> 2.0.0</div>
                     <div> &#xA9; 2023</div>
                 </div>
-                <div class="container" id="sm-footer">
-                    <div class="text-center count-info">
-                        <button onclick="goToPanel()" class="btn btn-default mobile-cart btn-lg"><i
-                                class="fa fa-cog"></i></button>
 
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -374,9 +368,7 @@
     <script src="{{ asset('/admin/lib/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('/admin/lib/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('/admin/lib/toastr/toastr.min.js') }}"></script>
-    <script src="{{ asset('/admin/js/site.js?v=8QGA8plRn7GTht4kyT51JYdRqoZS49RFYsmjEjHMjSs') }}"></script>
 
-    <script src="{{ asset('/admin/js/signalr/dist/browser/signalr.min.js') }}"></script>
     <script src="{{ asset('/admin/js/restaurantManagerController.js') }}"></script>
     <script src="{{ asset('/admin/js/ordersOfTableController.js') }}"></script>
 

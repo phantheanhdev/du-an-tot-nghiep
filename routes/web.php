@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QrController;
@@ -61,6 +62,8 @@ Route::prefix('category')->group(function () {
 
 // order
 Route::get('list-order', [OrderController::class, 'index']);
+
+Route::get('order/menu',[MenuController::class,'index']);
 
 
 // =========================== user ====================================
