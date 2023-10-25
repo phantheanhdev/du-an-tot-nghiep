@@ -46,7 +46,6 @@ class TableController extends Controller
         $id = Table::max('id');
         $new_id = $id + 1;
 
-
         $data = [
             'name' => $name,
             'type' => $type,
@@ -113,6 +112,14 @@ class TableController extends Controller
     // trang đầu tiên khi chuyển hướng về admin
     public function restaurant_manager()
     {
-        return view('admin.restaurant-manager');
+        $tables = Table::all();
+        return view('admin.restaurant-manager', ['tables' => $tables]);
+    }
+
+    // trang chi tiết order nhận của từng bàn
+    public function order_of_table($id){
+        $table = Table::findOrFail($id);
+
+        return view('admin.order-of-table', ['table' => $table]);
     }
 }
