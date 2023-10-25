@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -38,6 +39,16 @@ Route::get('qr-builder', [QrController::class, 'qr_builder'])->name('qr-builder'
 // table
 Route::resource('table', TableController::class);
 
+
+    //staff
+    Route::prefix('staff')->group(function () {
+        Route::get('/', [EmployeeController::class, 'index'])->name('employee.index');
+        Route::match(['get','post'], 'create', [EmployeeController::class, 'create'])->name('employee.create');
+        Route::match(['get', 'post'], 'edit/{id}', [EmployeeController::class, 'edit'])->name('employee.edit');
+        Route::get('delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
+    });
+
+
 //category
 Route::prefix('category')->group(function () {
     Route::get('/', [CategoryController::class, 'index'])->name('category.index');
@@ -46,6 +57,7 @@ Route::prefix('category')->group(function () {
     Route::match(['get', 'post'], 'edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
     Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
 });
+
 
 // order
 Route::get('list-order', [OrderController::class, 'index']);
