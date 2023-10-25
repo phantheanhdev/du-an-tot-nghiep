@@ -10,10 +10,21 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
+    protected $order;
+
+    public function __construct(Order $order)
+    {
+        $this->order = $order;
+    }
+
     public function index()
     {
-        //
-        //chiến ngố
+
+        $orders =  $this->order->paginate(10);
+        $orders->load([
+            'table'
+        ]);
+        return view('admin.orders.index', compact('orders'))->with('i',(request()->input('page',1)-1)*10);
     }
 
     /**
