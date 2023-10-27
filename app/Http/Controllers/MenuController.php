@@ -14,6 +14,7 @@ class MenuController extends Controller
     public function index()
     {
         //
+        // $id = $_GET['id'];
         $table = $_GET['tableNo'];
         $categories = Category::all();
         $productsByCategory = [];

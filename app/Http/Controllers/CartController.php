@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
+use App\Models\Product;
 
 class CartController extends Controller
 {
@@ -15,6 +17,7 @@ class CartController extends Controller
     {
         //
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -30,6 +33,39 @@ class CartController extends Controller
     public function store(StoreCartRequest $request)
     {
         //
+    }
+    public function remove(Request $request)
+    {
+        if($request->id) {
+            $cart = session()->get('cart');
+            if(isset($cart[$request->id])) {
+                unset($cart[$request->id]);
+                session()->put('cart', $cart);
+            }
+            session()->flash('success', 'Product removed successfully');
+        }
+    }
+
+    public function addToCart($id)
+    {
+        $product = Product::findOrFail($id);
+
+        $cart = session()->get('cart', []);
+
+        if(isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+        } else {
+            $cart[$id] = [
+                "id" => $product->id,
+                "name" => $product->name,
+                "quantity" => 1,
+                "price" => $product->price,
+                // "image" => $product->image
+            ];
+        }
+
+        session()->put('cart', $cart);
+        return redirect()->back()->with('success', 'Product added to cart successfully!');
     }
 
     /**
