@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BillController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HomeController;
@@ -65,6 +66,7 @@ Route::get('list-order', [OrderController::class, 'index']);
 
 Route::get('order/menu',[MenuController::class,'index']);
 
+Route::resource('bill', BillController::class);
 
 // =========================== user ====================================
 Route::get('home', [HomeController::class, 'home']);
