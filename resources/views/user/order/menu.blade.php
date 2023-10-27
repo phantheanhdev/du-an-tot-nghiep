@@ -61,23 +61,38 @@
                                     <input hidden value="Please complete your selections." id="txtSelectOptions" />
                                 </div>
                                 <div class="ibox-content ibox-br">
-                                    <div class="sk-spinner sk-spinner-wave">
-                                        <div class="sk-rect1"></div>
-                                        <div class="sk-rect2"></div>
-                                        <div class="sk-rect3"></div>
-                                        <div class="sk-rect4"></div>
-                                        <div class="sk-rect5"></div>
-                                    </div>
-                                    <form method="post" action="/Order/AddOrder">
-                                        <input name="RestaurantId" id="txtRestaurantId" hidden value="1" />
-                                        <input name="UserId" id="txtUserId" hidden
-                                            value="fc275c06-8043-46b1-aed2-71843b4dce61" />
-                                        <input name="TableId" id="txtTableId" hidden value="35" />
-
+                                  <form method="post" action="/Order/AddOrder">
                                         <table class="table table-borderless">
                                             <tbody id="cartContentsHtml">
-                                            </tbody>
-                                        </table>
+                                                @php $total = 0 @endphp
+                                                @if (session('cart'))
+                                                    @foreach (session('cart') as $id => $details)
+                                                        @php $total += $details['price'] * $details['quantity'] @endphp
+                                                        <tr>
+                                                            <td style="width:60%" class="cart-item">
+                                                                {{ $details['name'] }}<br> <span
+                                                                    class="text-menu-description text-muted"></span> </td>
+                                                            <td><input onblur="updateQuantity(3)" id="cartquantity-3"
+                                                                    class="quantity-input"
+                                                                    value="{{ $details['quantity'] }}"></td>
+                                                            <td style="width:28%;" class="cart-item">
+                                                                ${{ number_format($details['price']) }}</td>
+                                                            <td><a onclick="remove_product({{ $details['id'] }})"
+                                                                    class="float-right"><i
+                                                                        class="fa fa-times text-qrRestremove-from-cart"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endif
+                                                <tr class="spacer">
+                                                    <td class="cart-item">
+                                                        <h5>TOTAL</h5>
+                                                    </td>
+                                                    <td></td>
+                                                    <td class="cart-item"> <strong>$ {{ number_format($total) }}</strong>
+                                                    </td>
+                                                    <td></td>
+                                                </tr>     
                                         <hr>
                                         <div class="form-group" id="txtOrderIsReady">
                                             <textarea class="form-control" name="OrderNote" maxlength="70" rows="2"
@@ -86,8 +101,6 @@
                                         <button type="submit" onclick="startOrder()" id="placeOrder"
                                             class="btn btn-primary btn-outline btn-block mt-4 btn-sm"> Place the
                                             Order</button>
-                                        <input name="__RequestVerificationToken" type="hidden"
-                                            value="CfDJ8F3jakzp7iNKmGggKggWDcQXBqw6-LL4c2M1rUeXjN_YDVjRXttRroJt9FtbIXGT7110Myr23rrWoQN3ePVGJs52IzVXzhvfA3FYVUHI7rRKuCf3ddDC929cxKYzIGW99K6tSn2CaNEad_l7IEfVbzxWMTEw6mA6c_f-_5YNpJHcJnwsnG-W_e0rk8eNmaqPmA" />
                                     </form>
                                 </div>
                             </div>
@@ -108,9 +121,10 @@
                             <div class="ibox-content m-b-sm border-bottom" id="welcome-lg">
                                 <div class="p-xs">
                                     {{-- <div class="float-left m-r-md">
-                                        <img alt="image" class="img-md"
-                                            src="/images/logos/80735333-a467-43a8-ad98-36c55b23711b.jpg">
-                                    </div> --}}
+
+                                   <img alt="image" class="img-md"
+                                        src="/images/logos/80735333-a467-43a8-ad98-36c55b23711b.jpg">
+                                  </div> --}}
                                     <div class="float-right m-r-md">
                                         <button onclick="changeView(1)"
                                             class="btn btn-primary btn-outline btn-flat btn-sm"><i
@@ -155,13 +169,6 @@
                                             </h3>
                                         </div>
                                         <div class="ibox-content ibox-br">
-                                            {{-- <div class="sk-spinner sk-spinner-wave">
-                                            <div class="sk-rect1"></div>
-                                            <div class="sk-rect2"></div>
-                                            <div class="sk-rect3"></div>
-                                            <div class="sk-rect4"></div>
-                                            <div class="sk-rect5"></div>
-                                        </div> --}}
                                             <table class="table table-hover">
                                                 @foreach ($products as $product)
                                                     <tbody>
@@ -177,11 +184,12 @@
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td style="width:70%;" class="cart-item-upFont">
+                                                            <td style="width:70%;" class="cart-item-upFont"
+                                                                id="product-name-{{ $product->id }}">
                                                                 {{ $product->name }}<br />
                                                             </td>
-                                                            <td class="cart-item-upFont">
-                                                                {{ number_format($product->price) }} &#x20AB;
+                                                            <td class="cart-item-upFont"
+                                                                id="product-price-{{ $product->id }}">
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -195,19 +203,74 @@
                     </div>
                     <br />
                     <br />
+                   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+                        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+                        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
                     <script>
+                        var csrfToken = @json(csrf_token());
+
                         function addToCart(productId, action) {
                             var inputElement = document.getElementById('txtQuantity-' + productId);
                             var currentQuantity = parseInt(inputElement.value);
 
                             if (action) {
                                 currentQuantity++;
+                            } else {
+                                currentQuantity--;
+                            }
+
+                            if (currentQuantity < 0) {
+                                currentQuantity = 0;
                             }
 
                             inputElement.value = currentQuantity;
 
+                            var productNameElement = document.getElementById('product-name-' + productId);
+                            var productPriceElement = document.getElementById('product-price-' + productId);
+
+                            if (productNameElement && productPriceElement) {
+                                var productName = productNameElement.textContent;
+                                var productPrice = parseFloat(productPriceElement.textContent);
+                            } else {
+                                console.log('Không tìm thấy phần tử sản phẩm với ID ' + productId);
+                            }
+                            var quantity = 1; // Số lượng sản phẩm bạn muốn thêm
+
+                            $.ajax({
+                                type: 'POST',
+                                url: '/add-to-cart/' + productId, // Đường dẫn đến API route bạn đã tạo
+                                data: {
+                                    _token: csrfToken,
+                                    product_id: productId,
+                                    product_name: productName,
+                                    quantity: quantity,
+                                    price: productPrice,
+                                },
+                                success: function(response) {
+                                    // alert(response.message);
+                                    window.location.reload();
+                                }
+                            });
                             console.log('Đã thêm sản phẩm có ID ' + productId + ' vào giỏ hàng.');
+
                         }
+
+
+                        function remove_product(id) {
+                            if (confirm("Are you sure want to remove? " + id)) {
+                                $.ajax({
+                                    url: '/remove-from-cart',
+                                    method: "DELETE",
+                                    data: {
+                                        _token: csrfToken,
+                                        id: id
+                                    },
+                                    success: function(response) {
+                                        window.location.reload();
+                                    }
+                                });
+                            }
+                        };
                     </script>
                     <div class="modal inmodal" id="modal-dialog" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog">

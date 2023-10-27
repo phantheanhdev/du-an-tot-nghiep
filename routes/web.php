@@ -1,15 +1,20 @@
 <?php
 
+
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EmployeeController;
+use App\Events\HelloPusherEvent;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\QrController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\QrController;
 use App\Http\Controllers\TableController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +71,24 @@ Route::get('list-order', [OrderController::class, 'index']);
 
 Route::get('order/menu',[MenuController::class,'index']);
 
+
 Route::resource('bill', BillController::class);
+Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
+Route::delete('/remove-from-cart', [CartController::class, 'remove']);
+
+
+Route::get('/test', function () {
+    return view('showNotification');
+});
+
+Route::get('getPusher', function (){
+   return view('form_pusher');
+});
+
+Route::get('/pusher', function(Illuminate\Http\Request $request) {
+    event(new HelloPusherEvent($request));
+    return redirect('getPusher');
+});
 
 // =========================== user ====================================
 Route::get('home', [HomeController::class, 'home']);
