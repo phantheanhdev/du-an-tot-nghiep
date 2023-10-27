@@ -2,29 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\Category;
 use Illuminate\Http\Request;
 
-class MenuController extends Controller
+class BillController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $table = $_GET['tableNo'];
-        $categories = Category::all();
-        $productsByCategory = [];
-
-        foreach ($categories as $category) {
-            $products = Product::where('category_id', $category->id)->get();
-            $productsByCategory[$category->name] = $products;
-        }
-
-        return view("user.order.menu", ['table' => $table, 'productsByCategory' => $productsByCategory]);
+        return view('admin.bills.index');
     }
-
 
     /**
      * Show the form for creating a new resource.
