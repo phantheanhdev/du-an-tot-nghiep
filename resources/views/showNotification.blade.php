@@ -453,6 +453,8 @@
             notificationsCountElem.attr('data-count', notificationsCount);
             notificationsWrapper.find('.notif-count').text(notificationsCount);
             notificationsWrapper.show();
+            var audio = new Audio('{{ asset('Doorbell.mp3') }}');
+            audio.play();
         });
     </script>
 </body>

@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers\BillController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\EmployeeController;
 use App\Events\HelloPusherEvent;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QrController;
