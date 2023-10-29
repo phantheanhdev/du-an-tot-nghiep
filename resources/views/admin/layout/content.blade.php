@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RestaurantManager - QR MENU</title>
+    <title>ADMIN-FOODIE</title>
     <link rel="shortcut icon" type="image/png" href="{{ asset('/admin/images/favicon.png') }}" />
     <link rel="stylesheet" href="{{ asset('/admin/lib/bootstrap/dist/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('/admin/lib/font-awesome/css/font-awesome.min.css') }}" />

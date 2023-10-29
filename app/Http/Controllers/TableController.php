@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Table;
 use Illuminate\Http\Request;
 use Symfony\Component\VarDumper\VarDumper;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TableController extends Controller
 {
@@ -117,7 +118,8 @@ class TableController extends Controller
     }
 
     // trang chi tiết order nhận của từng bàn
-    public function order_of_table($id){
+    public function order_of_table($id)
+    {
         $table = Table::findOrFail($id);
 
         return view('admin.order-of-table', ['table' => $table]);
