@@ -65,6 +65,10 @@ Route::prefix('category')->group(function () {
 
 // order nhung no la bill
 Route::get('list-order', [OrderController::class, 'index']);
+// view invoice
+Route::get('/invoice/{id}', [OrderController::class,'viewInvoice'])->name('viewInvoice');
+// download FDF
+Route::get('invoice/{id}/generate', [OrderController::class,'genarateInvoice'])->name('genarateInvoice');
 //
 Route::get('order/menu', [MenuController::class, 'index']);
 
