@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderRequest;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
+use App\Models\Order;
 use App\Models\Product;
+use Carbon\Carbon;
+use CarbonCarbon;
+use Illuminate\Contracts\Session\Session;
 
 class CartController extends Controller
 {
@@ -36,9 +41,9 @@ class CartController extends Controller
     }
     public function remove(Request $request)
     {
-        if($request->id) {
+        if ($request->id) {
             $cart = session()->get('cart');
-            if(isset($cart[$request->id])) {
+            if (isset($cart[$request->id])) {
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
             }
@@ -52,7 +57,7 @@ class CartController extends Controller
 
         $cart = session()->get('cart', []);
 
-        if(isset($cart[$id])) {
+        if (isset($cart[$id])) {
             $cart[$id]['quantity']++;
         } else {
             $cart[$id] = [
@@ -66,6 +71,19 @@ class CartController extends Controller
 
         session()->put('cart', $cart);
         return redirect()->back()->with('success', 'Product added to cart successfully!');
+    }
+
+    public function order(OrderRequest $request)
+    {
+        $data = $request->all();
+
+        $order_day = Carbon::now('Asia/Ho_Chi_Minh');
+        $data['order_day'] = $order_day;
+
+        Order::create($data);
+        session()->forget('cart');
+
+        return redirect()->back()->with('alert', 'Đặt món thành công');
     }
 
     /**

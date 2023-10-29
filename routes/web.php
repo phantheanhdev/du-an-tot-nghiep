@@ -25,24 +25,21 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-//Login
-Route::match(['GET', 'POST'], '/login', [App\Http\Controllers\Login\LoginController::class, 'login'])->name('login');
-Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->name('logout');
-//products
+// ========================================================= admin ====================================================
 
-Route::get('product', [ProductController::class, 'index'])->name('product.index');
-Route::match(['GET', 'POST'], '/add', [App\Http\Controllers\ProductController::class, 'add'])->name('create');
-Route::match(['get', 'post'], '/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
-Route::get('delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
-Route::get('/', [TableController::class, 'restaurant_manager'])->name('restaurant_manager');
-
-// =========================== admin ==================================
 Route::get('restaurant-manager', [TableController::class, 'restaurant_manager'])->name('restaurant-manager');
 Route::get('order-of-table/{id}', [TableController::class, 'order_of_table'])->name('order-of-table');
 Route::get('qr-builder', [QrController::class, 'qr_builder'])->name('qr-builder');
 
 // table
 Route::resource('table', TableController::class);
+
+//products
+Route::get('product', [ProductController::class, 'index'])->name('product.index');
+Route::match(['GET', 'POST'], '/add', [App\Http\Controllers\ProductController::class, 'add'])->name('create');
+Route::match(['get', 'post'], '/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
+Route::get('delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
+Route::get('/', [TableController::class, 'restaurant_manager'])->name('restaurant_manager');
 
 //staff
 Route::prefix('staff')->group(function () {
@@ -51,7 +48,6 @@ Route::prefix('staff')->group(function () {
     Route::match(['get', 'post'], 'edit/{id}', [EmployeeController::class, 'edit'])->name('employee.edit');
     Route::get('delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
 });
-
 
 //category
 Route::prefix('category')->group(function () {
@@ -62,18 +58,29 @@ Route::prefix('category')->group(function () {
     Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
 });
 
+// ======================================================= user ===============================================================
 
 // order
 Route::get('list-order', [OrderController::class, 'index']);
 
-Route::get('order/menu', [MenuController::class, 'index']);
+Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
 
-
-Route::resource('bill', BillController::class);
 Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
 Route::delete('/remove-from-cart', [CartController::class, 'remove']);
+Route::post('order', [CartController::class, 'order'])->name('order');
+
+// bill
+Route::resource('bill', BillController::class);
 
 
+//Login
+Route::match(['GET', 'POST'], '/login', [App\Http\Controllers\Login\LoginController::class, 'login'])->name('login');
+Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->name('logout');
+
+Route::get('home', [HomeController::class, 'home']);
+
+
+// 3 route test pusher
 Route::get('/test', function () {
     return view('showNotification');
 });
@@ -86,6 +93,4 @@ Route::get('/pusher', function (Illuminate\Http\Request $request) {
     event(new HelloPusherEvent($request));
     return redirect('getPusher');
 });
-
-// =========================== user ====================================
-Route::get('home', [HomeController::class, 'home']);
+// 

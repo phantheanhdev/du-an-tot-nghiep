@@ -58,22 +58,41 @@
                                     <input hidden value="Please complete your selections." id="txtSelectOptions" />
                                 </div>
                                 <div class="ibox-content ibox-br">
-                                    <form method="post" action="/Order/AddOrder">
+
+                                    {{-- form cart --}}
+                                    <form method="POST" action="{{ route('order') }}" enctype="multipart/form-data">
+                                        @csrf
+
+                                        <input type="hidden" name="table_id" value="{{ $table }}">
+                                        <input type="hidden" name="status" value="0">
+                                        <input type="hidden" name="customer_name" value="0">
+                                        <input type="hidden" name="customer_phone" value="0">
+                                        
+
                                         <table class="table table-borderless">
                                             <tbody id="cartContentsHtml">
+
                                                 @php $total = 0 @endphp
+
                                                 @if (session('cart'))
                                                     @foreach (session('cart') as $id => $details)
                                                         @php $total += $details['price'] * $details['quantity'] @endphp
+
+                                                        {{-- save value with input hidden --}}
+                                                        <input type="hidden" value="{{ $total }}" name="total_price">
+
                                                         <tr>
                                                             <td style="width:60%" class="cart-item">
                                                                 {{ $details['name'] }}<br> <span
                                                                     class="text-menu-description text-muted"></span> </td>
+
                                                             <td><input onblur="updateQuantity(3)" id="cartquantity-3"
                                                                     class="quantity-input"
                                                                     value="{{ $details['quantity'] }}"></td>
+
                                                             <td style="width:28%;" class="cart-item">
                                                                 ${{ number_format($details['price']) }}</td>
+
                                                             <td><a onclick="remove_product({{ $details['id'] }})"
                                                                     class="float-right"><i
                                                                         class="fa fa-times text-qrRestremove-from-cart"></i></a>
@@ -94,7 +113,7 @@
                                         </table>
                                         <hr>
                                         <div class="form-group" id="txtOrderIsReady">
-                                            <textarea class="form-control" name="OrderNote" maxlength="70" rows="2"
+                                            <textarea class="form-control" name="note" maxlength="70" rows="2"
                                                 placeholder="Indicate if you have a note for the order"></textarea>
                                         </div>
                                         <button type="submit" onclick="startOrder()" id="placeOrder"
@@ -105,8 +124,9 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col-6" style="padding-right:7px">
-                                    <button onclick="callTheWaiter(<?= $table ?>)" id="btnCallWaiter" class="call-button btn-block"><img
-                                            src="/images/call-waiter.png" /> Gọi nhân viên</button>
+                                    <button onclick="callTheWaiter(<?= $table ?>)" id="btnCallWaiter"
+                                        class="call-button btn-block"><img src="/images/call-waiter.png" /> Gọi nhân
+                                        viên</button>
                                 </div>
                                 <div class="col-6" style="padding-left:7px">
                                     <button onclick="callPayment()" id="btnCallBill" class="call-button btn-block"><img
@@ -275,12 +295,10 @@
                                 });
                             }
                         };
-
-                        
                     </script>
                     <script>
                         function callTheWaiter(id) {
-                            var contentsData = "Bàn "+ id +" gọi nhân viên";
+                            var contentsData = "Bàn " + id + " gọi nhân viên";
 
                             var postData = {
                                 contents: contentsData

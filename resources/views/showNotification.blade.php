@@ -417,7 +417,7 @@
         }
 
         //Thay giá trị PUSHER_APP_KEY vào chỗ xxx này nhé
-        var pusher = new Pusher('3f445aa654bdfac71f01', {
+        var pusher = new Pusher('e691866e332f137e9f64', {
             encrypted: true,
             cluster: "ap1"
         });
