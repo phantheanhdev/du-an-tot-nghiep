@@ -48,6 +48,14 @@
                                         <td>{{ $item->status }}</td>
                                         <td>{{ $item->customer_name}}</td>
                                         <td>{{ $item->customer_phone}}</td>
+                                        <th>
+                                            <a href="{{url('invoice/'.$item->id.'/generate')}}" class="btn btn-primary btn-sm float-end mx-1">
+                                                Dowload Invoice
+                                            </a>
+                                            <a href="{{url('invoice'.$item->id)}}" class="btn btn-warning btn-sm float-end mx-1">
+                                                View Invoice
+                                            </a>
+                                        </th>
                                     </tr>
                                 @endforeach
                             </tbody>

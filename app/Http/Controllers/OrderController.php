@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrderController extends Controller
 {
@@ -73,5 +76,30 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         //
+    }
+
+    public function viewInvoice(string $id){
+        $order  = Order::findOrFail($id);
+        $bill = OrderDetail::findOrFail($id);
+        $order->load([
+            'table'
+        ]);
+        $bill->load([
+            'product'
+        ]);
+        return view('admin.invoice.generate_invoice',[
+            'order'=>$order,
+            'bill'=>$bill
+
+        ]);
+    }
+
+    public function genarateInvoice(string $id)
+    {
+        $order = Order::findOrFail($id);
+        $data = ['orders' => $order];
+        $todayDate = Carbon::now()->format('d-m-Y',$data);
+        $pdf = Pdf::loadView('admin.invoice.generate_invoice');
+        return $pdf->download('invoice-'.$order->id.'-'.$todayDate.'pdf');
     }
 }

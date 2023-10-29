@@ -62,9 +62,14 @@ Route::prefix('category')->group(function () {
 
 // order
 Route::get('list-order', [OrderController::class, 'index']);
+// view invoice
+Route::get('/invoice/{id}', [OrderController::class,'viewInvoice'])->name('viewInvoice');
+// download FDF
+Route::get('invoice/{id}/generate', [OrderController::class,'genarateInvoice'])->name('genarateInvoice');
+//
 
+ // order menu
 Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
-
 Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
 Route::delete('/remove-from-cart', [CartController::class, 'remove']);
 Route::post('order', [CartController::class, 'order'])->name('order');

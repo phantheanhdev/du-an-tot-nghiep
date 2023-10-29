@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ asset('/admin/lib/font-awesome/css/font-awesome.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('/admin/lib/toastr/toastr.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('/admin/css/animate.css') }}" />
+    <link rel="stylesheet" href="{{ asset('admin/css/invoice.css')}}">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/admin/css/site.css') }}" />
@@ -165,9 +166,11 @@
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa fa-th float-left mt-1"></i>
                                         ORDERS</button>
+                                        {{-- order_bill --}}
                                     <button id="btnOrderAlternative" onclick="getLink('orderAlternative')"
                                         class="btn btn-outline btn-primary btn-block"><i
                                             class="fa fa-list-ol float-left mt-1"></i>ORDERS (LIST)</button>
+                                        {{-- bill - dat ten hoi lon  --}}
                                     <button id="btnOrderBoard" onclick="getLink('orderBoard')"
                                         class="btn btn-outline btn-primary btn-block"><i
                                             class="fa fa-columns fa-square-kanban float-left mt-1"></i>ORDER
@@ -221,7 +224,7 @@
                                         window.location.href = '/list-order';
                                         return;
                                     case 'orderBoard':
-                                        window.location.href = '/restaurant/orderBoard';
+                                        window.location.href = '/bill';
                                         return;
                                     case 'qr':
                                         window.location.href = '/qrcode';
