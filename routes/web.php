@@ -63,14 +63,16 @@ Route::prefix('category')->group(function () {
 });
 
 
-// order
+// order nhung no la bill
 Route::get('list-order', [OrderController::class, 'index']);
-
+//
 Route::get('order/menu', [MenuController::class, 'index']);
 
-
+// nhung no la orderdetail
 Route::resource('bill', BillController::class);
+
 Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
+
 Route::delete('/remove-from-cart', [CartController::class, 'remove']);
 
 
