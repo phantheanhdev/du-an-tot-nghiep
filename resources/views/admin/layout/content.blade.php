@@ -165,9 +165,11 @@
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa fa-th float-left mt-1"></i>
                                         ORDERS</button>
+                                        {{-- order_bill --}}
                                     <button id="btnOrderAlternative" onclick="getLink('orderAlternative')"
                                         class="btn btn-outline btn-primary btn-block"><i
                                             class="fa fa-list-ol float-left mt-1"></i>ORDERS (LIST)</button>
+                                        {{-- bill - dat ten hoi lon  --}}
                                     <button id="btnOrderBoard" onclick="getLink('orderBoard')"
                                         class="btn btn-outline btn-primary btn-block"><i
                                             class="fa fa-columns fa-square-kanban float-left mt-1"></i>ORDER
@@ -221,7 +223,7 @@
                                         window.location.href = '/list-order';
                                         return;
                                     case 'orderBoard':
-                                        window.location.href = '/restaurant/orderBoard';
+                                        window.location.href = '/bill';
                                         return;
                                     case 'qr':
                                         window.location.href = '/qrcode';
