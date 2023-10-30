@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BillController;
 use App\Events\HelloPusherEvent;
+use App\Http\Controllers\AdminDashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QrController;
 use App\Http\Controllers\CartController;
@@ -26,6 +27,15 @@ use App\Http\Controllers\ProductController;
 */
 
 // ========================================================= admin ====================================================
+
+// Dashboard admin
+Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+
+
+
+
+
+
 
 Route::get('restaurant-manager', [TableController::class, 'restaurant_manager'])->name('restaurant-manager');
 Route::get('order-of-table/{id}', [TableController::class, 'order_of_table'])->name('order-of-table');
