@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('/admin/lib/font-awesome/css/font-awesome.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('/admin/lib/toastr/toastr.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('/admin/css/animate.css') }}" />
-    <link rel="stylesheet" href="{{ asset('admin/css/invoice.css')}}">
+    <link rel="stylesheet" href="{{ asset('admin/css/invoice.css') }}">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/admin/css/site.css') }}" />
@@ -162,15 +162,20 @@
                                 </a>
 
                                 <div class="contact-box-footer">
+                                    {{-- Dashboard admin --}}
+                                    <button id="btnOrder" onclick="getLink('dashboard')"
+                                        class="btn btn-outline btn-primary btn-block">
+                                        <i class="fa-solid fa-table-columns float-left mt-1"></i>
+                                        DASHBOARD</button>
                                     <button id="btnOrder" onclick="getLink('restaurant-manager')"
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa fa-th float-left mt-1"></i>
                                         ORDERS</button>
-                                        {{-- order_bill --}}
+                                    {{-- order_bill --}}
                                     <button id="btnOrderAlternative" onclick="getLink('orderAlternative')"
                                         class="btn btn-outline btn-primary btn-block"><i
                                             class="fa fa-list-ol float-left mt-1"></i>ORDERS (LIST)</button>
-                                        {{-- bill - dat ten hoi lon  --}}
+                                    {{-- bill - dat ten hoi lon  --}}
                                     <button id="btnOrderBoard" onclick="getLink('orderBoard')"
                                         class="btn btn-outline btn-primary btn-block"><i
                                             class="fa fa-columns fa-square-kanban float-left mt-1"></i>ORDER
@@ -189,25 +194,27 @@
                                             style="color: #d35352;"></i>
                                         Tables
                                     </button>
-                                    {{--category--}}
+                                    {{-- category --}}
                                     <button id="category" onclick="getLink('category')"
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa-solid fa-bars fa-square-kanban fa-sharp fa-solid float-left mt-1"
-                                        style="color: #d35352;"></i>
-                                            Categories
+                                            style="color: #d35352;"></i>
+                                        Categories
                                     </button>
 
-                                    {{--product--}}
+                                    {{-- product --}}
                                     <button id="table" onclick="getLink('product')"
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa-solid fa-mug-hot  fa-square-kanban fa-sharp fa-solid float-left mt-1"
-                                        style="color: #d35352;"></i>
-                                            Menu Product
+                                            style="color: #d35352;"></i>
+                                        Menu Product
                                     </button>
 
-                                    {{--employee--}}
-                                    <button id="staff" onclick="getLink('staff')" class="btn btn-outline btn-primary btn-block">
-                                        <i class="fa-solid fa-bars fa-square-kanban fa-sharp fa-solid float-left mt-1" style="color: #d35352;"></i>
+                                    {{-- employee --}}
+                                    <button id="staff" onclick="getLink('staff')"
+                                        class="btn btn-outline btn-primary btn-block">
+                                        <i class="fa-solid fa-bars fa-square-kanban fa-sharp fa-solid float-left mt-1"
+                                            style="color: #d35352;"></i>
                                         Staff
                                     </button>
                                 </div>
@@ -217,6 +224,9 @@
                         <script>
                             const getLink = (param) => {
                                 switch (param) {
+                                    case 'dashboard':
+                                        window.location.href = 'dashboard';
+                                        return;
                                     case 'restaurant-manager':
                                         window.location.href = 'restaurant-manager';
                                         return;
@@ -249,10 +259,10 @@
                                         return;
                                     case 'category':
                                         window.location.href = '/category';
-                                    return;
+                                        return;
                                     case 'product':
-                                    window.location.href = '/product';
-                                    return;
+                                        window.location.href = '/product';
+                                        return;
                                     default:
                                         return;
                                 }
@@ -376,7 +386,7 @@
     <script src="{{ asset('/admin/js/ordersOfTableController.js') }}"></script>
 
     {{-- js xử lý riêng từng file --}}
- <script src="{{ asset('/admin/js/table/table-create.js') }}"></script>
+    <script src="{{ asset('/admin/js/table/table-create.js') }}"></script>
     <script src="{{ asset('/admin/js/table/table-delete.js') }}"></script>
 
 
@@ -399,34 +409,34 @@
 
         });
     </script>
-     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-     <script src="{{ asset('backend/assets/js/code.js') }}"></script>
-     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-     <script type="text/javascript" src="{{ asset('backend/assets/js/tagsinput.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="{{ asset('backend/assets/js/code.js') }}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script type="text/javascript" src="{{ asset('backend/assets/js/tagsinput.js') }}"></script>
 
 
-     <script>
-         @if (Session::has('message'))
-             var type = "{{ Session::get('alert-type', 'info') }}"
-             switch (type) {
-                 case 'info':
-                     toastr.info(" {{ Session::get('message') }} ");
-                     break;
+    <script>
+        @if (Session::has('message'))
+            var type = "{{ Session::get('alert-type', 'info') }}"
+            switch (type) {
+                case 'info':
+                    toastr.info(" {{ Session::get('message') }} ");
+                    break;
 
-                 case 'success':
-                     toastr.success(" {{ Session::get('message') }} ");
-                     break;
+                case 'success':
+                    toastr.success(" {{ Session::get('message') }} ");
+                    break;
 
-                 case 'warning':
-                     toastr.warning(" {{ Session::get('message') }} ");
-                     break;
+                case 'warning':
+                    toastr.warning(" {{ Session::get('message') }} ");
+                    break;
 
-                 case 'error':
-                     toastr.error(" {{ Session::get('message') }} ");
-                     break;
-             }
-         @endif
-     </script>
+                case 'error':
+                    toastr.error(" {{ Session::get('message') }} ");
+                    break;
+            }
+        @endif
+    </script>
 
 </body>
 
