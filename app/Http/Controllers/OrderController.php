@@ -23,11 +23,10 @@ class OrderController extends Controller
     public function index()
     {
 
-        $orders =  $this->order->paginate(10);
-        $orders->load([
-            'table'
-        ]);
-        return view('admin.orders.index', compact('orders'))->with('i',(request()->input('page',1)-1)*10);
+        $orders = $this->order->paginate(10);
+        return view('admin.orders.index',[
+            'orders'=>$orders
+        ])->with('i',(request()->input('page',1)-1)*10);
     }
 
     /**

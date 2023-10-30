@@ -35,16 +35,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($bill as $key => $item)
+                                @foreach ($bills as $key => $item)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td>
-                                            {{$items->order->id}}
+                                         <td>
+                                            {{$item->order->id}}
                                         </td>
-                                        <td>{{ $item->products->name }}</td>
+                                        <td>{{ $item->product_id }}</td>
                                         <td>{{ $item->quantity}}</td>
-                                        <th>{{ $item->create_at->format('d-m-Y h:i A')}}</th>
                                         <td>{{ $item->total_amount}}</td>
+                                        <th>{{ $item->created_at}}</th>
                                     </tr>
                                 @endforeach
                             </tbody>
