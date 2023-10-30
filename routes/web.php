@@ -62,10 +62,12 @@ Route::prefix('category')->group(function () {
 
 // order
 Route::get('list-order', [OrderController::class, 'index']);
-// view invoice
+// view invoice order
 Route::get('/invoice/{id}', [OrderController::class,'viewInvoice'])->name('viewInvoice');
-// download FDF
-Route::get('invoice/{id}/generate', [OrderController::class,'genarateInvoice'])->name('genarateInvoice');
+// download FDF order
+Route::get('/invoice/{id}/generate', [OrderController::class,'genarateInvoice'])->name('genarateInvoice');
+// print order
+Route::get('/print_order/{id}',[OrderController::class,'print_order'])->name('print_order');
 //
 
  // order menu

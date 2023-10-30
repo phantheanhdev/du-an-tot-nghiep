@@ -55,6 +55,9 @@
                                             <a href="{{url('invoice'.$item->id)}}" class="btn btn-warning btn-sm float-end mx-1">
                                                 View Invoice
                                             </a>
+                                            <a href="{{url('print_order'.$item->id)}}" class="btn btn-primary btn-sm float-end mx-1">
+                                                Print Invoice
+                                            </a>
                                         </th>
                                     </tr>
                                 @endforeach
