@@ -19,12 +19,8 @@ class BillController extends Controller
     }
     public function index()
     {
-        $bill =  $this->bill->paginate(10);
-        $bill->load([
-            'orders',
-            'products'
-        ]);
-        return view('admin.bills.index',compact('bill'))->with('i',(request()->input('page',1)-1)*10);
+        $bills =  $this->bill->paginate(10);
+        return view('admin.bills.index',compact('bills'))->with('i',(request()->input('page',1)-1)*10);
     }
 
     /**

@@ -41,21 +41,32 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>
-                                            {{$items->table->name}}
+                                            {{ $item->table->name }}
                                         </td>
                                         <td>{{ $item->total_price }}</td>
-                                        <td>{{ $item->note}}</td>
-                                        <td>{{ $item->status }}</td>
-                                        <td>{{ $item->customer_name}}</td>
-                                        <td>{{ $item->customer_phone}}</td>
+                                        <td>{{ $item->note }}</td>
+                                        <td>
+                                            @if ($item->status == 0)
+                                                Pending
+                                                @elseif ($item->status == 1)
+                                                Order delivered
+                                                @elseif ($item->status == 2)
+                                                Compeleted
+                                            @endif
+                                        </td>
+                                        <td>{{ $item->customer_name }}</td>
+                                        <td>{{ $item->customer_phone }}</td>
                                         <th>
-                                            <a href="{{url('invoice/'.$item->id.'/generate')}}" class="btn btn-primary btn-sm float-end mx-1">
+                                            <a href="{{ url('invoice/' . $item->id . '/generate') }}"
+                                                class="btn btn-primary btn-sm float-end mx-1">
                                                 Dowload Invoice
                                             </a>
-                                            <a href="{{url('invoice'.$item->id)}}" class="btn btn-warning btn-sm float-end mx-1">
+                                            <a href="{{ url('invoice' . $item->id) }}"
+                                                class="btn btn-warning btn-sm float-end mx-1">
                                                 View Invoice
                                             </a>
-                                            <a href="{{url('print_order'.$item->id)}}" class="btn btn-primary btn-sm float-end mx-1">
+                                            <a href="{{ url('print_order' . $item->id) }}"
+                                                class="btn btn-primary btn-sm float-end mx-1">
                                                 Print Invoice
                                             </a>
                                         </th>

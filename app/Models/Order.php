@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-
+    protected $table = 'orders';
+    protected $primaryKey = 'id';
     protected $fillable = [
         'table_id',
         'note',
@@ -18,12 +19,11 @@ class Order extends Model
         'customer_phone',
         'order_day'
     ];
-
-    public function orderdetail(){
-       return $this->hasMany(OrderDetail::class);
+    public function orderdetails(){
+       return $this->hasMany(OrderDetail::class,'order_id','id');
     }
 
-    public function tables (){
+    public function table(){
         return $this->belongsTo(Table::class);
     }
 
