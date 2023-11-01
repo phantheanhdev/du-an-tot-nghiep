@@ -50,12 +50,26 @@ class TableController extends Controller
         $data = [
             'name' => $name,
             'type' => $type,
-            'qr' => 'https://api.qrserver.com/v1/create-qr-code/?data=http://127.0.0.1:8000?id=' . $new_id . '?table_name=' . $name . '&amp;size=200x200'
+            'qr' => 'https://api.qrserver.com/v1/create-qr-code/?data=http://127.0.0.1:8000?tableId=' . $new_id . '?tableNo=' . $name . '&amp;size=200x200'
         ];
 
-        Table::create($data);
+        try {
+            Table::create($data);
 
-        return redirect()->route('table.index')->with(session()->flash('alert', 'Thêm bàn thành công'));
+            $notification = array(
+                "message" => "Thêm bàn thành công",
+                "alert-type" => "success",
+            );
+
+            return redirect()->route('table.index')->with($notification);
+        } catch (\Throwable $th) {
+            $notification = array(
+                "message" => "Thêm bàn không thành công",
+                "alert-type" => "failse",
+            );
+
+            return redirect()->route('table.create')->with($notification);
+        }
     }
 
     /**
@@ -92,12 +106,26 @@ class TableController extends Controller
         $data = [
             'name' => $name,
             'type' => $type,
-            'qr' => 'https://api.qrserver.com/v1/create-qr-code/?data=http://127.0.0.1:8000?id=' . $table->id . '?table_name=' . $name . '&amp;size=200x200'
+            'qr' => 'https://api.qrserver.com/v1/create-qr-code/?data=http://127.0.0.1:8000?tableId=' . $table->id . '?tableNo=' . $name . '&amp;size=200x200'
         ];
 
-        $table->update($data);
+        try {
+            $table->update($data);
 
-        return redirect()->route('table.index')->with(session()->flash('alert', 'Sửa bàn thành công'));
+            $notification = array(
+                "message" => "Sửa thông tin bàn thành công",
+                "alert-type" => "success",
+            );
+
+            return redirect()->route('table.index')->with($notification);
+        } catch (\Throwable $th) {
+            $notification = array(
+                "message" => "Sửa thông tin bàn không thành công",
+                "alert-type" => "failse",
+            );
+
+            return redirect()->route('table.index')->with($notification);
+        }
     }
 
     /**
@@ -105,9 +133,23 @@ class TableController extends Controller
      */
     public function destroy(Table $table)
     {
-        $table->delete();
+        try {
+            $table->delete();
 
-        return redirect()->route('table.index')->with(session()->flash('alert', 'Xóa bàn thành công'));
+            $notification = array(
+                "message" => "Xóa bàn thành công",
+                "alert-type" => "success",
+            );
+
+            return redirect()->route('table.index')->with($notification);
+        } catch (\Throwable $th) {
+            $notification = array(
+                "message" => "Xóa bàn không thành công",
+                "alert-type" => "failse",
+            );
+
+            return redirect()->route('table.index')->with($notification);
+        }
     }
 
     // trang đầu tiên khi chuyển hướng về admin
