@@ -5,7 +5,7 @@
         <div class="ibox float-e-margins" id="boxOrder">
             <div class="ibox-content">
                 <h3 class="text-qr Rest-dark text-center p-2">
-                    <a href="/category" class="btn btn-outline btn-primary btn-sm float-left">
+                    <a href="{{ route('employee.index')}}" class="btn btn-outline btn-primary btn-sm float-left">
                         <i class="fa fa-long-arrow-left mt-1"></i>
                     </a>
                    Thêm nhân viên
