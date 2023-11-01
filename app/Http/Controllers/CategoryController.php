@@ -38,7 +38,7 @@ class CategoryController extends Controller
 
             // Create a new category instance
             $category = new Category;
-            $category->name = $request->name;
+            $category->category_name = $request->category_name;
             $category->note = $request->note;
             $category->status = $request->status;
             $category->image = $request->image;
@@ -74,7 +74,7 @@ class CategoryController extends Controller
                 $imagePath = $category->image;
             }
 
-            $category->name = $request->name;
+            $category->category_name = $request->category_name;
             $category->note = $request->note;
             $category->status = $request->status;
             $category->image = $imagePath;

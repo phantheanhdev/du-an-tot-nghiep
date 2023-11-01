@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Table extends Model
 {
+    protected $table = 'tables';
+    protected $primaryKey = 'id';
     use HasFactory;
 
     protected $fillable = [
@@ -15,7 +17,7 @@ class Table extends Model
         'qr'
     ];
 
-    public function order(){
-        return $this->hasMany(Order::class);
+    public function orders(){
+        return $this->hasMany(Order::class,'table_id','id');
     }
 }

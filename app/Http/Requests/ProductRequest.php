@@ -32,7 +32,7 @@ class   ProductRequest extends FormRequest
                     case 'add':
                         $rules = [
                             'name' => 'required|unique:products|max:255',
-                            'price' => 'required|numeric|min:0',
+                            'price' => 'required|min:0',
                             'item' => 'nullable|string',
                             'image' => ['required', 'image'],
                             'description' => 'required|string',
@@ -48,7 +48,7 @@ class   ProductRequest extends FormRequest
                                     Rule::unique('products')->ignore($id),
                                     'max:255',
                                 ],
-                                'price' => 'required|numeric|min:0',
+                                'price' => 'required|min:0',
                                 'item' => 'nullable|string',
                                 'image' => 'image',
                                 'description' => 'required|string',

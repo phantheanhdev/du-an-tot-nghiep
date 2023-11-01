@@ -51,7 +51,7 @@
                                         <td>{{ $item->price }}</td>
                                         <td>{{ $item->item }}</td>
                                         <td>{{ $item->description }}</td>
-                                        <td>{{ $item->category_id }}</td>
+                                        <td>{{ $item->category_name }}</td>
                                         <td>
                                             @if ($item->status == 'active')
                                                 <span class="badge badge-success">Active</span>

@@ -33,7 +33,7 @@
                     </div>
                     <div class="form-group">
                         <label for="price">Price</label>
-                        <input type="number" name="price" id="price" min="0" class="form-control">
+                        <input type="number" name="price" id="price" min="0" step="any" class="form-control">
                         @error('price')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -59,7 +59,7 @@
                         <select name="category_id" id="category" class="form-control">
                             <option value=""></option>
                             @foreach ($category as $detail)
-                            <option value="{{ $detail->id }}">{{ $detail->name }}</option>
+                            <option value="{{ $detail->id }}">{{ $detail->category_name }}</option>
                             @endforeach
                         </select>
                         @error('category_id')

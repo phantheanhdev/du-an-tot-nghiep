@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BillController;
 use App\Events\HelloPusherEvent;
+use App\Http\Controllers\AdminDashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QrController;
 use App\Http\Controllers\CartController;
@@ -26,6 +27,9 @@ use App\Http\Controllers\ProductController;
 */
 
 // ========================================================= admin ====================================================
+
+// Dashboard admin
+Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
 Route::get('restaurant-manager', [TableController::class, 'restaurant_manager'])->name('restaurant-manager');
 Route::get('order-of-table/{id}', [TableController::class, 'order_of_table'])->name('order-of-table');
@@ -62,13 +66,16 @@ Route::prefix('category')->group(function () {
 
 // order
 Route::get('list-order', [OrderController::class, 'index']);
-// view invoice
-Route::get('/invoice/{id}', [OrderController::class, 'viewInvoice'])->name('viewInvoice');
-// download FDF
-Route::get('invoice/{id}/generate', [OrderController::class, 'genarateInvoice'])->name('genarateInvoice');
+// view invoice order
+Route::get('/invoice/{id}', [OrderController::class,'viewInvoice'])->name('viewInvoice');
+// download FDF order
+Route::get('/invoice/{id}/generate', [OrderController::class,'genarateInvoice'])->name('genarateInvoice');
+// print order
+Route::get('/print_order/{id}',[OrderController::class,'print_order'])->name('print_order');
 //
 
 // order menu
+// http://127.0.0.1:8000/order/menu?tableNo=15
 Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
 Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
 Route::delete('/remove-from-cart', [CartController::class, 'remove']);

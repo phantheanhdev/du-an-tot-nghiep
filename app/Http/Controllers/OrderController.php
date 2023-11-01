@@ -23,11 +23,10 @@ class OrderController extends Controller
     public function index()
     {
 
-        $orders =  $this->order->paginate(10);
-        $orders->load([
-            'table'
-        ]);
-        return view('admin.orders.index', compact('orders'))->with('i',(request()->input('page',1)-1)*10);
+        $orders = $this->order->paginate(10);
+        return view('admin.orders.index',[
+            'orders'=>$orders
+        ])->with('i',(request()->input('page',1)-1)*10);
     }
 
     /**
@@ -98,8 +97,16 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         $data = ['orders' => $order];
-        $todayDate = Carbon::now()->format('d-m-Y',$data);
-        $pdf = Pdf::loadView('admin.invoice.generate_invoice');
+        $todayDate = Carbon::now()->format('d-m-Y');
+        $pdf = Pdf::loadView('admin.invoice.generate_invoice',$data);
         return $pdf->download('invoice-'.$order->id.'-'.$todayDate.'pdf');
+    }
+
+    public function print_order(string $id){
+        $order = Order::findOrFail($id);
+        $data = ['orders' => $order];
+        $todayDate = Carbon::now()->format('d-m-Y');
+        $pdf = Pdf::loadView('admin.invoice.generate_invoice',$data);
+        return $pdf->stream();
     }
 }
