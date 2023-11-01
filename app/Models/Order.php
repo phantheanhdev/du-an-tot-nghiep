@@ -8,17 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-
+    protected $table = 'orders';
+    protected $primaryKey = 'id';
     protected $fillable = [
-        'qr_code',
-        'product_id',
-        'quantity',
+        'table_id',
         'note',
-        'price',
         'total_price',
         'status',
         'customer_name',
         'customer_phone',
+        'order_day'
     ];
+    public function orderdetails(){
+       return $this->hasMany(OrderDetail::class,'order_id','id');
+    }
+
+    public function table(){
+        return $this->belongsTo(Table::class);
+    }
 
 }

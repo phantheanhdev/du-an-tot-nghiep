@@ -11,11 +11,12 @@
                     <div class="sk-rect5"></div>
                 </div>
                 <h3 class="text-qrRest-dark text-center">
-                    <a href="/restaurant/restaurantmanager" class="btn btn-outline btn-primary btn-sm float-left"><i
-                            class="fa fa-long-arrow-left mt-1"></i></a>
-                    Table No : 68 Payment
+                    <a href="{{ route('restaurant-manager') }}" class="btn btn-outline btn-primary btn-sm float-left"><i
+                            class="fa fa-long-arrow-left mt-1"></i>
+                    </a>
+                    Bàn số : {{ $table->name }} 
                 </h3>
-                <hr />
+                <hr/>
                 <input hidden value="Completed" id="lblCompleted" />
                 <input hidden value="2" id="txtTableId" />
 

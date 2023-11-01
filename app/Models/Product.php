@@ -9,6 +9,7 @@ class Product extends Model
 {
     use HasFactory;
     protected $table = 'products';
+    protected $primaryKey = 'id';
     protected $fillable = [
         'name',
         'price',
@@ -18,4 +19,8 @@ class Product extends Model
         'description',
         'category_id',
     ];
+
+    public function orderdetails(){
+        return  $this->hasMany(OrderDetail::class,'product_id','id');
+    }
 }
