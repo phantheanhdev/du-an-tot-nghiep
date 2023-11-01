@@ -16,9 +16,9 @@
                     @csrf
                     <div class="mb-3">
                         <label class="form-label">Name</label>
-                        <input type="text" name="name" class="form-control">
-                        <div class="form-text" id="name" style="color: red"></div>
-                        @error('name')
+                        <input type="text" name="category_name" class="form-control">
+                        <div class="form-text" id="category_name" style="color: red"></div>
+                        @error('category_name')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
