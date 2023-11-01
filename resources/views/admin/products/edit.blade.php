@@ -24,7 +24,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Price</label>
-                        <input type="number" name="price" min="0" class="form-control" value="{{ $product->price }}">
+                        <input type="number" name="price" min="0" step="any" class="form-control" value="{{ $product->price }}">
                         <div class="form-text" id="price" style="color: red"></div>
                         @error('price')
                         <span class="text-danger">{{ $message }}</span>
@@ -51,7 +51,7 @@
                         <select id="category_id" name="category_id" class="form-control"1>
                             @foreach($category as $category)
                                 <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
+                                    {{ $category->category_name }}
                                 </option>
                             @endforeach
                         </select>

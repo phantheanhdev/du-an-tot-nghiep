@@ -31,7 +31,7 @@ class CategoryRequest extends FormRequest
                 switch ($currentAction) {
                     case 'create':
                         $rules = [
-                            'name' => 'required|unique:categories|max:255',
+                            'category_name' => 'required|unique:categories|max:255',
                             'note'=> 'nullable',
                             'image' => ['nullable', 'image'],
                             'status' => 'required|in:active,inactive',
@@ -40,7 +40,7 @@ class CategoryRequest extends FormRequest
                         case 'edit':
                             $id = $this->route('id');
                             $rules = [
-                                'name' => [
+                                'category_name' => [
                                     'required',
                                     Rule::unique('categories')->ignore($id),
                                     'max:255',

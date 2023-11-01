@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         $product = Product::join('categories', 'products.category_id', '=', 'categories.id')
-        ->select('products.*', 'categories.name as name')
+        ->select('products.*', 'categories.category_name as category_name')
         ->get();
         return view('admin.products.index', compact('product'));
     }
