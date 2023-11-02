@@ -5,49 +5,68 @@
         <div class="ibox float-e-margins" id="boxOrder">
             <div class="ibox-content">
                 <h3 class="text-qr Rest-dark text-center p-2">
-                    <a href="/category" class="btn btn-outline btn-primary btn-sm float-left">
+                    <a href="{{ route('employee.index')}}" class="btn btn-outline btn-primary btn-sm float-left">
                         <i class="fa fa-long-arrow-left mt-1"></i>
                     </a>
                    Thêm nhân viên
                 </h3>
                 <hr>
-                @include('error')
                 <form method="POST" action="{{ route('employee.create') }}" enctype="multipart/form-data" id="create_categories">
 
                     @csrf
                     <div class="mb-3">
                         <label class="form-label">Tên nhân viên</label>
-                        <input type="text" name="name" class="form-control">
-                        <div class="form-text" id="name" style="color: red"></div>
+                        <input type="text" name="name" class="form-control"  value="{{ old('name') }}">
+                        @error('name')
+    <span class="text-danger">{{ $message }}</span>
+@enderror
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Số điện thoại</label>
-                        <input type="text" name="phone" class="form-control">
-                        <div class="form-text" id="name" style="color: red"></div>
+                        <input type="text" name="phone" class="form-control" value="{{ old('phone') }}">
+                        @error('phone')
+    <span class="text-danger">{{ $message }}</span>
+@enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Địa chỉ cư trú</label>
-                        <input type="text" name="address" class="form-control">
-                        <div class="form-text" id="name" style="color: red"></div>
+                        <input type="text" name="address" class="form-control" value="{{ old('address') }}">
+                        @error('address')
+    <span class="text-danger">{{ $message }}</span>
+@enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Ví trí làm việc</label>
-                        <input type="text" name="position" class="form-control">
-                        <div class="form-text" id="name" style="color: red"></div>
-                    </div> <div class="mb-3">
+                        <input type="text" name="position" class="form-control" value="{{ old('position') }}">
+                      @error('position')
+    <span class="text-danger">{{ $message }}</span>
+@enderror
+                    </div>
+                    <div class="mb-3">
                         <label class="form-label">Ca làm việc</label>
-                        <input type="text" name="shift" class="form-control">
-                        <div class="form-text" id="name" style="color: red"></div>
-                    </div> <div class="mb-3">
+                        <select class="form-control" name="shift">
+                            <option value="Ca 1(8h-13h)">Ca 1(8h-13h)</option>
+                            <option value="Ca 2(13h-18h)">Ca 2(13h-18h)</option>
+                            <option value="Ca 3(18h-23h)">Ca 3(18h-23h)</option>
+                          </select>
+                          @error('shift')
+                          <span class="text-danger">{{ $message }}</span>
+                      @enderror
+                    </div>
+                    <div class="mb-3">
                         <label class="form-label">Lương/1h</label>
-                        <input type="text" name="salary" class="form-control">
-                        <div class="form-text" id="name" style="color: red"></div>
+                        <input type="number" name="salary" class="form-control" value="{{ old('salary') }}">
+                        @error('salary')
+    <span class="text-danger">{{ $message }}</span>
+@enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Ngày tuyển dụng</label>
-                        <input type="date" name="hire_date" class="form-control">
-                        <div class="form-text" id="note" style="color: red"></div>
+                        <input type="date" name="hire_date" class="form-control" value="{{ old('hire_date') }}">
+                        @error('hire_date')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
 
                     </div>
 

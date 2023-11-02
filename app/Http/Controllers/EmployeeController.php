@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
 {
@@ -16,7 +17,7 @@ class EmployeeController extends Controller
 
     public function create(Request $request){
         if($request->isMethod('post')){
-            $request->validate([
+            $validator = Validator::make($request->all(), [
                 'name' => 'required|unique:employees',
                 'phone' => 'required',
                 'address' => 'required',
@@ -25,6 +26,9 @@ class EmployeeController extends Controller
                 'salary' => 'required',
                 'hire_date' => 'required',
             ]);
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
             $employee = Employee::create($request->except('_token'));
             if($employee->id) {
                 Session::flash('success','Thêm nhân viên thành công');

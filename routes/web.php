@@ -69,11 +69,13 @@ Route::middleware(['auth'])->group(function () {
         Route::match(['get', 'post'], 'edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
         Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
     });
+
 });
 
 
 
 // ======================================================= user ===============================================================
+
 
 // order
 Route::get('list-order', [OrderController::class, 'index']);
@@ -114,4 +116,4 @@ Route::get('/pusher', function (Illuminate\Http\Request $request) {
     event(new HelloPusherEvent($request));
     return redirect('getPusher');
 });
-// 
+//
