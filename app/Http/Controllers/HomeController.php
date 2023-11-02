@@ -10,4 +10,8 @@ class HomeController extends Controller
     {
         return view('user.home');
     }
+
+    public function form_infor_user(){
+        return view('user.form_infor_user');
+    }
 }
