@@ -28,50 +28,61 @@ use App\Http\Controllers\ProductController;
 
 // ========================================================= admin ====================================================
 
+//Login
+Route::match(['GET', 'POST'], '/login', [App\Http\Controllers\Login\LoginController::class, 'login'])->name('login');
+Route::get('/logout', [App\Http\Controllers\Login\LoginController::class, 'logout'])->name('logout');
+
+
+
 // Dashboard admin
 Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
-Route::get('restaurant-manager', [TableController::class, 'restaurant_manager'])->name('restaurant-manager');
-Route::get('order-of-table/{id}', [TableController::class, 'order_of_table'])->name('order-of-table');
-Route::get('qr-builder', [QrController::class, 'qr_builder'])->name('qr-builder');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
-// table
-Route::resource('table', TableController::class);
+    Route::get('restaurant-manager', [TableController::class, 'restaurant_manager'])->name('restaurant-manager');
+    Route::get('order-of-table/{id}', [TableController::class, 'order_of_table'])->name('order-of-table');
+    Route::get('qr-builder', [QrController::class, 'qr_builder'])->name('qr-builder');
 
-//products
-Route::get('product', [ProductController::class, 'index'])->name('product.index');
-Route::match(['GET', 'POST'], '/add', [App\Http\Controllers\ProductController::class, 'add'])->name('create');
-Route::match(['get', 'post'], '/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
-Route::get('delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
-Route::get('/', [TableController::class, 'restaurant_manager'])->name('restaurant_manager');
+    // table
+    Route::resource('table', TableController::class);
+    //products
+    Route::get('product', [ProductController::class, 'index'])->name('product.index');
+    Route::match(['GET', 'POST'], '/add', [App\Http\Controllers\ProductController::class, 'add'])->name('create');
+    Route::match(['get', 'post'], '/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
+    Route::get('delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
+    Route::get('/', [TableController::class, 'restaurant_manager'])->name('restaurant_manager');
 
-//staff
-Route::prefix('staff')->group(function () {
-    Route::get('/', [EmployeeController::class, 'index'])->name('employee.index');
-    Route::match(['get', 'post'], 'create', [EmployeeController::class, 'create'])->name('employee.create');
-    Route::match(['get', 'post'], 'edit/{id}', [EmployeeController::class, 'edit'])->name('employee.edit');
-    Route::get('delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
+    //staff
+    Route::prefix('staff')->group(function () {
+        Route::get('/', [EmployeeController::class, 'index'])->name('employee.index');
+        Route::match(['get', 'post'], 'create', [EmployeeController::class, 'create'])->name('employee.create');
+        Route::match(['get', 'post'], 'edit/{id}', [EmployeeController::class, 'edit'])->name('employee.edit');
+        Route::get('delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
+    });
+
+    //category
+    Route::prefix('category')->group(function () {
+        Route::get('/', [CategoryController::class, 'index'])->name('category.index');
+        Route::match(['get'], 'create', [CategoryController::class, 'create'])->name('category.create');
+        Route::match(['post'], 'store', [CategoryController::class, 'store'])->name('category.store');
+        Route::match(['get', 'post'], 'edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
+        Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
+    });
 });
 
-//category
-Route::prefix('category')->group(function () {
-    Route::get('/', [CategoryController::class, 'index'])->name('category.index');
-    Route::match(['get'], 'create', [CategoryController::class, 'create'])->name('category.create');
-    Route::match(['post'], 'store', [CategoryController::class, 'store'])->name('category.store');
-    Route::match(['get', 'post'], 'edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
-    Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
-});
+
 
 // ======================================================= user ===============================================================
 
 // order
 Route::get('list-order', [OrderController::class, 'index']);
 // view invoice order
-Route::get('/invoice/{id}', [OrderController::class,'viewInvoice'])->name('viewInvoice');
+Route::get('/invoice/{id}', [OrderController::class, 'viewInvoice'])->name('viewInvoice');
 // download FDF order
-Route::get('/invoice/{id}/generate', [OrderController::class,'genarateInvoice'])->name('genarateInvoice');
+Route::get('/invoice/{id}/generate', [OrderController::class, 'genarateInvoice'])->name('genarateInvoice');
 // print order
-Route::get('/print_order/{id}',[OrderController::class,'print_order'])->name('print_order');
+Route::get('/print_order/{id}', [OrderController::class, 'print_order'])->name('print_order');
 //
 
 // order menu
@@ -86,10 +97,6 @@ Route::resource('bill', BillController::class);
 
 // form infor user
 Route::get('form_info_user', [HomeController::class, 'form_infor_user'])->name('form_infor_user');
-
-//Login
-Route::match(['GET', 'POST'], '/login', [App\Http\Controllers\Login\LoginController::class, 'login'])->name('login');
-Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->name('logout');
 
 Route::get('home', [HomeController::class, 'home']);
 
