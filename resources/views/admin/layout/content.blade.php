@@ -133,7 +133,7 @@
                                             <a href="/Account/ChangePassword">Change Password</a>
                                         </li>
                                         <li class="divider"></li>
-                                        <li class="dropdown-item"><a href="/Account/logout">Logout</a></li>
+                                        <li class="dropdown-item"><a href="{{route('logout')}}">Logout</a></li>
                                     </ul>
                                 </div>
                             </li>
