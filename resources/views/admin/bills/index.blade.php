@@ -50,6 +50,7 @@
                             </tbody>
                         </table>
                     </div>
+                    {{$bills->links()}}
                 </div>
             </div>
         </div>
