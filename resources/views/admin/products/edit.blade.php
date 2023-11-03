@@ -11,7 +11,7 @@
                     Cập nhật sản phẩm
                 </h3>
                 <hr>
-                <form method="POST" action="{{ route('edit', ['id' => $product->id]) }}" enctype="multipart/form-data" id="edit_product">
+                <form method="POST" action="{{ route('product.edit', ['id' => $product->id]) }}" enctype="multipart/form-data" id="edit_product">
                     @method('POST')
                     @csrf
                     <div class="mb-3">

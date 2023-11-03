@@ -23,7 +23,7 @@ class OrderController extends Controller
     public function index()
     {
 
-        $orders = $this->order->paginate(10);
+        $orders = $this->order->paginate(5);
         return view('admin.orders.index',[
             'orders'=>$orders
         ])->with('i',(request()->input('page',1)-1)*10);
@@ -79,16 +79,12 @@ class OrderController extends Controller
 
     public function viewInvoice(string $id){
         $order  = Order::findOrFail($id);
-        $bill = OrderDetail::findOrFail($id);
-        $order->load([
-            'table'
-        ]);
-        $bill->load([
-            'product'
-        ]);
+        $todayDate = Carbon::now('Asia/Ho_Chi_Minh');
+        $bill = OrderDetail::where('order_id',$id)->get();
         return view('admin.invoice.generate_invoice',[
             'order'=>$order,
-            'bill'=>$bill
+            'bill'=>$bill,
+            'todayDate' =>$todayDate
 
         ]);
     }
@@ -96,17 +92,25 @@ class OrderController extends Controller
     public function genarateInvoice(string $id)
     {
         $order = Order::findOrFail($id);
-        $data = ['orders' => $order];
-        $todayDate = Carbon::now()->format('d-m-Y');
-        $pdf = Pdf::loadView('admin.invoice.generate_invoice',$data);
+        $todayDate = Carbon::now('Asia/Ho_Chi_Minh');
+        $bill = OrderDetail::where('order_id',$id)->get();
+        $pdf = Pdf::loadView('admin.invoice.generate_invoice',[
+            'order'=>$order,
+            'bill'=>$bill,
+            'todayDate' =>$todayDate
+        ]);
         return $pdf->download('invoice-'.$order->id.'-'.$todayDate.'pdf');
     }
 
     public function print_order(string $id){
         $order = Order::findOrFail($id);
-        $data = ['orders' => $order];
-        $todayDate = Carbon::now()->format('d-m-Y');
-        $pdf = Pdf::loadView('admin.invoice.generate_invoice',$data);
+        $todayDate = Carbon::now('Asia/Ho_Chi_Minh');
+        $bill = OrderDetail::where('order_id',$id)->get();
+        $pdf = Pdf::loadView('admin.invoice.generate_invoice',[
+            'order'=>$order,
+            'bill'=>$bill,
+            'todayDate' =>$todayDate
+        ]);
         return $pdf->stream();
     }
 }
