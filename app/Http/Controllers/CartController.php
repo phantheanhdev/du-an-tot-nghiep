@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\OrderRequest;
+use CarbonCarbon;
+use Carbon\Carbon;
 use App\Models\Cart;
+use App\Models\Order;
+use App\Models\Product;
+use App\Events\OrderCreated;
 use Illuminate\Http\Request;
+use App\Http\Requests\OrderRequest;
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
 use App\Models\Order;
@@ -98,10 +103,8 @@ class CartController extends Controller
         }
 
         //id , name , quantity , price
-
-
+        event(new OrderCreated($data));
         session()->forget('cart');
-
         return redirect()->back()->with('alert', 'Đặt món thành công');
     }
 
