@@ -3,14 +3,6 @@
     <div class="col-md-9">
 
         <div class="ibox float-e-margins" id="boxOrder">
-            {{-- thông báo --}}
-
-            @if (session('alert'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('alert') }}
-                </div>
-            @endif
-
             <div class="ibox-content">
 
                 <div class="sk-spinner sk-spinner-wave">

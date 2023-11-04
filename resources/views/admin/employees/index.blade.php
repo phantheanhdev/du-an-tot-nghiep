@@ -49,7 +49,7 @@
                                         <td>{{$item->phone}}</td>
                                         <td>{{$item->address}}</td>
                                         <td>{{$item->position}}</td>
-                                        <td>{{$item->shift}}</td>
+                                        <td> {{$item->shift}} </td>
                                         <td>{{$item->salary}}đ/1h</td>
                                         <td>{{$item->hire_date}}</td>
                                         <td>
