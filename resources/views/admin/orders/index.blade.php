@@ -58,23 +58,25 @@
                                         <td>{{ $item->customer_phone }}</td>
                                         <th>
                                             <a href="{{ url('invoice/' . $item->id . '/generate') }}"
-                                                class="btn btn-primary btn-sm float-end mx-1">
+                                                class="btn btn-primary btn-sm float-end mx-1"><i class="fa-solid fa-download"></i>
                                                 Dowload Invoice
                                             </a>
-                                            <a href="{{ url('invoice' . $item->id) }}"
-                                                class="btn btn-warning btn-sm float-end mx-1">
+                                            <a href="{{ url('invoice/' . $item->id) }}"
+                                                class="btn btn-warning btn-sm float-end mx-1"><i class="fa-solid fa-eye"></i>
                                                 View Invoice
                                             </a>
-                                            <a href="{{ url('print_order' . $item->id) }}"
-                                                class="btn btn-primary btn-sm float-end mx-1">
+                                            <a href="{{ url('print_order/' . $item->id) }}"
+                                                class="btn btn-primary btn-sm float-end mx-1"><i class="fas fa-print"></i>
                                                 Print Invoice
                                             </a>
+
                                         </th>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
+                    {{ $orders->links() }}
                 </div>
             </div>
         </div>

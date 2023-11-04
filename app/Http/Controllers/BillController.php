@@ -19,7 +19,7 @@ class BillController extends Controller
     }
     public function index()
     {
-        $bills =  $this->bill->paginate(10);
+        $bills =  $this->bill->paginate(5);
         return view('admin.bills.index',compact('bills'))->with('i',(request()->input('page',1)-1)*10);
     }
 
