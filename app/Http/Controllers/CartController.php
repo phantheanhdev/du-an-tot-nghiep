@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\OrderRequest;
+use CarbonCarbon;
+use Carbon\Carbon;
 use App\Models\Cart;
-use Illuminate\Http\Request;
-use App\Http\Requests\StoreCartRequest;
-use App\Http\Requests\UpdateCartRequest;
 use App\Models\Order;
 use App\Models\Product;
-use Carbon\Carbon;
-use CarbonCarbon;
+use App\Events\OrderCreated;
+use Illuminate\Http\Request;
+use App\Http\Requests\OrderRequest;
+use App\Http\Requests\StoreCartRequest;
+use App\Http\Requests\UpdateCartRequest;
 use Illuminate\Contracts\Session\Session;
 
 class CartController extends Controller
@@ -81,8 +82,8 @@ class CartController extends Controller
         $data['order_day'] = $order_day;
 
         Order::create($data);
+        event(new OrderCreated($data));
         session()->forget('cart');
-
         return redirect()->back()->with('alert', 'Đặt món thành công');
     }
 
