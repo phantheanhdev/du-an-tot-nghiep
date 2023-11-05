@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\OrderRequest;
+use CarbonCarbon;
+use Carbon\Carbon;
 use App\Models\Cart;
+use App\Models\Order;
+use App\Models\Product;
+use App\Events\OrderCreated;
 use Illuminate\Http\Request;
+use App\Http\Requests\OrderRequest;
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Product;
 use Carbon\Carbon;
 use CarbonCarbon;
@@ -75,14 +81,30 @@ class CartController extends Controller
 
     public function order(OrderRequest $request)
     {
-        $data = $request->all();
+        $order = new Order();
+        $order->table_id = $request->table_id;
+        $order->order_day = Carbon::now('Asia/Ho_Chi_Minh');
+        $order->total_price = $request->total_price;
+        $order->status = 0;
+        $order->note = $request->note;
+        $order->customer_name = 'A';
+        $order->customer_phone     = 'B';
+        $order->save();
 
-        $order_day = Carbon::now('Asia/Ho_Chi_Minh');
-        $data['order_day'] = $order_day;
+        $cart = session()->get('cart');
 
-        Order::create($data);
+        foreach ($cart as $item) {
+            $productOrder  = new OrderDetail();
+            $productOrder->order_id = $order->id;
+            $productOrder->product_id = $item['id'];
+            $productOrder->quantity  = $item['quantity'];
+            $productOrder->total_amount = $item['quantity'] * $item['price'];
+            $productOrder->save();
+        }
+
+        //id , name , quantity , price
+        event(new OrderCreated($data));
         session()->forget('cart');
-
         return redirect()->back()->with('alert', 'Đặt món thành công');
     }
 

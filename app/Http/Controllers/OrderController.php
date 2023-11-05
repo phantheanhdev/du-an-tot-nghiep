@@ -42,7 +42,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -112,5 +112,9 @@ class OrderController extends Controller
             'todayDate' =>$todayDate
         ]);
         return $pdf->stream();
+    }
+
+    public function orderDetail(Request $request){
+
     }
 }

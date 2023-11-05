@@ -180,10 +180,10 @@
                 <tr>
                     <td>{{ $item->id }}</td>
                     <td>
-                        {{-- {{ $item->product->name }} --}}
+                        {{ $item->product->name }}
                     </td>
                     <td>
-                        {{-- {{ $item->product->price }} --}}
+                        {{ $item->product->price }}
                     </td>
                     <td>
                         {{ $item->quantity }}

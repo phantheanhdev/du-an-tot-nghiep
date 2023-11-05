@@ -87,4 +87,35 @@
             audio.play();
         });
     </script>
+    <script type="text/javascript">
+        var pusher = new Pusher('3f445aa654bdfac71f01', {
+            encrypted: true,
+            cluster: "ap1"
+        });
+        var channel = pusher.subscribe('channel-name');
+
+        channel.bind('App\\Events\\OrderCreated', function(data) {
+            Command: toastr["warning"]("Bạn có đơn order mới")
+
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            var audio = new Audio('{{ asset('Doorbell.mp3') }}');
+            audio.play();
+        });
+    </script>
 @endsection
