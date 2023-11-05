@@ -12,11 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\OrderRequest;
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
-use App\Models\Order;
 use App\Models\OrderDetail;
-use App\Models\Product;
-use Carbon\Carbon;
-use CarbonCarbon;
 use Illuminate\Contracts\Session\Session;
 
 class CartController extends Controller
@@ -103,9 +99,11 @@ class CartController extends Controller
         }
 
         //id , name , quantity , price
-        event(new OrderCreated($data));
+
+
         session()->forget('cart');
-        return redirect()->back()->with('alert', 'Đặt món thành công');
+
+        return redirect()->back()->with('success', 'Đặt món thành công');
     }
 
     /**

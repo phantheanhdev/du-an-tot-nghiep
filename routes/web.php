@@ -33,11 +33,8 @@ Route::match(['GET', 'POST'], '/login', [App\Http\Controllers\Login\LoginControl
 Route::get('/logout', [App\Http\Controllers\Login\LoginController::class, 'logout'])->name('logout');
 
 
-
-// Dashboard admin
-Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
-
 Route::middleware(['auth'])->group(function () {
+    // Dashboard admin
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
     Route::get('restaurant-manager', [TableController::class, 'restaurant_manager'])->name('restaurant-manager');
