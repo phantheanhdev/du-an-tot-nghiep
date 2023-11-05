@@ -67,7 +67,7 @@
                                         <input type="hidden" name="status" value="0">
                                         <input type="hidden" name="customer_name" value="0">
                                         <input type="hidden" name="customer_phone" value="0">
-                                        
+
 
                                         <table class="table table-borderless">
                                             <tbody id="cartContentsHtml">
@@ -79,7 +79,8 @@
                                                         @php $total += $details['price'] * $details['quantity'] @endphp
 
                                                         {{-- save value with input hidden --}}
-                                                        <input type="hidden" value="{{ $total }}" name="total_price">
+                                                        <input type="hidden" value="{{ $total }}"
+                                                            name="total_price">
 
                                                         <tr>
                                                             <td style="width:60%" class="cart-item">
@@ -116,7 +117,7 @@
                                             <textarea class="form-control" name="note" maxlength="70" rows="2"
                                                 placeholder="Indicate if you have a note for the order"></textarea>
                                         </div>
-                                        <button type="submit" onclick="startOrder()" id="placeOrder"
+                                        <button type="submit" id="placeOrder"
                                             class="btn btn-primary btn-outline btn-block mt-4 btn-sm"> Place the
                                             Order</button>
                                     </form>
@@ -129,8 +130,9 @@
                                         viên</button>
                                 </div>
                                 <div class="col-6" style="padding-left:7px">
-                                    <button onclick="callPayment()" id="btnCallBill" class="call-button btn-block"><img
-                                            src="/images/get-money.png" /> Gọi thanh toán</button>
+                                    <button onclick="callPayment(<?= $table ?>)" id="btnCallBill"
+                                        class="call-button btn-block"><img src="/images/get-money.png" /> Gọi thanh
+                                        toán</button>
                                 </div>
                             </div>
 
@@ -153,10 +155,10 @@
                                     <h3 class="text-qrRest-dark font-weight-bold text-styling">Chào
                                         <b>
                                             <?php
-                                            
+
                                             date_default_timezone_set('Asia/Ho_Chi_Minh');
                                             $currentHour = date('G');
-                                            
+
                                             if ($currentHour >= 5 && $currentHour < 12) {
                                                 $timeOfDay = 'buổi sáng';
                                             } elseif ($currentHour >= 12 && $currentHour < 17) {
@@ -166,7 +168,7 @@
                                             } else {
                                                 $timeOfDay = 'buổi tối';
                                             }
-                                            
+
                                             echo "$timeOfDay";
                                             ?>
                                         </b> Linh
@@ -230,6 +232,8 @@
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
                         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
                         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
                     <script>
                         var csrfToken = @json(csrf_token());
 
@@ -258,7 +262,7 @@
                             } else {
                                 console.log('Không tìm thấy phần tử sản phẩm với ID ' + productId);
                             }
-                            var quantity = 1; // Số lượng sản phẩm bạn muốn thêm
+                            var quantity = currentQuantity; // Số lượng sản phẩm bạn muốn thêm
 
                             $.ajax({
                                 type: 'POST',
@@ -305,12 +309,69 @@
                             };
 
                             $.ajax({
+                                url: '/pusher', 
+                                type: 'GET', 
+                                data: postData,
+                                success: function(response) {
+                                    Command: toastr["success"]("Yêu cầu đã được gửi đi")
+
+                                    toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": false,
+                                        "progressBar": true,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error(error);
+                                }
+                            });
+
+                        }
+
+                        function callPayment(id) {
+                            var contentsData = "Bàn " + id + " gọi thanh toán";
+
+                            var postData = {
+                                contents: contentsData
+                            };
+
+                            $.ajax({
                                 url: '/pusher', // Đường dẫn tới trang xử lý
                                 type: 'GET', // Phương thức HTTP POST
                                 data: postData, // Dữ liệu POST
                                 // dataType: 'json', // Loại dữ liệu bạn mong muốn nhận được từ máy chủ
                                 success: function(response) {
-                                    alert("Yêu cầu đã được gửi đi");
+                                    Command: toastr["success"]("Yêu cầu đã được gửi đi")
+
+                                    toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": false,
+                                        "progressBar": true,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    }
                                 },
                                 error: function(xhr, status, error) {
                                     console.error(error);
