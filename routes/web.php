@@ -66,7 +66,6 @@ Route::middleware(['auth'])->group(function () {
         Route::match(['get', 'post'], 'edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
         Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
     });
-
 });
 
 
@@ -86,7 +85,9 @@ Route::get('/print_order/{id}', [OrderController::class, 'print_order'])->name('
 
 // order menu
 // http://127.0.0.1:8000/order/menu?tableNo=15
-Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
+Route::group(['middleware' => 'custom'], function () {
+    Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
+});
 Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
 Route::delete('/remove-from-cart', [CartController::class, 'remove']);
 Route::post('order', [CartController::class, 'order'])->name('order');
@@ -95,7 +96,7 @@ Route::post('order', [CartController::class, 'order'])->name('order');
 Route::resource('bill', BillController::class);
 
 // form infor user
-Route::get('form_info_user', [HomeController::class, 'form_infor_user'])->name('form_infor_user');
+Route::get('/Foodie', [HomeController::class, 'form_infor_user'])->name('form_infor_user');
 
 Route::get('home', [HomeController::class, 'home']);
 

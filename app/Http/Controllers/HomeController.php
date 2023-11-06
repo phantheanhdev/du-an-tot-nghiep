@@ -12,6 +12,7 @@ class HomeController extends Controller
     }
 
     public function form_infor_user(){
-        return view('user.form_infor_user');
+        $table = $_GET['tableNo'];
+        return view('user.form_infor_user',['table'=> $table]);
     }
 }
