@@ -19,7 +19,7 @@ class MenuController extends Controller
 
         foreach ($categories as $category) {
             $products = Product::where('category_id', $category->id)->get();
-            $productsByCategory[$category->name] = $products;
+            $productsByCategory[$category->category_name] = $products;
         }
 
         return view("user.order.menu", ['table' => $table, 'productsByCategory' => $productsByCategory]);
