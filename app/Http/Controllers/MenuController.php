@@ -11,18 +11,21 @@ class MenuController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $table = $_GET['tableNo'];
         $categories = Category::all();
         $productsByCategory = [];
-
+        $customer_name = $request->input('customer_name');
         foreach ($categories as $category) {
             $products = Product::where('category_id', $category->id)->get();
-            $productsByCategory[$category->name] = $products;
+            $productsByCategory[$category->category_name] = $products;
         }
-
-        return view("user.order.menu", ['table' => $table, 'productsByCategory' => $productsByCategory]);
+        return view("user.order.menu",[
+            'table' => $table,
+             'productsByCategory' => $productsByCategory,
+             'customer_name'=>$customer_name
+            ]);
     }
 
 

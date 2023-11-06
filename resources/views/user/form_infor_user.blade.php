@@ -25,9 +25,11 @@
         </div>
 
         <div class="">
-            <form class="text-center">
+            <form action="{{ route('order.menu','tableNo='.$table)}}" class="text-center" method="GET">
+                @csrf
+                <input type="text" name="tableNo" value="{{$table}}"  hidden>
                 <div class="mb-3">
-                    <input type="text" class="form-control p-3 bg-body-secondary text-center" required
+                    <input type="text" name="customer_name" class="form-control p-3 bg-body-secondary text-center" required
                         placeholder="Tên của bạn">
                 </div>
                 <div class="mb-3">
