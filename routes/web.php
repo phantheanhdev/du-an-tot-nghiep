@@ -13,7 +13,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\ProductController;
-
+use Illuminate\Support\Facades\Cookie;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,7 +87,7 @@ Route::get('/print_order/{id}', [OrderController::class, 'print_order'])->name('
 // http://127.0.0.1:8000/order/menu?tableNo=15
 //  bat dau quet , nhap ten http://127.0.0.1:8000/Foodie?tableNo=6
 Route::group(['middleware' => 'custom'], function () {
-    Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
+    Route::get('order/menu',[MenuController::class, 'index'])->name('order.menu');
 });
 Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
 Route::delete('/remove-from-cart', [CartController::class, 'remove']);
@@ -100,6 +100,7 @@ Route::resource('bill', BillController::class);
 // http://127.0.0.1:8000/Foodie?tableNo=6
 Route::get('/Foodie', [HomeController::class, 'form_infor_user'])->name('form_infor_user');
 
+Route::post('/submit_form',[HomeController::class,'loginUser'])->name('login.user');
 Route::get('home', [HomeController::class, 'home']);
 
 

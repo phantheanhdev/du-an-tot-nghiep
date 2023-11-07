@@ -25,7 +25,7 @@
         </div>
 
         <div class="">
-            <form action="{{ route('order.menu','tableNo='.$table)}}" class="text-center" method="GET">
+            <form action="{{ route('login.user')}}" class="text-center" method="POST">
                 @csrf
                 <input type="text" name="tableNo" value="{{$table}}"  hidden>
                 <div class="mb-3">

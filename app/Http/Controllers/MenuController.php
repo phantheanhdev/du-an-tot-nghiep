@@ -4,27 +4,41 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
+use Illuminate\Cookie\CookieJar;
 use Illuminate\Http\Request;
+use Illuminate\Cookie\CookieServiceProvider;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cookie;
 
 class MenuController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    // public function __construct( Request $request)
+    // {
+    //     if($request->hasCookie('customer_name')){
+    //             $table = $_GET['tableNo'];
+    //             return redirect()->route('order.menu','tableNo='.$table);
+    //         }
+    // }
     public function index(Request $request)
     {
         $table = $_GET['tableNo'];
         $categories = Category::all();
         $productsByCategory = [];
-        $customer_name = $request->input('customer_name');
-        foreach ($categories as $category) {
-            $products = Product::where('category_id', $category->id)->get();
-            $productsByCategory[$category->category_name] = $products;
-        }
-        return view("user.order.menu",[
-            'table' => $table,
-             'productsByCategory' => $productsByCategory,
-             'customer_name'=>$customer_name
+        $cookie_name = $request->input('customer_name');
+
+            foreach ($categories as $category) {
+                $products = Product::where('category_id', $category->id)->get();
+                $productsByCategory[$category->category_name] = $products;
+            }
+            $customer_name = Cookie::get('customer_name');
+            // dd($customer_name);
+            return view("user.order.menu", [
+                'table' => $table,
+                'productsByCategory' => $productsByCategory,
+                'customer_name' => $customer_name
             ]);
     }
 
