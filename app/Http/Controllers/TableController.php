@@ -50,9 +50,8 @@ class TableController extends Controller
         $data = [
             'name' => $name,
             'type' => $type,
-            'qr' => 'https://api.qrserver.com/v1/create-qr-code/?data=http://127.0.0.1:8000?tableId=' . $new_id . '?tableNo=' . $name . '&amp;size=200x200'
+            'qr' => 'https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://127.0.0.1:8000?tableId=' . $new_id . '%26tableNo=' . $name
         ];
-
         try {
             Table::create($data);
 
@@ -106,7 +105,7 @@ class TableController extends Controller
         $data = [
             'name' => $name,
             'type' => $type,
-            'qr' => 'https://api.qrserver.com/v1/create-qr-code/?data=http://127.0.0.1:8000?tableId=' . $table->id . '?tableNo=' . $name . '&amp;size=200x200'
+            'qr' => 'https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://127.0.0.1:8000?tableId=' . $table->id . '%26tableNo=' . $name
         ];
 
         try {

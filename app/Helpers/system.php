@@ -19,8 +19,6 @@ function getTotalCart()
     return $total;
 }
 
-
-
 function getCartDiscount()
 {
     if (Session::has('coupon')) {
