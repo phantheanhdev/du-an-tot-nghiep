@@ -171,7 +171,7 @@
 
                                             echo "$timeOfDay";
                                             ?>
-                                        </b> Linh
+                                        </b>
                                     </h3>
                                     <span>
                                         Bạn đang ngồi bàn <b>
@@ -203,7 +203,7 @@
                                                                     <input class="menu-quantity-input ml-3"
                                                                         id="txtQuantity-{{ $product->id }}"
                                                                         value="0" />
-                                                                    <div onclick="addToCart({{ $product->id }}, true)"
+                                                                    <div onclick=""
                                                                         class="menu-button ml-1">
                                                                         <i class="fa fa-plus" style="margin-top:5px"></i>
                                                                     </div>
@@ -234,72 +234,7 @@
                         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
                         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-                    <script>
-                        var csrfToken = @json(csrf_token());
 
-                        function addToCart(productId, action) {
-                            var inputElement = document.getElementById('txtQuantity-' + productId);
-                            var currentQuantity = parseInt(inputElement.value);
-
-                            if (action) {
-                                currentQuantity++;
-                            } else {
-                                currentQuantity--;
-                            }
-
-                            if (currentQuantity < 0) {
-                                currentQuantity = 0;
-                            }
-
-                            inputElement.value = currentQuantity;
-
-                            var productNameElement = document.getElementById('product-name-' + productId);
-                            var productPriceElement = document.getElementById('product-price-' + productId);
-
-                            if (productNameElement && productPriceElement) {
-                                var productName = productNameElement.textContent;
-                                var productPrice = parseFloat(productPriceElement.textContent);
-                            } else {
-                                console.log('Không tìm thấy phần tử sản phẩm với ID ' + productId);
-                            }
-                            var quantity = currentQuantity; // Số lượng sản phẩm bạn muốn thêm
-
-                            $.ajax({
-                                type: 'POST',
-                                url: '/add-to-cart/' + productId, // Đường dẫn đến API route bạn đã tạo
-                                data: {
-                                    _token: csrfToken,
-                                    product_id: productId,
-                                    product_name: productName,
-                                    quantity: quantity,
-                                    price: productPrice,
-                                },
-                                success: function(response) {
-                                    // alert(response.message);
-                                    window.location.reload();
-                                }
-                            });
-                            console.log('Đã thêm sản phẩm có ID ' + productId + ' vào giỏ hàng.');
-
-                        }
-
-
-                        function remove_product(id) {
-                            if (confirm("Are you sure want to remove? " + id)) {
-                                $.ajax({
-                                    url: '/remove-from-cart',
-                                    method: "DELETE",
-                                    data: {
-                                        _token: csrfToken,
-                                        id: id
-                                    },
-                                    success: function(response) {
-                                        window.location.reload();
-                                    }
-                                });
-                            }
-                        };
-                    </script>
                     <script>
                         function callTheWaiter(id) {
                             var contentsData = "Bàn " + id + " gọi nhân viên";
@@ -309,8 +244,8 @@
                             };
 
                             $.ajax({
-                                url: '/pusher', 
-                                type: 'GET', 
+                                url: '/pusher',
+                                type: 'GET',
                                 data: postData,
                                 success: function(response) {
                                     Command: toastr["success"]("Yêu cầu đã được gửi đi")
