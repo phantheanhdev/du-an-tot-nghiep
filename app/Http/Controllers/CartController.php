@@ -81,7 +81,7 @@ class CartController extends Controller
         $order = new Order();
         $order->table_id = $request->table_id;
         $order->order_day = Carbon::now('Asia/Ho_Chi_Minh');
-        $order->total_price = getMainCartTotal();
+        $order->total_price = $request->total_price;
         $order->status = 0;
         $order->note = $request->note;
         $order->customer_name = $request->customer_name;
@@ -95,13 +95,13 @@ class CartController extends Controller
             $productOrder->order_id = $order->id;
             $productOrder->product_id = $item['id'];
             $productOrder->quantity  = $item['quantity'];
-            $productOrder->total_amount =  $item['quantity'] * $item['price'];
+            $productOrder->total_amount = $item['quantity'] * $item['price'];
             $productOrder->save();
         }
 
         //id , name , quantity , price
 
-        session()->forget('coupon');
+
         session()->forget('cart');
 
         return redirect()->back()->with('success', 'Đặt món thành công');
