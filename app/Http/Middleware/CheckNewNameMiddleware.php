@@ -17,8 +17,8 @@ class CheckNewNameMiddleware
     {
         if (!$request->hasCookie('customer_name')) {
             $table = $_GET['tableNo'];
-            return redirect()->route('form_infor_user','tableNo='.$table)->with('error', 'Vui lòng nhập tên mới để mua hàng.');
-        } 
+            return redirect()->route('form_infor_user', 'tableNo=' . $table)->with('error', 'Vui lòng nhập tên mới để mua hàng.');
+        }
         return $next($request);
     }
 }
