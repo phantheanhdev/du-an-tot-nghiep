@@ -87,7 +87,14 @@ Route::get('/print_order/{id}', [OrderController::class, 'print_order'])->name('
 // http://127.0.0.1:8000/order/menu?tableNo=15
 //  bat dau quet , nhap ten http://127.0.0.1:8000/Foodie?tableNo=6
 Route::group(['middleware' => 'custom'], function () {
-    Route::get('order/menu',[MenuController::class, 'index'])->name('order.menu');
+    Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
+
+
+    // Apply coupon
+    Route::get('apply-coupon', [CartController::class, 'applyCoupon'])->name('apply-coupon');
+    Route::get('coupon-calculation', [CartController::class, 'couponCalculation'])->name('coupon-calculation');
+    Route::get('cacel-coupon', [CartController::class, 'cencelCoupon'])->name('cencel-coupon');
+    // 
 });
 Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
 Route::delete('/remove-from-cart', [CartController::class, 'remove']);
@@ -100,7 +107,7 @@ Route::resource('bill', BillController::class);
 // http://127.0.0.1:8000/Foodie?tableNo=6
 Route::get('/Foodie', [HomeController::class, 'form_infor_user'])->name('form_infor_user');
 
-Route::post('/submit_form',[HomeController::class,'loginUser'])->name('login.user');
+Route::post('/submit_form', [HomeController::class, 'loginUser'])->name('login.user');
 Route::get('home', [HomeController::class, 'home']);
 
 

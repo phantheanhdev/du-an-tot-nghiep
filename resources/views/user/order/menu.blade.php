@@ -65,7 +65,7 @@
 
                                         <input type="hidden" name="table_id" value="{{ $table }}">
                                         <input type="hidden" name="status" value="0">
-                                        <input type="hidden" name="customer_name" value="{{$customer_name}}">
+                                        <input type="hidden" name="customer_name" value="{{ $customer_name }}">
                                         <input type="hidden" name="customer_phone" value="0">
 
 
@@ -79,7 +79,7 @@
                                                         @php $total += $details['price'] * $details['quantity'] @endphp
 
                                                         {{-- save value with input hidden --}}
-                                                        <input type="hidden" value="{{ $total }}"
+                                                        <input type="hidden" value="{{ getMainCartTotal() }}"
                                                             name="total_price">
 
                                                         <tr>
@@ -103,13 +103,38 @@
                                                 @endif
                                                 <tr class="spacer">
                                                     <td class="cart-item">
-                                                        <h5>TOTAL</h5>
+                                                        <h5>Subtotal:</h5>
                                                     </td>
                                                     <td></td>
-                                                    <td class="cart-item"> <strong>$ {{ number_format($total) }}</strong>
+                                                    <td class="cart-item"> <strong id="">
+                                                            $ {{ number_format($total) }}</strong>
                                                     </td>
                                                     <td></td>
                                                 </tr>
+                                                @if (session('cart'))
+                                                    <tr class="spacer">
+                                                        <td class="cart-item">
+                                                            <h5>Discount:</h5>
+                                                        </td>
+                                                        <td></td>
+                                                        <td class="cart-item"> <strong id="discount">
+                                                                $ {{ number_format(getCartDiscount()) }}</strong>
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr class="spacer">
+                                                        <td class="cart-item">
+                                                            <h5>Total:</h5>
+                                                        </td>
+                                                        <td></td>
+                                                        <td class="cart-item"> <strong id="cart_total">$
+                                                                {{ number_format(getMainCartTotal()) }}</strong>
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                @endif
+
+
                                             </tbody>
                                         </table>
                                         <hr>
@@ -117,6 +142,19 @@
                                             <textarea class="form-control" name="note" maxlength="70" rows="2"
                                                 placeholder="Indicate if you have a note for the order"></textarea>
                                         </div>
+
+                                        {{-- Áp dụng mã giảm giá --}}
+                                        <div id="coupon_form">
+                                            <input type="text" placeholder="Coupon code" name="coupon_code"
+                                                value="{{ session()->has('coupon') ? session()->get('coupon')['coupon_code'] : '' }}"
+                                                id="coupon_code" class="form-control">
+                                            <button class="btn btn-danger mt-2" id="apply_coupon">Apply</button>
+
+                                            <button class="btn btn-danger mt-2" id="cancel_coupon">Cancel</button>
+                                        </div>
+                                        {{-- ------------------ --}}
+
+
                                         <button type="submit" id="placeOrder"
                                             class="btn btn-primary btn-outline btn-block mt-4 btn-sm"> Place the
                                             Order</button>
@@ -155,10 +193,10 @@
                                     <h3 class=" d-flex text-qrRest-dark font-weight-bold text-styling">Chào
                                         <b class="mx-1">
                                             <?php
-
+                                            
                                             date_default_timezone_set('Asia/Ho_Chi_Minh');
                                             $currentHour = date('G');
-
+                                            
                                             if ($currentHour >= 5 && $currentHour < 12) {
                                                 $timeOfDay = 'buổi sáng';
                                             } elseif ($currentHour >= 12 && $currentHour < 17) {
@@ -168,11 +206,11 @@
                                             } else {
                                                 $timeOfDay = 'buổi tối';
                                             }
-
+                                            
                                             echo "$timeOfDay";
                                             ?>
                                         </b>
-                                        <p><?= $customer_name?></p>
+                                        <p><?= $customer_name ?></p>
                                     </h3>
                                     <span>
                                         Bạn đang ngồi bàn <b>
@@ -233,7 +271,7 @@
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
                         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
                         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-                        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+                    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 
                     <script>
@@ -316,6 +354,79 @@
 
                         }
                     </script>
+
+                    <script>
+                        $('#apply_coupon').on('click', function(e) {
+                            e.preventDefault();
+                            let coupon_code = $("#coupon_code").val();
+                            $.ajax({
+                                method: 'GET',
+                                url: "{{ route('apply-coupon') }}",
+                                data: {
+                                    coupon_code: coupon_code
+                                },
+                                success: function(data) {
+                                    if (data.status === 'error') {
+                                        toastr.error(data.message);
+                                    } else if (data.status === 'success') {
+                                        calculateCouponDescount()
+                                        toastr.success(data.message)
+                                    }
+                                },
+                                error: function(data) {
+                                    console.log(data);
+                                }
+
+                            })
+
+
+                        })
+
+                        $("#cancel_coupon").on('click', function(e) {
+                            e.preventDefault();
+                            $.ajax({
+                                method: "GET",
+                                url: "{{ route('cencel-coupon') }}",
+                                success: function(data) {
+                                    if (data.status === 'success') {
+                                        $('#discount').text('$' + ' ' + data.discount);
+                                        $('#cart_total').text('$' + ' ' + data.cart_total);
+                                        $('#coupon_code').val("")
+                                    }
+                                },
+                                error: function(data) {
+                                    console.log(data);
+                                }
+                            })
+                        })
+
+
+                        function calculateCouponDescount() {
+                            $.ajax({
+                                method: "GET",
+                                url: "{{ route('coupon-calculation') }}",
+                                success: function(data) {
+                                    if (data.status === 'success') {
+                                        $('#discount').text('$' + ' ' + data.discount);
+                                        $('#cart_total').text('$' + ' ' + data.cart_total);
+
+                                    }
+                                },
+                                error: function(data) {
+                                    console.log(data);
+                                }
+                            })
+                        }
+                    </script>
+
+
+
+
+
+
+
+
+
                     <div class="modal inmodal" id="modal-dialog" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content animated fadeIn">

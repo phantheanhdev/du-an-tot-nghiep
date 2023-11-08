@@ -12,15 +12,16 @@ class HomeController extends Controller
         return view('user.home');
     }
 
-    public function form_infor_user(){
+    public function form_infor_user()
+    {
         $table = $_GET['tableNo'];
-        return view('user.form_infor_user',['table'=> $table]);
+        return view('user.form_infor_user', ['table' => $table]);
     }
 
-    public function loginUser(Request $request){
+    public function loginUser(Request $request)
+    {
         $table = $request->tableNo;
-        $cook = Cookie::make('customer_name', $request->customer_name,15);
+        $cook = Cookie::make('customer_name', $request->customer_name, 15);
         return redirect()->route('order.menu', 'tableNo=' . $table)->withCookie($cook);
     }
 }
-
