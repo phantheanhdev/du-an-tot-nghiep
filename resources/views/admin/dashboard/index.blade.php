@@ -140,13 +140,85 @@
 
 
 
-                <div class="Order statistics">
+
+
+
+                <div class="Order statistics mt-4 mb-4">
                     <div id="curve_chart" style="width: 100%; height: 500px"></div>
                 </div>
+
+
+
+                @if (count($statisticsMonth) > 0)
+                    <div class="col-md-12 mt-4 mb-4">
+                        <div class="title text-center">
+                            <p style="font-size:20px">Revenue by month this year</p>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+
+                                    <th scope="col">Month</th>
+                                    <th scope="col">Total orders</th>
+                                    <th scope="col">Total amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach ($statisticsMonth as $item)
+                                    <tr>
+
+                                        <td>{{ $item->month }}</td>
+                                        <td>{{ $item->total_orders }}</td>
+                                        <td style="color: red;">{{ number_format($item->total_amount, 2) }}$</td>
+                                    </tr>
+                                @endforeach
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
+
+
+                @if (count($statisticsYear) > 0)
+                <div class="col-md-12 mt-4 mb-4">
+                    <div class="title text-center">
+                        <p style="font-size:20px">Revenue in recent years</p>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+
+                                <th scope="col">Month</th>
+                                <th scope="col">Total orders</th>
+                                <th scope="col">Total amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach ($statisticsYear as $item)
+                                <tr>
+
+                                    <td>{{ $item->year }}</td>
+                                    <td>{{ $item->total_orders }}</td>
+                                    <td style="color: red;">{{ number_format($item->total_amount, 2) }}$</td>
+                                </tr>
+                            @endforeach
+
+
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+
             </div>
         </div>
 
     </div>
+
+
+
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">

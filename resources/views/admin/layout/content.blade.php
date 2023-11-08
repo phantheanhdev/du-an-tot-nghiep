@@ -133,7 +133,7 @@
                                             <a href="/Account/ChangePassword">Change Password</a>
                                         </li>
                                         <li class="divider"></li>
-                                        <li class="dropdown-item"><a href="{{route('logout')}}">Logout</a></li>
+                                        <li class="dropdown-item"><a href="{{ route('logout') }}">Logout</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -151,7 +151,13 @@
                                 <a style="text-decoration:none; color:black;">
                                     <img alt="image" class="img-lg"
                                         src="/images/logos/80735333-a467-43a8-ad98-36c55b23711b.jpg">
-                                    <h3 class="m-b-xs"><strong>Linh</strong></h3>
+                                    <h3 class="m-b-xs"><strong>
+                                            @php
+                                                if (Session::has('username') && Session::get('username') != '') {
+                                                    echo Session::get('username');
+                                                }
+                                            @endphp
+                                        </strong></h3>
                                     <address class="m-t-md">
                                         Quang<br>
                                         <abbr title="Phone"><i class="fa fa-phone"></i></abbr>
@@ -162,11 +168,7 @@
                                 </a>
 
                                 <div class="contact-box-footer">
-                                    {{-- Dashboard admin --}}
-                                    <button id="btnOrder" onclick="getLink('dashboard')"
-                                        class="btn btn-outline btn-primary btn-block">
-                                        <i class="fa-solid fa-table-columns float-left mt-1"></i>
-                                        DASHBOARD</button>
+                                    {{-- order --}}
                                     <button id="btnOrder" onclick="getLink('restaurant-manager')"
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa fa-th float-left mt-1"></i>
@@ -217,6 +219,11 @@
                                             style="color: #d35352;"></i>
                                         Staff
                                     </button>
+                                    {{-- Dashboard admin --}}
+                                    <button id="btnOrder" onclick="getLink('dashboard')"
+                                        class="btn btn-outline btn-primary btn-block">
+                                        <i class="fa-solid fa-table-columns float-left mt-1"></i>
+                                        DASHBOARD</button>
                                 </div>
                             </div>
                         </div>

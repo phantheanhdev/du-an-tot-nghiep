@@ -65,7 +65,7 @@
 
                                         <input type="hidden" name="table_id" value="{{ $table }}">
                                         <input type="hidden" name="status" value="0">
-                                        <input type="hidden" name="customer_name" value="0">
+                                        <input type="hidden" name="customer_name" value="{{$customer_name}}">
                                         <input type="hidden" name="customer_phone" value="0">
 
 
@@ -152,8 +152,8 @@
                                             class="btn btn-primary btn-outline btn-flat btn-sm"><i
                                                 class="fa  fa-th-large mt-1"></i></button>
                                     </div>
-                                    <h3 class="text-qrRest-dark font-weight-bold text-styling">Chào
-                                        <b>
+                                    <h3 class=" d-flex text-qrRest-dark font-weight-bold text-styling">Chào
+                                        <b class="mx-1">
                                             <?php
 
                                             date_default_timezone_set('Asia/Ho_Chi_Minh');
@@ -172,6 +172,7 @@
                                             echo "$timeOfDay";
                                             ?>
                                         </b>
+                                        <p><?= $customer_name?></p>
                                     </h3>
                                     <span>
                                         Bạn đang ngồi bàn <b>
