@@ -13,9 +13,15 @@
 
 {{-- <script src="/lib/jquery/dist/jquery.min.js"></script>
 <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/lib/toastr/toastr.min.js"></script>
 <script src="/js/menuController.js"></script> --}}
-
+<script src="{{ asset('/admin/lib/toastr/toastr.min.js') }}"></script>
+<script>
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            toastr.error("{{ $error }}")
+        @endforeach
+    @endif
+</script>
 </body>
 
 </html>

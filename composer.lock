@@ -5,8 +5,7 @@
         "This file is @generated automatically"
     ],
 
-    "content-hash": "7b87d217214af203c08b48f4448ae76b",
-
+    "content-hash": "17ba2efd18cd69ee0ffd6f5f623217c9",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -9301,5 +9300,5 @@
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
