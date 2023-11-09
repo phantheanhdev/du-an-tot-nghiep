@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Table;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Symfony\Component\VarDumper\VarDumper;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -163,6 +166,32 @@ class TableController extends Controller
     {
         $table = Table::findOrFail($id);
 
-        return view('admin.order-of-table', ['table' => $table]);
+        $orders = Order::where('table_id', $id)
+        // ->where('status',['Đã Xác Nhận',' Xác Nhận'])
+        ->get();
+        foreach ($orders as $order) {
+            $order->orderDetails = OrderDetail::where('order_id', $order->id)->get();
+            foreach ($order->orderDetails as $orderDetail) {
+                $orderDetail->product = Product::find($orderDetail->product_id);
+            }
+        }
+
+        return view('admin.order-of-table', ['table' => $table, 'orders' => $orders]);
+    }
+    public function updateStatus(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+
+        $newStatus = $request->input('status');
+
+        // Kiểm tra xem trạng thái mới hợp lệ hay không
+        if (!in_array($newStatus, ['Xác nhận', 'Đã Xác Nhận', 'Hủy'])) {
+            return redirect()->back()->with('error', 'Invalid status.');
+        }
+
+        $order->status = $newStatus;
+        $order->save();
+
+        return redirect()->back()->with('success', 'Status updated successfully.');
     }
 }
