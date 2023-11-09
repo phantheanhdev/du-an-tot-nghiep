@@ -167,10 +167,11 @@ class TableController extends Controller
         $table = Table::findOrFail($id);
 
         $orders = Order::where('table_id', $id)
-        // ->where('status',['Đã Xác Nhận',' Xác Nhận'])
-        ->get();
+            ->whereIn('status', ['Đã Xác Nhận', 'Xác Nhận'])
+            ->get();
         foreach ($orders as $order) {
             $order->orderDetails = OrderDetail::where('order_id', $order->id)->get();
+
             foreach ($order->orderDetails as $orderDetail) {
                 $orderDetail->product = Product::find($orderDetail->product_id);
             }
