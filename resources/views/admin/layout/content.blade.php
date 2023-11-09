@@ -4,7 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>ADMIN-FOODIE</title>
+
     <link rel="shortcut icon" type="image/png" href="{{ asset('/admin/images/favicon.png') }}" />
     <link rel="stylesheet" href="{{ asset('/admin/lib/bootstrap/dist/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('/admin/lib/font-awesome/css/font-awesome.min.css') }}" />
@@ -12,6 +15,7 @@
     <link rel="stylesheet" href="{{ asset('/admin/css/animate.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin/css/invoice.css') }}">
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/admin/css/site.css') }}" />
 
@@ -224,6 +228,11 @@
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa-solid fa-table-columns float-left mt-1"></i>
                                         DASHBOARD</button>
+                                    {{-- Dashboard admin --}}
+                                    <button id="btnOrder" onclick="getLink('coupons')"
+                                        class="btn btn-outline btn-primary btn-block">
+                                        <i class="fa-solid fa-table-columns float-left mt-1"></i>
+                                        COUPON</button>
                                 </div>
                             </div>
                         </div>
@@ -269,6 +278,9 @@
                                         return;
                                     case 'product':
                                         window.location.href = '/product';
+                                        return;
+                                    case 'coupons':
+                                        window.location.href = '/coupons';
                                         return;
                                     default:
                                         return;
@@ -386,6 +398,9 @@
     </div>
 
     <script src="{{ asset('/admin/lib/jquery/dist/jquery.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+    </script>
     <script src="{{ asset('/admin/lib/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('/admin/lib/toastr/toastr.min.js') }}"></script>
 
@@ -416,7 +431,8 @@
 
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
     <script src="{{ asset('backend/assets/js/code.js') }}"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script type="text/javascript" src="{{ asset('backend/assets/js/tagsinput.js') }}"></script>
@@ -444,6 +460,25 @@
             }
         @endif
     </script>
+
+
+    <script>
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                toastr.error("{{ $error }}")
+            @endforeach
+        @endif
+    </script>
+
+
+
+
+
+    @stack('scripts')
+
+    
+
+
 
 </body>
 

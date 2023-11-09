@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QrController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
@@ -66,6 +67,21 @@ Route::middleware(['auth'])->group(function () {
         Route::match(['get', 'post'], 'edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
         Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
     });
+    // order
+    Route::get('list-order', [OrderController::class, 'index']);
+    // view invoice order
+    Route::get('/invoice/{id}', [OrderController::class, 'viewInvoice'])->name('viewInvoice');
+    // download FDF order
+    Route::get('/invoice/{id}/generate', [OrderController::class, 'genarateInvoice'])->name('genarateInvoice');
+    // print order
+    Route::get('/print_order/{id}', [OrderController::class, 'print_order'])->name('print_order');
+
+    // bill
+    Route::resource('bill', BillController::class);
+    //Coupon
+    Route::get('coupons/change-status', [CouponController::class, 'changeStatus'])->name('coupons.change-status');
+    Route::resource('coupons', CouponController::class);
+    Route::delete('/delete-coupon', [CouponController::class, 'destroy'])->name('delete');
 });
 
 
@@ -73,14 +89,7 @@ Route::middleware(['auth'])->group(function () {
 // ======================================================= user ===============================================================
 
 
-// order
-Route::get('list-order', [OrderController::class, 'index']);
-// view invoice order
-Route::get('/invoice/{id}', [OrderController::class, 'viewInvoice'])->name('viewInvoice');
-// download FDF order
-Route::get('/invoice/{id}/generate', [OrderController::class, 'genarateInvoice'])->name('genarateInvoice');
-// print order
-Route::get('/print_order/{id}', [OrderController::class, 'print_order'])->name('print_order');
+
 //
 
 // order menu
@@ -89,6 +98,9 @@ Route::get('/print_order/{id}', [OrderController::class, 'print_order'])->name('
 Route::group(['middleware' => 'custom'], function () {
     Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
 
+    Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
+    Route::delete('/remove-from-cart', [CartController::class, 'remove']);
+    Route::post('order', [CartController::class, 'order'])->name('order');
 
     // Apply coupon
     Route::get('apply-coupon', [CartController::class, 'applyCoupon'])->name('apply-coupon');
@@ -96,12 +108,8 @@ Route::group(['middleware' => 'custom'], function () {
     Route::get('cacel-coupon', [CartController::class, 'cencelCoupon'])->name('cencel-coupon');
     // 
 });
-Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
-Route::delete('/remove-from-cart', [CartController::class, 'remove']);
-Route::post('order', [CartController::class, 'order'])->name('order');
 
-// bill
-Route::resource('bill', BillController::class);
+
 
 // form infor user
 // http://127.0.0.1:8000/Foodie?tableNo=6

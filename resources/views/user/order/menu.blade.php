@@ -355,6 +355,9 @@
                         }
                     </script>
 
+
+
+
                     <script>
                         $('#apply_coupon').on('click', function(e) {
                             e.preventDefault();
