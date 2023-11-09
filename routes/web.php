@@ -56,7 +56,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', [EmployeeController::class, 'index'])->name('employee.index');
         Route::match(['get', 'post'], 'create', [EmployeeController::class, 'create'])->name('employee.create');
         Route::match(['get', 'post'], 'edit/{id}', [EmployeeController::class, 'edit'])->name('employee.edit');
-Route::get('delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
+        Route::get('delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
     });
 
     //category
@@ -102,78 +102,7 @@ Route::group(['middleware' => 'custom'], function () {
     Route::get('apply-coupon', [CartController::class, 'applyCoupon'])->name('apply-coupon');
     Route::get('coupon-calculation', [CartController::class, 'couponCalculation'])->name('coupon-calculation');
     Route::get('cacel-coupon', [CartController::class, 'cencelCoupon'])->name('cencel-coupon');
-    //
-});
-
-// form infor user
-// http://127.0.0.1:8000/Foodie?tableNo=6
-Route::get('/Foodie', [HomeController::class, 'form_infor_user'])->name('form_infor_user');
-
-Route::post('/submit_form', [HomeController::class, 'loginUser'])->name('login.user');
-Route::get('home', [HomeController::class, 'home']);
-
-
-// 3 route test pusher
-Route::get('/test', function () {
-    return view('showNotification');
-});
-
-Route::get('getPusher', function () {
-    return view('form_pusher');
-});
-
-Route::get('/pusher', function (Illuminate\Http\Request $request) {
-    event(new HelloPusherEvent($request));
-    return redirect('getPusher');
-});
-//
-Route::get('delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
-    });
-
-    //category
-    Route::prefix('category')->group(function () {
-        Route::get('/', [CategoryController::class, 'index'])->name('category.index');
-        Route::match(['get'], 'create', [CategoryController::class, 'create'])->name('category.create');
-        Route::match(['post'], 'store', [CategoryController::class, 'store'])->name('category.store');
-        Route::match(['get', 'post'], 'edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
-        Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
-    });
-
-    // order
-    Route::get('list-order', [OrderController::class, 'index']);
-    // view invoice order
-    Route::get('/invoice/{id}', [OrderController::class, 'viewInvoice'])->name('viewInvoice');
-    // download FDF order
-    Route::get('/invoice/{id}/generate', [OrderController::class, 'genarateInvoice'])->name('genarateInvoice');
-    // print order
-    Route::get('/print_order/{id}', [OrderController::class, 'print_order'])->name('print_order');
-
-    // bill
-    Route::resource('bill', BillController::class);
-});
-
-
-
-// ======================================================= user ===============================================================
-
-
-// http://127.0.0.1:8000/order/menu?tableNo=15
-//  bat dau quet , nhap ten http://127.0.0.1:8000/Foodie?tableNo=6
-
-Route::group(['middleware' => 'custom'], function () {
-    Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
-
-    // order menu
-    Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
-    Route::delete('/remove-from-cart', [CartController::class, 'remove']);
-    Route::post('order', [CartController::class, 'order'])->name('order');
-
-
-    // Apply coupon
-    Route::get('apply-coupon', [CartController::class, 'applyCoupon'])->name('apply-coupon');
-    Route::get('coupon-calculation', [CartController::class, 'couponCalculation'])->name('coupon-calculation');
-    Route::get('cacel-coupon', [CartController::class, 'cencelCoupon'])->name('cencel-coupon');
-    //
+    // 
 });
 
 // form infor user
