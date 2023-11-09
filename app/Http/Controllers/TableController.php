@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Table;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Symfony\Component\VarDumper\VarDumper;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -50,9 +53,8 @@ class TableController extends Controller
         $data = [
             'name' => $name,
             'type' => $type,
-            'qr' => 'https://api.qrserver.com/v1/create-qr-code/?data=http://127.0.0.1:8000?tableId=' . $new_id . '?tableNo=' . $name . '&amp;size=200x200'
+            'qr' => 'https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://127.0.0.1:8000?tableId=' . $new_id . '%26tableNo=' . $name
         ];
-
         try {
             Table::create($data);
 
@@ -106,7 +108,7 @@ class TableController extends Controller
         $data = [
             'name' => $name,
             'type' => $type,
-            'qr' => 'https://api.qrserver.com/v1/create-qr-code/?data=http://127.0.0.1:8000?tableId=' . $table->id . '?tableNo=' . $name . '&amp;size=200x200'
+            'qr' => 'https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://127.0.0.1:8000?tableId=' . $table->id . '%26tableNo=' . $name
         ];
 
         try {
@@ -164,6 +166,32 @@ class TableController extends Controller
     {
         $table = Table::findOrFail($id);
 
-        return view('admin.order-of-table', ['table' => $table]);
+        $orders = Order::where('table_id', $id)
+        // ->where('status',['Đã Xác Nhận',' Xác Nhận'])
+        ->get();
+        foreach ($orders as $order) {
+            $order->orderDetails = OrderDetail::where('order_id', $order->id)->get();
+            foreach ($order->orderDetails as $orderDetail) {
+                $orderDetail->product = Product::find($orderDetail->product_id);
+            }
+        }
+
+        return view('admin.order-of-table', ['table' => $table, 'orders' => $orders]);
+    }
+    public function updateStatus(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+
+        $newStatus = $request->input('status');
+
+        // Kiểm tra xem trạng thái mới hợp lệ hay không
+        if (!in_array($newStatus, ['Xác nhận', 'Đã Xác Nhận', 'Hủy'])) {
+            return redirect()->back()->with('error', 'Invalid status.');
+        }
+
+        $order->status = $newStatus;
+        $order->save();
+
+        return redirect()->back()->with('success', 'Status updated successfully.');
     }
 }
