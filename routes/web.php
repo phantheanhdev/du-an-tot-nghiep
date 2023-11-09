@@ -87,7 +87,7 @@ Route::get('/print_order/{id}', [OrderController::class, 'print_order'])->name('
 // http://127.0.0.1:8000/order/menu?tableNo=15
 //  bat dau quet , nhap ten http://127.0.0.1:8000/Foodie?tableNo=6
 Route::group(['middleware' => 'custom'], function () {
-    Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
+    Route::get('order/menu', [MenuController::class , 'index'])->name('order.menu');
 });
 Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
 Route::delete('/remove-from-cart', [CartController::class, 'remove']);
