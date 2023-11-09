@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('table_id');
             $table->string('note')->nullable();
             $table->double('total_price', 9, 0);
-            $table->integer('status');
+            $table->enum('status',['Xác Nhận','Đã Xác Nhận','Hủy','Đã Thanh Toán']);
             $table->string('customer_name');
             $table->string('customer_phone');
             $table->date('order_day');

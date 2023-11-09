@@ -39,6 +39,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('restaurant-manager', [TableController::class, 'restaurant_manager'])->name('restaurant-manager');
     Route::get('order-of-table/{id}', [TableController::class, 'order_of_table'])->name('order-of-table');
+    Route::patch('/admin/orders/{id}/update-status', [App\Http\Controllers\TableController::class, 'updateStatus'])->name('admin.orders.updateStatus');
     Route::get('qr-builder', [QrController::class, 'qr_builder'])->name('qr-builder');
 
     // table
