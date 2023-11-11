@@ -20,6 +20,18 @@
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        #table-2 {
+            /* Màu nền mặc định */
+            background-color: #080807; /* Thay thế bằng màu mặc định của bạn */
+            color: #fafaf7; /* Thay thế bằng màu văn bản mặc định của bạn */
+        }
+        .red-bg {
+            background-color: #ff0000 !important; /* Màu nền đỏ */
+        }
+        .yellow-bg {
+            background-color: #FFFF00 !important; /* Màu nền vàng */
+            color: #000 !important; /* Màu văn bản tương ứng */
+        }
         th {
             text-align: center;
             vertical-align: middle !important;
