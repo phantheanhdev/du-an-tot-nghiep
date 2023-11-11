@@ -12,10 +12,12 @@ class HelloPusherEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $message;
+    public $id;
 
     public function __construct(Request $request)
     {
         $this->message  = $request->contents;
+        $this->id = $request->id;
     }
 
     public function broadcastOn()

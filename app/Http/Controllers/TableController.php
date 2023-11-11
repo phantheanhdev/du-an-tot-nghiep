@@ -157,7 +157,7 @@ class TableController extends Controller
     // trang đầu tiên khi chuyển hướng về admin
     public function restaurant_manager()
     {
-        $tables = Table::all();
+        $tables = Table::with('orders')->get();
         return view('admin.restaurant-manager', ['tables' => $tables]);
     }
 
