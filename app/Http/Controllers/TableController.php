@@ -36,39 +36,52 @@ class TableController extends Controller
      */
     public function store(Request $request)
     {
-        //validate
+        // Validate
         $validate = $request->validate([
             'name' => 'required',
             'type' => 'required|integer',
         ]);
 
-        // lấy dữ liệu từ form
+        // Lấy dữ liệu từ form
         $name = $request->input('name');
         $type = $request->input('type');
 
-        //lấy id lớn nhất và tạo mới 1 id để gán vào link
+        // Kiểm tra xem giá trị $name đã tồn tại trong cột 'name' của bảng 'table' hay chưa
+        $nameExists = Table::where('name', $name)->exists();
+
+        if ($nameExists) {
+            // Nếu $name đã tồn tại, redirect với thông báo lỗi
+            $notification = [
+                'message' => 'Tên bàn đã tồn tại. Vui lòng chọn tên khác.',
+                'alert-type' => 'error',
+            ];
+            return redirect()->route('table.create')->withInput()->with($notification);
+        }
+
+        // Lấy id lớn nhất và tạo mới 1 id để gán vào link
         $id = Table::max('id');
         $new_id = $id + 1;
 
         $data = [
             'name' => $name,
             'type' => $type,
-            'qr' => 'https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://127.0.0.1:8000?tableId=' . $new_id . '%26tableNo=' . $name
+            'qr' => 'https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://127.0.0.1:8000/foodie?tableId=' . $new_id . '%26tableNo=' . $name,
         ];
+
         try {
             Table::create($data);
 
-            $notification = array(
-                "message" => "Thêm bàn thành công",
-                "alert-type" => "success",
-            );
+            $notification = [
+                'message' => 'Thêm bàn thành công',
+                'alert-type' => 'success',
+            ];
 
             return redirect()->route('table.index')->with($notification);
         } catch (\Throwable $th) {
-            $notification = array(
-                "message" => "Thêm bàn không thành công",
-                "alert-type" => "failse",
-            );
+            $notification = [
+                'message' => 'Thêm bàn không thành công',
+                'alert-type' => 'failse',
+            ];
 
             return redirect()->route('table.create')->with($notification);
         }
@@ -101,30 +114,44 @@ class TableController extends Controller
             'type' => 'required|integer',
         ]);
 
-        // lấy dữ liệu từ form
+        // Lấy dữ liệu từ form
         $name = $request->input('name');
         $type = $request->input('type');
+
+        // Kiểm tra xem giá trị $name đã tồn tại trong cột 'name' của bảng 'table' (ngoại trừ bản ghi đang được cập nhật) hay chưa
+        $nameExists = Table::where('name', $name)
+            ->where('id', '<>', $table->id)
+            ->exists();
+
+        if ($nameExists) {
+            // Nếu $name đã tồn tại (ngoại trừ bản ghi đang được cập nhật), redirect với thông báo lỗi
+            $notification = [
+                'message' => 'Tên bàn đã tồn tại. Vui lòng chọn tên khác.',
+                'alert-type' => 'error',
+            ];
+            return redirect()->route('table.edit', $table->id)->withInput()->with($notification);
+        }
 
         $data = [
             'name' => $name,
             'type' => $type,
-            'qr' => 'https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://127.0.0.1:8000?tableId=' . $table->id . '%26tableNo=' . $name
+            'qr' => 'https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://127.0.0.1:8000/foodie?tableId=' . $table->id . '%26tableNo=' . $name
         ];
 
         try {
             $table->update($data);
 
-            $notification = array(
-                "message" => "Sửa thông tin bàn thành công",
-                "alert-type" => "success",
-            );
+            $notification = [
+                'message' => 'Sửa thông tin bàn thành công',
+                'alert-type' => 'success',
+            ];
 
             return redirect()->route('table.index')->with($notification);
         } catch (\Throwable $th) {
-            $notification = array(
-                "message" => "Sửa thông tin bàn không thành công",
-                "alert-type" => "failse",
-            );
+            $notification = [
+                'message' => 'Sửa thông tin bàn không thành công',
+                'alert-type' => 'failse',
+            ];
 
             return redirect()->route('table.index')->with($notification);
         }

@@ -17,7 +17,8 @@ class MenuController extends Controller
 
     public function index(Request $request)
     {
-        $table = $_GET['tableNo'];
+        $tableId = $_GET['tableId'];
+        $tableNo = $_GET['tableNo'];
         $categories = Category::all();
         $productsByCategory = [];
         $cookie_name = $request->input('customer_name');
@@ -31,7 +32,8 @@ class MenuController extends Controller
     
 
         return view("user.order.menu", [
-            'table' => $table,
+            'tableId' => $tableId,
+            'tableNo' => $tableNo,
             'productsByCategory' => $productsByCategory,
             'customer_name' => $customer_name
         ]);

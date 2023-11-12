@@ -8,7 +8,7 @@
                     <a href="{{ route('table.index') }}" class="btn btn-outline btn-primary btn-sm float-left">
                         <i class="fa fa-long-arrow-left mt-1"></i>
                     </a>
-                    <h4 class="">Thêm bàn</h4>
+                    <h4 class="">Add table</h4>
                 </div>
 
                 <div class="">
@@ -18,13 +18,13 @@
                         @csrf
 
                         <div class="mb-3">
-                            <label class="form-label">Số bàn</label>
+                            <label class="form-label">Number of tables</label>
                             <input type="number" class="form-control" placeholder="1" name="name" id="create_table_name"
                                 required>
                             <div class="form-text" id="create_table_er_name" style="color: red"></div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Loại bàn(người/bàn)</label>
+                            <label class="form-label">Table type(person/table)</label>
                             <input type="number" min="1" max="50" class="form-control" placeholder="4"
                                 name="type" id="create_table_type" required>
                             <div class="form-text" id="create_table_er_type" style="color: red"></div>
