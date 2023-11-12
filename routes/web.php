@@ -106,14 +106,19 @@ Route::group(['middleware' => 'custom'], function () {
 });
 
 // form infor user
-// http://127.0.0.1:8000/Foodie?tableNo=6
-Route::get('/Foodie', [HomeController::class, 'form_infor_user'])->name('form_infor_user');
+// http://127.0.0.1:8000/foodie?tableNo=6
+Route::get('/foodie', [HomeController::class, 'form_infor_user'])->name('form_infor_user');
 
 Route::post('/submit_form', [HomeController::class, 'loginUser'])->name('login.user');
 Route::get('home', [HomeController::class, 'home']);
 
+// pusher event
+Route::get('/pusher', function (Illuminate\Http\Request $request) {
+    event(new HelloPusherEvent($request));
+    return redirect('getPusher');
+});
 
-// 3 route test pusher
+// 2 route test pusher
 Route::get('/test', function () {
     return view('showNotification');
 });
@@ -122,8 +127,4 @@ Route::get('getPusher', function () {
     return view('form_pusher');
 });
 
-Route::get('/pusher', function (Illuminate\Http\Request $request) {
-    event(new HelloPusherEvent($request));
-    return redirect('getPusher');
-});
 //

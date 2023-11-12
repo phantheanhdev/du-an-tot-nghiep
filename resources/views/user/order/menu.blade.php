@@ -13,7 +13,6 @@
                     </button>
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav mx-auto">
-
                         </ul>
 
                         <ul class="nav navbar-top-links">
@@ -63,7 +62,8 @@
                                     <form method="POST" action="{{ route('order') }}" enctype="multipart/form-data">
                                         @csrf
 
-                                        <input type="hidden" name="table_id" value="{{ $table }}">
+                                        <input type="hidden" name="table_id" value="{{ $tableId }}">
+                                        <input type="hidden" name="table_no" value="{{ $tableNo }}">
                                         <input type="hidden" name="status" value="0">
                                         <input type="hidden" name="customer_name" value="{{ $customer_name }}">
                                         <input type="hidden" name="customer_phone" value="0">
@@ -160,14 +160,12 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col-6" style="padding-right:7px">
-                                    <button onclick="callTheWaiter(<?= $table ?>)" id="btnCallWaiter"
-                                        class="call-button btn-block"><img src="/images/call-waiter.png" /> Gọi nhân
-                                        viên</button>
+                                    <button onclick="callTheWaiter(<?= $tableId ?>)" id="btnCallWaiter"
+                                        class="call-button btn-block"><img src="/images/call-waiter.png" /> Call staff</button>
                                 </div>
                                 <div class="col-6" style="padding-left:7px">
-                                    <button onclick="callPayment(<?= $table ?>)" id="btnCallBill"
-                                        class="call-button btn-block"><img src="/images/get-money.png" /> Gọi thanh
-                                        toán</button>
+                                    <button onclick="callPayment(<?= $tableId ?>)" id="btnCallBill"
+                                        class="call-button btn-block"><img src="/images/get-money.png" /> Call payment</button>
                                 </div>
                             </div>
 
@@ -187,7 +185,7 @@
                                             class="btn btn-primary btn-outline btn-flat btn-sm"><i
                                                 class="fa  fa-th-large mt-1"></i></button>
                                     </div>
-                                    <h3 class=" d-flex text-qrRest-dark font-weight-bold text-styling">Chào
+                                    <h3 class=" d-flex text-qrRest-dark font-weight-bold text-styling">Good
                                         <b class="mx-1">
                                             <?php
                                             
@@ -195,13 +193,13 @@
                                             $currentHour = date('G');
                                             
                                             if ($currentHour >= 5 && $currentHour < 12) {
-                                                $timeOfDay = 'buổi sáng';
+                                                $timeOfDay = 'morning';
                                             } elseif ($currentHour >= 12 && $currentHour < 17) {
-                                                $timeOfDay = 'buổi trưa';
+                                                $timeOfDay = 'afternoon';
                                             } elseif ($currentHour >= 17 && $currentHour < 20) {
-                                                $timeOfDay = 'buổi chiều';
+                                                $timeOfDay = 'afternoon';
                                             } else {
-                                                $timeOfDay = 'buổi tối';
+                                                $timeOfDay = 'evening';
                                             }
                                             
                                             echo "$timeOfDay";
@@ -210,8 +208,8 @@
                                         <p><?= $customer_name ?></p>
                                     </h3>
                                     <span>
-                                        Bạn đang ngồi bàn <b>
-                                            <?= $table ?>
+                                        You are sitting at table:  <b>
+                                            <?= $tableNo ?>
                                         </b>
                                     </span>
                                 </div>
@@ -336,7 +334,7 @@
 
                             var postData = {
                                 contents: contentsData,
-                                id:id
+                                id: id
                             };
 
                             $.ajax({
@@ -375,7 +373,7 @@
 
                             var postData = {
                                 contents: contentsData,
-                                id:id
+                                id: id
                             };
 
                             $.ajax({

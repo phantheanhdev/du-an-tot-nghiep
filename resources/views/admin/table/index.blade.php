@@ -16,9 +16,9 @@
                     <a href="/restaurant-manager" class="btn btn-outline btn-primary btn-sm float-left">
                         <i class="fa fa-long-arrow-left mt-1"></i>
                     </a>
-                    Quản lý bàn
+                    Desk manager
                     <a href="{{ route('table.create') }}" class="float-right">
-                        <button class="btn btn-primary">Thêm bàn</button>
+                        <button class="btn btn-primary">Add table</button>
                     </a>
 
                 </h3>
@@ -31,10 +31,10 @@
                         <table class="table table-hover">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th>Tên</th>
-                                    <th>Loại bàn</th>
+                                    <th>Name</th>
+                                    <th>Table type</th>
                                     <th>QR</th>
-                                    <th>Thao tác</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,10 +48,10 @@
                                         <td class="">
                                             <div class="d-flex justify-content-around align-items-center">
                                                 <a href="{{ $table->qr }}">
-                                                    <button class="btn btn-info">Tải QR</button>
+                                                    <button class="btn btn-info">Download QR</button>
                                                 </a>
                                                 <a href="{{ route('table.edit', $table->id) }}">
-                                                    <button class="btn btn-secondary">Sửa</button>
+                                                    <button class="btn btn-secondary">Edit</button>
                                                 </a>
                                                 <form action="{{ route('table.destroy', $table->id) }}" method="post"
                                                     id="table-form-delete">
@@ -59,7 +59,7 @@
                                                     @method('DELETE')
 
                                                     <button class="btn btn-primary" type="submit"
-                                                        id="table-btn-delete">Xóa</button>
+                                                        id="table-btn-delete">Delete</button>
                                                 </form>
                                             </div>
                                         </td>
