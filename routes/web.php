@@ -94,12 +94,13 @@ Route::middleware(['auth'])->group(function () {
 //  bat dau quet , nhap ten  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8 
 
 Route::group(['middleware' => 'custom'], function () {
-    Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
+    Route::get('order/menu',[MenuController::class, 'index'])->name('order.menu');
+});
+Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
+Route::delete('/remove-from-cart', [CartController::class, 'remove']);
+Route::post('order', [CartController::class, 'order'])->name('order');
+Route::get('/get-cart', [CartController::class, 'getCart'])->name('get.cart');
 
-    // order menu
-    Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
-    Route::delete('/remove-from-cart', [CartController::class, 'remove']);
-    Route::post('order', [CartController::class, 'order'])->name('order');
 
 
     // Apply coupon

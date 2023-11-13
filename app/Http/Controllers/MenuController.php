@@ -29,7 +29,6 @@ class MenuController extends Controller
         }
         $customer_name = Cookie::get('customer_name');
 
-    
 
         return view("user.order.menu", [
             'tableId' => $tableId,

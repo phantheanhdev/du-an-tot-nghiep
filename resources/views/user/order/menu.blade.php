@@ -59,11 +59,10 @@
                                 <div class="ibox-content ibox-br">
 
                                     {{-- form cart --}}
-                                    <form method="POST" action="{{ route('order') }}" enctype="multipart/form-data">
+                                    <form id="orderForm" enctype="multipart/form-data">
                                         @csrf
 
                                         <input type="hidden" name="table_id" value="{{ $tableId }}">
-                                        <input type="hidden" name="table_no" value="{{ $tableNo }}">
                                         <input type="hidden" name="status" value="0">
                                         <input type="hidden" name="customer_name" value="{{ $customer_name }}">
                                         <input type="hidden" name="customer_phone" value="0">
@@ -86,7 +85,7 @@
                                                                 {{ $details['name'] }}<br> <span
                                                                     class="text-menu-description text-muted"></span> </td>
 
-                                                            <td><input onblur="updateQuantity(3)" id="cartquantity-3"
+                                                            <td><input onblur="updateQuantity()" id="cartquantity-3"
                                                                     class="quantity-input"
                                                                     value="{{ $details['quantity'] }}"></td>
 
@@ -151,21 +150,24 @@
                                             <button class="btn btn-danger mt-2" id="cancel_coupon">Cancel</button>
                                         </div>
                                         {{-- ------------------ --}}
+                                        <button type="button" id="placeOrder" onclick="submitOrder(<?= $tableId ?>)"
 
-                                        <button type="submit" id="placeOrder"
-                                            class="btn btn-primary btn-outline btn-block mt-4 btn-sm"> Place the
-                                            Order</button>
                                     </form>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-6" style="padding-right:7px">
-                                    <button onclick="callTheWaiter(<?= $tableId ?>)" id="btnCallWaiter"
-                                        class="call-button btn-block"><img src="/images/call-waiter.png" /> Call staff</button>
+                                    <button onclick="callTheWaiter(<?= $tableId ?>)"
+                                        class="btn btn-primary btn-outline btn-block mt-4 btn-sm btn-block"><img
+                                            src="{{ asset('request_service.svg') }}" /> </br><span> Gọi nhân
+                                            viên</span></button>
                                 </div>
                                 <div class="col-6" style="padding-left:7px">
-                                    <button onclick="callPayment(<?= $tableId ?>)" id="btnCallBill"
-                                        class="call-button btn-block"><img src="/images/get-money.png" /> Call payment</button>
+                                    <button onclick="callPayment(<?= $tableId ?>)"
+                                        class="btn btn-primary btn-outline btn-block mt-4 btn-sm btn-block"><img
+                                            src="{{ asset('request_payment.svg') }}" /> </br><span> Gọi thanh
+                                            toán</span></button>
+
                                 </div>
                             </div>
 
@@ -214,7 +216,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div id="isList">
+                            {{-- <div id="isList">
                                 @foreach ($productsByCategory as $categoryName => $products)
                                     <div class="ibox float-e-margins">
                                         <div class="ibox-title">
@@ -254,6 +256,55 @@
                                         </div>
                                     </div>
                                 @endforeach
+                            </div> --}}
+                            <div id="isNotList" style="display: block;">
+                                <div>
+                                    @foreach ($productsByCategory as $categoryName => $products)
+                                        <h3 class="mt-4"> <i class="fa fa-star-o text-qrRest"></i>{{ $categoryName }}
+                                        </h3>
+                                        <hr>
+                                        <div class="row">
+                                            @foreach ($products as $product)
+                                                <div class="col-md-4">
+                                                    <div class="ibox">
+                                                        <div class="ibox-content product-box" style="height:370px;">
+                                                            <div class="product-imitation"
+                                                                style="background-image:url('{{ asset($product->image) }}'); background-size:cover;">
+                                                            </div>
+
+                                                            <div class="product-desc">
+                                                                <span class="product-price">
+                                                                    {{ number_format($product->price) }} đ
+                                                                </span>
+                                                                <input type="hidden"
+                                                                    id="product-price-{{ $product->id }}"
+                                                                    value="{{ $product->price }}">
+                                                                <small class="text-muted"> {{ $categoryName }} </small>
+                                                                <a class="product-name"
+                                                                    id="product-name-{{ $product->id }}">
+                                                                    {{ $product->name }}</a>
+                                                                <div class="small m-t-xs" style="height:28px">
+                                                                    {{ $product->description }} </div>
+                                                                <div class="m-t mx-auto">
+                                                                    <div class="row">
+                                                                        <input id="txtQuantity-{{ $product->id }}"
+                                                                            class="product-quantity-input ml-3"
+                                                                            value="1">
+                                                                        <button onclick="addToCart({{ $product->id }})"
+                                                                            class="btn btn-sm btn-outline btn-primary ml-1">
+                                                                            Thêm
+                                                                            <i class="fa fa-long-arrow-right mt-1"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -265,6 +316,190 @@
                     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
                     <script>
+                        var csrfToken = @json(csrf_token());
+
+                        function addToCart(productId) {
+                            var inputElement = document.getElementById('txtQuantity-' + productId);
+                            var currentQuantity = parseFloat(inputElement.value);
+
+                            var productNameElement = document.getElementById('product-name-' + productId);
+                            var productPriceElement = document.getElementById('product-price-' + productId);
+
+                            if (productNameElement && productPriceElement) {
+                                var productName = productNameElement.textContent;
+                                var productPrice = parseFloat(productPriceElement.value);
+                            } else {
+                                console.log('Không tìm thấy phần tử sản phẩm với ID ' + productId);
+                            }
+                            var quantity = currentQuantity; // Số lượng sản phẩm bạn muốn thêm
+
+                            $.ajax({
+                                type: 'POST',
+                                url: '/add-to-cart/' + productId, // Đường dẫn đến API route bạn đã tạo
+                                data: {
+                                    _token: csrfToken,
+                                    product_id: productId,
+                                    product_name: productName,
+                                    quantity: quantity,
+                                    price: productPrice,
+                                },
+                                success: function(response) {
+                                    // alert();
+                                    updateCartContentsHtml(response.cart);
+
+                                    Command: toastr["success"]("Đã thêm sản phẩm vào giỏ hàng")
+
+                                    toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": false,
+                                        "progressBar": false,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    }
+                                }
+                            });
+                            console.log('Đã thêm sản phẩm có ID ' + productId + ' vào giỏ hàng.');
+
+                        }
+
+
+                        function remove_product(id) {
+                            if (confirm("Are you sure want to remove? " + id)) {
+                                $.ajax({
+                                    url: '/remove-from-cart',
+                                    method: "DELETE",
+                                    data: {
+                                        _token: csrfToken,
+                                        id: id
+                                    },
+                                    success: function(response) {
+                                        updateCartContentsHtml(response.cart)
+                                    }
+                                });
+                            }
+                        };
+                    </script>
+                    <script>
+                        function submitOrder(id) {
+                            updateCart()
+                            Command: toastr["warning"]("Đang gửi yêu cầu đặt món")
+
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": false,
+                                "progressBar": false,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            var formData = new FormData(document.getElementById('orderForm'));
+                            $.ajax({
+                                type: 'POST',
+                                url: '/order', // Đặt đường dẫn đúng
+                                data: formData,
+                                contentType: false,
+                                processData: false,
+                                success: function(response) {
+                                    Command: toastr["success"]("Đặt món thành công")
+
+                                    toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": false,
+                                        "progressBar": false,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    }
+                                    pusher_order(id);
+                                    updateCart();
+                                },
+                                error: function(error) {
+                                    console.log('Error submitting order:', error);
+                                }
+                            });
+                        }
+
+                        function updateCart() {
+                            $.ajax({
+                                type: 'GET',
+                                url: '/get-cart',
+                                success: function(response) {
+                                    updateCartContentsHtml(response.cart, response.total);
+                                },
+                                error: function(error) {
+                                    console.log('Error updating cart:', error);
+                                }
+                            });
+                        }
+
+                        function updateCartContentsHtml(cart) {
+                            var total = 0;
+                            var cartContentsHtml = '';
+
+                            function formatNumberWithCommas(number) {
+                                var formattedNumber = number.toLocaleString();
+
+                                return formattedNumber.replace(/\./g, ',');
+                            }
+                            if (cart) {
+                                for (var id in cart) {
+                                    if (cart.hasOwnProperty(id)) {
+                                        var details = cart[id];
+                                        total += details['price'] * details['quantity'];
+                                        var price_id = formatNumberWithCommas(details['price']);
+
+                                        cartContentsHtml += '<tr>' +
+                                            '<td style="width:60%" class="cart-item">' + details['name'] + '<br>' +
+                                            '<span class="text-menu-description text-muted"></span></td>' +
+                                            '<td><input onblur="updateQuantity(' + id + ')" id="cartquantity-' + id + '" ' +
+                                            'class="quantity-input" value="' + details['quantity'] + '"></td>' +
+                                            '<td style="width:28%;" class="cart-item">$' + price_id + '</td>' +
+                                            '<td><a onclick="remove_product(' + id + ')" class="float-right">' +
+                                            '<i class="fa fa-times text-qrRestremove-from-cart"></i></a></td>' +
+                                            '</tr>';
+                                    }
+                                }
+                            }
+
+                            var formattedTotal = formatNumberWithCommas(total);
+
+                            cartContentsHtml += ' <input type="hidden" value="' + total + '" name="total_price"><tr class="spacer">' +
+                                '<td class="cart-item"><h5>TOTAL</h5></td>' +
+                                '<td></td>' +
+                                '<td class="cart-item"><strong>$ ' + formattedTotal + '</strong></td>' +
+                                '<td></td>' +
+                                '</tr>';
+
+                            $('#cartContentsHtml').html(cartContentsHtml);
+                        }
                         var csrfToken = @json(csrf_token());
 
                         function addToCart(productId, action) {
@@ -368,6 +603,27 @@
                             });
                         }
 
+                        function pusher_order(id) {
+                            var contentsData = "Bàn " + id + " có đơn order mới !";
+
+                            var postData = {
+                                contents: contentsData
+                            };
+
+                            $.ajax({
+                                url: '/pusher',
+                                type: 'GET',
+                                data: postData,
+                                success: function(response) {
+                                    console.log("Đã gửi yêu cầu pusher");
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error(error);
+                                }
+                            });
+
+                        }
+
                         function callPayment(id) {
                             var contentsData = "Bàn " + id + " gọi thanh toán";
 
@@ -468,56 +724,6 @@
                             })
                         }
                     </script>
-                    <div class="modal inmodal" id="modal-dialog" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content animated fadeIn">
-                                <div class="modal-header">
-                                    <h4 id="txtMenuName" class="modal-title mx-auto"></h4>
-                                </div>
-                                <div class="ibox no-margins" id="boxBA">
-                                    <div class="first ibox-content" style="border-top:none;padding:0">
-                                        <div class="sk-spinner sk-spinner-wave">
-                                            <div class="sk-rect1"></div>
-                                            <div class="sk-rect2"></div>
-                                            <div class="sk-rect3"></div>
-                                            <div class="sk-rect4"></div>
-                                            <div class="sk-rect5"></div>
-                                        </div>
-
-                                        <div class="content">
-                                            <div class="numbers-row">
-                                                <input type="text" value="1" id="qty_1"
-                                                    class="qty2 form-control" name="quantity">
-                                            </div>
-                                            <span id="txtFeatureValidation" class="text-danger"></span>
-                                            <div id="menuFeatureList">
-                                            </div>
-
-                                        </div>
-                                        <div class="footer" style="position:inherit">
-                                            <div class="row small-gutters">
-                                                <div class="col-4">
-                                                    <button onclick="cancelModal()"
-                                                        class="btn btn-sm btn-outline btn-default btn-block">
-                                                        Cancel
-                                                        <i class="fa fa-times mt-1"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="col-8">
-                                                    <button onclick="addTocart(0, false)"
-                                                        class="btn btn-sm btn-outline btn-primary btn-block">
-                                                        add
-                                                        <i class="fa fa-long-arrow-right mt-1"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <!-- /Row -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
