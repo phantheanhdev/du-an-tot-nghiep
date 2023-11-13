@@ -25,12 +25,13 @@
         </div>
 
         <div class="">
-            <form action="{{ route('login.user')}}" class="text-center" method="POST">
+            <form action="{{ route('login.user') }}" class="text-center" method="POST">
                 @csrf
-                <input type="text" name="tableNo" value="{{$table}}"  hidden>
+                <input type="text" name="tableId" value="{{ $table_id }}" hidden>
+                <input type="text" name="tableNo" value="{{ $table_no }}" hidden>
                 <div class="mb-3">
-                    <input type="text" name="customer_name" class="form-control p-3 bg-body-secondary text-center" required
-                        placeholder="Tên của bạn">
+                    <input type="text" name="customer_name" class="form-control p-3 bg-body-secondary text-center"
+                        required placeholder="Tên của bạn">
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn text-white w-100 p-2"

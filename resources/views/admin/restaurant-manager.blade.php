@@ -31,13 +31,15 @@
                 <div class="col-md-12">
                     <div class="row">
                         @foreach ($tables as $table)
-                            <a href="{{ route('order-of-table', $table->id) }}" class="text-white">
-                                <div id="table-2" class="widget black-bg p-lg text-center">
+                            <a href="{{ $table->orders->count() > 0 ? route('order-of-table', $table->id) : '#' }}" class="text-white">
+                                <div id="table-{{$table->id}}" class="widget black-bg p-lg text-center " style="height: 160px;">
 
                                     <div class="m-b-md">
                                         <i id="table-icon-2" class="fa fa-minus fa-4x"></i>
                                         <br />
-                                        <small id="table-notification-2">Bàn trống</small>
+                                        @if ($table->orders->count() == 0)
+                    <small id="table-notification-{{$table->id}}">Bàn trống</small>
+                @endif
 
                                         <h3 class="font-bold no-margins">
                                             Bàn số: {{ $table->name }}
@@ -55,7 +57,7 @@
 
     <script src="//js.pusher.com/3.1/pusher.min.js"></script>
     <script type="text/javascript">
-        var pusher = new Pusher('3f445aa654bdfac71f01', {
+        var pusher = new Pusher('7a82fa91bf9d2cfd63e8', {
             encrypted: true,
             cluster: "ap1"
         });
@@ -63,7 +65,8 @@
         var channel = pusher.subscribe('development');
 
         channel.bind('App\\Events\\HelloPusherEvent', function(data) {
-
+            $('#table-' + data.id).addClass('red-bg');
+            console.log(data)
             Command: toastr["warning"](data.message)
 
             toastr.options = {
@@ -83,18 +86,20 @@
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
+        
             var audio = new Audio('{{ asset('Doorbell.mp3') }}');
             audio.play();
         });
     </script>
     <script type="text/javascript">
-        var pusher = new Pusher('3f445aa654bdfac71f01', {
+        var pusher = new Pusher('7a82fa91bf9d2cfd63e8', {
             encrypted: true,
             cluster: "ap1"
         });
         var channel = pusher.subscribe('channel-name');
 
         channel.bind('App\\Events\\OrderCreated', function(data) {
+            $('#table-2').addClass('yellow-bg');
             Command: toastr["warning"]("Bạn có đơn order mới")
 
             toastr.options = {
@@ -114,6 +119,7 @@
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
+
             var audio = new Audio('{{ asset('Doorbell.mp3') }}');
             audio.play();
         });

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Table;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Symfony\Component\VarDumper\VarDumper;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -33,40 +36,52 @@ class TableController extends Controller
      */
     public function store(Request $request)
     {
-        //validate
+        // Validate
         $validate = $request->validate([
             'name' => 'required',
             'type' => 'required|integer',
         ]);
 
-        // lấy dữ liệu từ form
+        // Lấy dữ liệu từ form
         $name = $request->input('name');
         $type = $request->input('type');
 
-        //lấy id lớn nhất và tạo mới 1 id để gán vào link
+        // Kiểm tra xem giá trị $name đã tồn tại trong cột 'name' của bảng 'table' hay chưa
+        $nameExists = Table::where('name', $name)->exists();
+
+        if ($nameExists) {
+            // Nếu $name đã tồn tại, redirect với thông báo lỗi
+            $notification = [
+                'message' => 'Table name already exists. Please choose another name',
+                'alert-type' => 'error',
+            ];
+            return redirect()->route('table.create')->withInput()->with($notification);
+        }
+
+        // Lấy id lớn nhất và tạo mới 1 id để gán vào link
         $id = Table::max('id');
         $new_id = $id + 1;
 
         $data = [
             'name' => $name,
             'type' => $type,
-            'qr' => 'https://api.qrserver.com/v1/create-qr-code/?data=http://127.0.0.1:8000?tableId=' . $new_id . '?tableNo=' . $name . '&amp;size=200x200'
+            'qr' => 'https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://127.0.0.1:8000/foodie?tableId=' . $new_id . '%26tableNo=' . $name,
         ];
 
         try {
             Table::create($data);
 
-            $notification = array(
-                "message" => "Thêm bàn thành công",
-                "alert-type" => "success",
-            );
+            $notification = [
+                'message' => 'Added table successfully',
+                'alert-type' => 'success',
+            ];
 
             return redirect()->route('table.index')->with($notification);
         } catch (\Throwable $th) {
-            $notification = array(
-                "message" => "Thêm bàn không thành công",
-                "alert-type" => "failse",
-            );
+            $notification = [
+                'message' => 'Adding table failed',
+                'alert-type' => 'failse',
+            ];
 
             return redirect()->route('table.create')->with($notification);
         }
@@ -99,30 +114,44 @@ class TableController extends Controller
             'type' => 'required|integer',
         ]);
 
-        // lấy dữ liệu từ form
+        // Lấy dữ liệu từ form
         $name = $request->input('name');
         $type = $request->input('type');
+
+        // Kiểm tra xem giá trị $name đã tồn tại trong cột 'name' của bảng 'table' (ngoại trừ bản ghi đang được cập nhật) hay chưa
+        $nameExists = Table::where('name', $name)
+            ->where('id', '<>', $table->id)
+            ->exists();
+
+        if ($nameExists) {
+            // Nếu $name đã tồn tại (ngoại trừ bản ghi đang được cập nhật), redirect với thông báo lỗi
+            $notification = [
+                'message' => 'Table name already exists. Please choose another name',
+                'alert-type' => 'error',
+            ];
+            return redirect()->route('table.edit', $table->id)->withInput()->with($notification);
+        }
 
         $data = [
             'name' => $name,
             'type' => $type,
-            'qr' => 'https://api.qrserver.com/v1/create-qr-code/?data=http://127.0.0.1:8000?tableId=' . $table->id . '?tableNo=' . $name . '&amp;size=200x200'
+            'qr' => 'https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://127.0.0.1:8000/foodie?tableId=' . $table->id . '%26tableNo=' . $name
         ];
 
         try {
             $table->update($data);
 
-            $notification = array(
-                "message" => "Sửa thông tin bàn thành công",
-                "alert-type" => "success",
-            );
+            $notification = [
+                'message' => 'Edited table information successfully',
+                'alert-type' => 'success',
+            ];
 
             return redirect()->route('table.index')->with($notification);
         } catch (\Throwable $th) {
-            $notification = array(
-                "message" => "Sửa thông tin bàn không thành công",
-                "alert-type" => "failse",
-            );
+            $notification = [
+                'message' => 'Editing table information failed',
+                'alert-type' => 'failse',
+            ];
 
             return redirect()->route('table.index')->with($notification);
         }
@@ -137,14 +166,14 @@ class TableController extends Controller
             $table->delete();
 
             $notification = array(
-                "message" => "Xóa bàn thành công",
+                "message" => "Table cleared successfully",
                 "alert-type" => "success",
             );
 
             return redirect()->route('table.index')->with($notification);
         } catch (\Throwable $th) {
             $notification = array(
-                "message" => "Xóa bàn không thành công",
+                "message" => "Table deletion failed",
                 "alert-type" => "failse",
             );
 
@@ -155,7 +184,7 @@ class TableController extends Controller
     // trang đầu tiên khi chuyển hướng về admin
     public function restaurant_manager()
     {
-        $tables = Table::all();
+        $tables = Table::with('orders')->get();
         return view('admin.restaurant-manager', ['tables' => $tables]);
     }
 
@@ -164,6 +193,33 @@ class TableController extends Controller
     {
         $table = Table::findOrFail($id);
 
-        return view('admin.order-of-table', ['table' => $table]);
+        $orders = Order::where('table_id', $id)
+            ->whereIn('status', ['Đã Xác Nhận', 'Xác Nhận'])
+            ->get();
+        foreach ($orders as $order) {
+            $order->orderDetails = OrderDetail::where('order_id', $order->id)->get();
+
+            foreach ($order->orderDetails as $orderDetail) {
+                $orderDetail->product = Product::find($orderDetail->product_id);
+            }
+        }
+
+        return view('admin.order-of-table', ['table' => $table, 'orders' => $orders]);
+    }
+    public function updateStatus(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+
+        $newStatus = $request->input('status');
+
+        // Kiểm tra xem trạng thái mới hợp lệ hay không
+        if (!in_array($newStatus, ['Xác nhận', 'Đã Xác Nhận', 'Hủy'])) {
+            return redirect()->back()->with('error', 'Invalid status.');
+        }
+
+        $order->status = $newStatus;
+        $order->save();
+
+        return redirect()->back()->with('success', 'Status updated successfully.');
     }
 }

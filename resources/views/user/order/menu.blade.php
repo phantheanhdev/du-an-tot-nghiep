@@ -13,7 +13,6 @@
                     </button>
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav mx-auto">
-
                         </ul>
 
                         <ul class="nav navbar-top-links">
@@ -68,7 +67,6 @@
                                         <input type="hidden" name="customer_name" value="{{ $customer_name }}">
                                         <input type="hidden" name="customer_phone" value="0">
 
-
                                         <table class="table table-borderless">
                                             <tbody id="cartContentsHtml">
 
@@ -79,7 +77,7 @@
                                                         @php $total += $details['price'] * $details['quantity'] @endphp
 
                                                         {{-- save value with input hidden --}}
-                                                        <input type="hidden" value="{{ $total }}"
+                                                        <input type="hidden" value="{{ getMainCartTotal() }}"
                                                             name="total_price">
 
                                                         <tr>
@@ -103,13 +101,37 @@
                                                 @endif
                                                 <tr class="spacer">
                                                     <td class="cart-item">
-                                                        <h5>TOTAL</h5>
+                                                        <h5>Subtotal:</h5>
                                                     </td>
                                                     <td></td>
-                                                    <td class="cart-item"> <strong>$ {{ number_format($total) }}</strong>
+                                                    <td class="cart-item"> <strong id="">
+                                                            $ {{ number_format($total) }}</strong>
                                                     </td>
                                                     <td></td>
                                                 </tr>
+                                                @if (session('cart'))
+                                                    <tr class="spacer">
+                                                        <td class="cart-item">
+                                                            <h5>Discount:</h5>
+                                                        </td>
+                                                        <td></td>
+                                                        <td class="cart-item"> <strong id="discount">
+                                                                $ {{ number_format(getCartDiscount()) }}</strong>
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr class="spacer">
+                                                        <td class="cart-item">
+                                                            <h5>Total:</h5>
+                                                        </td>
+                                                        <td></td>
+                                                        <td class="cart-item"> <strong id="cart_total">$
+                                                                {{ number_format(getMainCartTotal()) }}</strong>
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                @endif
+
                                             </tbody>
                                         </table>
                                         <hr>
@@ -117,9 +139,19 @@
                                             <textarea class="form-control" name="note" maxlength="70" rows="2"
                                                 placeholder="Indicate if you have a note for the order"></textarea>
                                         </div>
+
+                                        {{-- Áp dụng mã giảm giá --}}
+                                        <div id="coupon_form">
+                                            <input type="text" placeholder="Coupon code" name="coupon_code"
+                                                value="{{ session()->has('coupon') ? session()->get('coupon')['coupon_code'] : '' }}"
+                                                id="coupon_code" class="form-control">
+                                            <button class="btn btn-danger mt-2" id="apply_coupon">Apply</button>
+
+                                            <button class="btn btn-danger mt-2" id="cancel_coupon">Cancel</button>
+                                        </div>
+                                        {{-- ------------------ --}}
                                         <button type="button" id="placeOrder" onclick="submitOrder(<?= $tableId ?>)"
-                                            class="btn btn-primary btn-outline btn-block mt-4 btn-sm"> Place the
-                                            Order</button>
+
                                     </form>
                                 </div>
                             </div>
@@ -135,6 +167,7 @@
                                         class="btn btn-primary btn-outline btn-block mt-4 btn-sm btn-block"><img
                                             src="{{ asset('request_payment.svg') }}" /> </br><span> Gọi thanh
                                             toán</span></button>
+
                                 </div>
                             </div>
 
@@ -154,7 +187,7 @@
                                             class="btn btn-primary btn-outline btn-flat btn-sm"><i
                                                 class="fa  fa-th-large mt-1"></i></button>
                                     </div>
-                                    <h3 class=" d-flex text-qrRest-dark font-weight-bold text-styling">Chào
+                                    <h3 class=" d-flex text-qrRest-dark font-weight-bold text-styling">Good
                                         <b class="mx-1">
                                             <?php
                                             
@@ -162,13 +195,13 @@
                                             $currentHour = date('G');
                                             
                                             if ($currentHour >= 5 && $currentHour < 12) {
-                                                $timeOfDay = 'buổi sáng';
+                                                $timeOfDay = 'morning';
                                             } elseif ($currentHour >= 12 && $currentHour < 17) {
-                                                $timeOfDay = 'buổi trưa';
+                                                $timeOfDay = 'afternoon';
                                             } elseif ($currentHour >= 17 && $currentHour < 20) {
-                                                $timeOfDay = 'buổi chiều';
+                                                $timeOfDay = 'afternoon';
                                             } else {
-                                                $timeOfDay = 'buổi tối';
+                                                $timeOfDay = 'evening';
                                             }
                                             
                                             echo "$timeOfDay";
@@ -177,16 +210,12 @@
                                         <p><?= $customer_name ?></p>
                                     </h3>
                                     <span>
-                                        Bạn đang ngồi bàn <b>
+                                        You are sitting at table:  <b>
                                             <?= $tableNo ?>
                                         </b>
                                     </span>
                                 </div>
                             </div>
-
-
-
-
                             {{-- <div id="isList">
                                 @foreach ($productsByCategory as $categoryName => $products)
                                     <div class="ibox float-e-margins">
@@ -206,7 +235,7 @@
                                                                     <input class="menu-quantity-input ml-3"
                                                                         id="txtQuantity-{{ $product->id }}"
                                                                         value="0" />
-                                                                    <div onclick=""
+                                                                    <div onclick="addToCart({{ $product->id }}, true)"
                                                                         class="menu-button ml-1">
                                                                         <i class="fa fa-plus" style="margin-top:5px"></i>
                                                                     </div>
@@ -285,6 +314,7 @@
                         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
                         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
                     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
                     <script>
                         var csrfToken = @json(csrf_token());
 
@@ -470,12 +500,76 @@
 
                             $('#cartContentsHtml').html(cartContentsHtml);
                         }
+                        var csrfToken = @json(csrf_token());
+
+                        function addToCart(productId, action) {
+                            var inputElement = document.getElementById('txtQuantity-' + productId);
+                            var currentQuantity = parseInt(inputElement.value);
+
+                            if (action) {
+                                currentQuantity++;
+                            } else {
+                                currentQuantity--;
+                            }
+
+                            if (currentQuantity < 0) {
+                                currentQuantity = 0;
+                            }
+
+                            inputElement.value = currentQuantity;
+
+                            var productNameElement = document.getElementById('product-name-' + productId);
+                            var productPriceElement = document.getElementById('product-price-' + productId);
+
+                            if (productNameElement && productPriceElement) {
+                                var productName = productNameElement.textContent;
+                                var productPrice = parseFloat(productPriceElement.textContent);
+                            } else {
+                                console.log('Không tìm thấy phần tử sản phẩm với ID ' + productId);
+                            }
+                            var quantity = currentQuantity; // Số lượng sản phẩm bạn muốn thêm
+
+                            $.ajax({
+                                type: 'POST',
+                                url: '/add-to-cart/' + productId, // Đường dẫn đến API route bạn đã tạo
+                                data: {
+                                    _token: csrfToken,
+                                    product_id: productId,
+                                    product_name: productName,
+                                    quantity: quantity,
+                                    price: productPrice,
+                                },
+                                success: function(response) {
+                                    // alert(response.message);
+                                    window.location.reload();
+                                }
+                            });
+                            console.log('Đã thêm sản phẩm có ID ' + productId + ' vào giỏ hàng.');
+
+                        }
+
+                        function remove_product(id) {
+                            if (confirm("Are you sure want to remove? " + id)) {
+                                $.ajax({
+                                    url: '/remove-from-cart',
+                                    method: "DELETE",
+                                    data: {
+                                        _token: csrfToken,
+                                        id: id
+                                    },
+                                    success: function(response) {
+                                        window.location.reload();
+                                    }
+                                });
+                            }
+                        };
 
                         function callTheWaiter(id) {
                             var contentsData = "Bàn " + id + " gọi nhân viên";
 
                             var postData = {
-                                contents: contentsData
+                                contents: contentsData,
+                                id: id
                             };
 
                             $.ajax({
@@ -507,7 +601,6 @@
                                     console.error(error);
                                 }
                             });
-
                         }
 
                         function pusher_order(id) {
@@ -535,7 +628,8 @@
                             var contentsData = "Bàn " + id + " gọi thanh toán";
 
                             var postData = {
-                                contents: contentsData
+                                contents: contentsData,
+                                id: id
                             };
 
                             $.ajax({
@@ -568,10 +662,68 @@
                                     console.error(error);
                                 }
                             });
-
                         }
                     </script>
 
+                    <script>
+                        $('#apply_coupon').on('click', function(e) {
+                            e.preventDefault();
+                            let coupon_code = $("#coupon_code").val();
+                            $.ajax({
+                                method: 'GET',
+                                url: "{{ route('apply-coupon') }}",
+                                data: {
+                                    coupon_code: coupon_code
+                                },
+                                success: function(data) {
+                                    if (data.status === 'error') {
+                                        toastr.error(data.message);
+                                    } else if (data.status === 'success') {
+                                        calculateCouponDescount()
+                                        toastr.success(data.message)
+                                    }
+                                },
+                                error: function(data) {
+                                    console.log(data);
+                                }
+                            })
+                        })
+
+                        $("#cancel_coupon").on('click', function(e) {
+                            e.preventDefault();
+                            $.ajax({
+                                method: "GET",
+                                url: "{{ route('cencel-coupon') }}",
+                                success: function(data) {
+                                    if (data.status === 'success') {
+                                        $('#discount').text('$' + ' ' + data.discount);
+                                        $('#cart_total').text('$' + ' ' + data.cart_total);
+                                        $('#coupon_code').val("")
+                                    }
+                                },
+                                error: function(data) {
+                                    console.log(data);
+                                }
+                            })
+                        })
+
+                        function calculateCouponDescount() {
+                            $.ajax({
+                                method: "GET",
+                                url: "{{ route('coupon-calculation') }}",
+                                success: function(data) {
+                                    if (data.status === 'success') {
+                                        $('#discount').text('$' + ' ' + data.discount);
+                                        $('#cart_total').text('$' + ' ' + data.cart_total);
+
+                                    }
+                                },
+                                error: function(data) {
+                                    console.log(data);
+                                }
+                            })
+                        }
+                    </script>
                 </div>
             </div>
         </div>

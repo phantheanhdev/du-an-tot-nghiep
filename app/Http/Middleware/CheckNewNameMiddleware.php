@@ -16,9 +16,10 @@ class CheckNewNameMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (!$request->hasCookie('customer_name')) {
-            $table = $_GET['tableNo'];
-            return redirect()->route('form_infor_user','tableNo='.$table)->with('error', 'Vui lòng nhập tên mới để mua hàng.');
-        } 
+            $tableId = $_GET['tableId'];
+            $tableNo = $_GET['tableNo'];
+            return redirect()->route('form_infor_user', 'tableId=' . $tableId . '&tableNo=' . $tableNo)->with('error', 'Please enter a name to view the menu');
+        }
         return $next($request);
     }
 }
