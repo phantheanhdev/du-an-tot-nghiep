@@ -63,7 +63,7 @@
                                     <form id="orderForm" enctype="multipart/form-data">
                                         @csrf
 
-                                        <input type="hidden" name="table_id" value="{{ $table_name }}">
+                                        <input type="hidden" name="table_id" value="{{ $tableId }}">
                                         <input type="hidden" name="status" value="0">
                                         <input type="hidden" name="customer_name" value="{{ $customer_name }}">
                                         <input type="hidden" name="customer_phone" value="0">
@@ -117,7 +117,7 @@
                                             <textarea class="form-control" name="note" maxlength="70" rows="2"
                                                 placeholder="Indicate if you have a note for the order"></textarea>
                                         </div>
-                                        <button type="button" id="placeOrder" onclick="submitOrder(<?= $table_name ?>)"
+                                        <button type="button" id="placeOrder" onclick="submitOrder(<?= $tableId ?>)"
                                             class="btn btn-primary btn-outline btn-block mt-4 btn-sm"> Place the
                                             Order</button>
                                     </form>
@@ -125,13 +125,13 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col-6" style="padding-right:7px">
-                                    <button onclick="callTheWaiter(<?= $table_name ?>)"
+                                    <button onclick="callTheWaiter(<?= $tableId ?>)"
                                         class="btn btn-primary btn-outline btn-block mt-4 btn-sm btn-block"><img
                                             src="{{ asset('request_service.svg') }}" /> </br><span> Gọi nhân
                                             viên</span></button>
                                 </div>
                                 <div class="col-6" style="padding-left:7px">
-                                    <button onclick="callPayment(<?= $table_name ?>)"
+                                    <button onclick="callPayment(<?= $tableId ?>)"
                                         class="btn btn-primary btn-outline btn-block mt-4 btn-sm btn-block"><img
                                             src="{{ asset('request_payment.svg') }}" /> </br><span> Gọi thanh
                                             toán</span></button>
@@ -178,7 +178,7 @@
                                     </h3>
                                     <span>
                                         Bạn đang ngồi bàn <b>
-                                            <?= $table_name ?>
+                                            <?= $tableNo ?>
                                         </b>
                                     </span>
                                 </div>

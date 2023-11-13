@@ -12,20 +12,14 @@ use Illuminate\Support\Facades\Cookie;
 
 class MenuController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    // public function __construct( Request $request)
-    // {
-    //     if($request->hasCookie('customer_name')){
-    //             $table = $_GET['tableNo'];
-    //             return redirect()->route('order.menu','tableNo='.$table);
-    //         }
-    // }
+
+
+
     public function index(Request $request)
     {
-        $table_name = $_GET['tableNo'];
-        $table_id = $_GET['tableId'];
+
+        $tableId = $_GET['tableId'];
+        $tableNo = $_GET['tableNo'];
         $categories = Category::all();
         $productsByCategory = [];
         $cookie_name = $request->input('customer_name');
@@ -35,9 +29,11 @@ class MenuController extends Controller
             $productsByCategory[$category->category_name] = $products;
         }
         $customer_name = Cookie::get('customer_name');
-        // dd($productsByCategory);
+
         return view("user.order.menu", [
-            'table_name' => $table_name,
+            'tableId' => $tableId,
+            'tableNo' => $tableNo,
+
             'productsByCategory' => $productsByCategory,
             'customer_name' => $customer_name
         ]);
