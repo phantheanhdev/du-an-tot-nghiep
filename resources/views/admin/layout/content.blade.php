@@ -22,16 +22,24 @@
     <style>
         #table-2 {
             /* Màu nền mặc định */
-            background-color: #080807; /* Thay thế bằng màu mặc định của bạn */
-            color: #fafaf7; /* Thay thế bằng màu văn bản mặc định của bạn */
+            background-color: #080807;
+            /* Thay thế bằng màu mặc định của bạn */
+            color: #fafaf7;
+            /* Thay thế bằng màu văn bản mặc định của bạn */
         }
+
         .red-bg {
-            background-color: #ff0000 !important; /* Màu nền đỏ */
+            background-color: #ff0000 !important;
+            /* Màu nền đỏ */
         }
+
         .yellow-bg {
-            background-color: #FFFF00 !important; /* Màu nền vàng */
-            color: #000 !important; /* Màu văn bản tương ứng */
+            background-color: #FFFF00 !important;
+            /* Màu nền vàng */
+            color: #000 !important;
+            /* Màu văn bản tương ứng */
         }
+
         th {
             text-align: center;
             vertical-align: middle !important;
@@ -154,8 +162,8 @@
                     </div>
                 </div>
             </nav>
-            <div class="wrapper wrapper-content">
-                <div class="container" style="height: 100%;">
+            <div class="wrapper wrapper-content mx-4">
+                <div {{-- class="container" --}} style="height: 100%;">
 
                     <div class="row">
                         <div class="col-lg-3">
@@ -247,7 +255,7 @@
                                         window.location.href = 'dashboard';
                                         return;
                                     case 'restaurant-manager':
-                                        window.location.href = 'restaurant-manager';
+                                        window.location.href = '/restaurant-manager';
                                         return;
                                     case 'orderAlternative':
                                         window.location.href = '/list-order';

@@ -44,11 +44,14 @@ Route::middleware(['auth'])->group(function () {
 
     // table
     Route::resource('table', TableController::class);
+    
     //products
     Route::get('product', [ProductController::class, 'index'])->name('product.index');
     Route::match(['GET', 'POST'], '/add', [App\Http\Controllers\ProductController::class, 'add'])->name('create');
     Route::match(['get', 'post'], '/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
     Route::get('delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
+
+    // /
     Route::get('/', [TableController::class, 'restaurant_manager'])->name('restaurant_manager');
 
     //staff
@@ -80,7 +83,6 @@ Route::middleware(['auth'])->group(function () {
     // bill
     Route::resource('bill', BillController::class);
 });
-
 
 
 // ======================================================= user ===============================================================
@@ -126,5 +128,3 @@ Route::get('/test', function () {
 Route::get('getPusher', function () {
     return view('form_pusher');
 });
-
-//

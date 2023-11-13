@@ -17,18 +17,20 @@
                         @method('PUT')
                         @csrf
 
-                        <div class="mb-3">
+                        <div class="row">
+                        <div class="mb-3 col-12 col-sm-6">
                             <label class="form-label">Number of tables</label>
                             <input type="number" class="form-control" placeholder="1" name="name" id="create_table_name"
                                 required value="{{ $table->name }}">
                             <div class="form-text" id="create_table_er_name" style="color: red"></div>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 col-12 col-sm-6">
                             <label class="form-label">Table type(person/table)</label>
                             <input type="number" min="1" max="50" class="form-control" placeholder="4"
                                 name="type" id="create_table_type" required value="{{ $table->type }}">
                             <div class="form-text" id="create_table_er_type" style="color: red"></div>
                         </div>
+                    </div>
                         <button type="submit" class="btn btn-primary" id="btn_create_table">Submit</button>
                     </form>
                 </div>

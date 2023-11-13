@@ -33,7 +33,6 @@ class   ProductRequest extends FormRequest
                         $rules = [
                             'name' => 'required|unique:products|max:255',
                             'price' => 'required|min:0',
-                            'item' => 'nullable|string',
                             'image' => ['required', 'image'],
                             'description' => 'required|string',
                             'category_id' => 'required|integer',
@@ -49,7 +48,6 @@ class   ProductRequest extends FormRequest
                                     'max:255',
                                 ],
                                 'price' => 'required|min:0',
-                                'item' => 'nullable|string',
                                 'image' => 'image',
                                 'description' => 'required|string',
                                 'category_id' => 'required|integer',
