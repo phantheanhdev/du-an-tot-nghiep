@@ -49,31 +49,33 @@ class CartController extends Controller
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
             }
-            session()->flash('success', 'Product removed successfully');
+            return response()->json(['cart' => $cart]);
         }
     }
 
-    public function addToCart($id)
+    public function addToCart($id, Request $request)
     {
         $product = Product::findOrFail($id);
 
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
-            $cart[$id]['quantity']++;
+            $cart[$id]['quantity'] += $request->input('quantity', 1);
         } else {
             $cart[$id] = [
                 "id" => $product->id,
                 "name" => $product->name,
-                "quantity" => 1,
+                "quantity" => $request->input('quantity', 1),
                 "price" => $product->price,
-                // "image" => $product->image
             ];
         }
 
         session()->put('cart', $cart);
-        return redirect()->back()->with('success', 'Product added to cart successfully!');
+
+        // Trả về thông tin giỏ hàng dưới dạng JSON
+        return response()->json(['cart' => $cart]);
     }
+
 
     public function order(OrderRequest $request)
     {
@@ -100,12 +102,15 @@ class CartController extends Controller
 
         //id , name , quantity , price
 
-
         session()->forget('cart');
 
         return redirect()->back()->with('success', 'Đặt món thành công');
     }
-
+    public function getCart(Request $request)
+    {
+        $cart = session()->get('cart', []);
+        return response()->json(['cart' => $cart]);
+    }
     /**
      * Display the specified resource.
      */

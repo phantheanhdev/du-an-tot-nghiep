@@ -24,22 +24,23 @@ class MenuController extends Controller
     // }
     public function index(Request $request)
     {
-        $table = $_GET['tableNo'];
+        $table_name = $_GET['tableNo'];
+        $table_id = $_GET['tableId'];
         $categories = Category::all();
         $productsByCategory = [];
         $cookie_name = $request->input('customer_name');
 
-            foreach ($categories as $category) {
-                $products = Product::where('category_id', $category->id)->get();
-                $productsByCategory[$category->category_name] = $products;
-            }
-            $customer_name = Cookie::get('customer_name');
-            // dd($customer_name);
-            return view("user.order.menu", [
-                'table' => $table,
-                'productsByCategory' => $productsByCategory,
-                'customer_name' => $customer_name
-            ]);
+        foreach ($categories as $category) {
+            $products = Product::where('category_id', $category->id)->get();
+            $productsByCategory[$category->category_name] = $products;
+        }
+        $customer_name = Cookie::get('customer_name');
+        // dd($productsByCategory);
+        return view("user.order.menu", [
+            'table_name' => $table_name,
+            'productsByCategory' => $productsByCategory,
+            'customer_name' => $customer_name
+        ]);
     }
 
 

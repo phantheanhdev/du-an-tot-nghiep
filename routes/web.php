@@ -92,6 +92,7 @@ Route::group(['middleware' => 'custom'], function () {
 Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
 Route::delete('/remove-from-cart', [CartController::class, 'remove']);
 Route::post('order', [CartController::class, 'order'])->name('order');
+Route::get('/get-cart', [CartController::class, 'getCart'])->name('get.cart');
 
 // bill
 Route::resource('bill', BillController::class);
