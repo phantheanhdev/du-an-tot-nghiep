@@ -37,14 +37,16 @@ Route::middleware(['auth'])->group(function () {
     // Dashboard admin
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
+    //
     Route::get('restaurant-manager', [TableController::class, 'restaurant_manager'])->name('restaurant-manager');
+
     Route::get('order-of-table/{id}', [TableController::class, 'order_of_table'])->name('order-of-table');
     Route::patch('/admin/orders/{id}/update-status', [App\Http\Controllers\TableController::class, 'updateStatus'])->name('admin.orders.updateStatus');
     Route::get('qr-builder', [QrController::class, 'qr_builder'])->name('qr-builder');
 
     // table
     Route::resource('table', TableController::class);
-    
+
     //products
     Route::get('product', [ProductController::class, 'index'])->name('product.index');
     Route::match(['GET', 'POST'], '/add', [App\Http\Controllers\ProductController::class, 'add'])->name('create');
@@ -88,8 +90,8 @@ Route::middleware(['auth'])->group(function () {
 // ======================================================= user ===============================================================
 
 
-// http://127.0.0.1:8000/order/menu?tableNo=15
-//  bat dau quet , nhap ten http://127.0.0.1:8000/Foodie?tableNo=6
+//  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8 
+//  bat dau quet , nhap ten  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8 
 
 Route::group(['middleware' => 'custom'], function () {
     Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
@@ -108,7 +110,7 @@ Route::group(['middleware' => 'custom'], function () {
 });
 
 // form infor user
-// http://127.0.0.1:8000/foodie?tableNo=6
+//  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8 
 Route::get('/foodie', [HomeController::class, 'form_infor_user'])->name('form_infor_user');
 
 Route::post('/submit_form', [HomeController::class, 'loginUser'])->name('login.user');
