@@ -95,19 +95,18 @@ Route::middleware(['auth'])->group(function () {
 
 Route::group(['middleware' => 'custom'], function () {
     Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
+
+    // Action order food
+    Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
+    Route::delete('/remove-from-cart', [CartController::class, 'remove']);
+    Route::post('order', [CartController::class, 'order'])->name('order');
+    Route::get('/get-cart', [CartController::class, 'getCart'])->name('get.cart');
+
+    // Apply coupon
+    Route::get('apply-coupon', [CartController::class, 'applyCoupon'])->name('apply-coupon');
+    Route::get('coupon-calculation', [CartController::class, 'couponCalculation'])->name('coupon-calculation');
+    Route::get('cacel-coupon', [CartController::class, 'cencelCoupon'])->name('cencel-coupon');
 });
-Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
-Route::delete('/remove-from-cart', [CartController::class, 'remove']);
-Route::post('order', [CartController::class, 'order'])->name('order');
-Route::get('/get-cart', [CartController::class, 'getCart'])->name('get.cart');
-
-
-
-// Apply coupon
-Route::get('apply-coupon', [CartController::class, 'applyCoupon'])->name('apply-coupon');
-Route::get('coupon-calculation', [CartController::class, 'couponCalculation'])->name('coupon-calculation');
-Route::get('cacel-coupon', [CartController::class, 'cencelCoupon'])->name('cencel-coupon');
-// 
 
 // form infor user
 //  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8 
