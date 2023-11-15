@@ -194,7 +194,7 @@ class TableController extends Controller
         $table = Table::findOrFail($id);
 
         $orders = Order::where('table_id', $id)
-            ->whereIn('status', ['Đã Xác Nhận', 'Xác Nhận'])
+            ->whereIn('status', [0,1,3,4])
             ->get();
         foreach ($orders as $order) {
             $order->orderDetails = OrderDetail::where('order_id', $order->id)->get();
@@ -213,7 +213,7 @@ class TableController extends Controller
         $newStatus = $request->input('status');
 
         // Kiểm tra xem trạng thái mới hợp lệ hay không
-        if (!in_array($newStatus, ['Xác nhận', 'Đã Xác Nhận', 'Hủy'])) {
+        if (!in_array($newStatus, [0,1,2,3,4])) {
             return redirect()->back()->with('error', 'Invalid status.');
         }
 

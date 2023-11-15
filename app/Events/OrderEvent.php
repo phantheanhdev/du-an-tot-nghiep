@@ -16,6 +16,7 @@ class OrderEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $data;
+    public $id;
 
     /**
      * Create a new event instance.
@@ -23,6 +24,8 @@ class OrderEvent
     public function __construct(Request $request)
     {
         $this->data = $request->all();
+        $this->id = $request->id;
+
     }
 
     /**

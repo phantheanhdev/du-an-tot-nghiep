@@ -27,11 +27,21 @@
             color: #fafaf7;
             /* Thay thế bằng màu văn bản mặc định của bạn */
         }
+        .black-bg {
+            /* Màu nền mặc định */
+            background-color: #080807;
+            /* Thay thế bằng màu mặc định của bạn */
+            color: #fafaf7;
+            /* Thay thế bằng màu văn bản mặc định của bạn */
+        }
 
         .red-bg {
             background-color: #ff0000 !important;
             /* Màu nền đỏ */
         }
+        .green-bg {
+        background-color: #2EFE64; /* Hoặc màu sắc xanh lá cây khác tùy thuộc vào yêu cầu của bạn */
+    }
 
         .yellow-bg {
             background-color: #FFFF00 !important;
