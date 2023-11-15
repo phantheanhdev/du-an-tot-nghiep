@@ -254,7 +254,7 @@
                                                             <div class="product-desc">
                                                                 @if ($product->flashSale === 1)
                                                                     @php
-                                                                        $saleProduct = \App\Models\FlashSaleItem::where('product_id', $product->id)->where('status' , 1)->first();
+                                                                        $saleProduct = \App\Models\FlashSaleItem::where('product_id', $product->id)->first();
 
                                                                         $start_date = $saleProduct->start_date;
 
@@ -528,7 +528,7 @@
 
                             var postData = {
                                 contents: contentsData,
-                                id:id,
+                                id: id,
                                 callWaiter: true
                             };
 
@@ -590,7 +590,7 @@
 
                             var postData = {
                                 contents: contentsData,
-                                id:id
+                                id: id
                             };
 
                             $.ajax({
