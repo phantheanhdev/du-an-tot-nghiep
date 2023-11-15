@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ADMIN-FOODIE</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="shortcut icon" type="image/png" href="{{ asset('/admin/images/favicon.png') }}" />
     <link rel="stylesheet" href="{{ asset('/admin/lib/bootstrap/dist/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('/admin/lib/font-awesome/css/font-awesome.min.css') }}" />
@@ -13,7 +14,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/admin/css/site.css') }}" />
-
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     {{-- awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
@@ -26,6 +28,7 @@
             color: #fafaf7;
             /* Thay thế bằng màu văn bản mặc định của bạn */
         }
+
         .black-bg {
             /* Màu nền mặc định */
             background-color: #080807;
@@ -38,9 +41,11 @@
             background-color: #ff0000 !important;
             /* Màu nền đỏ */
         }
+
         .green-bg {
-        background-color: #2EFE64; /* Hoặc màu sắc xanh lá cây khác tùy thuộc vào yêu cầu của bạn */
-    }
+            background-color: #2EFE64;
+            /* Hoặc màu sắc xanh lá cây khác tùy thuộc vào yêu cầu của bạn */
+        }
 
         .yellow-bg {
             background-color: #FFFF00 !important;
@@ -253,6 +258,17 @@
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa-solid fa-table-columns float-left mt-1"></i>
                                         DASHBOARD</button>
+                                    {{-- Coupon admin --}}
+                                    <button id="btnOrder" onclick="getLink('coupons')"
+                                        class="btn btn-outline btn-primary btn-block">
+                                        <i class="fa-solid fa-table-columns float-left mt-1"></i>
+                                        COUPON</button>
+                                    {{-- Flash Sale admin --}}
+                                    <button id="btnOrder" onclick="getLink('flash-sale')"
+                                        class="btn btn-outline btn-primary btn-block">
+
+                                        <i class="fa-solid fa-bolt float-left mt-1"></i>
+                                        Flash Sale</button>
                                 </div>
                             </div>
                         </div>
@@ -298,6 +314,12 @@
                                         return;
                                     case 'product':
                                         window.location.href = '/product';
+                                        return;
+                                    case 'coupons':
+                                        window.location.href = '/coupons';
+                                        return;
+                                    case 'flash-sale':
+                                        window.location.href = '/flash-sale';
                                         return;
                                     default:
                                         return;
@@ -415,6 +437,9 @@
     </div>
 
     <script src="{{ asset('/admin/lib/jquery/dist/jquery.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+    </script>
     <script src="{{ asset('/admin/lib/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('/admin/lib/toastr/toastr.min.js') }}"></script>
 
@@ -448,8 +473,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="{{ asset('backend/assets/js/code.js') }}"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="{{ asset('backend/assets/js/tagsinput.js') }}"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
         @if (Session::has('message'))
@@ -473,6 +499,67 @@
             }
         @endif
     </script>
+    <script>
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                toastr.error("{{ $error }}")
+            @endforeach
+        @endif
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $('body').on('click',
+                '.delete-item',
+                function(event) {
+                    event.preventDefault();
+                    let deleteUrl = $(this).attr('href');
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                type: 'DELETE',
+                                url: deleteUrl,
+                                success: function(data) {
+                                    if (data.status == 'success') {
+                                        Swal.fire(
+                                            'Deleted!',
+                                            data.message,
+                                            'success'
+                                        )
+                                        window.location.reload();
+                                    } else if (data.status == 'error') {
+                                        Swal.fire(
+                                            'Cant Delete',
+                                            data.message,
+                                            'error'
+                                        )
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.log(error);
+                                }
+                            })
+                        }
+                    })
+                })
+        });
+    </script>
+
+    @stack('scripts')
 
 </body>
 
