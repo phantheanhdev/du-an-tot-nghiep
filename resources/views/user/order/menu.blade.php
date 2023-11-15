@@ -483,7 +483,9 @@
                             var contentsData = "Bàn " + id + " gọi nhân viên";
 
                             var postData = {
-                                contents: contentsData
+                                contents: contentsData,
+                                id:id,
+                                callWaiter: true
                             };
 
                             $.ajax({
@@ -522,7 +524,7 @@
                             var contentsData = "Bàn " + id + " có đơn order mới !";
 
                             var postData = {
-                                contents: contentsData
+                                contents: contentsData,
                             };
 
                             $.ajax({
@@ -543,7 +545,8 @@
                             var contentsData = "Bàn " + id + " gọi thanh toán";
 
                             var postData = {
-                                contents: contentsData
+                                contents: contentsData,
+                                id:id
                             };
 
                             $.ajax({

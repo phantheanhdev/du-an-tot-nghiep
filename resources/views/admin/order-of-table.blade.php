@@ -28,38 +28,61 @@
                                 <th>Sản phẩm</th>
                                 <th>Ghi chú </th>
                                 <th>Thời Gian </th>
+                                <th>Tổng Tiền </th>
                                 <th>Trạng Thái</th>
+                                <th>Hành Động</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($orders as $order)
+                            @foreach($orders->sortByDesc('created_at') as $order)
                             <tr>
                                 <td>{{ $order->table_id }}</td>
                                 <td>
                                     <ul style="list-style: none; padding: 0;">
                                         @foreach($order->orderDetails as $orderDetail)
                                         <li>
-                                           {{ $orderDetail->quantity }}     x     {{ $orderDetail->product->name }}
+                                            {{ $orderDetail->quantity }} x {{ $orderDetail->product->name }}
                                         </li>
                                         @endforeach
                                     </ul>
                                 </td>
-                                <td>{{ $order->note }}</td>
+                                <td>
+                                    @if(isset($order->note) && !empty($order->note))
+                                    {{ $order->note }}
+                                    @else
+                                    Không Có
+                                    @endif
+                                </td>
                                 <td>{{ $order->created_at }}</td>
+                                <td>{{ $order->total_price }} VNĐ</td>
+                                <td>
+                                    @if ($order->status == 0)
+                                    <div class="bg-warning fs-1 rounded"><span>Chưa xác nhận</span></div>
+                                    @elseif ($order->status === 1 )
+                                    <div class="bg-primary fs-1 rounded"><span>Đã xác nhận</span></div>
+                                    @elseif ($order->status === 3)
+                                    <div class="bg-primary fs-1 rounded"><span>Đang chuẩn bị</span></div>
+                                    @elseif ($order->status === 4)
+                                    <div class="bg-success fs-1 rounded"><span>Đã ra món</span></div>
+                                    @endif
+                                </td>
                                 <td>
                                     <form action="{{ route('admin.orders.updateStatus', ['id' => $order->id]) }}" method="POST">
                                         @csrf
                                         @method('PATCH')
 
-                                        @if ($order->status === 'Xác Nhận')
-                                        <button type="submit" name="status" value="Đã Xác Nhận" class="btn btn-success btn-sm">Xác nhận</button>
-                                        <button type="submit" name="status" value="Hủy" class="btn btn-danger btn-sm">Hủy</button>
-                                        @elseif ($order->status === 'Đã Xác Nhận')
-                                        <div class="bg-warning fs-1 rounded"><span >Đã Xác Nhận </span></div>
-                                        @elseif ($order->status === 'Hủy')
-                                        <div class="bg-danger fs-1 rounded"><span >Đã hủy</span></div>
-                                        @elseif ($order->status === 'Đã Thanh Toán')
-                                        <div class="bg-success fs-1 rounded"><span >Đã Thanh Toán </span></div>
+                                        @if ($order->status == 0)
+                                        <button type="submit" name="status" value="1" class="btn btn-info btn-sm">Xác nhận</button>
+                                        <button type="submit" name="status" value="2" class="btn btn-danger btn-sm">Hủy</button>
+                                        @elseif ($order->status === 1)
+                                        <button type="submit" name="status" value="3" class="btn btn-info btn-sm">Đang chuẩn bị</button>
+                                        @elseif ($order->status === 3)
+                                        <button type="submit" name="status" value="4" class="btn btn-info btn-sm">Đã ra món</button>
+                                        @elseif ($order->status === 4)
+                                        <button id="payment-btn" onclick="processPayment()" class="btn btn-outline btn-primary btn-block">
+                                            <i class="fa fa-credit-card" style="color: #d35352;"></i>
+                                            Thanh toán
+                                        </button>
                                         @endif
                                     </form>
                                 </td>
@@ -67,10 +90,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="d-flex justify-content-end pt-3">
-                        <p style="font-size: 20px; font-weight: bold; padding: 5px; margin-right: 10px;" class="fs-1 fw-bold">Tổng Tiền: </p><span style="font-size: 20px; padding-top: 5px ;">{{$order->total_price}} VNĐ</span>
-                    </div>
-                    
                 </div>
             </div>
         </div>
