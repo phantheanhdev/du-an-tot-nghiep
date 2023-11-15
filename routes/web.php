@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QrController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\FlashSaleController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
@@ -84,6 +86,17 @@ Route::middleware(['auth'])->group(function () {
 
     // bill
     Route::resource('bill', BillController::class);
+
+        //Coupon
+        Route::get('coupons/change-status', [CouponController::class, 'changeStatus'])->name('coupons.change-status');
+        Route::resource('coupons', CouponController::class);
+        Route::delete('/delete-coupon', [CouponController::class, 'destroy'])->name('delete');
+    
+         /** Flash Sale Routes */
+         Route::get('flash-sale', [FlashSaleController::class, 'index'])->name('flash-sale.index');
+         Route::post('flash-sale/add-product', [FlashSaleController::class, 'addProduct'])->name('flash-sale.add-product');
+         Route::get('flash-sale-status', [FlashSaleController::class, 'changeStatus'])->name('flash-sale-status');
+         Route::delete('flash-sale/{id}', [FlashSaleController::class, 'destory'])->name('flash-sale.destory');
 });
 
 

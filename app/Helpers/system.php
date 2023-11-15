@@ -57,3 +57,8 @@ function getMainCartTotal()
         return getTotalCart();
     }
 }
+function newPrice($subTotal, $percent)
+{
+    $total  = $subTotal - ($subTotal * $percent / 100);
+    return  $total;
+}

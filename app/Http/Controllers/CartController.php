@@ -67,7 +67,7 @@ class CartController extends Controller
                 "id" => $product->id,
                 "name" => $product->name,
                 "quantity" => $request->input('quantity', 1),
-                "price" => $product->price,
+                "price" => $request->price,
                 'image'=>$product->image
             ];
         }
