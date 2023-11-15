@@ -68,6 +68,7 @@ class CartController extends Controller
                 "name" => $product->name,
                 "quantity" => $request->input('quantity', 1),
                 "price" => $product->price,
+                'image'=>$product->image
             ];
         }
 
@@ -97,6 +98,9 @@ class CartController extends Controller
             $productOrder->product_id = $item['id'];
             $productOrder->quantity  = $item['quantity'];
             $productOrder->total_amount = $item['quantity'] * $item['price'];
+            $productOrder->product_name = $item['name'];
+            $productOrder->product_price = $item['price'];
+            $productOrder->product_img = $item['image'];
             $productOrder->save();
         }
 
