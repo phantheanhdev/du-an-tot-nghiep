@@ -23,8 +23,10 @@ class OrderController extends Controller
     public function index()
     {
 
-        $orders = $this->order->paginate(5);
+        $order = $this->order->where('status',0)->get();
+        $orders = $this->order->whereIn('status',[2,5])->get();
         return view('admin.orders.index',[
+            'order'=>$order,
             'orders'=>$orders
         ])->with('i',(request()->input('page',1)-1)*10);
     }
@@ -114,7 +116,4 @@ class OrderController extends Controller
         return $pdf->stream();
     }
 
-    public function orderDetail(Request $request){
-
-    }
 }

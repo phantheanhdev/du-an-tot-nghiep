@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="{{ asset('/admin/lib/font-awesome/css/font-awesome.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('/admin/lib/toastr/toastr.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('/admin/css/animate.css') }}" />
-    <link rel="stylesheet" href="{{ asset('admin/css/invoice.css') }}">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/admin/css/site.css') }}" />

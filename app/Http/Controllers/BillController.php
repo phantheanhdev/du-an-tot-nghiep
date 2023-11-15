@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 
@@ -11,16 +12,18 @@ class BillController extends Controller
      * Display a listing of the resource.
      */
 
-    protected $bill;
+    protected $order;
 
-    public function __construct(OrderDetail $bill)
+    public function __construct(Order $order)
     {
-        $this->bill = $bill;
+        $this->order = $order;
     }
     public function index()
     {
-        $bills =  $this->bill->paginate(5);
-        return view('admin.bills.index',compact('bills'))->with('i',(request()->input('page',1)-1)*10);
+        $orders = $this->order->whereIn('status',[1,3,4])->get();
+        return view('admin.bills.index',[
+            'orders'=>$orders
+        ])->with('i',(request()->input('page',1)-1)*10);
     }
 
     /**
