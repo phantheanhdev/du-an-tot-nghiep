@@ -8,7 +8,7 @@
                     <a href="/category" class="btn btn-outline btn-primary btn-sm float-left">
                         <i class="fa fa-long-arrow-left mt-1"></i>
                     </a>
-                    Cập nhật danh mục
+                    Categories Updates
                 </h3>
                 <hr>
                 <form method="POST" action="{{ route('category.edit', ['id' => $category->id]) }}" enctype="multipart/form-data" id="create_categories">
@@ -51,7 +51,7 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    <button type="submit" class="btn btn-primary mr-2" id="btn_create_category">Submit</button>
+                    <button type="submit" class="btn btn-primary mr-2" id="btn_create_category">Update</button>
                     <button type="reset" class="btn btn-primary">Reset</button>
                 </form>
             </div>
