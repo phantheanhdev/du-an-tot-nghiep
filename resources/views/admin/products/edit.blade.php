@@ -18,16 +18,16 @@
 
                     <div class="row">
                         <div class="mb-3 col-12 col-md-6">
-                            <label class="form-label">Name</label>
-                            <input type="text" name="name" class="form-control" value="{{ $product->name }}">
+                            <label class="font-weight-bold" class="form-label">Name</label>
+                            <input type="text" name="name" class="form-control" placeholder="Enter food name..." value="{{ $product->name }}">
                             <div class="form-text" id="name" style="color: red"></div>
                             @error('name')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="mb-3 col-12 col-md-6">
-                            <label class="form-label">Price</label>
-                            <input type="number" name="price" min="0" step="any" class="form-control"
+                            <label class="font-weight-bold" class="form-label">Price</label>
+                            <input type="number" name="price" placeholder="0" min="0" step="any" class="form-control"
                                 value="{{ $product->price }}">
                             <div class="form-text" id="price" style="color: red"></div>
                             @error('price')
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Description</label>
+                        <label class="font-weight-bold" class="form-label">Description</label>
                         <textarea name="description" class="form-control">{{ $product->description }}</textarea>
                         <div class="form-text" id="description" style="color: red"></div>
                         @error('description')
@@ -46,8 +46,9 @@
 
                     <div class="row">
                         <div class="mb-3 col-6">
-                            <label class="form-label" for="category_id">Category</label>
+                            <label class="font-weight-bold" class="form-label" for="category_id">Category</label>
                             <select id="category_id" name="category_id" class="form-control"1>
+                                <option value="">Choose...</option>
                                 @foreach ($category as $category)
                                     <option value="{{ $category->id }}"
                                         {{ $product->category_id == $category->id ? 'selected' : '' }}>
@@ -61,9 +62,9 @@
                             @enderror
                         </div>
                         <div class="mb-3 col-6">
-                            <label class="form-label" for="status">Status</label>
+                            <label class="font-weight-bold" class="form-label" for="status">Status</label>
                             <select id="status" name="status" class="form-control">
-                                <option value=""></option>
+                                <option value="">Choose...</option>
                                 <option value="active" {{ $product->status == 'active' ? 'selected' : '' }}>Active</option>
                                 <option value="inactive" {{ $product->status == 'inactive' ? 'selected' : '' }}>Inactive
                                 </option>
@@ -75,7 +76,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Image</label>
+                        <label class="font-weight-bold" class="form-label">Image</label>
                         <input id="image" type="file"
                             class="form-control image-file @error('image') is-invalid @enderror" name="image"
                             accept="image/*">

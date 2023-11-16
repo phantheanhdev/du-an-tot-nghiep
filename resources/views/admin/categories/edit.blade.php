@@ -15,16 +15,16 @@
                     @method('POST')
                     @csrf
                     <div class="mb-3">
-                        <label class="form-label">Name</label>
-                        <input type="text" name="category_name" class="form-control" value="{{ $category->category_name }}">
+                        <label class="font-weight-bold">Name</label>
+                        <input type="text" name="category_name" class="form-control"placeholder="Enter category name..." value="{{ $category->category_name }}">
                         <div class="form-text" id="category_name" style="color: red"></div>
                         @error('category_name')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Note</label>
-                        <input type="text" name="note" class="form-control" value="{{ $category->note }}">
+                        <label class="font-weight-bold">Note</label>
+                        <input type="text" name="note" class="form-control" placeholder="Enter notes..." value="{{ $category->note }}">
                         <div class="form-text" id="note" style="color: red"></div>
                         @error('note')
                         <span class="text-danger">{{ $message }}</span>
@@ -32,15 +32,18 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="status">Status</label>
+                        <label class="font-weight-bold" for="status">Status</label>
                         <select id="status" name="status" class="form-control">
-                            <option value=""></option>
+                            <option value="">Choose...</option>
                             <option value="active" {{ $category->status == 'active' ? 'selected' : '' }}>Active</option>
                             <option value="inactive" {{ $category->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
                         </select>
+                        @error('status')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Image</label>
+                        <label class="font-weight-bold">Image</label>
                         <input id="image" type="file"
                         class="form-control image-file @error('category_image') is-invalid @enderror"
                         name="image" accept="image/*"><br>
