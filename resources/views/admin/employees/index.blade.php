@@ -15,9 +15,9 @@
                     <a href="/restaurant-manager" class="btn btn-outline btn-primary btn-sm float-left">
                         <i class="fa fa-long-arrow-left mt-1"></i>
                     </a>
-                    Quản lý nhân viên
+                    Staff
                     <a href="{{ route('employee.create') }}" class="float-right">
-                        <button class="btn btn-primary">Thêm nhân viên</button>
+                        <button class="btn btn-primary">+ Create Staff</button>
                     </a>
 
                 </h3>
@@ -31,13 +31,13 @@
                             <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
-                                    <th>Tên</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Địa chỉ</th>
-                                    <th>Vị trí</th>
-                                    <th>Ca làm việc</th>
-                                    <th>Lương / 1h</th>
-                                    <th>Ngày tuyển dụng</th>
+                                    <th>Name</th>
+                                    <th>Phone number</th>
+                                    <th>Address</th>
+                                    <th>Position</th>
+                                    <th>Shift</th>
+                                    <th>Salary / 1h</th>
+                                    <th>Recruitment day</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -52,12 +52,16 @@
                                         <td> {{$item->shift}} </td>
                                         <td>{{$item->salary}}đ/1h</td>
                                         <td>{{$item->hire_date}}</td>
-                                        <td>
-                                            <a id="edit" href="{{ route('employee.edit', ['id' => $item->id]) }}">
-                                                <button class="btn btn-secondary">Sửa</button>
+                                        <td class="d-flex justify-content-center">
+                                            <a id="edit" class="px-2" href="{{ route('employee.edit', ['id' => $item->id]) }}">
+                                                <button class="btn btn-success">
+                                                    <i class="fa-solid fa-pen"></i>
+                                                </button>
                                             </a>
                                             <a id="delete" href="{{ route('employee.delete', ['id' => $item->id]) }}">
-                                                <button class="btn btn-primary">Xóa</button>
+                                                <button class="btn btn-danger">
+                                                    <i class="fa-solid fa-trash-can"></i>
+                                                </button>
                                             </a>
                                         </td>
                                     </tr>

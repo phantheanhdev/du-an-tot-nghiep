@@ -4,25 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
+use Illuminate\Cookie\CookieJar;
 use Illuminate\Http\Request;
+use Illuminate\Cookie\CookieServiceProvider;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cookie;
 
 class MenuController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+
+
+    public function index(Request $request)
     {
-        $table = $_GET['tableNo'];
+        $tableId = $_GET['tableId'];
+        $tableNo = $_GET['tableNo'];
         $categories = Category::all();
         $productsByCategory = [];
+        $cookie_name = $request->input('customer_name');
 
         foreach ($categories as $category) {
             $products = Product::where('category_id', $category->id)->get();
-            $productsByCategory[$category->name] = $products;
+            $productsByCategory[$category->category_name] = $products;
         }
+        $customer_name = Cookie::get('customer_name');
 
-        return view("user.order.menu", ['table' => $table, 'productsByCategory' => $productsByCategory]);
+
+        return view("user.order.menu", [
+            'tableId' => $tableId,
+            'tableNo' => $tableNo,
+            'productsByCategory' => $productsByCategory,
+            'customer_name' => $customer_name
+        ]);
     }
 
 

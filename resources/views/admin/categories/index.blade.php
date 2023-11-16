@@ -14,9 +14,9 @@
                     <a href="/restaurant-manager" class="btn btn-outline btn-primary btn-sm float-left">
                         <i class="fa fa-long-arrow-left mt-1"></i>
                     </a>
-                    Quản lý danh mục
+                    Manage food categories
                     <a href="{{ route('category.create') }}" class="float-right">
-                        <button class="btn btn-primary">Thêm danh mục</button>
+                        <button class="btn btn-primary">+ Create Category</button>
                     </a>
 
                 </h3>
@@ -29,7 +29,7 @@
                         <table class="table table-hover">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th>#</th>
+                                    <th>STT</th>
                                     <th>Image</th>
                                     <th>Name</th>
                                     <th>Note</th>
@@ -55,10 +55,10 @@
                                         </td>
                                         <td>
                                             <a id="edit" href="{{ route('category.edit', ['id' => $item->id]) }}">
-                                                <button class="btn btn-secondary">Sửa</button>
+                                                <button class="btn btn-secondary">Edit</button>
                                             </a>
                                             <a id="delete" href="{{ route('category.delete', ['id' => $item->id]) }}">
-                                                <button class="btn btn-primary">Xóa</button>
+                                                <button class="btn btn-primary">Delete</button>
                                             </a>
                                         </td>
                                     </tr>

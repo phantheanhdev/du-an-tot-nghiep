@@ -12,12 +12,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\OrderRequest;
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
-use App\Models\Order;
+use App\Models\Coupon;
 use App\Models\OrderDetail;
-use App\Models\Product;
-use Carbon\Carbon;
-use CarbonCarbon;
-use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
@@ -53,31 +50,34 @@ class CartController extends Controller
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
             }
-            session()->flash('success', 'Product removed successfully');
+            return response()->json(['cart' => $cart]);
         }
     }
 
-    public function addToCart($id)
+    public function addToCart($id, Request $request)
     {
         $product = Product::findOrFail($id);
 
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
-            $cart[$id]['quantity']++;
+            $cart[$id]['quantity'] += $request->input('quantity', 1);
         } else {
             $cart[$id] = [
                 "id" => $product->id,
                 "name" => $product->name,
-                "quantity" => 1,
-                "price" => $product->price,
-                // "image" => $product->image
+                "quantity" => $request->input('quantity', 1),
+                "price" => $request->price,
+                'image'=>$product->image
             ];
         }
 
         session()->put('cart', $cart);
-        return redirect()->back()->with('success', 'Product added to cart successfully!');
+
+        // Trả về thông tin giỏ hàng dưới dạng JSON
+        return response()->json(['cart' => $cart]);
     }
+
 
     public function order(OrderRequest $request)
     {
@@ -87,8 +87,7 @@ class CartController extends Controller
         $order->total_price = $request->total_price;
         $order->status = 0;
         $order->note = $request->note;
-        $order->customer_name = 'A';
-        $order->customer_phone     = 'B';
+        $order->customer_name = $request->customer_name;
         $order->save();
 
         $cart = session()->get('cart');
@@ -99,15 +98,23 @@ class CartController extends Controller
             $productOrder->product_id = $item['id'];
             $productOrder->quantity  = $item['quantity'];
             $productOrder->total_amount = $item['quantity'] * $item['price'];
+            $productOrder->product_name = $item['name'];
+            $productOrder->product_price = $item['price'];
+            $productOrder->product_img = $item['image'];
             $productOrder->save();
         }
 
         //id , name , quantity , price
-        event(new OrderCreated($data));
-        session()->forget('cart');
-        return redirect()->back()->with('alert', 'Đặt món thành công');
-    }
 
+        session()->forget('cart');
+
+        return redirect()->back()->with('success', 'Đặt món thành công');
+    }
+    public function getCart(Request $request)
+    {
+        $cart = session()->get('cart', []);
+        return response()->json(['cart' => $cart]);
+    }
     /**
      * Display the specified resource.
      */
@@ -138,5 +145,73 @@ class CartController extends Controller
     public function destroy(Cart $cart)
     {
         //
+    }
+
+
+    public function applyCoupon(Request $request)
+    {
+        if ($request->coupon_code === null) {
+            return response(['status' => 'error', 'message' => 'Coupon filed is required']);
+        }
+        $coupon = Coupon::where(['code' => $request->coupon_code, 'status' => 1])->first();
+        if ($coupon === null) {
+            return response(['status' => 'error', 'message' => 'Coupon not exist!']);
+        } else if ($coupon->start_date > date('Y-m-d')) {
+            return response(['status' => 'error', 'message' => 'Coupon not exist!']);
+        } else if ($coupon->end_date < date('Y-m-d')) {
+            return response(['status' => 'error', 'message' => 'Coupon is expired']);
+        } else if ($coupon->total_used >= $coupon->quantity) {
+            return response(['status' => 'error', 'message' => 'you can not apply this coupon']);
+        }
+
+        if ($coupon->discount_type === 'amount') {
+            Session::put('coupon', [
+                'coupon_name' => $coupon->name,
+                'coupon_code' => $coupon->code,
+                'discount_type' => 'amount',
+                'discount' => $coupon->discount
+            ]);
+        } else if ($coupon->discount_type === 'percent') {
+            Session::put('coupon', [
+                'coupon_name' => $coupon->name,
+                'coupon_code' => $coupon->code,
+                'discount_type' => 'percent',
+                'discount' => $coupon->discount
+            ]);
+        }
+        return response(['status' => 'success', 'message' => 'Coupon applied successfully!']);
+    }
+
+    public function couponCalculation()
+    {
+        if (Session::has('coupon')) {
+            $coupon = Session::get('coupon');
+            $subTotal = getTotalCart();
+            if ($coupon['discount_type'] === 'amount') {
+                if ($coupon['discount'] >= getTotalCart()) {
+                    $total =  0;
+                    return response(['status' => 'success', 'cart_total' => $total, 'discount' => $coupon['discount']]);
+                } else {
+                    $total = $subTotal - $coupon['discount'];
+                    return response(['status' => 'success', 'cart_total' => $total, 'discount' => $coupon['discount']]);
+                }
+            } else if ($coupon['discount_type'] === 'percent') {
+                $discount = $subTotal - ($subTotal * $coupon['discount'] / 100);
+                $total = $subTotal - $discount;
+                return response(['status' => 'success', 'cart_total' => $total, 'discount' => $discount]);
+            }
+        } else {
+            $total = getTotalCart();
+            return response(['status' => 'success', 'cart_total' => $total, 'discount' => 0]);
+        }
+    }
+
+    public function cencelCoupon()
+    {
+        if (Session::has('coupon')) {
+            session()->forget('coupon');
+            $total = getTotalCart();
+            return response(['status' => 'success','message' => 'Voucher canceled successfully!' ,  'cart_total' => $total, 'discount' => 0]);
+        }
     }
 }

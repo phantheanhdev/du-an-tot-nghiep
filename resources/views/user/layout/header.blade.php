@@ -7,13 +7,13 @@
     <title>FOODIE</title>
     <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
     <link rel="stylesheet" href="{{ asset('lib/bootstrap/dist/css/bootstrap.min.css') }}" />
-    <link href="{{ asset('lib/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('lib/toastr/toastr.min.css') }}" rel="stylesheet">
-    <link href="/css/animate.css" rel="stylesheet" />
+    {{-- <link href="{{ asset('lib/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" /> --}}
+    {{-- <link href="{{ asset('lib/toastr/toastr.min.css') }}" rel="stylesheet"> --}}
+    <link href="{{ asset('/admin//css/animate.css') }}" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="{{ asset('user/css/site.css') }}" />
     <link rel="stylesheet" href="{{ asset('/admin/lib/toastr/toastr.min.css') }}" />
-    <script src="{{ asset('/admin/lib/toastr/toastr.min.js') }}"></script>
+   
 
     <link
         href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,700&display=swap"

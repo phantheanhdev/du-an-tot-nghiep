@@ -18,7 +18,7 @@ class EmployeeController extends Controller
     public function create(Request $request){
         if($request->isMethod('post')){
             $validator = Validator::make($request->all(), [
-                'name' => 'required|unique:employees',
+                'name' => 'required',
                 'phone' => 'required',
                 'address' => 'required',
                 'position' => 'required',
@@ -29,6 +29,17 @@ class EmployeeController extends Controller
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
+            $name = $request->input('name');
+            $nameExists = Employee::where('name', $name)->exists();
+
+        if ($nameExists) {
+            // Nếu $name đã tồn tại, redirect với thông báo lỗi
+            $notification = [
+                'message' => 'Table name already exists. Please choose another name',
+                'alert-type' => 'error',
+            ];
+            return redirect()->route('employee.create')->withInput()->with($notification);
+        }
             $employee = Employee::create($request->except('_token'));
             if($employee->id) {
                 Session::flash('success','Thêm nhân viên thành công');

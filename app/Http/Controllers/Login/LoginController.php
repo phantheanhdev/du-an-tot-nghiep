@@ -16,6 +16,7 @@ class LoginController extends Controller
         if ($request->isMethod('POST')) {
             if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) //đăng nhập thành công
             {
+                Session::put('username', $request->username);
                 return redirect('/')->with(session()->flash('alert', 'Đăng nhập thành công'));
             } else {
                 return redirect('/login')->with(session()->flash('alert', 'sai mật khẩu'));
@@ -50,6 +51,7 @@ class LoginController extends Controller
     }
     public function logout()
     {
+        Session::forget('username');
         Auth::logout();
 
         // Chuyển hướng người dùng về trang chủ hoặc trang đăng nhập (tùy chọn)

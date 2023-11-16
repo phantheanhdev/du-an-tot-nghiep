@@ -15,9 +15,9 @@
                     <a href="/restaurant-manager" class="btn btn-outline btn-primary btn-sm float-left">
                         <i class="fa fa-long-arrow-left mt-1"></i>
                     </a>
-                    Quản lý menu đồ ăn
+                    Manage food menus
                     <a href="{{route('create')}}" class="float-right">
-                        <button class="btn btn-primary">Thêm đồ ăn</button>
+                        <button class="btn btn-primary">+ Create New Food</button>
                     </a>
                 </h3>
                 <hr />
@@ -33,7 +33,6 @@
                                     <th>Image</th>
                                     <th>Name</th>
                                     <th>Price</th>
-                                    <th>Item</th>
                                     <th>Description</th>
                                     <th>Category</th>
                                     <th>Status</th>
@@ -49,7 +48,6 @@
                                         </td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->price }}</td>
-                                        <td>{{ $item->item }}</td>
                                         <td>{{ $item->description }}</td>
                                         <td>{{ $item->category_name }}</td>
                                         <td>
@@ -61,10 +59,10 @@
                                         </td>
                                         <td>
                                             <a id="edit" href="{{ route('product.edit', ['id' => $item->id]) }}">
-                                                <button class="btn btn-secondary">Sửa</button>
+                                                <button class="btn btn-secondary">Edit</button>
                                             </a>
                                             <a id="delete" href="{{ route('product.delete', ['id' => $item->id]) }}">
-                                                <button class="btn btn-primary">Xóa</button>
+                                                <button class="btn btn-primary">Delete</button>
                                             </a>
                                         </td>
                                     </tr>

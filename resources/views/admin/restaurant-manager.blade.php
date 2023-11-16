@@ -31,13 +31,15 @@
                 <div class="col-md-12">
                     <div class="row">
                         @foreach ($tables as $table)
-                            <a href="{{ route('order-of-table', $table->id) }}" class="text-white">
-                                <div id="table-2" class="widget black-bg p-lg text-center">
+                            <a href="{{ $table->orders->count() > 0 ? route('order-of-table', $table->id) : '#' }}" class="text-white">
+                                <div id="table-{{$table->id}}" class="widget p-lg text-center {{ $table->orders->count() > 0 ? 'green-bg' : 'black-bg' }} " style="height: 160px;">
 
                                     <div class="m-b-md">
                                         <i id="table-icon-2" class="fa fa-minus fa-4x"></i>
                                         <br />
-                                        <small id="table-notification-2">Bàn trống</small>
+                                        @if ($table->orders->count() == 0)
+                    <small id="table-notification-{{$table->id}}">Bàn trống</small>
+                @endif
 
                                         <h3 class="font-bold no-margins">
                                             Bàn số: {{ $table->name }}
@@ -63,7 +65,7 @@
         var channel = pusher.subscribe('development');
 
         channel.bind('App\\Events\\HelloPusherEvent', function(data) {
-
+            $('#table-' + data.id).addClass('red-bg');
             Command: toastr["warning"](data.message)
 
             toastr.options = {
@@ -83,8 +85,12 @@
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
+        
             var audio = new Audio('{{ asset('Doorbell.mp3') }}');
             audio.play();
+            setTimeout(function() {
+            $('#table-' + data.id).removeClass('red-bg');
+        }, 30000);
         });
     </script>
     <script type="text/javascript">
@@ -95,6 +101,7 @@
         var channel = pusher.subscribe('channel-name');
 
         channel.bind('App\\Events\\OrderCreated', function(data) {
+            $('#table-' + data.id).addClass('yellow-bg');
             Command: toastr["warning"]("Bạn có đơn order mới")
 
             toastr.options = {
@@ -114,6 +121,7 @@
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
+
             var audio = new Audio('{{ asset('Doorbell.mp3') }}');
             audio.play();
         });

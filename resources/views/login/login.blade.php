@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Login</title>
+    <title>FOODIE</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('bootstrap/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -47,12 +47,12 @@
                                         <div class="form-group">
                                             <input type="text" name="username" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder=" Tên Đăng Nhập...">
+                                                placeholder=" Tên Đăng Nhập..." required>
                                         </div>
                                         <div class="form-group">
                                             <input type="password" name="password"
                                                 class="form-control form-control-user" id="exampleInputPassword"
-                                                placeholder="Mật Khẩu">
+                                                placeholder="Mật Khẩu" required>
                                         </div>
                                         <button type="submit" class="btn btn-danger">Đăng Nhập</button>
                                     </form>
