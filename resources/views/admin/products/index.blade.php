@@ -17,7 +17,7 @@
                     </a>
                     Manage food menus
                     <a href="{{route('create')}}" class="float-right">
-                        <button class="btn btn-primary">More food</button>
+                        <button class="btn btn-primary">+ Create New Food</button>
                     </a>
                 </h3>
                 <hr />

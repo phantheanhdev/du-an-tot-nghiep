@@ -12,7 +12,7 @@
                     <div class="sk-rect5"></div>
                 </div>
                 <h3 class="text-qr Rest-dark text-center p-2">
-                    <a href="/restaurant-manager" class="btn btn-outline btn-primary btn-sm float-left">
+                    <a href="/product" class="btn btn-outline btn-primary btn-sm float-left">
                         <i class="fa fa-long-arrow-left mt-1"></i>
                     </a>
                     More food
@@ -27,15 +27,15 @@
 
                         <div class="row">
                             <div class="form-group col-12 col-md-6">
-                                <label for="name">Name</label>
-                                <input type="text" name="name" id="name" class="form-control">
+                                <label class="font-weight-bold" for="name">Name</label>
+                                <input type="text" name="name" id="name" placeholder="Enter food name..." class="form-control">
                                 @error('name')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="form-group col-12 col-md-6">
-                                <label for="price">Price</label>
-                                <input type="number" name="price" id="price" min="0" step="any"
+                                <label class="font-weight-bold" for="price">Price</label>
+                                <input type="number" name="price" id="price" placeholder="0" min="0" step="any"
                                     class="form-control">
                                 @error('price')
                                     <span class="text-danger">{{ $message }}</span>
@@ -43,7 +43,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="description">Description</label>
+                            <label class="font-weight-bold" for="description">Description</label>
                             <textarea name="description" id="description" class="form-control"></textarea>
                             @error('description')
                                 <span class="text-danger">{{ $message }}</span>
@@ -52,9 +52,9 @@
 
                         <div class="row">
                             <div class="form-group col-6">
-                                <label for="category">Category</label>
+                                <label class="font-weight-bold" for="category">Category</label>
                                 <select name="category_id" id="category" class="form-control">
-                                    <option value=""></option>
+                                    <option value="">Choose...</option>
                                     @foreach ($category as $detail)
                                         <option value="{{ $detail->id }}">{{ $detail->category_name }}</option>
                                     @endforeach
@@ -65,9 +65,9 @@
                             </div>
 
                             <div class="form-group col-6">
-                                <label for="status">Status</label>
+                                <label  class="font-weight-bold" for="status">Status</label>
                                 <select name="status" id="status" class="form-control">
-                                    <option value=""></option>
+                                    <option value="">Choose...</option>
                                     <option value="active">Active</option>
                                     <option value="inactive">Inactive</option>
                                 </select>
@@ -77,7 +77,7 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label mr-5">Image</label>
+                            <label  class="font-weight-bold" class="form-label mr-5">Image</label>
                             <img id="image_preview"
                                 src="https://www.freeiconspng.com/uploads/img-landscape-photo-photography-picture-icon-12.png"
                                 alt="Product image" style="height:100px" class="mr-3">

@@ -29,7 +29,7 @@ class CategoryRequest extends FormRequest
         switch ($this->method()) {
             case 'POST':
                 switch ($currentAction) {
-                    case 'create':
+                    case 'store':
                         $rules = [
                             'category_name' => 'required|unique:categories|max:255',
                             'note'=> 'nullable',
