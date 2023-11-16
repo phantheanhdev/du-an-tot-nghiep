@@ -44,16 +44,16 @@
                     </div> <div class="mb-3">
                         <label class="form-label">Shift</label>
                         <select class="form-control" name="shift" >
-                            <option {{$employee->shift == 'Ca 1(8h-13h)' ? "selected" : ""}}  value="Ca 1(8h-13h)">Ca 1(8h-13h)</option>
-                            <option {{$employee->shift == 'Ca 2(13h-18h)' ? "selected" : ""}}  value="Ca 2(13h-18h)">Ca 2(13h-18h)</option>
-                            <option {{$employee->shift == 'Ca 3(18h-23h)' ? "selected" : ""}}  value="Ca 3(18h-23h)">Ca 3(18h-23h)</option>
+                            <option {{$employee->shift == 'Shift 1(8am-1pm)' ? "selected" : ""}}  value="Shift 1(8am-1pm)">Shift 1(8am-1pm)</option>
+                            <option {{$employee->shift == 'Shift 2(1pm-6pm)' ? "selected" : ""}}  value="Shift 2(1pm-6pm)">Shift 2(1pm-6pm)</option>
+                            <option {{$employee->shift == 'Shift 3(6pm-11pm)' ? "selected" : ""}}  value="Shift 3(6pm-11pm)">Shift 3(6pm-11pm)</option>
                           </select>
                           @error('shift')
                           <span class="text-danger">{{ $message }}</span>
                       @enderror
                     </div> <div class="mb-3">
                         <label class="form-label">Salary / 1h</label>
-                        <input type="text" name="salary" class="form-control" value="{{ $employee->salary }}" >
+                        <input type="number" name="salary" class="form-control" value="{{ $employee->salary }}" >
                         @error('salary')
     <span class="text-danger">{{ $message }}</span>
 @enderror

@@ -46,9 +46,10 @@
                     <div class="mb-3">
                         <label class="form-label">Shift</label>
                         <select class="form-control" name="shift">
-                            <option value="Ca 1(8h-13h)">Ca 1(8h-13h)</option>
-                            <option value="Ca 2(13h-18h)">Ca 2(13h-18h)</option>
-                            <option value="Ca 3(18h-23h)">Ca 3(18h-23h)</option>
+                            <option value="">Choose...</option>
+                            <option value="Shift 1(8am-1pm)">Shift 1(8am-1pm)</option>
+                            <option value="Shift 2(1pm-6pm)">Shift 2(1pm-6pm)</option>
+                            <option value="Shift 3(6pm-11pm)">Shift 3(6pm-11pm)</option>
                           </select>
                           @error('shift')
                           <span class="text-danger">{{ $message }}</span>

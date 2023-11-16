@@ -18,7 +18,7 @@ class EmployeeController extends Controller
     public function create(Request $request){
         if($request->isMethod('post')){
             $validator = Validator::make($request->all(), [
-                'name' => 'required',
+                'name' => 'required|unique:employees',
                 'phone' => 'required',
                 'address' => 'required',
                 'position' => 'required',
@@ -29,21 +29,14 @@ class EmployeeController extends Controller
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
-            $name = $request->input('name');
-            $nameExists = Employee::where('name', $name)->exists();
 
-        if ($nameExists) {
-            // Nếu $name đã tồn tại, redirect với thông báo lỗi
-            $notification = [
-                'message' => 'Table name already exists. Please choose another name',
-                'alert-type' => 'error',
-            ];
-            return redirect()->route('employee.create')->withInput()->with($notification);
-        }
             $employee = Employee::create($request->except('_token'));
             if($employee->id) {
-                Session::flash('success','Thêm nhân viên thành công');
-                return redirect()->route('employee.index');
+                $notification = array(
+                    "message" => "Add staff successfully",
+                    "alert-type" => "success",
+                );
+                return redirect()->route('employee.index')->with($notification);
             }
         }
         return view('admin.employees.create');
@@ -63,16 +56,33 @@ class EmployeeController extends Controller
             ]);
             $result = Employee::where('id',$id)->update($request->except('_token'));
             if($result){
-                Session::flash('success','Cập nhập nhân viên thành công');
-                return redirect()->route('employee.index');
+                $notification = array(
+                    "message" => "Update staff successfully",
+                    "alert-type" => "success",
+                );
+                return redirect()->route('employee.index')->with($notification);
             }
         }
         return view('admin.employees.edit',compact('employee'));
     }
 
     public function delete($id) {
+        if($id){
         $employee = Employee::find($id);
-        $employee->delete();
-        return redirect()->back()->with('success','Xóa nhân viên thành công');
+        if($employee->delete()){
+            $notification = array(
+                "message"=> "Delete staff successfully",
+                "alert-type" =>"success",
+            );
+            return redirect()->route('employee.index')->with($notification);
+        }else{
+            $notification = array(
+                "message"=> "Delete staff fail",
+                "alert-type" =>"success",
+            );
+            return redirect()->back()->with($notification);
+        }
+    }
+return;
     }
 }

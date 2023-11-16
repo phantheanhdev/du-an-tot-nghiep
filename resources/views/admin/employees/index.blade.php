@@ -50,7 +50,7 @@
                                         <td>{{$item->address}}</td>
                                         <td>{{$item->position}}</td>
                                         <td> {{$item->shift}} </td>
-                                        <td>{{$item->salary}}đ/1h</td>
+                                        <td>${{$item->salary}} / 1h</td>
                                         <td>{{$item->hire_date}}</td>
                                         <td class="d-flex justify-content-center">
                                             <a id="edit" class="px-2" href="{{ route('employee.edit', ['id' => $item->id]) }}">
