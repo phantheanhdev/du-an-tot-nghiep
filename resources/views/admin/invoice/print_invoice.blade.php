@@ -105,23 +105,7 @@
 </head>
 
 <body>
-    <div class="d-flex justify-content-between">
-        <div>
-            <a href="/list-order" class="btn btn-outline btn-primary btn-sm ">
-                <i class="fa fa-long-arrow-left mt-1">
-                    Back
-                </i>
-            </a>
-        </div>
-        <div class="">
-            <a href="{{ url('invoice/' . $order->id . '/generate') }}" class="btn btn-primary btn-sm float-end mx-2">
-                Export
-            </a>
-            <a href="{{ url('print_order/' . $order->id) }}" class="btn btn-primary btn-sm float-end px-2 ">
-                Print
-            </a>
-        </div>
-    </div>
+
     <table class="order-details">
         <thead>
             <tr>
@@ -131,7 +115,7 @@
                 <th width="50%" colspan="2" class="text-end company-data">
                     <span>Invoice Id: {{ $order->id }}</span> <br>
                     <span>Date: {{ $todayDate->toDateTimeString() }}</span> <br>
-                    <span>Address: Nam Từ Liêm, Hà Nội</span> <br>
+                    <span>Address: Nam Từ Liêm , Hà Nội</span> <br>
                 </th>
             </tr>
             <tr class="bg-blue">

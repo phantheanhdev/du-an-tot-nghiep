@@ -74,9 +74,17 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Order $order)
+    public function destroy(Request $request)
     {
-        //
+        $orders = Order::findOrFail($request->id);
+        $orders->delete();
+    }
+
+    public function updateOrderStatus(Request $request){
+        $order = Order::findOrFail($request->id);
+        $order->status = $request->status;
+        $order->save();
+        return response(['message' => 'Bạn đã cập nhập thành công']);
     }
 
     public function viewInvoice(string $id){
@@ -96,7 +104,7 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
         $todayDate = Carbon::now('Asia/Ho_Chi_Minh');
         $bill = OrderDetail::where('order_id',$id)->get();
-        $pdf = Pdf::loadView('admin.invoice.generate_invoice',[
+        $pdf = Pdf::loadView('admin.invoice.print_invoice',[
             'order'=>$order,
             'bill'=>$bill,
             'todayDate' =>$todayDate
@@ -108,7 +116,7 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
         $todayDate = Carbon::now('Asia/Ho_Chi_Minh');
         $bill = OrderDetail::where('order_id',$id)->get();
-        $pdf = Pdf::loadView('admin.invoice.generate_invoice',[
+        $pdf = Pdf::loadView('admin.invoice.print_invoice',[
             'order'=>$order,
             'bill'=>$bill,
             'todayDate' =>$todayDate
