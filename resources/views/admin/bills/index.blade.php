@@ -35,12 +35,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($orders as $order)
+                                @foreach ($orders as $item)
                                     <tr>
-                                        <td>{{ $order->table_id }}</td>
+                                        <td>{{ $item->table->name }}</td>
                                         <td>
                                             <ul style="list-style: none; padding: 0;">
-                                                @foreach ($order->orderDetails as $orderDetail)
+                                                @foreach ($item->orderDetails as $orderDetail)
                                                     <li>
                                                         {{ $orderDetail->quantity }} x
                                                         {{ $orderDetail->product->name }}
@@ -48,34 +48,35 @@
                                                 @endforeach
                                             </ul>
                                         </td>
-                                        <td>{{$order->customer_name}}</td>
-                                        <td>{{ $order->note }}</td>
-                                        <td>{{ $order->created_at }}</td>
+                                        <td>{{$item->customer_name}}</td>
+                                        <td>{{ $item->note }}</td>
+                                        <td>{{ $item->created_at }}</td>
                                         <th>
-                                            @if ($order->status == 1)
+                                            @if ($item->status == 1)
                                                 <span>Confirmed </span>
-                                            @elseif ($order->status == 3)
+                                            @elseif ($item->status == 3)
                                                 <span>Preparing</span>
-                                            @elseif ($order->status == 4)
-                                                <span>Order Delivered</span>
+                                            @elseif ($item->status == 4)
+                                                <span>Came out the dish</span>
                                             @endif
                                         </th>
                                         <td>
-                                            <form action="{{ route('admin.orders.updateStatus', ['id' => $order->id]) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('PATCH')
-                                                @if ($order->status == 1)
-                                                    <button type="submit" name="status" value="3"
-                                                        class="btn btn-success btn-sm">Confirmed </button>
-                                                @elseif ($order->status == 3)
-                                                    <button type="submit" name="status" value="4"
-                                                        class="btn btn-success btn-sm">Order Delivered</button>
-                                                @else
-                                                    <button type="" name="status" value="4"
-                                                        class="btn btn-success btn-sm">Wait for pay</button>
-                                                @endif
-
+                                            <form action="" method="get">
+                                                <select class="form-control order-status" name="status"
+                                                    id="{{ $item->id }}">
+                                                    <option value="1"
+                                                        {{ $item->status === 1 ? 'selected' : '' }}>
+                                                        Confirmed
+                                                    </option>
+                                                    <option value="3"
+                                                        {{ $item->status === 3 ? 'selected' : '' }}>
+                                                        Preparing
+                                                    </option>
+                                                    <option value="4"
+                                                        {{ $item->status === 4 ? 'selected' : '' }}>
+                                                        Came out the dish
+                                                    </option>
+                                                </select>
                                             </form>
                                         </td>
                                     </tr>
@@ -89,3 +90,29 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('body').on('change','.order-status', function() {
+                let status = $(this).find(':selected').val();
+                let id = $(this).attr('id');
+                $.ajax({
+                    url: '{{ route('order-status') }}',
+                    method: 'GET',
+                    data: {
+                        status: status,
+                        id: id
+                    },
+                    success: function(data) {
+                        toastr.success(data.message)
+                        window.location.reload()
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    }
+                })
+            })
+        })
+    </script>
+
+@endpush

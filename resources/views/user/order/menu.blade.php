@@ -165,10 +165,10 @@
                                     <h3 class=" d-flex text-qrRest-dark font-weight-bold text-styling">Good
                                         <b class="mx-1">
                                             <?php
-                                            
+
                                             date_default_timezone_set('Asia/Ho_Chi_Minh');
                                             $currentHour = date('G');
-                                            
+
                                             if ($currentHour >= 5 && $currentHour < 12) {
                                                 $timeOfDay = 'morning';
                                             } elseif ($currentHour >= 12 && $currentHour < 17) {
@@ -178,7 +178,7 @@
                                             } else {
                                                 $timeOfDay = 'evening';
                                             }
-                                            
+
                                             echo "$timeOfDay";
                                             ?>
                                         </b>

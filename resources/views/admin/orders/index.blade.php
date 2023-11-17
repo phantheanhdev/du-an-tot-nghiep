@@ -21,7 +21,7 @@
                 {{--  --}}
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <button class="nav-link active" id="nav-home-tab" data-toggle="tab" data-target="#nav-home"
+                        <button class="nav-link  active" id="nav-home-tab" data-toggle="tab" data-target="#nav-home"
                             type="button" role="tab" aria-controls="nav-home" aria-selected="true">Orders</button>
                         <button class="nav-link " id="nav-profile-tab" data-toggle="tab" data-target="#nav-profile"
                             type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Completed Orders
@@ -50,7 +50,7 @@
                                         <tbody>
                                             @foreach ($order as $item)
                                                 <tr>
-                                                    <td>{{ $item->table_id }}</td>
+                                                    <td>{{ $item->table->name }}</td>
                                                     <td>
                                                         <ul style="list-style: none; padding: 0;">
                                                             @foreach ($item->orderDetails as $orderDetail)
@@ -60,7 +60,7 @@
                                                                 </li>
                                                             @endforeach
                                                         </ul>
-                                                    <td>{{ $item->total_price}} </td>
+                                                    <td>{{ $item->total_price }} </td>
                                                     </td>
                                                     <td>{{ $item->customer_name }}</td>
                                                     <td>{{ $item->note }}</td>
@@ -71,24 +71,12 @@
                                                         @endif
                                                     </th>
                                                     <td>
-                                                        {{-- <form
-                                                            action="{{ route('admin.orders.updateStatus', ['id' => $order->id]) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('PATCH')
-                                                            @if ($order->status == 0)
-                                                                <button type="submit" name="status" value="1"
-                                                                    class="btn btn-success btn-sm">Xác nhận</button>
-                                                                <button type="submit" name="status" value="2"
-                                                                    class="btn btn-danger btn-sm">Hủy</button>
-                                                            @endif
-                                                        </form> --}}
                                                         <form action="" method="get">
                                                             <select class="form-control order-status" name="status"
                                                                 id="{{ $item->id }}">
                                                                 <option value="0"
                                                                     {{ $item->status === 0 ? 'selected' : '' }}>
-                                                                     Not yet confirmed
+                                                                    Not yet confirmed
                                                                 </option>
                                                                 <option value="1"
                                                                     {{ $item->status === 1 ? 'selected' : '' }}>
@@ -137,7 +125,7 @@
                                                 </td>
                                                 <td>{{ $item->total_price }}</td>
                                                 <td>{{ $item->note }}</td>
-                                                <td>{{ $item->created_at}}</td>
+                                                <td>{{ $item->created_at }}</td>
                                                 <td>
                                                     @if ($item->status == 2)
                                                         <span>Cancelled</span>
@@ -167,7 +155,7 @@
                 </div>
 
 
-
+                
                 {{--  --}}
 
             </div>
@@ -177,7 +165,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            $('body').on('change','.order-status', function() {
+            $('body').on('change', '.order-status', function() {
                 let status = $(this).find(':selected').val();
                 let id = $(this).attr('id');
                 $.ajax({
@@ -237,5 +225,77 @@
             })
         });
     </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
+    <script src="//js.pusher.com/3.1/pusher.min.js"></script>
+    <script type="text/javascript">
+        var pusher = new Pusher('3f445aa654bdfac71f01', {
+            encrypted: true,
+            cluster: "ap1"
+        });
+
+        var channel = pusher.subscribe('development');
+
+        channel.bind('App\\Events\\HelloPusherEvent', function(data) {
+            $('#table-' + data.id).addClass('red-bg');
+            Command: toastr["warning"](data.message)
+
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+
+            var audio = new Audio('{{ asset('Doorbell.mp3') }}');
+            audio.play();
+            setTimeout(function() {
+                $('#table-' + data.id).removeClass('red-bg');
+            }, 30000);
+        });
+    </script>
+    <script type="text/javascript">
+        var pusher = new Pusher('3f445aa654bdfac71f01', {
+            encrypted: true,
+            cluster: "ap1"
+        });
+        var channel = pusher.subscribe('channel-name');
+
+        channel.bind('App\\Events\\OrderCreated', function(data) {
+            $('#table-' + data.id).addClass('yellow-bg');
+            Command: toastr["warning"]("Bạn có đơn order mới")
+
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+
+            var audio = new Audio('{{ asset('Doorbell.mp3') }}');
+            audio.play();
+        });
+    </script>
 @endpush
