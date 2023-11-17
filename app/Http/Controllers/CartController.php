@@ -84,6 +84,7 @@ class CartController extends Controller
         $order = new Order();
         $order->table_id = $request->table_id;
         $order->order_day = Carbon::now('Asia/Ho_Chi_Minh');
+        $order->created_at = Carbon::now('Asia/Ho_Chi_Minh');
         $order->total_price = $request->total_price;
         $order->status = 0;
         $order->note = $request->note;

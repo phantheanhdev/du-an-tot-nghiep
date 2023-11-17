@@ -126,7 +126,7 @@
         <thead>
             <tr>
                 <th width="50%" colspan="2">
-                    <h2 class="text-start">Fpoly Ecommerce</h2>
+                    <h2 class="text-start">Foodie</h2>
                 </th>
                 <th width="50%" colspan="2" class="text-end company-data">
                     <span>Invoice Id: {{ $order->id }}</span> <br>
