@@ -113,14 +113,14 @@
                                             </tbody>
                                         </table>
                                         <hr>
-                                        <div id="coupon_form" class="mb-2">
+                                        {{-- <div id="coupon_form" class="mb-2">
                                             <input type="text" placeholder="Coupon code" name="coupon_code"
                                                 value="{{ session()->has('coupon') ? session()->get('coupon')['coupon_code'] : '' }}"
                                                 id="coupon_code" class="form-control">
-                                            {{-- <button class="btn btn-danger mt-2" id="apply_coupon">Apply</button>
+                                            <button class="btn btn-danger mt-2" id="apply_coupon">Apply</button>
 
-                                        <button class="btn btn-danger mt-2" id="cancel_coupon">Cancel</button> --}}
-                                        </div>
+                                            <button class="btn btn-danger mt-2" id="cancel_coupon">Cancel</button>
+                                        </div> --}}
                                         <div class="form-group" id="txtOrderIsReady">
                                             <textarea class="form-control" name="note" maxlength="70" rows="2"
                                                 placeholder="Indicate if you have a note for the order"></textarea>
@@ -297,9 +297,7 @@
 
 
 
-                                                                {{-- <input type="hidden"
-                                                                    id="product-price-{{ $product->id }}"
-                                                                    value="{{ $product->price }}"> --}}
+
                                                                 <small class="text-muted"> {{ $categoryName }} </small>
                                                                 <a class="product-name"
                                                                     id="product-name-{{ $product->id }}">

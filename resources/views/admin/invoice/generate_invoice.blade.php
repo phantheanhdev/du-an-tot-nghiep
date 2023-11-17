@@ -34,7 +34,7 @@
 
         table thead th {
             height: 28px;
-            text-align: left;
+
             font-size: 16px;
             font-family: sans-serif;
         }
@@ -105,11 +105,23 @@
 </head>
 
 <body>
-    <a href="/list-order" class="btn btn-outline btn-primary btn-sm float-left">
-        <i class="fa fa-long-arrow-left mt-1">
-            Back
-        </i>
-    </a>
+    <div class="d-flex justify-content-between">
+        <div>
+            <a href="/list-order" class="btn btn-outline btn-primary btn-sm ">
+                <i class="fa fa-long-arrow-left mt-1">
+                    Back
+                </i>
+            </a>
+        </div>
+        <div class="">
+            <a href="{{ url('invoice/' . $order->id . '/generate') }}" class="btn btn-primary btn-sm float-end mx-2">
+                Export
+            </a>
+            <a href="{{ url('print_order/' . $order->id) }}" class="btn btn-primary btn-sm float-end px-2 ">
+                Print
+            </a>
+        </div>
+    </div>
     <table class="order-details">
         <thead>
             <tr>
@@ -119,7 +131,7 @@
                 <th width="50%" colspan="2" class="text-end company-data">
                     <span>Invoice Id: {{ $order->id }}</span> <br>
                     <span>Date: {{ $todayDate->toDateTimeString() }}</span> <br>
-                    <span>Address: phố Trịnh Văn Bô, phường Phương Canh, quận Nam Từ Liêm, TP Hà Nội</span> <br>
+                    <span>Address: Nam Từ Liêm, Hà Nội</span> <br>
                 </th>
             </tr>
             <tr class="bg-blue">
@@ -135,32 +147,27 @@
                 <td>{{ $order->customer_name }}</td>
             </tr>
             <tr>
-                <td>Table name</td>
-                <td>{{ $order->table->name }}</td>
-                <td></td>
-            </tr>
-            <tr>
                 <td>Ordered Date:</td>
                 <td>{{ $order->created_at }}</td>
-                <td>Phone:</td>
-                <td>{{ $order->customer_phone }}</td>
+                <td>Table name</td>
+                <td>{{ $order->table->name }}</td>
             </tr>
-            {{-- <tr>
-                <td>Payment Mode:</td>
-                <td>Cash on Delivery</td>
-                <td>Address:</td>
-                <td>asda asdad asdad adsasd</td>
-            </tr> --}}
             <tr>
                 <td>Order Status:</td>
-                <td>{{ $order->status }}</td>
+                <td>
+                    @if ($order->status == 2)
+                        Cancelled
+                    @elseif ($order->status == 5)
+                        Paid
+                    @endif
+                </td>
                 <td>Note</td>
                 <td>{{ $order->note }}</td>
             </tr>
         </tbody>
     </table>
 
-    <table>
+    <table class="text-center">
         <thead>
             <tr>
                 <th class="no-border text-start heading" colspan="5">
@@ -189,13 +196,13 @@
                         {{ $item->quantity }}
                     </td>
                     <td>
-                        {{$item->total_amount}}
+                        {{ $item->total_amount }}
                     </td>
                 </tr>
             @endforeach
             <tr>
                 <td colspan="4" class="total-heading">Total Amount - <small>Inc. all vat/tax</small> :</td>
-                <td colspan="1" class="total-heading">{{$order->total_price}}</td>
+                <td colspan="1" class="total-heading">{{ $order->total_price }}</td>
             </tr>
         </tbody>
     </table>

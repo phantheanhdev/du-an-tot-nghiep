@@ -207,11 +207,11 @@
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa fa-th float-left mt-1"></i>
                                         ORDERS</button>
-                                    {{-- order_bill --}}
+                                    {{-- order_list --}}
                                     <button id="btnOrderAlternative" onclick="getLink('orderAlternative')"
                                         class="btn btn-outline btn-primary btn-block"><i
                                             class="fa fa-list-ol float-left mt-1"></i>ORDERS (LIST)</button>
-                                    {{-- bill - dat ten hoi lon  --}}
+                                    {{-- order-board - quản lý món ra  --}}
                                     <button id="btnOrderBoard" onclick="getLink('orderBoard')"
                                         class="btn btn-outline btn-primary btn-block"><i
                                             class="fa fa-columns fa-square-kanban float-left mt-1"></i>ORDER
@@ -251,7 +251,7 @@
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa-solid fa-bars fa-square-kanban fa-sharp fa-solid float-left mt-1"
                                             style="color: #d35352;"></i>
-                                        Staff
+                                        Staff Management
                                     </button>
                                     {{-- Dashboard admin --}}
                                     <button id="btnOrder" onclick="getLink('dashboard')"
@@ -286,7 +286,7 @@
                                         window.location.href = '/list-order';
                                         return;
                                     case 'orderBoard':
-                                        window.location.href = '/bill';
+                                        window.location.href = '/order-board';
                                         return;
                                     case 'qr':
                                         window.location.href = '/qrcode';

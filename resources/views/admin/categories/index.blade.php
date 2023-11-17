@@ -16,7 +16,7 @@
                     </a>
                     Manage food categories
                     <a href="{{ route('category.create') }}" class="float-right">
-                        <button class="btn btn-primary">More categories</button>
+                        <button class="btn btn-primary">+ Create Category</button>
                     </a>
 
                 </h3>
@@ -29,7 +29,7 @@
                         <table class="table table-hover">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th>#</th>
+                                    <th>STT</th>
                                     <th>Image</th>
                                     <th>Name</th>
                                     <th>Note</th>

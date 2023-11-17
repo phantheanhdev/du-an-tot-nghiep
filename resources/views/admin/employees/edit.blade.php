@@ -8,13 +8,13 @@
                     <a href="{{ route('employee.index')}}" class="btn btn-outline btn-primary btn-sm float-left">
                         <i class="fa fa-long-arrow-left mt-1"></i>
                     </a>
-                   Cập nhập nhân viên
+                    Update Staff
                 </h3>
                 <hr>
                 <form method="POST" action="{{ route('employee.edit',['id'=>$employee->id]) }}" enctype="multipart/form-data" id="create_categories">
                     @csrf
                     <div class="mb-3">
-                        <label class="form-label">Tên nhân viên</label>
+                        <label class="form-label">Name</label>
                         <input type="text" name="name" class="form-control" value="{{ $employee->name }}" >
                         @error('name')
                         <span class="text-danger">{{ $message }}</span>
@@ -22,44 +22,44 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Số điện thoại</label>
+                        <label class="form-label">Phone number</label>
                         <input type="text" name="phone" class="form-control" value="{{ $employee->phone }}" >
                         @error('phone')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Địa chỉ cư trú</label>
+                        <label class="form-label">Address</label>
                         <input type="text" name="address" class="form-control" value="{{ $employee->address }}" >
                         @error('address')
     <span class="text-danger">{{ $message }}</span>
 @enderror
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Ví trí làm việc</label>
+                        <label class="form-label">Position</label>
                         <input type="text" name="position" class="form-control" value="{{ $employee->position }}" >
                         @error('position')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                     </div> <div class="mb-3">
-                        <label class="form-label">Ca làm việc</label>
+                        <label class="form-label">Shift</label>
                         <select class="form-control" name="shift" >
-                            <option {{$employee->shift == 'Ca 1(8h-13h)' ? "selected" : ""}}  value="Ca 1(8h-13h)">Ca 1(8h-13h)</option>
-                            <option {{$employee->shift == 'Ca 2(13h-18h)' ? "selected" : ""}}  value="Ca 2(13h-18h)">Ca 2(13h-18h)</option>
-                            <option {{$employee->shift == 'Ca 3(18h-23h)' ? "selected" : ""}}  value="Ca 3(18h-23h)">Ca 3(18h-23h)</option>
+                            <option {{$employee->shift == 'Shift 1(8am-1pm)' ? "selected" : ""}}  value="Shift 1(8am-1pm)">Shift 1(8am-1pm)</option>
+                            <option {{$employee->shift == 'Shift 2(1pm-6pm)' ? "selected" : ""}}  value="Shift 2(1pm-6pm)">Shift 2(1pm-6pm)</option>
+                            <option {{$employee->shift == 'Shift 3(6pm-11pm)' ? "selected" : ""}}  value="Shift 3(6pm-11pm)">Shift 3(6pm-11pm)</option>
                           </select>
                           @error('shift')
                           <span class="text-danger">{{ $message }}</span>
                       @enderror
                     </div> <div class="mb-3">
-                        <label class="form-label">Lương/1h</label>
-                        <input type="text" name="salary" class="form-control" value="{{ $employee->salary }}" >
+                        <label class="form-label">Salary / 1h</label>
+                        <input type="number" name="salary" class="form-control" value="{{ $employee->salary }}" >
                         @error('salary')
     <span class="text-danger">{{ $message }}</span>
 @enderror
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Ngày tuyển dụng</label>
+                        <label class="form-label">Recruitment day</label>
                         <input type="date" name="hire_date" class="form-control" value="{{ $employee->hire_date }}" >
                         @error('hire_date')
     <span class="text-danger">{{ $message }}</span>
@@ -67,7 +67,7 @@
 
                     </div>
 
-                    <button type="submit" class="btn btn-primary mr-2" id="btn_create_category">Submit</button>
+                    <button type="submit" class="btn btn-primary mr-2" id="btn_create_category">Update</button>
                     <button type="reset" class="btn btn-primary">Reset</button>
                 </form>
             </div>

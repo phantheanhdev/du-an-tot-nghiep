@@ -77,6 +77,8 @@ Route::middleware(['auth'])->group(function () {
 
     // order
     Route::get('list-order', [OrderController::class, 'index']);
+    Route::delete('delete-order',[OrderController::class, 'destroy'])->name('detete-order');
+    Route::get('order-status',[OrderController::class, 'updateOrderStatus'])->name('order-status');
     // view invoice order
     Route::get('/invoice/{id}', [OrderController::class, 'viewInvoice'])->name('viewInvoice');
     // download FDF order
@@ -85,13 +87,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/print_order/{id}', [OrderController::class, 'print_order'])->name('print_order');
 
     // bill
-    Route::resource('bill', BillController::class);
+    Route::resource('order-board', BillController::class);
 
         //Coupon
         Route::get('coupons/change-status', [CouponController::class, 'changeStatus'])->name('coupons.change-status');
         Route::resource('coupons', CouponController::class);
         Route::delete('/delete-coupon', [CouponController::class, 'destroy'])->name('delete');
-    
+
          /** Flash Sale Routes */
          Route::get('flash-sale', [FlashSaleController::class, 'index'])->name('flash-sale.index');
          Route::post('flash-sale/add-product', [FlashSaleController::class, 'addProduct'])->name('flash-sale.add-product');
@@ -106,8 +108,8 @@ Route::middleware(['auth'])->group(function () {
 // ======================================================= user ===============================================================
 
 
-//  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8 
-//  bat dau quet , nhap ten  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8 
+//  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8
+//  bat dau quet , nhap ten  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8
 
 Route::group(['middleware' => 'custom'], function () {
     Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
@@ -125,7 +127,7 @@ Route::group(['middleware' => 'custom'], function () {
 });
 
 // form infor user
-//  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8 
+//  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8
 Route::get('/foodie', [HomeController::class, 'form_infor_user'])->name('form_infor_user');
 
 Route::post('/submit_form', [HomeController::class, 'loginUser'])->name('login.user');

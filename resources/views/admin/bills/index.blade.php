@@ -25,13 +25,13 @@
 
                             <thead class="thead-dark text-center">
                                 <tr>
-                                    <th>Bàn</th>
-                                    <th>Sản phẩm</th>
-                                    <th>Tên khách hàng</th>
-                                    <th>Ghi chú </th>
-                                    <th>Thời Gian </th>
-                                    <th>Trạng Thái</th>
-                                    <th>Chức năng</th>
+                                    <th>Table</th>
+                                    <th>Product</th>
+                                    <th>Customer Name</th>
+                                    <th>Note</th>
+                                    <th>Clock</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,11 +53,11 @@
                                         <td>{{ $order->created_at }}</td>
                                         <th>
                                             @if ($order->status == 1)
-                                                <span>Đã xác nhận </span>
+                                                <span>Confirmed </span>
                                             @elseif ($order->status == 3)
-                                                <span>Đang chuẩn bị</span>
+                                                <span>Preparing</span>
                                             @elseif ($order->status == 4)
-                                                <span>Đã giao món</span>
+                                                <span>Order Delivered</span>
                                             @endif
                                         </th>
                                         <td>
@@ -67,13 +67,13 @@
                                                 @method('PATCH')
                                                 @if ($order->status == 1)
                                                     <button type="submit" name="status" value="3"
-                                                        class="btn btn-success btn-sm">Đang chuẩn bị</button>
+                                                        class="btn btn-success btn-sm">Confirmed </button>
                                                 @elseif ($order->status == 3)
                                                     <button type="submit" name="status" value="4"
-                                                        class="btn btn-success btn-sm">Đã giao món</button>
+                                                        class="btn btn-success btn-sm">Order Delivered</button>
                                                 @else
                                                     <button type="" name="status" value="4"
-                                                        class="btn btn-success btn-sm">Chờ thanh toán</button>
+                                                        class="btn btn-success btn-sm">Wait for pay</button>
                                                 @endif
 
                                             </form>
