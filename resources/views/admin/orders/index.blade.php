@@ -32,10 +32,10 @@
                     {{-- đơn đến --}}
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         <div class="col-md-12">
-                            <div class="row table-responsive" id="nonPayOrder">
-                                <table class="table table-hover text-center">
+                            <div class="card-body mt-3" id="nonPayOrder">
+                                <table id="appTable"  class="display text-center">
                                     @if (isset($order) && count($order) > 0)
-                                        <thead class="thead-dark text-center">
+                                        <thead class="">
                                             <tr>
                                                 <th>Table</th>
                                                 <th>Product</th>
@@ -104,9 +104,9 @@
                     {{-- đã thanh toán --}}
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                         <div class="col-md-12">
-                            <div class="row table-responsive" id="nonPayOrder">
-                                <table id="" class="table table-hover">
-                                    <thead class="thead-dark">
+                            <div class="row table-responsive mt-3" id="nonPayOrder">
+                                <table id="myTable" class="table table-hover">
+                                    <thead class="">
                                         <tr>
                                             <th>Table </th>
                                             <th>Total Amount</th>
@@ -155,7 +155,7 @@
                 </div>
 
 
-                
+
                 {{--  --}}
 
             </div>
@@ -164,12 +164,20 @@
 @endsection
 @push('scripts')
     <script>
+        let table = new DataTable('#myTable', {
+            responsive: true
+        });
+        let tables = new DataTable('#appTable', {
+            responsive: true
+        });
+    </script>
+    <script>
         $(document).ready(function() {
             $('body').on('change', '.order-status', function() {
                 let status = $(this).find(':selected').val();
                 let id = $(this).attr('id');
                 $.ajax({
-                    url: '{{ route("order-status") }}',
+                    url: '{{ route('order-status') }}',
                     method: 'GET',
                     data: {
                         status: status,

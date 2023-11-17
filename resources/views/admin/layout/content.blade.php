@@ -164,7 +164,7 @@
                                         </li>
 
                                         <li class="dropdown-item">
-                                            <a href="{{route('show.password.form')}}">Change Password</a>
+                                            <a href="{{ route('show.password.form') }}">Change Password</a>
                                         </li>
                                         <li class="divider"></li>
                                         <li class="dropdown-item"><a href="{{ route('logout') }}">Logout</a></li>
