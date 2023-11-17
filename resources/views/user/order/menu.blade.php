@@ -567,6 +567,7 @@
 
                             var postData = {
                                 contents: contentsData,
+                                id:id
                             };
 
                             $.ajax({
