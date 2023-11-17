@@ -160,11 +160,11 @@
                                     </a>
                                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                         <li class="dropdown-item">
-                                            <a href="/restaurant/restaurantmanager">Management Panel</a>
+                                            <a href="/restaurant-manager">Management Panel</a>
                                         </li>
 
                                         <li class="dropdown-item">
-                                            <a href="/Account/ChangePassword">Change Password</a>
+                                            <a href="{{route('show.password.form')}}">Change Password</a>
                                         </li>
                                         <li class="divider"></li>
                                         <li class="dropdown-item"><a href="{{ route('logout') }}">Logout</a></li>

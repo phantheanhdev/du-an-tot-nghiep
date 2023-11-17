@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Login;
 
+use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -56,5 +58,35 @@ class LoginController extends Controller
 
         // Chuyển hướng người dùng về trang chủ hoặc trang đăng nhập (tùy chọn)
         return redirect('/');
+    }
+    public function showForm()
+    {
+        return view('login.change-password');
+    }
+    public function updatePassword(Request $request)
+    {
+        // Validation
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:6|different:current_password',
+            'confirm_password' => 'required|same:new_password',
+        ], [
+            'current_password.required' => 'Vui lòng nhập mật khẩu hiện tại.',
+            'new_password.required' => 'Vui lòng nhập mật khẩu mới.',
+            'new_password.min' => 'Mật khẩu mới phải có ít nhất 6 ký tự.',
+            'new_password.different' => 'Mật khẩu mới phải khác mật khẩu hiện tại.',
+            'confirm_password.required' => 'Vui lòng nhập lại mật khẩu mới.',
+            'confirm_password.same' => 'Mật khẩu xác nhận phải giống với mật khẩu mới.',
+        ]);
+
+        // Check if the current password matches the authenticated user's password
+        if (Hash::check($request->current_password, auth()->user()->password)) {
+            // Update the password
+            auth()->user()->update(['password' => Hash::make($request->new_password)]);
+
+            return redirect()->back()->with('success', 'Đổi mật khẩu thành công.');
+        } else {
+            return redirect()->back()->withErrors(['current_password' => 'Không đúng mật khẩu.']);
+        }
     }
 }
