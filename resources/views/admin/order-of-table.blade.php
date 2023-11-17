@@ -1,6 +1,6 @@
 @extends('admin.layout.content')
 @section('main-content')
-<div class="col-md-9">
+<div class="col-md-9" style="font-family: 'Comic Sans MS', cursive; font-size: 15px;">
     <div class="ibox float-e-margins" id="boxOrder">
         <div class="ibox-content">
             <div class="sk-spinner sk-spinner-wave">

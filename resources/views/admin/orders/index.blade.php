@@ -181,7 +181,7 @@
                 let status = $(this).find(':selected').val();
                 let id = $(this).attr('id');
                 $.ajax({
-                    url: '{{ route('order-status') }}',
+                    url: '{{ route("order-status") }}',
                     method: 'GET',
                     data: {
                         status: status,
