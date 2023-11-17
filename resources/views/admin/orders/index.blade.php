@@ -22,9 +22,10 @@
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <button class="nav-link active" id="nav-home-tab" data-toggle="tab" data-target="#nav-home"
-                            type="button" role="tab" aria-controls="nav-home"aria-selected="true">Đơn hàng</button>
-                        <button class="nav-link" id="nav-profile-tab" data-toggle="tab" data-target="#nav-profile"
-                            type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Đơn hàng đã hoàn thành</button>
+                            type="button" role="tab" aria-controls="nav-home" aria-selected="true">Orders</button>
+                        <button class="nav-link " id="nav-profile-tab" data-toggle="tab" data-target="#nav-profile"
+                            type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Completed Orders
+                        </button>
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
@@ -36,39 +37,41 @@
                                     @if (isset($order) && count($order) > 0)
                                         <thead class="thead-dark text-center">
                                             <tr>
-                                                <th>Bàn</th>
-                                                <th>Sản phẩm</th>
-                                                <th>Tên khách hàng</th>
-                                                <th>Ghi chú </th>
-                                                <th>Thời Gian </th>
-                                                <th>Trạng Thái</th>
-                                                <th>Chức năng</th>
+                                                <th>Table</th>
+                                                <th>Product</th>
+                                                <th>Total Amount</th>
+                                                <th>Customer Name</th>
+                                                <th>Note</th>
+                                                <th>Clock</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($order as $order)
+                                            @foreach ($order as $item)
                                                 <tr>
-                                                    <td>{{ $order->table_id }}</td>
+                                                    <td>{{ $item->table_id }}</td>
                                                     <td>
                                                         <ul style="list-style: none; padding: 0;">
-                                                            @foreach ($order->orderDetails as $orderDetail)
+                                                            @foreach ($item->orderDetails as $orderDetail)
                                                                 <li>
                                                                     {{ $orderDetail->quantity }} x
                                                                     {{ $orderDetail->product->name }}
                                                                 </li>
                                                             @endforeach
                                                         </ul>
+                                                    <td>{{ $item->total_price}} </td>
                                                     </td>
-                                                    <td>{{ $order->customer_name}}</td>
-                                                    <td>{{ $order->note }}</td>
-                                                    <td>{{ $order->created_at }}</td>
+                                                    <td>{{ $item->customer_name }}</td>
+                                                    <td>{{ $item->note }}</td>
+                                                    <td>{{ $item->created_at }}</td>
                                                     <th>
-                                                        @if ($order->status == 0)
-                                                            <span>Chờ xác nhận </span>
+                                                        @if ($item->status == 0)
+                                                            <span> Not yet confirmed </span>
                                                         @endif
                                                     </th>
                                                     <td>
-                                                        <form
+                                                        {{-- <form
                                                             action="{{ route('admin.orders.updateStatus', ['id' => $order->id]) }}"
                                                             method="POST">
                                                             @csrf
@@ -79,6 +82,23 @@
                                                                 <button type="submit" name="status" value="2"
                                                                     class="btn btn-danger btn-sm">Hủy</button>
                                                             @endif
+                                                        </form> --}}
+                                                        <form action="" method="get">
+                                                            <select class="form-control order-status" name="status"
+                                                                id="{{ $item->id }}">
+                                                                <option value="0"
+                                                                    {{ $item->status === 0 ? 'selected' : '' }}>
+                                                                     Not yet confirmed
+                                                                </option>
+                                                                <option value="1"
+                                                                    {{ $item->status === 1 ? 'selected' : '' }}>
+                                                                    Confirmed
+                                                                </option>
+                                                                <option value="2"
+                                                                    {{ $item->status === 2 ? 'selected' : '' }}>
+                                                                    Cancel
+                                                                </option>
+                                                            </select>
                                                         </form>
                                                     </td>
                                                 </tr>
@@ -86,7 +106,7 @@
                                         </tbody>
                                     @else
                                         <div class="alert alert-danger" role="alert">
-                                            Bạn không có đơn đặt hàng mới.
+                                            You have no new orders <i class="fa-solid fa-bell"></i>
                                         </div>
                                     @endif
                                 </table>
@@ -97,52 +117,44 @@
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                         <div class="col-md-12">
                             <div class="row table-responsive" id="nonPayOrder">
-                                <table class="table table-hover">
+                                <table id="" class="table table-hover">
                                     <thead class="thead-dark">
                                         <tr>
-                                            <th>#</th>
-                                            <th>Tên bàn</th>
-                                            <th>Tổng tiền</th>
-                                            <th>Ghi chú</th>
-                                            <th>Trạng thái</th>
-                                            <th>Tên khách hàng</th>
-                                            <th>Chức năng</th>
+                                            <th>Table </th>
+                                            <th>Total Amount</th>
+                                            <th>Note</th>
+                                            <th>Clock</th>
+                                            <th>Status</th>
+                                            <th>Customer Name</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($orders as $key => $item)
                                             <tr>
-                                                <td>{{ $key + 1 }}</td>
                                                 <td>
                                                     {{ $item->table->name }}
                                                 </td>
                                                 <td>{{ $item->total_price }}</td>
                                                 <td>{{ $item->note }}</td>
+                                                <td>{{ $item->created_at}}</td>
                                                 <td>
                                                     @if ($item->status == 2)
-                                                        <span>Hủy</span>
+                                                        <span>Cancelled</span>
                                                     @elseif ($item->status == 5)
-                                                        <span>Đã ra thanh toán</span>
+                                                        <span>Paid</span>
                                                     @endif
                                                 </td>
                                                 <td>{{ $item->customer_name }}</td>
                                                 <th>
-                                                    {{-- <a href="{{ url('invoice/' . $item->id . '/generate') }}"
-                                        class="btn btn-primary btn-sm float-end mx-1"><i class="fa-solid fa-download"></i>
-                                        Dowload Invoice
-                                    </a> --}}
                                                     <a href="{{ url('invoice/' . $item->id) }}"
                                                         class="btn btn-warning btn-sm float-end mx-1"><i
                                                             class="fa-solid fa-eye"></i>
                                                     </a>
-                                                    <a href=""class="btn btn-warning btn-sm float-end mx-1">
+                                                    <a id="{{ $item->id }}"
+                                                        href="#"class="btn btn-warning btn-sm float-end mx-1 deleteIcon">
                                                         <i class="fa-solid fa-trash-can"></i>
-                                                    <a href=""></a>
-                                                    {{-- <a href="{{ url('print_order/' . $item->id) }}"
-                                        class="btn btn-primary btn-sm float-end mx-1"><i class="fas fa-print"></i>
-                                        Print Invoice
-                                    </a> --}}
-
+                                                    </a>
                                                 </th>
                                             </tr>
                                         @endforeach
@@ -162,3 +174,68 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('body').on('change','.order-status', function() {
+                let status = $(this).find(':selected').val();
+                let id = $(this).attr('id');
+                $.ajax({
+                    url: '{{ route('order-status') }}',
+                    method: 'GET',
+                    data: {
+                        status: status,
+                        id: id
+                    },
+                    success: function(data) {
+                        toastr.success(data.message)
+                        window.location.reload()
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    }
+                })
+            })
+        })
+    </script>
+
+
+    <script>
+        $(document).on('click', '.deleteIcon', function(e) {
+            e.preventDefault();
+            let id = $(this).attr('id');
+            let csrf = '{{ csrf_token() }}';
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '{{ route('detete-order') }}',
+                        method: 'delete',
+                        data: {
+                            id: id,
+                            _token: csrf
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            )
+                            window.location.reload();
+
+                        }
+                    });
+                }
+            })
+        });
+    </script>
+
+@endpush
