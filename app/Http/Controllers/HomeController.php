@@ -26,7 +26,7 @@ class HomeController extends Controller
     {
         $tableId = $request->tableId;
         $tableNo = $request->tableNo;
-        $cook = Cookie::make('customer_name', $request->customer_name, 15);
+        $cook = Cookie::make('customer_name', $request->customer_name, 1);
         return redirect()->route('order.menu', [
             'tableNo=' . $tableNo,
             'tableId' => $tableId

@@ -213,7 +213,7 @@ class TableController extends Controller
         $newStatus = $request->input('status');
 
         // Kiểm tra xem trạng thái mới hợp lệ hay không
-        if (!in_array($newStatus, [0,1,2,3,4])) {
+        if (!in_array($newStatus, [0,1,2,3,4,5])) {
             return redirect()->back()->with('error', 'Invalid status.');
         }
 

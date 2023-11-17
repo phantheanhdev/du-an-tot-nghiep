@@ -23,12 +23,12 @@ class OrderController extends Controller
     public function index()
     {
 
-        $order = $this->order->where('status',0)->get();
-        $orders = $this->order->whereIn('status',[2,5])->get();
-        return view('admin.orders.index',[
-            'order'=>$order,
-            'orders'=>$orders
-        ])->with('i',(request()->input('page',1)-1)*10);
+        $order = $this->order->where('status', 0)->get();
+        $orders = $this->order->whereIn('status', [2, 5])->get();
+        return view('admin.orders.index', [
+            'order' => $order,
+            'orders' => $orders
+        ])->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
     /**
@@ -44,7 +44,6 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-
     }
 
     /**
@@ -80,21 +79,23 @@ class OrderController extends Controller
         $orders->delete();
     }
 
-    public function updateOrderStatus(Request $request){
+    public function updateOrderStatus(Request $request)
+    {
         $order = Order::findOrFail($request->id);
         $order->status = $request->status;
         $order->save();
-        return response(['message' => 'Bạn đã cập nhập thành công']);
+        return response(['message' => 'Status has been updated']);
     }
 
-    public function viewInvoice(string $id){
+    public function viewInvoice(string $id)
+    {
         $order  = Order::findOrFail($id);
         $todayDate = Carbon::now('Asia/Ho_Chi_Minh');
-        $bill = OrderDetail::where('order_id',$id)->get();
-        return view('admin.invoice.generate_invoice',[
-            'order'=>$order,
-            'bill'=>$bill,
-            'todayDate' =>$todayDate
+        $bill = OrderDetail::where('order_id', $id)->get();
+        return view('admin.invoice.generate_invoice', [
+            'order' => $order,
+            'bill' => $bill,
+            'todayDate' => $todayDate
 
         ]);
     }
@@ -103,25 +104,39 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         $todayDate = Carbon::now('Asia/Ho_Chi_Minh');
-        $bill = OrderDetail::where('order_id',$id)->get();
-        $pdf = Pdf::loadView('admin.invoice.print_invoice',[
-            'order'=>$order,
-            'bill'=>$bill,
-            'todayDate' =>$todayDate
+        $bill = OrderDetail::where('order_id', $id)->get();
+        $pdf = Pdf::loadView('admin.invoice.print_invoice', [
+            'order' => $order,
+            'bill' => $bill,
+            'todayDate' => $todayDate
         ]);
-        return $pdf->download('invoice-'.$order->id.'-'.$todayDate.'pdf');
+        return $pdf->download('invoice-' . $order->id . '-' . $todayDate . 'pdf');
     }
 
-    public function print_order(string $id){
+    public function print_order(string $id)
+    {
+        // $pdfPath = storage_path('app/documents/document.pdf');
         $order = Order::findOrFail($id);
-        $todayDate = Carbon::now('Asia/Ho_Chi_Minh');
-        $bill = OrderDetail::where('order_id',$id)->get();
-        $pdf = Pdf::loadView('admin.invoice.print_invoice',[
-            'order'=>$order,
-            'bill'=>$bill,
-            'todayDate' =>$todayDate
+        $order->update([
+            'status' => 5
         ]);
-        return $pdf->stream();
-    }
+        $todayDate = Carbon::now('Asia/Ho_Chi_Minh');
+        $bill = OrderDetail::where('order_id', $id)->get();
+        $pdf = Pdf::loadView('admin.invoice.print_invoice', [
+            'order' => $order,
+            'bill' => $bill,
+            'todayDate' => $todayDate
+        ]);
+         return $pdf->stream();
+        // if (file_exists($pdfPath)) {
 
+        //     return response()->file($pdfPath)->deleteFileAfterSend(true);
+        // } else {
+
+        // return back()->with(['message' => 'Thanh toan thanh cong']);
+        // }
+        // if ($pdf->stream()) {
+        //     return back()->with(['message' => 'Thanh toan thanh cong']);
+        // }
+    }
 }
