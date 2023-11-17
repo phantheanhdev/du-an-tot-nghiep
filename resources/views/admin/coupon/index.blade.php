@@ -26,11 +26,12 @@
 
                 <div class="col-md-12">
                     <div class="row table-responsive" id="nonPayOrder">
-                        <table class="table table-hover">
+                        <table id="myTable" class="table table-hover">
                             <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
+                                    <th>Code</th>
                                     <th>Discount Type</th>
                                     <th>Discount</th>
                                     <th>Start date</th>
@@ -44,6 +45,7 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $item->name }}</td>
+                                        <td>{{ $item->code }}</td>
                                         <td>{{ $item->discount_type }}</td>
                                         <td>{{ $item->discount }}</td>
                                         <td>{{ $item->start_date }}</td>
@@ -144,4 +146,6 @@
             })
         });
     </script>
+
+  
 @endpush
