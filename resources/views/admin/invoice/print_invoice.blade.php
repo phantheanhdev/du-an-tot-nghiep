@@ -110,7 +110,7 @@
         <thead>
             <tr>
                 <th width="50%" colspan="2">
-                    <h2 class="text-start">Fpoly Ecommerce</h2>
+                    <h2 class="text-start">Foodie</h2>
                 </th>
                 <th width="50%" colspan="2" class="text-end company-data">
                     <span>Invoice Id: {{ $order->id }}</span> <br>
@@ -174,7 +174,7 @@
                         {{ $item->product->name }}
                     </td>
                     <td>
-                        {{ $item->product->price }}
+                        {{ $item->product_price }}
                     </td>
                     <td>
                         {{ $item->quantity }}
@@ -185,6 +185,7 @@
                 </tr>
             @endforeach
             <tr>
+
                 <td colspan="4" class="total-heading">Total Amount - <small>Inc. all vat/tax</small> :</td>
                 <td colspan="1" class="total-heading">{{ $order->total_price }}</td>
             </tr>
