@@ -16,12 +16,20 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         if ($request->isMethod('POST')) {
+            $this->validate($request,[
+                'username' => 'required',
+                'password' => 'required|min:6',
+            ],[
+                'username.required' => 'Vui lòng nhập tên đăng nhập.',
+                'password.required' => 'Vui lòng nhập mật khẩu .',
+                'password.min' => 'Mật khẩu mới phải có ít nhất 6 ký tự.',
+            ]);
             if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) //đăng nhập thành công
             {
                 Session::put('username', $request->username);
-                return redirect('/')->with(session()->flash('alert', 'Đăng nhập thành công'));
+                return redirect('/')->with('success','Đăng Nhập thành công');
             } else {
-                return redirect('/login')->with(session()->flash('alert', 'sai mật khẩu'));
+                return redirect()->back()->withErrors(['password' => 'Không đúng tên đăng nhập hoặc mật khẩu.']);
             }
         }
         return view('login.login');

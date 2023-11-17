@@ -18,19 +18,19 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="current_password" class="form-label">Mật khẩu cũ:</label>
-                                <input type="password" name="current_password" class="form-control" required>
+                                <input type="password" name="current_password" class="form-control" >
                                 @error('current_password') <div class="text-danger">{{ $message }}</div> @enderror
                             </div>
 
                             <div class="mb-3">
                                 <label for="new_password" class="form-label">Mật khẩu mới:</label>
-                                <input type="password" name="new_password" class="form-control" required>
+                                <input type="password" name="new_password" class="form-control" >
                                 @error('new_password') <div class="text-danger">{{ $message }}</div> @enderror
                             </div>
 
                             <div class="mb-3">
                                 <label for="confirm_password" class="form-label">Nhập lại mật khẩu mới:</label>
-                                <input type="password" name="confirm_password" class="form-control" required>
+                                <input type="password" name="confirm_password" class="form-control" >
                                 @error('confirm_password') <div class="text-danger">{{ $message }}</div> @enderror
                             </div>
 
