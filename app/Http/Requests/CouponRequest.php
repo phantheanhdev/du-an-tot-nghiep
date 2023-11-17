@@ -24,7 +24,7 @@ class CouponRequest extends FormRequest
         return [
             'name' => 'required|min:3|unique:coupons',
             'code' => 'required|min:3|unique:coupons',
-            'quantity' => 'required|numeric',
+            'quantity' => 'required|numeric|min:1',
             'start_date' => 'required',
             'end_date' => 'required',
             'discount_type' => 'required',
@@ -41,8 +41,7 @@ class CouponRequest extends FormRequest
             'code.min' => 'Code field should have min 3 letters',
             'quantity.required' => 'Quantity field is required',
             'quantity.numeric' => 'Quantity must be numeric',
-            // 'quantity.min' => 'Quantity field should have min :min letters',
-            // 'quantity.max' => 'Quantity field should have max :max letters',
+       
             'start_date.required' => 'Start date field is required ',
             'end_date.required' => 'End date field is required ',
             'discount_type.required' => 'Discount type field is required ',

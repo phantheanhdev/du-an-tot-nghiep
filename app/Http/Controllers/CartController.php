@@ -68,7 +68,7 @@ class CartController extends Controller
                 "name" => $product->name,
                 "quantity" => $request->input('quantity', 1),
                 "price" => $request->price,
-                'image'=>$product->image
+                'image' => $product->image
             ];
         }
 
@@ -179,6 +179,7 @@ class CartController extends Controller
                 'discount' => $coupon->discount
             ]);
         }
+
         return response(['status' => 'success', 'message' => 'Coupon applied successfully!']);
     }
 
@@ -211,7 +212,7 @@ class CartController extends Controller
         if (Session::has('coupon')) {
             session()->forget('coupon');
             $total = getTotalCart();
-            return response(['status' => 'success','message' => 'Voucher canceled successfully!' ,  'cart_total' => $total, 'discount' => 0]);
+            return response(['status' => 'success', 'message' => 'Voucher canceled successfully!',  'cart_total' => $total, 'discount' => 0]);
         }
     }
 }
