@@ -16,9 +16,9 @@
                     <a href="/restaurant-manager" class="btn btn-outline btn-primary btn-sm float-left">
                         <i class="fa fa-long-arrow-left mt-1"></i>
                     </a>
-                    Desk manager
+                    Quản lý bàn    
                     <a href="{{ route('table.create') }}" class="float-right">
-                        <button class="btn btn-primary">Add table</button>
+                        <button class="btn btn-primary">Thêm bàn</button>
                     </a>
 
                 </h3>
@@ -53,9 +53,9 @@
                                     </form>
                                 </div>
 
-                                <h3 class="card-title">Table Name: {{ $table->name }}</h3>
-                                <h3 class="card-title">Table Type: {{ $table->type }}</h3>
-                                <a href="{{ $table->qr }}" class="btn btn-primary">Download QR Image</a>
+                                <h3 class="card-title">Tên bàn: {{ $table->name }}</h3>
+                                <h3 class="card-title">Loại bàn: {{ $table->type }}</h3>
+                                <a href="{{ $table->qr }}" class="btn btn-primary">Tải QR</a>
                             </div>
                         </div>
                     </div>
