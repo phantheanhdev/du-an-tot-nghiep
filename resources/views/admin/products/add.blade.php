@@ -15,7 +15,7 @@
                     <a href="/product" class="btn btn-outline btn-primary btn-sm float-left">
                         <i class="fa fa-long-arrow-left mt-1"></i>
                     </a>
-                    More food
+                    Thêm Thực Đơn
                 </h3>
                 <hr />
                 <input hidden value="Completed" id="lblCompleted" />
@@ -27,14 +27,14 @@
 
                         <div class="row">
                             <div class="form-group col-12 col-md-6">
-                                <label class="font-weight-bold" for="name">Name</label>
-                                <input type="text" name="name" id="name" placeholder="Enter food name..." class="form-control">
+                                <label class="font-weight-bold" for="name">Tên</label>
+                                <input type="text" name="name" id="name" placeholder="Nhập tên..." class="form-control">
                                 @error('name')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="form-group col-12 col-md-6">
-                                <label class="font-weight-bold" for="price">Price</label>
+                                <label class="font-weight-bold" for="price">Giá</label>
                                 <input type="number" name="price" id="price" placeholder="0" min="0" step="any"
                                     class="form-control">
                                 @error('price')
@@ -43,8 +43,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold" for="description">Description</label>
-                            <textarea name="description" id="description" class="form-control"></textarea>
+                            <label class="font-weight-bold" for="description">Sự Miêu Tả</label>
+                            <textarea name="description" id="description" class="form-control" placeholder="Nhập miêu tả..."></textarea>
                             @error('description')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -52,9 +52,9 @@
 
                         <div class="row">
                             <div class="form-group col-6">
-                                <label class="font-weight-bold" for="category">Category</label>
+                                <label class="font-weight-bold" for="category">Danh Mục</label>
                                 <select name="category_id" id="category" class="form-control">
-                                    <option value="">Choose...</option>
+                                    <option selected disabled value="">Chọn...</option>
                                     @foreach ($category as $detail)
                                         <option value="{{ $detail->id }}">{{ $detail->category_name }}</option>
                                     @endforeach
@@ -65,9 +65,9 @@
                             </div>
 
                             <div class="form-group col-6">
-                                <label  class="font-weight-bold" for="status">Status</label>
+                                <label  class="font-weight-bold" for="status">Trạng Thái</label>
                                 <select name="status" id="status" class="form-control">
-                                    <option value="">Choose...</option>
+                                    <option selected disabled value="">Chọn...</option>
                                     <option value="active">Active</option>
                                     <option value="inactive">Inactive</option>
                                 </select>
@@ -77,7 +77,7 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label  class="font-weight-bold" class="form-label mr-5">Image</label>
+                            <label  class="font-weight-bold" class="form-label mr-5">Hình Ảnh</label>
                             <img id="image_preview"
                                 src="https://www.freeiconspng.com/uploads/img-landscape-photo-photography-picture-icon-12.png"
                                 alt="Product image" style="height:100px" class="mr-3">
@@ -89,8 +89,8 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Add Product</button>
-                            <button type="reset" class="btn btn-primary">Reset</button>
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+                            <button type="reset" class="btn btn-primary">Đặt lại</button>
                         </div>
                     </form>
                 </div>

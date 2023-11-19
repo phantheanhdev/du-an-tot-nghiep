@@ -15,9 +15,9 @@
                     <a href="/restaurant-manager" class="btn btn-outline btn-primary btn-sm float-left">
                         <i class="fa fa-long-arrow-left mt-1"></i>
                     </a>
-                    Manage food menus
+                    Danh Sách Thực Đơn
                     <a href="{{route('create')}}" class="float-right">
-                        <button class="btn btn-primary">+ Create New Food</button>
+                        <button class="btn btn-primary">+ Thêm mới</button>
                     </a>
                 </h3>
                 <hr />
@@ -26,17 +26,17 @@
 
                 <div class="col-md-12">
                     <div class="row table-responsive" id="nonPayOrder">
-                        <table class="table table-hover">
+                        <table id="myTable" class="display">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th>#</th>
-                                    <th>Image</th>
-                                    <th>Name</th>
-                                    <th>Price</th>
-                                    <th>Description</th>
-                                    <th>Category</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th>STT</th>
+                                    <th>Hình Ảnh</th>
+                                    <th>Tên Món</th>
+                                    <th>Giá</th>
+                                    <th>Sự Miêu Tả</th>
+                                    <th>Tên Danh Mục</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Hành Động</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -59,10 +59,10 @@
                                         </td>
                                         <td>
                                             <a id="edit" href="{{ route('product.edit', ['id' => $item->id]) }}">
-                                                <button class="btn btn-secondary">Edit</button>
+                                                <button class="btn btn-success"><i class="fa-solid fa-pen"></i></button>
                                             </a>
                                             <a id="delete" href="{{ route('product.delete', ['id' => $item->id]) }}">
-                                                <button class="btn btn-primary">Delete</button>
+                                                <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
                                             </a>
                                         </td>
                                     </tr>
@@ -75,3 +75,11 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        let table = new DataTable('#myTable', {
+            responsive: true
+        });
+    </script>
+@endpush
