@@ -52,7 +52,7 @@ class TableController extends Controller
         if ($nameExists) {
             // Nếu $name đã tồn tại, redirect với thông báo lỗi
             $notification = [
-                'message' => 'Table name already exists. Please choose another name',
+                'message' => 'Tên bàn đã tồn tại. Vui lòng chọn tên khác',
                 'alert-type' => 'error',
             ];
             return redirect()->route('table.create')->withInput()->with($notification);
@@ -72,14 +72,14 @@ class TableController extends Controller
             Table::create($data);
 
             $notification = [
-                'message' => 'Added table successfully',
+                'message' => 'Thêm bàn thành công',
                 'alert-type' => 'success',
             ];
 
             return redirect()->route('table.index')->with($notification);
         } catch (\Throwable $th) {
             $notification = [
-                'message' => 'Adding table failed',
+                'message' => 'Thêm bàn thất bại',
                 'alert-type' => 'failse',
             ];
 
@@ -126,7 +126,7 @@ class TableController extends Controller
         if ($nameExists) {
             // Nếu $name đã tồn tại (ngoại trừ bản ghi đang được cập nhật), redirect với thông báo lỗi
             $notification = [
-                'message' => 'Table name already exists. Please choose another name',
+                'message' => 'Tên bàn đã tồn tại. Vui lòng chọn tên khác',
                 'alert-type' => 'error',
             ];
             return redirect()->route('table.edit', $table->id)->withInput()->with($notification);
@@ -142,14 +142,14 @@ class TableController extends Controller
             $table->update($data);
 
             $notification = [
-                'message' => 'Edited table information successfully',
+                'message' => 'Đã sửa thông tin bàn thành công',
                 'alert-type' => 'success',
             ];
 
             return redirect()->route('table.index')->with($notification);
         } catch (\Throwable $th) {
             $notification = [
-                'message' => 'Editing table information failed',
+                'message' => 'Sửa thông tin bàn thất bại',
                 'alert-type' => 'failse',
             ];
 
@@ -166,14 +166,14 @@ class TableController extends Controller
             $table->delete();
 
             $notification = array(
-                "message" => "Table cleared successfully",
+                "message" => "Xóa bàn thành công",
                 "alert-type" => "success",
             );
 
             return redirect()->route('table.index')->with($notification);
         } catch (\Throwable $th) {
             $notification = array(
-                "message" => "Table deletion failed",
+                "message" => "Xóa bàn thất bại",
                 "alert-type" => "failse",
             );
 

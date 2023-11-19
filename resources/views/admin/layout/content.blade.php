@@ -206,11 +206,11 @@
                                     <button id="btnOrder" onclick="getLink('restaurant-manager')"
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa fa-th float-left mt-1"></i>
-                                        ORDERS</button>
+                                        Đơn hàng</button>
                                     {{-- order_list --}}
                                     <button id="btnOrderAlternative" onclick="getLink('orderAlternative')"
                                         class="btn btn-outline btn-primary btn-block"><i
-                                            class="fa fa-list-ol float-left mt-1"></i>ORDERS (LIST)</button>
+                                            class="fa fa-list-ol float-left mt-1"></i>Danh sách đơn hàng</button>
                                     {{-- order-board - quản lý món ra  --}}
                                     <button id="btnOrderBoard" onclick="getLink('orderBoard')"
                                         class="btn btn-outline btn-primary btn-block"><i
@@ -221,21 +221,21 @@
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa fa-columns fa-square-kanban fa-sharp fa-solid fa-qrcode float-left mt-1"
                                             style="color: #d35352;"></i>
-                                        QR Builder
+                                        Xây dựng QR
                                     </button>
                                     {{-- tale --}}
                                     <button id="table" onclick="getLink('table')"
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa-regular fa-table fa fa-columns fa-square-kanban fa-sharp fa-solid float-left mt-1"
                                             style="color: #d35352;"></i>
-                                        Tables
+                                        Bàn
                                     </button>
                                     {{-- category --}}
                                     <button id="category" onclick="getLink('category')"
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa-solid fa-bars fa-square-kanban fa-sharp fa-solid float-left mt-1"
                                             style="color: #d35352;"></i>
-                                        Categories
+                                        Danh mục thực phẩm
                                     </button>
 
                                     {{-- product --}}
@@ -243,7 +243,7 @@
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa-solid fa-mug-hot  fa-square-kanban fa-sharp fa-solid float-left mt-1"
                                             style="color: #d35352;"></i>
-                                        Menu Product
+                                        Menu thực phẩm
                                     </button>
 
                                     {{-- employee --}}
@@ -251,24 +251,26 @@
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa-solid fa-bars fa-square-kanban fa-sharp fa-solid float-left mt-1"
                                             style="color: #d35352;"></i>
-                                        Staff Management
+                                        Nhân viên
                                     </button>
-                                    {{-- Dashboard admin --}}
-                                    <button id="btnOrder" onclick="getLink('dashboard')"
-                                        class="btn btn-outline btn-primary btn-block">
-                                        <i class="fa-solid fa-table-columns float-left mt-1"></i>
-                                        DASHBOARD</button>
                                     {{-- Coupon admin --}}
                                     <button id="btnOrder" onclick="getLink('coupons')"
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa-solid fa-table-columns float-left mt-1"></i>
-                                        COUPON</button>
+                                        Phiếu mua hàng</button>
                                     {{-- Flash Sale admin --}}
                                     <button id="btnOrder" onclick="getLink('flash-sale')"
                                         class="btn btn-outline btn-primary btn-block">
 
                                         <i class="fa-solid fa-bolt float-left mt-1"></i>
-                                        Flash Sale</button>
+                                        Giảm giá thần tốc</button>
+
+                                    {{-- Dashboard admin --}}
+                                    <button id="btnOrder" onclick="getLink('dashboard')"
+                                        class="btn btn-outline btn-primary btn-block">
+                                        <i class="fa-solid fa-table-columns float-left mt-1"></i>
+                                        Thống kê</button>
+
                                 </div>
                             </div>
                         </div>
