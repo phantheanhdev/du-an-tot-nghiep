@@ -97,15 +97,15 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h4>All Flash Sale Products</h4>
-                                  
+
 
                                 </div>
-                              
+
                                     <div class="card-body">
                                         <table id="myTable" class="display">
                                             <thead>
                                                 <tr>
-                                                   
+
                                                     <th>STT</th>
                                                     <th>Product Name</th>
                                                     <td>Start date</td>
@@ -118,7 +118,7 @@
                                             <tbody>
                                                 @foreach ($flashSaleItem as $item)
                                                     <tr>
-                                                       
+
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $item->product->name }}</td>
                                                         <td>{{ $item->start_date }}</td>
@@ -150,12 +150,12 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
-                                      
+
                                     </div>
 
 
-                                 
-                              
+
+
 
 
                             </div>
@@ -245,5 +245,5 @@
         })
     </script>
 
-   
+
 @endpush
