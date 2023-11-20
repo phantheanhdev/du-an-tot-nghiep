@@ -43,8 +43,12 @@
                             <div class="m-b-md">
                                 <i id="table-icon-2" class="fa fa-minus fa-4x"></i>
                                 <br />
-                                @if ($table->orders->count() == 0)
-                                <small id="table-notification-{{$table->id}}">Bàn trống</small>
+                                @if ($table->orders->filter(function($order){
+                                return $order->status == 0 || $order->status == 5;
+                                })->count() == 0)
+                                <small  id="table-notification-{{$table->id}}">Bàn trống</small>
+                                @else
+                                <small  id="table-notification-{{$table->id}}">Bàn có khách</small>
                                 @endif
 
                                 <h3 class="font-bold no-margins">
@@ -92,7 +96,7 @@
             "hideMethod": "fadeOut"
         }
 
-        var audio = new Audio('{{ asset('Doorbell.mp3 ') }}');
+        var audio = new Audio('{{ asset(' Doorbell.mp3 ') }}');
         audio.play();
         setTimeout(function() {
             $('#table-' + data.id).removeClass('red-bg');

@@ -56,9 +56,9 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Đăng Nhập</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">Đăng ký</h1>
                                     </div>
-                                    <form method="POST" action="{{ route('login') }}">
+                                    <form method="POST" action="{{ route('register') }}">
                                         @csrf
                                         <div class="form-group">
                                             <input type="text" name="username" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder=" Tên Đăng Nhập...">
@@ -66,14 +66,17 @@
 
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Mật Khẩu">
+                                            <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Mật Khẩu....">
                                             @error('password') <div class="text-danger">{{ $message }}</div> @enderror
-
                                         </div>
-                                        <button type="submit" class="btn btn-danger">Đăng Nhập</button>
+                                        <div class="form-group">
+                                            <input type="email" name="email" class="form-control form-control-user" id="exampleInputPassword" placeholder="Email....">
+                                            @error('email') <div class="text-danger">{{ $message }}</div> @enderror
+                                        </div>
+                                        <button type="submit" class="btn btn-danger">Đăng ký</button>
                                     </form>
                                     <div class="text-center small-link-container">
-                                        <a class="small small-link" href="{{ route('register') }}">Tạo một tài khoản mới!</a>
+                                        <a class="small small-link" href="{{ route('login') }}">Đăng Nhập</a>
                                     </div>
                                 </div>
                             </div>
