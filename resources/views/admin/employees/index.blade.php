@@ -15,9 +15,9 @@
                     <a href="/restaurant-manager" class="btn btn-outline btn-primary btn-sm float-left">
                         <i class="fa fa-long-arrow-left mt-1"></i>
                     </a>
-                    Staff
+                    Nhân viên
                     <a href="{{ route('employee.create') }}" class="float-right">
-                        <button class="btn btn-primary">+ Create Staff</button>
+                        <button class="btn btn-primary">+ Thêm nhân viên</button>
                     </a>
 
                 </h3>
@@ -31,20 +31,20 @@
                             <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
-                                    <th>Phone number</th>
-                                    <th>Address</th>
-                                    <th>Position</th>
-                                    <th>Shift</th>
-                                    <th>Salary / 1h</th>
-                                    <th>Recruitment day</th>
+                                    <th>Tên nhân viên</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Vị trí</th>
+                                    <th>Ca làm việc</th>
+                                    <th>Lương / 1h</th>
+                                    <th>Ngày tuyển dụng</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($employees as $item)
+                                @foreach ($employees as $key => $item)
                                     <tr>
-                                        <td>{{$item->id}}</td>
+                                        <td>{{$key +1}}</td>
                                         <td>{{$item->name}}</td>
                                         <td>{{$item->phone}}</td>
                                         <td>{{$item->address}}</td>
