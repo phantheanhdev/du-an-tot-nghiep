@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+
 
 class LoginController extends Controller
 {
@@ -16,10 +18,10 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         if ($request->isMethod('POST')) {
-            $this->validate($request,[
+            $this->validate($request, [
                 'username' => 'required',
                 'password' => 'required|min:6',
-            ],[
+            ], [
                 'username.required' => 'Vui lòng nhập tên đăng nhập.',
                 'password.required' => 'Vui lòng nhập mật khẩu .',
                 'password.min' => 'Mật khẩu mới phải có ít nhất 6 ký tự.',
@@ -27,7 +29,7 @@ class LoginController extends Controller
             if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) //đăng nhập thành công
             {
                 Session::put('username', $request->username);
-                return redirect('/')->with('success','Đăng Nhập thành công');
+                return redirect('/')->with('success', 'Đăng Nhập thành công');
             } else {
                 return redirect()->back()->withErrors(['password' => 'Không đúng tên đăng nhập hoặc mật khẩu.']);
             }
@@ -38,13 +40,23 @@ class LoginController extends Controller
     {
         if ($request->isMethod('POST')) {
             $this->validate($request, [
-                'name' => 'required',
-                'email' => 'required',
+                'username' => 'required|unique:users',
+                'email' => 'required|email|unique:users',
                 'password' => 'required',
+            ], [
+                'username.required' => 'Vui lòng nhập tên đăng nhập.',
+                'email.required' => 'Vui lòng nhập email.',
+                'email.email' => 'Địa chỉ email không hợp lệ.',
+                'email.unique' => 'Email đã được sử dụng.',
+                'username.unique' => 'Tên đăng nhập đã tồn tại.',
+                'password.required' => 'Vui lòng nhập mật khẩu .',
+                'password.min' => 'Mật khẩu mới phải có ít nhất 6 ký tự.',
             ]);
 
             $user = new User();
-            $user->name = $request->input('name');
+            $user->username = $request->input('username');
+            $user->role = 1;
+            $user->remember_token = Str::random(10);
             $user->email = $request->input('email');
             $user->password = bcrypt($request->input('password'));
             $user->save();
@@ -53,6 +65,7 @@ class LoginController extends Controller
             Auth::login($user);
             return redirect('/');
         }
+        return view('login.register');
     }
     public function showRegister()
     {
