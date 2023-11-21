@@ -65,7 +65,7 @@
 
                                         <input type="hidden" name="table_id" value="{{ $tableId }}">
                                         <input type="hidden" name="status" value="0">
-                                        <input type="hidden" name="customer_name" value="{{ $customer_name }}">
+                                        <input type="hidden" name="phone" value="{{ $phone }}">
                                         <input type="hidden" name="customer_phone" value="0">
 
 
@@ -182,9 +182,6 @@
                                             echo "$timeOfDay";
                                             ?>
                                         </b>
-                                        <p>
-                                            <?= $customer_name ?>
-                                        </p>
                                     </h3>
                                     <span>
                                         Bạn đang ngồi ở bàn: <b>
