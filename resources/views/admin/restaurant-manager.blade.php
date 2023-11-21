@@ -17,14 +17,11 @@
             <input hidden value="The waiter has been called." id="lblCallWaiter" />
             <input hidden value="Invoice is requested" id="lblCallBill" />
 
-            <h3 class="text-qrRest-dark text-center">TABLES</h3>
+            <h3 class="text-qrRest-dark text-center">Bàn</h3>
             <div class="text-center">
-                <span class="badge badge-dark mr-2"><i class="fa fa-cutlery"></i> : There are
-                    customers</span>
-                <span class="badge badge-dark mr-2"> <i class="fa fa-minus"></i> : The table is
-                    empty</span>
-                <span class="badge badge-dark mr-2"> <i class="fa fa-bell"></i> : Have a new
-                    order</span>
+                <span class="badge badge-dark mr-2"><i class="fa fa-cutlery"></i> : Có khách hàng</span>
+                <span class="badge badge-dark mr-2"> <i class="fa fa-minus"></i> : Bàn trống </span>
+                <span class="badge badge-dark mr-2"> <i class="fa fa-bell"></i> : Có đơn mới</span>
             </div>
 
             <hr />
