@@ -15,7 +15,7 @@ class Order extends Model
         'note',
         'total_price',
         'status',
-        'customer_name',
+        'phone',
         'customer_phone',
         'order_day'
     ];

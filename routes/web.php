@@ -112,7 +112,7 @@ Route::middleware(['auth'])->group(function () {
 //  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8
 //  bat dau quet , nhap ten  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8
 
-Route::group(['middleware' => 'custom'], function () {
+// Route::group(['middleware' => 'custom'], function () {
     Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
 
     // Action order food
@@ -125,7 +125,7 @@ Route::group(['middleware' => 'custom'], function () {
     Route::get('apply-coupon', [CartController::class, 'applyCoupon'])->name('apply-coupon');
     Route::get('coupon-calculation', [CartController::class, 'couponCalculation'])->name('coupon-calculation');
     Route::get('cacel-coupon', [CartController::class, 'cencelCoupon'])->name('cencel-coupon');
-});
+// });
 
 // form infor user
 //  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8
