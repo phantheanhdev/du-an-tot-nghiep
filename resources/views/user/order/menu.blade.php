@@ -4,7 +4,7 @@
         <div id="page-wrapper" class="gray-bg">
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary box-shadow mb-3">
                 <div class="container">
-                    <a class="navbar-brand" href="#">QR MENU</a>
+                    <a class="navbar-brand" href="#">FOODIE MENU</a>
                     <button class="custom-toggler navbar-toggler" type="button" data-toggle="collapse"
                         data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false"
                         aria-label="Toggle navigation">
@@ -51,7 +51,7 @@
                         <div class="col-md-4">
                             <div class="ibox float-e-margins" id="fboxSf">
                                 <div class="ibox-title">
-                                    <h3 class="col-md-12">MY CART <i class="fa fa-cart-arrow-down float-right"></i></h3>
+                                    <h3 class="col-md-12">Giỏ hàng <i class="fa fa-cart-arrow-down float-right"></i></h3>
                                     <input hidden value="&#x20AB;" id="txtCurrency" />
                                     <input hidden value="TOTAL" id="txtTotal" />
                                     <input hidden value="Your cart is empty yet." id="txtEmptyCart" />
@@ -103,7 +103,7 @@
                                                 @endif
                                                 <tr class="spacer">
                                                     <td class="cart-item">
-                                                        <h5>TOTAL</h5>
+                                                        <h5>Tổng</h5>
                                                     </td>
                                                     <td></td>
                                                     <td class="cart-item"> <strong>$ {{ number_format($total) }}</strong>
@@ -123,7 +123,7 @@
                                         </div> --}}
                                         <div class="form-group" id="txtOrderIsReady">
                                             <textarea class="form-control" name="note" maxlength="70" rows="2"
-                                                placeholder="Indicate if you have a note for the order"></textarea>
+                                                placeholder="Ghi chú"></textarea>
                                         </div>
                                         <button type="button" id="placeOrder" onclick="submitOrder(<?= $tableId ?>)"
                                             class="btn btn-primary btn-outline btn-block mt-4 btn-sm"> Place the
@@ -162,7 +162,7 @@
                                             class="btn btn-primary btn-outline btn-flat btn-sm"><i
                                                 class="fa  fa-th-large mt-1"></i></button>
                                     </div>
-                                    <h3 class=" d-flex text-qrRest-dark font-weight-bold text-styling">Good
+                                    <h3 class=" d-flex text-qrRest-dark font-weight-bold text-styling">Chào
                                         <b class="mx-1">
                                             <?php
 
@@ -170,13 +170,13 @@
                                             $currentHour = date('G');
 
                                             if ($currentHour >= 5 && $currentHour < 12) {
-                                                $timeOfDay = 'morning';
+                                                $timeOfDay = 'buổi sáng';
                                             } elseif ($currentHour >= 12 && $currentHour < 17) {
-                                                $timeOfDay = 'afternoon';
+                                                $timeOfDay = 'buổi chiều';
                                             } elseif ($currentHour >= 17 && $currentHour < 20) {
-                                                $timeOfDay = 'afternoon';
+                                                $timeOfDay = 'buổi chiều';
                                             } else {
-                                                $timeOfDay = 'evening';
+                                                $timeOfDay = 'buổi tối';
                                             }
 
                                             echo "$timeOfDay";
@@ -187,7 +187,7 @@
                                         </p>
                                     </h3>
                                     <span>
-                                        You are sitting at table: <b>
+                                        Bạn đang ngồi ở bàn: <b>
                                             <?= $tableNo ?>
                                         </b>
                                     </span>

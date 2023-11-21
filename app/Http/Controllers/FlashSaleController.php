@@ -28,7 +28,7 @@ class FlashSaleController extends Controller
             'end_date' => ['required'],
             'status' => ['required'],
         ], [
-            'product.unique' => 'The product is already in flash sale!'
+            'product.unique' => 'Sản phẩm hiện đang có chương trình flash sale!'
         ]);
 
 
@@ -49,7 +49,7 @@ class FlashSaleController extends Controller
 
 
 
-        return response(['status' => 'success', 'message' => 'Product applied successfully!']);
+        return response(['status' => 'success', 'message' => 'Sản phẩm được áp dụng thành công!']);
     }
 
     public function changeStatus(Request $request)
@@ -57,7 +57,7 @@ class FlashSaleController extends Controller
         $flashSaleItem  = FlashSaleItem::findOrFail($request->id);
         $flashSaleItem->status = $request->status;
         $flashSaleItem->save();
-        return response(['message' => 'Status has been updated!']);
+        return response(['message' => 'Trạng thái đã được cập nhật!']);
     }
     public function destory(string $id)
     {
@@ -74,7 +74,7 @@ class FlashSaleController extends Controller
             }
         }
         $flashSaleItem->delete();
-        return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
+        return response(['status' => 'success', 'message' => 'Đã xoá thành công!']);
     }
 
     public function delete(Request $request)
@@ -95,9 +95,9 @@ class FlashSaleController extends Controller
                 }
                 $flashSaleItem->delete();
             }
-            return redirect()->back()->with(['message' => 'Deleted successfully !']);
+            return redirect()->back()->with(['message' => 'Đã xoá thành công !']);
         } else {
-            return redirect()->back()->with(['message' => 'No version has been selected']);
+            return redirect()->back()->with(['message' => 'Chưa có phiên bản nào được chọn']);
         }
     }
 }

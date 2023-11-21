@@ -212,17 +212,17 @@
                                         class="btn btn-outline btn-primary btn-block"><i
                                             class="fa fa-list-ol float-left mt-1"></i>Danh sách đơn hàng</button>
                                     {{-- order-board - quản lý món ra  --}}
-                                    <button id="btnOrderBoard" onclick="getLink('orderBoard')"
+                                    {{-- <button id="btnOrderBoard" onclick="getLink('orderBoard')"
                                         class="btn btn-outline btn-primary btn-block"><i
                                             class="fa fa-columns fa-square-kanban float-left mt-1"></i>ORDER
-                                        BOARD</button>
+                                        BOARD</button> --}}
                                     {{-- qr builder --}}
-                                    <button id="qr-builder" onclick="getLink('qr-builder')"
+                                    {{-- <button id="qr-builder" onclick="getLink('qr-builder')"
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa fa-columns fa-square-kanban fa-sharp fa-solid fa-qrcode float-left mt-1"
                                             style="color: #d35352;"></i>
                                         Xây dựng QR
-                                    </button>
+                                    </button> --}}
                                     {{-- tale --}}
                                     <button id="table" onclick="getLink('table')"
                                         class="btn btn-outline btn-primary btn-block">
@@ -254,10 +254,10 @@
                                         Nhân viên
                                     </button>
                                     {{-- Coupon admin --}}
-                                    <button id="btnOrder" onclick="getLink('coupons')"
+                                    {{-- <button id="btnOrder" onclick="getLink('coupons')"
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa-solid fa-table-columns float-left mt-1"></i>
-                                        Phiếu mua hàng</button>
+                                        Phiếu mua hàng</button> --}}
                                     {{-- Flash Sale admin --}}
                                     <button id="btnOrder" onclick="getLink('flash-sale')"
                                         class="btn btn-outline btn-primary btn-block">

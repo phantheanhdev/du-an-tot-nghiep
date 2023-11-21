@@ -84,7 +84,7 @@ class OrderController extends Controller
         $order = Order::findOrFail($request->id);
         $order->status = $request->status;
         $order->save();
-        return response(['message' => 'Status has been updated']);
+        return response(['message' => 'Trạng thái đã được cập nhật']);
     }
 
     public function viewInvoice(string $id)
