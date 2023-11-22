@@ -16,7 +16,7 @@
                         <i class="fa fa-long-arrow-left mt-1"></i>
                     </a>
                     Danh Sách Thực Đơn
-                    <a href="{{route('create')}}" class="float-right">
+                    <a href="{{ route('create') }}" class="float-right">
                         <button class="btn btn-primary">+ Thêm mới</button>
                     </a>
                 </h3>
@@ -44,7 +44,9 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>
-                                            <img width="100px" height="100px" src="{{ $item->image ? Storage::url($item->image) : 'https://www.freeiconspng.com/uploads/img-landscape-photo-photography-picture-icon-12.png' }}" alt="">
+                                            <img width="100px" height="100px"
+                                                src="{{ $item->image ? Storage::url($item->image) : 'https://www.freeiconspng.com/uploads/img-landscape-photo-photography-picture-icon-12.png' }}"
+                                                alt="">
                                         </td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->price }}</td>
@@ -58,11 +60,14 @@
                                             @endif
                                         </td>
                                         <td>
+                                            <a href="{{ route('products-variant.index', ['product' => $item->id]) }}"
+                                                class="btn btn-primary"><i class="fa-solid fa-gear"></i></a>
                                             <a id="edit" href="{{ route('product.edit', ['id' => $item->id]) }}">
                                                 <button class="btn btn-success"><i class="fa-solid fa-pen"></i></button>
                                             </a>
                                             <a id="delete" href="{{ route('product.delete', ['id' => $item->id]) }}">
-                                                <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                                                <button class="btn btn-danger"><i
+                                                        class="fa-solid fa-trash-can"></i></button>
                                             </a>
                                         </td>
                                     </tr>

@@ -15,6 +15,8 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductVariantController;
+use App\Http\Controllers\ProductVariantItemController;
 use Illuminate\Support\Facades\Cookie;
 
 /*
@@ -78,8 +80,8 @@ Route::middleware(['auth'])->group(function () {
 
     // order
     Route::get('list-order', [OrderController::class, 'index']);
-    Route::delete('delete-order',[OrderController::class, 'destroy'])->name('detete-order');
-    Route::get('order-status',[OrderController::class, 'updateOrderStatus'])->name('order-status');
+    Route::delete('delete-order', [OrderController::class, 'destroy'])->name('detete-order');
+    Route::get('order-status', [OrderController::class, 'updateOrderStatus'])->name('order-status');
     // view invoice order
     Route::get('/invoice/{id}', [OrderController::class, 'viewInvoice'])->name('viewInvoice');
     // download FDF order
@@ -90,19 +92,34 @@ Route::middleware(['auth'])->group(function () {
     // bill
     Route::resource('order-board', BillController::class);
 
-        //Coupon
-        Route::get('coupons/change-status', [CouponController::class, 'changeStatus'])->name('coupons.change-status');
-        Route::resource('coupons', CouponController::class);
-        Route::delete('/delete-coupon', [CouponController::class, 'destroy'])->name('delete');
+    //Coupon
+    Route::get('coupons/change-status', [CouponController::class, 'changeStatus'])->name('coupons.change-status');
+    Route::resource('coupons', CouponController::class);
+    Route::delete('/delete-coupon', [CouponController::class, 'destroy'])->name('delete');
 
-         /** Flash Sale Routes */
-         Route::get('flash-sale', [FlashSaleController::class, 'index'])->name('flash-sale.index');
-         Route::post('flash-sale/add-product', [FlashSaleController::class, 'addProduct'])->name('flash-sale.add-product');
-         Route::get('flash-sale-status', [FlashSaleController::class, 'changeStatus'])->name('flash-sale-status');
-         Route::delete('flash-sale/{id}', [FlashSaleController::class, 'destory'])->name('flash-sale.destory');
-         //changePassword
-         Route::get('/change-password', [App\Http\Controllers\Login\LoginController::class, 'showForm'])->name('show.password.form');
-         Route::post('/update-password', [App\Http\Controllers\Login\LoginController::class, 'updatePassword'])->name('update.password');
+    /** Flash Sale Routes */
+    Route::get('flash-sale', [FlashSaleController::class, 'index'])->name('flash-sale.index');
+    Route::post('flash-sale/add-product', [FlashSaleController::class, 'addProduct'])->name('flash-sale.add-product');
+    Route::get('flash-sale-status', [FlashSaleController::class, 'changeStatus'])->name('flash-sale-status');
+    Route::delete('flash-sale/{id}', [FlashSaleController::class, 'destory'])->name('flash-sale.destory');
+    //changePassword
+    Route::get('/change-password', [App\Http\Controllers\Login\LoginController::class, 'showForm'])->name('show.password.form');
+    Route::post('/update-password', [App\Http\Controllers\Login\LoginController::class, 'updatePassword'])->name('update.password');
+    /** Products variant route */
+
+    Route::resource('products-variant', ProductVariantController::class);
+
+    /** Products variant item route */
+    Route::get('products-variant-item/{productId}/{variantId}', [ProductVariantItemController::class, 'index'])->name('products-variant-item.index');
+
+    Route::get('products-variant-item/create/{productId}/{variantId}', [ProductVariantItemController::class, 'create'])->name('products-variant-item.create');
+    Route::post('products-variant-item', [ProductVariantItemController::class, 'store'])->name('products-variant-item.store');
+
+    Route::get('products-variant-item-edit/{variantItemId}', [ProductVariantItemController::class, 'edit'])->name('products-variant-item.edit');
+
+    Route::put('products-variant-item-update/{variantItemId}', [ProductVariantItemController::class, 'update'])->name('products-variant-item.update');
+
+    Route::delete('products-variant-item/{variantItemId}', [ProductVariantItemController::class, 'destroy'])->name('products-variant-item.destroy');
 });
 
 
@@ -113,18 +130,18 @@ Route::middleware(['auth'])->group(function () {
 //  bat dau quet , nhap ten  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8
 
 // Route::group(['middleware' => 'custom'], function () {
-    Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
+Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
 
-    // Action order food
-    Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
-    Route::delete('/remove-from-cart', [CartController::class, 'remove']);
-    Route::post('order', [CartController::class, 'order'])->name('order');
-    Route::get('/get-cart', [CartController::class, 'getCart'])->name('get.cart');
+// Action order food
+Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
+Route::delete('/remove-from-cart', [CartController::class, 'remove']);
+Route::post('order', [CartController::class, 'order'])->name('order');
+Route::get('/get-cart', [CartController::class, 'getCart'])->name('get.cart');
 
-    // Apply coupon
-    Route::get('apply-coupon', [CartController::class, 'applyCoupon'])->name('apply-coupon');
-    Route::get('coupon-calculation', [CartController::class, 'couponCalculation'])->name('coupon-calculation');
-    Route::get('cacel-coupon', [CartController::class, 'cencelCoupon'])->name('cencel-coupon');
+// Apply coupon
+Route::get('apply-coupon', [CartController::class, 'applyCoupon'])->name('apply-coupon');
+Route::get('coupon-calculation', [CartController::class, 'couponCalculation'])->name('coupon-calculation');
+Route::get('cacel-coupon', [CartController::class, 'cencelCoupon'])->name('cencel-coupon');
 // });
 
 // form infor user
