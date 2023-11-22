@@ -4,7 +4,7 @@
         <div id="page-wrapper" class="gray-bg">
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary box-shadow mb-3">
                 <div class="container">
-                    <a class="navbar-brand" href="#">QR MENU</a>
+                    <a class="navbar-brand" href="/Account/Login">QR MENU</a>
                     <button class="custom-toggler navbar-toggler" type="button" data-toggle="collapse"
                         data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false"
                         aria-label="Toggle navigation">
@@ -113,14 +113,14 @@
                                             </tbody>
                                         </table>
                                         <hr>
-                                        {{-- <div id="coupon_form" class="mb-2">
+                                        <div id="coupon_form" class="mb-2">
                                             <input type="text" placeholder="Coupon code" name="coupon_code"
                                                 value="{{ session()->has('coupon') ? session()->get('coupon')['coupon_code'] : '' }}"
                                                 id="coupon_code" class="form-control">
-                                            <button class="btn btn-danger mt-2" id="apply_coupon">Apply</button>
+                                            {{-- <button class="btn btn-danger mt-2" id="apply_coupon">Apply</button>
 
-                                            <button class="btn btn-danger mt-2" id="cancel_coupon">Cancel</button>
-                                        </div> --}}
+                                        <button class="btn btn-danger mt-2" id="cancel_coupon">Cancel</button> --}}
+                                        </div>
                                         <div class="form-group" id="txtOrderIsReady">
                                             <textarea class="form-control" name="note" maxlength="70" rows="2"
                                                 placeholder="Indicate if you have a note for the order"></textarea>
@@ -202,36 +202,38 @@
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
                                     <h3 class="col-md-12"> <i class="fa fa-star-o text-qrRest"></i>{{ $categoryName }}
-                        </h3>
-                    </div>
-                    <div class="ibox-content ibox-br">
+                                    </h3>
+                                </div>
+                                <div class="ibox-content ibox-br">
 
-                        <table class="table table-hover">
-                            @foreach ($products as $product)
-                            <tbody>
-                                <tr>
-                                    <td class="actionOfMenu">
-                                        <div class="row">
-                                            <input class="menu-quantity-input ml-3" id="txtQuantity-{{ $product->id }}" value="0" />
-                                            <div onclick="" class="menu-button ml-1">
-                                                <i class="fa fa-plus" style="margin-top:5px"></i>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td style="width:70%;" class="cart-item-upFont" id="product-name-{{ $product->id }}">
-                                        {{ $product->name }}<br />
-                                    </td>
-                                    <td class="cart-item-upFont" id="product-price-{{ $product->id }}">
-                                        {{ number_format($product->price) }} &#x20AB;
-                                    </td>
-                                </tr>
-                            </tbody>
+                                    <table class="table table-hover">
+                                        @foreach ($products as $product)
+                                        <tbody>
+                                            <tr>
+                                                <td class="actionOfMenu">
+                                                    <div class="row">
+                                                        <input class="menu-quantity-input ml-3"
+                                                            id="txtQuantity-{{ $product->id }}" value="0" />
+                                                        <div onclick="" class="menu-button ml-1">
+                                                            <i class="fa fa-plus" style="margin-top:5px"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td style="width:70%;" class="cart-item-upFont"
+                                                    id="product-name-{{ $product->id }}">
+                                                    {{ $product->name }}<br />
+                                                </td>
+                                                <td class="cart-item-upFont" id="product-price-{{ $product->id }}">
+                                                    {{ number_format($product->price) }} &#x20AB;
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        @endforeach
+                                    </table>
+                                </div>
+                            </div>
                             @endforeach
-                        </table>
-                    </div>
-                </div>
-                @endforeach
-            </div> --}}
+                        </div> --}}
                             <div id="isNotList" style="display: block;">
                                 <div>
                                     @foreach ($productsByCategory as $categoryName => $products)
@@ -245,59 +247,19 @@
                                                         <div class="ibox-content product-box" style="height:370px;">
                                                             {{-- <div class="product-imitation"
                                                     style="background-image:url('{{ asset($product->image) }}'); background-size:cover;">
-                                </div> --}}
+                                                </div> --}}
 
                                                             <div class="product-imitation"
                                                                 style="background-image:url('https://giadinh.mediacdn.vn/2021/1/2/photo-1-1609589680616478051930.jpg'); background-size:cover;">
                                                             </div>
 
                                                             <div class="product-desc">
-                                                                @if ($product->flashSale === 1)
-                                                                    @php
-                                                                        $saleProduct = \App\Models\FlashSaleItem::where('product_id', $product->id)->first();
-
-                                                                        $start_date = $saleProduct->start_date;
-
-                                                                        $end_date = $saleProduct->end_date;
-
-                                                                        $discount_rate = $saleProduct->discount_rate;
-
-                                                                    @endphp
-                                                                    @if ($product->flashSale === 1 && now()->between($start_date, $end_date))
-                                                                        @php
-
-                                                                            $newPrice = newPrice($product->price, $discount_rate);
-                                                                        @endphp
-                                                                        <span class="product-price">
-                                                                            <del class="px-2 text-danger">
-                                                                                {{ number_format($product->price) }}
-                                                                                đ</del>
-                                                                            {{ number_format($newPrice) }}
-                                                                            đ
-                                                                            <input type="hidden"
-                                                                                id="product-price-{{ $product->id }}"
-                                                                                value="{{ $newPrice }}">
-                                                                        </span>
-                                                                    @else
-                                                                        <span class="product-price">
-                                                                            {{ number_format($product->price) }} đ
-                                                                            <input type="hidden"
-                                                                                id="product-price-{{ $product->id }}"
-                                                                                value="{{ $product->price }}">
-                                                                        </span>
-                                                                    @endif
-                                                                @else
-                                                                    <span class="product-price">
-                                                                        {{ number_format($product->price) }} đ
-                                                                        <input type="hidden"
-                                                                            id="product-price-{{ $product->id }}"
-                                                                            value="{{ $product->price }}">
-                                                                    </span>
-                                                                @endif
-
-
-
-
+                                                                <span class="product-price">
+                                                                    {{ number_format($product->price) }} đ
+                                                                </span>
+                                                                <input type="hidden"
+                                                                    id="product-price-{{ $product->id }}"
+                                                                    value="{{ $product->price }}">
                                                                 <small class="text-muted"> {{ $categoryName }} </small>
                                                                 <a class="product-name"
                                                                     id="product-name-{{ $product->id }}">
@@ -317,8 +279,6 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -526,8 +486,8 @@
 
                             var postData = {
                                 contents: contentsData,
-                                id: id,
-                                callWaiter: true
+                                id: id
+
                             };
 
                             $.ajax({
@@ -566,8 +526,7 @@
                             var contentsData = "Bàn " + id + " có đơn order mới !";
 
                             var postData = {
-                                contents: contentsData,
-                                id:id
+                                contents: contentsData
                             };
 
                             $.ajax({
@@ -590,6 +549,7 @@
                             var postData = {
                                 contents: contentsData,
                                 id: id
+
                             };
 
                             $.ajax({
