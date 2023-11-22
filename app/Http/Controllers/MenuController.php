@@ -24,7 +24,7 @@ class MenuController extends Controller
         // $cookie_name = $request->input('customer_name');
 
         foreach ($categories as $category) {
-            $products = Product::where('category_id', $category->id)->get();
+            $products = Product::with('variants')->where('category_id', $category->id)->get();
             $productsByCategory[$category->category_name] = $products;
         }
         $phone = session('phone');

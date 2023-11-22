@@ -30,6 +30,16 @@
         .spacer {
             height: 70px;
         }
+        .product_qty_wrapper {
+            display: flex;
+        }
+
+        .product_qty_wrapper>.product-qty {
+            width: 43px;
+            height: 36px;
+            padding-left: 5px;
+            text-align: center;
+        }
     </style>
     <link href="{{ asset('user/css/orderMenu.css') }}" rel="stylesheet">
 

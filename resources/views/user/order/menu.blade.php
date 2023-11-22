@@ -113,17 +113,9 @@
                                             </tbody>
                                         </table>
                                         <hr>
-                                        {{-- <div id="coupon_form" class="mb-2">
-                                            <input type="text" placeholder="Coupon code" name="coupon_code"
-                                                value="{{ session()->has('coupon') ? session()->get('coupon')['coupon_code'] : '' }}"
-                                                id="coupon_code" class="form-control">
-                                            <button class="btn btn-danger mt-2" id="apply_coupon">Apply</button>
 
-                                            <button class="btn btn-danger mt-2" id="cancel_coupon">Cancel</button>
-                                        </div> --}}
                                         <div class="form-group" id="txtOrderIsReady">
-                                            <textarea class="form-control" name="note" maxlength="70" rows="2"
-                                                placeholder="Ghi chú"></textarea>
+                                            <textarea class="form-control" name="note" maxlength="70" rows="2" placeholder="Ghi chú"></textarea>
                                         </div>
                                         <button type="button" id="placeOrder" onclick="submitOrder(<?= $tableId ?>)"
                                             class="btn btn-primary btn-outline btn-block mt-4 btn-sm"> Place the
@@ -165,10 +157,10 @@
                                     <h3 class=" d-flex text-qrRest-dark font-weight-bold text-styling">Chào
                                         <b class="mx-1">
                                             <?php
-
+                                            
                                             date_default_timezone_set('Asia/Ho_Chi_Minh');
                                             $currentHour = date('G');
-
+                                            
                                             if ($currentHour >= 5 && $currentHour < 12) {
                                                 $timeOfDay = 'buổi sáng';
                                             } elseif ($currentHour >= 12 && $currentHour < 17) {
@@ -178,7 +170,7 @@
                                             } else {
                                                 $timeOfDay = 'buổi tối';
                                             }
-
+                                            
                                             echo "$timeOfDay";
                                             ?>
                                         </b>
@@ -245,7 +237,7 @@
                                 </div> --}}
 
                                                             <div class="product-imitation"
-                                                                style="background-image:url('https://giadinh.mediacdn.vn/2021/1/2/photo-1-1609589680616478051930.jpg'); background-size:cover;">
+                                                                style="background-image:url({{ Storage::url($product->image) }}); background-size:cover;">
                                                             </div>
 
                                                             <div class="product-desc">
@@ -306,8 +298,15 @@
                                                                         <input id="txtQuantity-{{ $product->id }}"
                                                                             class="product-quantity-input ml-3"
                                                                             value="1" max="99">
-                                                                        <button onclick="addToCart({{ $product->id }})"
+                                                                        {{-- <button onclick="addToCart({{ $product->id }})"
                                                                             class="btn btn-sm btn-outline btn-primary ml-1">
+                                                                            Thêm
+                                                                            <i class="fa fa-long-arrow-right mt-1"></i>
+                                                                        </button> --}}
+                                                                        <button
+                                                                            class="btn btn-sm btn-outline btn-primary ml-1"
+                                                                            data-toggle="modal"
+                                                                            data-target="#exampleModalScrollable-product-{{ $product->id }}">
                                                                             Thêm
                                                                             <i class="fa fa-long-arrow-right mt-1"></i>
                                                                         </button>
@@ -317,6 +316,167 @@
 
 
                                                         </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+
+                                            @foreach ($products as $product)
+                                                <div class="modal fade"
+                                                    id="exampleModalScrollable-product-{{ $product->id }}"
+                                                    tabindex="-1" role="dialog"
+                                                    aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                                        <form class="shopping-cart-form">
+
+                                                            <div class="modal-content">
+
+
+
+                                                                <div class="modal-header">
+                                                                    <h3 class="modal-title"
+                                                                        id="exampleModalScrollableTitle">
+                                                                        {{ $product->name }}</h3>
+                                                                    <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+
+                                                                <div class="modal-body">
+                                                                    <div class="row">
+                                                                        <div class="product-image">
+                                                                            <img src="{{ Storage::url($product->image) }}"
+                                                                                class="img-fluid" alt="Responsive image">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row bg-danger">
+                                                                        <div class="product-name p-2 text-white">
+                                                                            <h3 class="text-center">{{ $product->name }}
+                                                                            </h3>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row bg-danger">
+                                                                        <div class="">
+                                                                            @if ($product->flashSale === 1)
+                                                                                @php
+                                                                                    $saleProduct = \App\Models\FlashSaleItem::where('product_id', $product->id)->first();
+
+                                                                                    $start_date = $saleProduct->start_date;
+
+                                                                                    $end_date = $saleProduct->end_date;
+
+                                                                                    $discount_rate = $saleProduct->discount_rate;
+
+                                                                                @endphp
+                                                                                @if ($product->flashSale === 1 && now()->between($start_date, $end_date))
+                                                                                    @php
+
+                                                                                        $newPrice = newPrice($product->price, $discount_rate);
+                                                                                    @endphp
+                                                                                    <span class=""
+                                                                                        style="font-size: 20px;">
+                                                                                        <del class="px-2 bg-danger">
+                                                                                            {{ number_format($product->price) }}
+                                                                                            đ</del>
+                                                                                        {{ number_format($newPrice) }}
+                                                                                        đ
+                                                                                        <input type="hidden"
+                                                                                            id="product-price-{{ $product->id }}"
+                                                                                            value="{{ $newPrice }}">
+                                                                                    </span>
+                                                                                @else
+                                                                                    <span class="px-2"
+                                                                                        style="font-size: 20px;">
+                                                                                        {{ number_format($product->price) }}
+                                                                                        đ
+                                                                                        <input type="hidden"
+                                                                                            id="product-price-{{ $product->id }}"
+                                                                                            value="{{ $product->price }}">
+                                                                                    </span>
+                                                                                @endif
+                                                                            @else
+                                                                                <span class="px-2"
+                                                                                    style="font-size: 20px;">
+                                                                                    {{ number_format($product->price) }} đ
+                                                                                    <input type="hidden"
+                                                                                        id="product-price-{{ $product->id }}"
+                                                                                        value="{{ $product->price }}">
+                                                                                </span>
+                                                                            @endif
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row properties mt-4">
+                                                                        @foreach ($product->variants as $variant)
+                                                                            <div class="box col-md-12 mb-4">
+                                                                                <span>{{ $variant->name }}</span>
+                                                                                <div class="choose">
+                                                                                    @if ($variant->multi_choice === 0)
+                                                                                        @foreach ($variant->productVariantItems as $variantItem)
+                                                                                            <div class="form-check">
+                                                                                                <input
+                                                                                                    class="form-check-input"
+                                                                                                    type="radio"
+                                                                                                    name="variants_items[]"
+                                                                                                    id="variants_item"
+                                                                                                    value="{{ $variantItem->id }}"
+                                                                                                    required>
+                                                                                                <label
+                                                                                                    class="form-check-label"
+                                                                                                    for="exampleRadios1">
+                                                                                                    {{ $variantItem->name }}
+                                                                                                    :
+                                                                                                    <span
+                                                                                                        class="text-danger">{{ $variantItem->price }}đ</span>
+                                                                                                </label>
+                                                                                            </div>
+                                                                                        @endforeach
+                                                                                    @elseif($variant->multi_choice === 1)
+                                                                                        @foreach ($variant->productVariantItems as $variantItem)
+                                                                                            <div class="form-check">
+                                                                                                <input
+                                                                                                    class="form-check-input"
+                                                                                                    type="checkbox"
+                                                                                                    name="variants_items[]"
+                                                                                                    id="variants_item"
+                                                                                                    value="{{ $variantItem->id }}">
+                                                                                                <label
+                                                                                                    class="form-check-label"
+                                                                                                    for="defaultCheck1">
+                                                                                                    {{ $variantItem->name }}
+                                                                                                    :
+                                                                                                    <span
+                                                                                                        class="text-danger">{{ $variantItem->price }}đ</span>
+                                                                                                </label>
+                                                                                            </div>
+                                                                                        @endforeach
+                                                                                    @endif
+                                                                                </div>
+                                                                            </div>
+                                                                            <hr>
+                                                                        @endforeach
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+
+
+                                                                    <div class="product_qty_wrapper">
+                                                                        <div class="btn-minus btn btn-danger">-</div>
+                                                                        <input type="number" class="product-qty"
+                                                                            value="1" name="quantity" readonly />
+                                                                        <div class="btn-plus btn btn-danger">+</div>
+                                                                    </div>
+
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary">Thêm</button>
+
+                                                                </div>
+
+
+
+                                                            </div>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -332,6 +492,19 @@
                         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
                         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
                     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+                    <script>
+                        $(document).ready(function() {
+
+                            $(".btn-plus").on("click", function() {
+                                var currentValue = parseInt($(".product-qty").val());
+                                $(".product-qty").val(currentValue <= 10 ? currentValue + 1 : 10);
+                            });
+                            $(".btn-minus").on("click", function() {
+                                var currentValue = parseInt($(".product-qty").val());
+                                $(".product-qty").val(currentValue > 1 ? currentValue - 1 : 1);
+                            });
+                        });
+                    </script>
                     <script>
                         var csrfToken = @json(csrf_token());
 
@@ -564,7 +737,7 @@
 
                             var postData = {
                                 contents: contentsData,
-                                id:id
+                                id: id
                             };
 
                             $.ajax({
