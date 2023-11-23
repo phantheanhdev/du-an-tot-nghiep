@@ -21,7 +21,8 @@ class   ProductRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    { $rules = [];
+    {
+        $rules = [];
 
         // Lấy phương thức đang hoạt động
         $currentAction = $this->route()->getActionMethod();
@@ -39,21 +40,21 @@ class   ProductRequest extends FormRequest
                             'status' => 'required|in:active,inactive',
                         ];
                         break;
-                        case 'edit':
-                            $id = $this->route('id');
-                            $rules = [
-                                'name' => [
-                                    'required',
-                                    Rule::unique('products')->ignore($id),
-                                    'max:255',
-                                ],
-                                'price' => 'required|min:0',
-                                'image' => 'image',
-                                'description' => 'required|string',
-                                'category_id' => 'required|integer',
-                                'status' => 'required|in:active,inactive',
-                            ];
-                            break;
+                    case 'edit':
+                        $id = $this->route('id');
+                        $rules = [
+                            'name' => [
+                                'required',
+                                Rule::unique('products')->ignore($id),
+                                'max:255',
+                            ],
+                            'price' => 'required|min:0',
+                            'image' => 'image',
+                            'description' => 'required|string',
+                            'category_id' => 'required|integer',
+                            'status' => 'required|in:active,inactive',
+                        ];
+                        break;
                     default:
                         break;
                 }
