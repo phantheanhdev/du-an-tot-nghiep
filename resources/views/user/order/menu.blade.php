@@ -25,15 +25,12 @@
                         <span class="navbar-toggler-icon"><i class="fa fa-bars"
                                 style="color:#fafafa; font-size:28px;"></i></span>
                     </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    {{-- <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav mx-auto">
 
                         </ul>
 
                         <ul class="nav navbar-top-links">
-
-
-
                                         <li class="dropdown-item">
                                             <a href="/Account/ChangePassword">Change Password</a>
                                         </li>
@@ -44,7 +41,7 @@
                             </li>
 
                         </ul>
-                    </div>
+                    </div> --}}
                 </div>
             </nav>
             <div class="wrapper wrapper-content">
@@ -117,7 +114,7 @@
                                             <textarea class="form-control" name="note" maxlength="70" rows="2" placeholder="Ghi chú"></textarea>
                                         </div>
                                         <button type="button" id="placeOrder" onclick="submitOrder(<?= $tableId ?>)"
-                                            class="btn btn-primary btn-outline btn-block mt-4 btn-sm"> Order</button>
+                                            class="btn btn-primary btn-outline btn-block mt-4 btn-sm"> Đặt món</button>
                                     </form>
                                     {{-- <style>
                                         .bought--item {
@@ -315,11 +312,11 @@
                                             date_default_timezone_set('Asia/Ho_Chi_Minh');
                                             $currentHour = date('G');
                                             
-                                            if ($currentHour >= 5 && $currentHour < 12) {
+                                            if ($currentHour >= 5 && $currentHour < 10) {
                                                 $timeOfDay = 'buổi sáng';
-                                            } elseif ($currentHour >= 12 && $currentHour < 17) {
-                                                $timeOfDay = 'buổi chiều';
-                                            } elseif ($currentHour >= 17 && $currentHour < 20) {
+                                            } elseif ($currentHour >= 10 && $currentHour < 13) {
+                                                $timeOfDay = 'buổi trưa';
+                                            } elseif ($currentHour >= 13 && $currentHour < 18) {
                                                 $timeOfDay = 'buổi chiều';
                                             } else {
                                                 $timeOfDay = 'buổi tối';
@@ -502,7 +499,9 @@
                                                                                                     :
                                                                                                     <span
                                                                                                         class="text-danger">{{ $variantItem->price }}đ</span>
+                                                                                                        <input type="hidden" value="{{ $variantItem->name }}" id="name_variantItem">
                                                                                                 </label>
+                                                                                                
                                                                                             </div>
                                                                                         @endforeach
                                                                                     @elseif($variant->multi_choice === 1)
@@ -521,6 +520,7 @@
                                                                                                     :
                                                                                                     <span
                                                                                                         class="text-danger">{{ $variantItem->price }}đ</span>
+                                                                                                        <input type="hidden" value="{{ $variantItem->name }}" id="name_variantItem">
                                                                                                 </label>
                                                                                             </div>
                                                                                         @endforeach
@@ -581,6 +581,32 @@
                     </script>
 
                     <script>
+                        function getSelectedItemsInfo() {
+                            var selectedItemsInfo = [];
+                        
+                            // Lặp qua các phần tử input có name là 'variants_items[]'
+                            var variantItems = document.querySelectorAll('input[name="variants_items[]"]:checked');
+                            
+                            variantItems.forEach(function(item) {
+                                var label = item.parentElement; // Lấy phần tử label chứa thông tin
+                                var itemName = document.getElementById('name_variantItem').value; // Lấy tên mục
+                                var itemPriceText = label.querySelector('.text-danger').textContent; // Lấy giá mục
+                                var itemPrice = parseFloat(itemPriceText.replace('đ', '').replace(',', '')); // Chuyển đổi giá thành số
+                        
+                                // Thêm thông tin vào mảng
+                                selectedItemsInfo.push({
+                                    name: itemName,
+                                    price: itemPrice
+                                });
+                            });
+                        
+                            return selectedItemsInfo;
+                        }
+                    
+                    </script>
+    
+
+                    <script>
                         var csrfToken = @json(csrf_token());
 
                         function updateTotalPrice() {
@@ -599,6 +625,7 @@
                                 // Cộng giá biến thể vào tổng giá
                                 totalPrice += selectedVariantPrice;
                             });
+                            
 
                             return totalPrice
                             // Bạn có thể cập nhật giao diện người dùng với giá mới ở đây
@@ -624,7 +651,8 @@
 
                             // Lấy giá sản phẩm và giá các item được chọn
                             var selectedItemsPrice = updateTotalPrice();
-
+                            var itemsInfo = getSelectedItemsInfo();
+                            console.log(itemsInfo);
                             // Cập nhật giá sản phẩm bằng cách cộng giá sản phẩm và giá các item được chọn
                             var totalPrice = productPrice + selectedItemsPrice;
 
@@ -635,7 +663,7 @@
                                     _token: csrfToken,
                                     product_id: productId,
                                     product_name: productName,
-                                    item: 
+                                    item: itemsInfo,
                                     quantity: quantity,
                                     price: totalPrice, // Sử dụng giá tính toán tổng cả sản phẩm và các item
                                 },

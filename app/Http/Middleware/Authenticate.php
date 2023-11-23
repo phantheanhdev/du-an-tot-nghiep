@@ -13,9 +13,9 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request)
     {
-        // if (!$request->expectsJson()) {
-        //     return route('login');
-        // }
+        if (!$request->expectsJson()) {
+            return route('login');
+        }
         $table_id = $_GET['tableId'];
         $table_no = $_GET['tableNo'];
         if (!$request->expectsJson()) {
@@ -24,8 +24,6 @@ class Authenticate extends Middleware
                 'tableId' => $table_id
             ]);
         }
-
-
 
         if (Auth::guard('customer')->check()) {
             return redirect()->route('order.menu', [

@@ -60,15 +60,20 @@ class CartController extends Controller
 
         $cart = session()->get('cart', []);
 
-        if (isset($cart[$id])) {
-            $cart[$id]['quantity'] += $request->input('quantity', 1);
+        // Sử dụng hàm băm để tạo giá trị duy nhất từ mảng
+        $itemHash = md5(serialize($request->input('item', [])));
+
+        $cartKey = $id . '_' . $itemHash;
+
+        if (isset($cart[$cartKey])) {
+            $cart[$cartKey]['quantity'] += $request->input('quantity', 1);
         } else {
-            $cart[$id] = [
+            $cart[$cartKey] = [
                 "id" => $product->id,
                 "name" => $product->name,
                 "quantity" => $request->input('quantity', 1),
                 "price" => $request->price,
-                "item" => $request->item,
+                "item" => $request->input('item', []),
                 'image' => $product->image
             ];
         }
@@ -78,6 +83,8 @@ class CartController extends Controller
         // Trả về thông tin giỏ hàng dưới dạng JSON
         return response()->json(['cart' => $cart]);
     }
+
+
 
 
     public function order(OrderRequest $request)
