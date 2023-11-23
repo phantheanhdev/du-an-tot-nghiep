@@ -21,7 +21,7 @@
 
         <div class="mt-3">
             <h2>Foodie. Xin kính chào bạn!</h2>
-            <p class="py-3">Mời bạn nhập tên để nhà hàng phục vụ bạn nhanh chóng hơn, chính xác hơn</p>
+            <p class="py-3">Mời bạn nhập số điện thoại để nhà hàng phục vụ bạn nhanh chóng hơn, chính xác hơn</p>
         </div>
 
         <div class="">
@@ -30,12 +30,11 @@
                 <input type="text" name="tableId" value="{{ $table_id }}" hidden>
                 <input type="text" name="tableNo" value="{{ $table_no }}" hidden>
                 <div class="mb-3">
-                    <input type="text" name="customer_name" class="form-control p-3 bg-body-secondary text-center"
-                        required placeholder="Tên của bạn">
+                    <input type="text" name="phone" class="form-control p-3 bg-body-secondary text-center" placeholder="Số điện thoại của bạn">
+                    @error('phone') <div class="text-danger">{{ $message }}</div> @enderror
                 </div>
                 <div class="mb-3">
-                    <button type="submit" class="btn text-white w-100 p-2"
-                        style="background-color: #910400 !important;">Bắt đầu</button>
+                    <button type="submit" class="btn text-white w-100 p-2" style="background-color: #910400 !important;">Bắt đầu</button>
                 </div>
             </form>
         </div>

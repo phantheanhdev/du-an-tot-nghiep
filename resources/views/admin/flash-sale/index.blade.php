@@ -25,15 +25,15 @@
                 {{-- http://127.0.0.1:8000/order/menu?tableId=6&tableNo=6 --}}
 
                 <div class="col-md-12 mt-4">
-                    <h4>Add Flash Sale Products</h4>
+                    <h4>Thêm sản phẩm Flash Sale</h4>
                     {{-- {{ route('flash-sale.add-product') }} --}}
                     <form onsubmit="addFlashSaleItem(event)" id="form_flash_sale_add_product" method="post"
                         autocomplete="off">
                         @csrf
                         <div class="form-group">
-                            <label>Product</label>
+                            <label>Sản phẩm</label>
                             <select name="product_id[]" multiple class="form-control select2">
-                                <option value="">Select</option>
+                                <option value="">Chọn</option>
                                 @foreach ($products as $product)
                                     <option value="{{ $product->id }}">{{ $product->name }}</option>
                                 @endforeach
@@ -46,7 +46,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Start Date</label>
+                                    <label>Ngày bắt đầu</label>
                                     <input type="date" name="start_date" value="{{ old('start_date') }}"
                                         class="form-control">
 
@@ -55,7 +55,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>End Date</label>
+                                    <label>Ngày kết thúc</label>
                                     <input type="date" name="end_date" value="{{ old('end_date') }}"
                                         class="form-control">
 
@@ -67,7 +67,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Discount Rate</label>
+                                    <label>Tỷ lệ chiết khấu (%)</label>
                                     <input type="text" name="discount_rate" value="{{ old('discount_rate') }}"
                                         class="form-control">
 
@@ -76,17 +76,17 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Status</label>
+                                    <label>Trạng thái</label>
                                     <select name="status" id="" class="form-control">
-                                        <option value="1" selected>Active</option>
-                                        <option value="0">Inactive</option>
+                                        <option value="1" selected>Hoạt động</option>
+                                        <option value="0">Không hoạt động</option>
                                     </select>
 
 
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary">Lưu</button>
                     </form>
                 </div>
 
@@ -96,7 +96,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4>All Flash Sale Products</h4>
+                                    <h4>Tất cả sản phẩm Flash Sale</h4>
 
 
                                 </div>
@@ -107,12 +107,12 @@
                                                 <tr>
 
                                                     <th>STT</th>
-                                                    <th>Product Name</th>
-                                                    <td>Start date</td>
-                                                    <td>End date</td>
-                                                    <th>Discount Rate</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
+                                                    <th>Sản phẩm</th>
+                                                    <th>Ngày bắt đầu</th>
+                                                    <th>Ngày kết thúc</th>
+                                                    <th>Tỷ lệ chiết khấu</th>
+                                                    <th>Trạng thái</th>
+                                                    <th>Hành động</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -132,11 +132,11 @@
 
                                                                     <option value="1"
                                                                         {{ $item->status === 1 ? 'selected' : '' }}>
-                                                                        Active
+                                                                        Hoạt động
                                                                     </option>
                                                                     <option value="0"
                                                                         {{ $item->status === 0 ? 'selected' : '' }}>
-                                                                        Inactive
+                                                                        Không hoạt động
                                                                     </option>
                                                                 </select>
                                                             </form>

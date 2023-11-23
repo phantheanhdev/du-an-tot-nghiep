@@ -26,7 +26,7 @@ class OrderRequest extends FormRequest
             'note' => 'nullable',
             'total_price' => 'required',
             'status' => 'required|integer',
-            'customer_name' => 'required',
+            'phone' => 'required',
             'customer_phone' => 'required',
         ];
     }

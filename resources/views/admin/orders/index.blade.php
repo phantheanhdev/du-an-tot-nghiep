@@ -22,9 +22,9 @@
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <button class="nav-link  active" id="nav-home-tab" data-toggle="tab" data-target="#nav-home"
-                            type="button" role="tab" aria-controls="nav-home" aria-selected="true">Orders</button>
+                            type="button" role="tab" aria-controls="nav-home" aria-selected="true">Đơn đặt hàng</button>
                         <button class="nav-link " id="nav-profile-tab" data-toggle="tab" data-target="#nav-profile"
-                            type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Completed Orders
+                            type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Đơn hàng đã hoàn thành
                         </button>
                     </div>
                 </nav>
@@ -37,14 +37,14 @@
                                     @if (isset($order) && count($order) > 0)
                                         <thead class="">
                                             <tr>
-                                                <th>Table</th>
-                                                <th>Product</th>
-                                                <th>Total Amount</th>
-                                                <th>Customer Name</th>
-                                                <th>Note</th>
-                                                <th>Clock</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
+                                                <th>Bàn</th>
+                                                <th>Sản phẩm</th>
+                                                <th>Tổng cộng</th>
+                                                <th>Khách hàng</th>
+                                                <th>Ghi chú</th>
+                                                <th>Thời gian</th>
+                                                <th>Trạng thái</th>
+                                                <th>Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -67,7 +67,7 @@
                                                     <td>{{ $item->created_at }}</td>
                                                     <th>
                                                         @if ($item->status == 0)
-                                                            <span> Not yet confirmed </span>
+                                                            <span> Chưa xác nhận </span>
                                                         @endif
                                                     </th>
                                                     <td>
@@ -76,15 +76,15 @@
                                                                 id="{{ $item->id }}">
                                                                 <option value="0"
                                                                     {{ $item->status === 0 ? 'selected' : '' }}>
-                                                                    Not yet confirmed
+                                                                    Chưa xác nhận
                                                                 </option>
                                                                 <option value="1"
                                                                     {{ $item->status === 1 ? 'selected' : '' }}>
-                                                                    Confirmed
+                                                                    Đã xác nhận
                                                                 </option>
                                                                 <option value="2"
                                                                     {{ $item->status === 2 ? 'selected' : '' }}>
-                                                                    Cancel
+                                                                    Hủy bỏ
                                                                 </option>
                                                             </select>
                                                         </form>
@@ -94,7 +94,7 @@
                                         </tbody>
                                     @else
                                         <div class="alert alert-danger" role="alert">
-                                            You have no new orders <i class="fa-solid fa-bell"></i>
+                                            Bạn không có đơn đặt hàng mới <i class="fa-solid fa-bell"></i>
                                         </div>
                                     @endif
                                 </table>
@@ -108,13 +108,13 @@
                                 <table id="myTable" class="table table-hover">
                                     <thead class="">
                                         <tr>
-                                            <th>Table </th>
-                                            <th>Total Amount</th>
-                                            <th>Note</th>
-                                            <th>Clock</th>
-                                            <th>Status</th>
-                                            <th>Customer Name</th>
-                                            <th>Action</th>
+                                            <th>Bàn</th>
+                                            <th>Tổng cộng</th>
+                                            <th>Ghi chú</th>
+                                            <th>Thời gian</th>
+                                            <th>Trạng thái</th>
+                                            <th>Khách hàng</th>
+                                            <th>Hành động</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -128,9 +128,9 @@
                                                 <td>{{ $item->created_at }}</td>
                                                 <td>
                                                     @if ($item->status == 2)
-                                                        <span>Cancelled</span>
+                                                        <span>Đã hủy</span>
                                                     @elseif ($item->status == 5)
-                                                        <span>Paid</span>
+                                                        <span>Trả</span>
                                                     @endif
                                                 </td>
                                                 <td>{{ $item->customer_name }}</td>

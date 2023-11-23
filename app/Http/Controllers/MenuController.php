@@ -21,20 +21,20 @@ class MenuController extends Controller
         $tableNo = $_GET['tableNo'];
         $categories = Category::all();
         $productsByCategory = [];
-        $cookie_name = $request->input('customer_name');
+        // $cookie_name = $request->input('customer_name');
 
         foreach ($categories as $category) {
-            $products = Product::where('category_id', $category->id)->get();
+            $products = Product::with('variants')->where('category_id', $category->id)->get();
             $productsByCategory[$category->category_name] = $products;
         }
-        $customer_name = Cookie::get('customer_name');
+        $phone = session('phone');
 
 
         return view("user.order.menu", [
             'tableId' => $tableId,
             'tableNo' => $tableNo,
             'productsByCategory' => $productsByCategory,
-            'customer_name' => $customer_name
+            'phone' => $phone
         ]);
     }
 
