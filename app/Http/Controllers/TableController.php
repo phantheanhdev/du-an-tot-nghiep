@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTableRequest;
+use App\Http\Requests\UpdateTableRequest;
 use App\Models\Table;
 use App\Models\Order;
 use App\Models\Product;
@@ -9,6 +11,7 @@ use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Symfony\Component\VarDumper\VarDumper;
 use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class TableController extends Controller
 {
@@ -34,15 +37,8 @@ class TableController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTableRequest $request)
     {
-        // Validate
-        $validate = $request->validate([
-            'name' => 'required',
-            'type' => 'required|integer',
-        ]);
-
-        // Lấy dữ liệu từ form
         $name = $request->input('name');
         $type = $request->input('type');
 
@@ -107,13 +103,8 @@ class TableController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Table $table)
+    public function update(UpdateTableRequest $request, Table $table)
     {
-        $validate = $request->validate([
-            'name' => 'required',
-            'type' => 'required|integer',
-        ]);
-
         // Lấy dữ liệu từ form
         $name = $request->input('name');
         $type = $request->input('type');
@@ -181,6 +172,26 @@ class TableController extends Controller
         }
     }
 
+    public function download_qr_code(Request $request)
+    {
+        $id = $request->id;
+        $table = Table::findOrFail($id);
+        $name = $table->name;
+
+        $pdf = Pdf::loadView('admin.table.template_qr', [
+            'id' => $table->id,
+            'name' => $name,
+            // 'qr' => $table->qr,
+        ]);
+
+        // return view('admin.table.template_qr', [
+        //     'id' => $table->id,
+        //     'name' => $name,
+        // ]);
+
+        return $pdf->download('qr_code.pdf');
+    }
+
     // trang đầu tiên khi chuyển hướng về admin
     public function restaurant_manager()
     {
@@ -194,7 +205,7 @@ class TableController extends Controller
         $table = Table::findOrFail($id);
 
         $orders = Order::where('table_id', $id)
-            ->whereIn('status', [0,1,3,4])
+            ->whereIn('status', [0, 1, 3, 4])
             ->get();
         foreach ($orders as $order) {
             $order->orderDetails = OrderDetail::where('order_id', $order->id)->get();
@@ -213,7 +224,7 @@ class TableController extends Controller
         $newStatus = $request->input('status');
 
         // Kiểm tra xem trạng thái mới hợp lệ hay không
-        if (!in_array($newStatus, [0,1,2,3,4,5])) {
+        if (!in_array($newStatus, [0, 1, 2, 3, 4, 5])) {
             return redirect()->back()->with('error', 'Invalid status.');
         }
 
