@@ -15,9 +15,11 @@
 
 <body class="bg-white">
     <div class="container">
+
         <div class="text-center">
             <img src="{{ asset('storage/images/icon_form_user.svg') }}" alt="" class="img-fluid">
         </div>
+
 
         <div class="mt-3">
             <h2>Foodie. Xin kính chào bạn!</h2>
@@ -29,12 +31,17 @@
                 @csrf
                 <input type="text" name="tableId" value="{{ $table_id }}" hidden>
                 <input type="text" name="tableNo" value="{{ $table_no }}" hidden>
+                <input type="hidden" name="password" value="foodiepassword">
                 <div class="mb-3">
-                    <input type="text" name="phone" class="form-control p-3 bg-body-secondary text-center" placeholder="Số điện thoại của bạn">
-                    @error('phone') <div class="text-danger">{{ $message }}</div> @enderror
+                    <input type="text" name="phone" class="form-control p-3 bg-body-secondary text-center"
+                        placeholder="Số điện thoại của bạn">
+                    @error('phone')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="mb-3">
-                    <button type="submit" class="btn text-white w-100 p-2" style="background-color: #910400 !important;">Bắt đầu</button>
+                    <button type="submit" class="btn text-white w-100 p-2"
+                        style="background-color: #910400 !important;">Bắt đầu</button>
                 </div>
             </form>
         </div>

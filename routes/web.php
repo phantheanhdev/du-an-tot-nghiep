@@ -52,6 +52,9 @@ Route::middleware(['auth'])->group(function () {
     // table
     Route::resource('table', TableController::class);
 
+    // download qr code
+    Route::get('download_qr_code/{id}', [TableController::class, 'download_qr_code'])->name('download_qr_code');
+
     //products
     Route::get('product', [ProductController::class, 'index'])->name('product.index');
     Route::match(['GET', 'POST'], '/add', [App\Http\Controllers\ProductController::class, 'add'])->name('create');
@@ -102,6 +105,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('flash-sale/add-product', [FlashSaleController::class, 'addProduct'])->name('flash-sale.add-product');
     Route::get('flash-sale-status', [FlashSaleController::class, 'changeStatus'])->name('flash-sale-status');
     Route::delete('flash-sale/{id}', [FlashSaleController::class, 'destory'])->name('flash-sale.destory');
+    Route::post('flash-sale/deleteAll',[FlashSaleController::class , 'deleteSelectAll'])->name('flash-sale.deleteAll');
     //changePassword
     Route::get('/change-password', [App\Http\Controllers\Login\LoginController::class, 'showForm'])->name('show.password.form');
     Route::post('/update-password', [App\Http\Controllers\Login\LoginController::class, 'updatePassword'])->name('update.password');
@@ -129,7 +133,7 @@ Route::middleware(['auth'])->group(function () {
 //  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8
 //  bat dau quet , nhap ten  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8
 
-// Route::group(['middleware' => 'custom'], function () {
+Route::group(['middleware' => 'auth:customer'], function () {
 Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
 
 // Action order food
@@ -142,13 +146,14 @@ Route::get('/get-cart', [CartController::class, 'getCart'])->name('get.cart');
 Route::get('apply-coupon', [CartController::class, 'applyCoupon'])->name('apply-coupon');
 Route::get('coupon-calculation', [CartController::class, 'couponCalculation'])->name('coupon-calculation');
 Route::get('cacel-coupon', [CartController::class, 'cencelCoupon'])->name('cencel-coupon');
-// });
+});
 
 // form infor user
 //  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8
-Route::get('/foodie', [HomeController::class, 'form_infor_user'])->name('form_infor_user');
+Route::get('/foodie', [HomeController::class, 'form_infor_user'])->name('form_infor_user')->middleware('guest:customer');
 
 Route::post('/submit_form', [HomeController::class, 'loginUser'])->name('login.user');
+Route::post('/customer/logout', [HomeController::class, 'logout'])->name('customer.logout');
 Route::get('home', [HomeController::class, 'home']);
 
 // pusher event

@@ -34,6 +34,15 @@
 
 
 
+                                        <li class="dropdown-item">
+                                            <a href="/Account/ChangePassword">Change Password</a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li class="dropdown-item"><a href="/Account/logout">Logout</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+
                         </ul>
                     </div>
                 </div>
@@ -318,6 +327,9 @@
                                             
                                             echo "$timeOfDay";
                                             ?>
+                                            @if (auth()->check())
+                                                {{ Auth::guard('customer')->user()->phone }}
+                                            @endif
                                         </b>
                                     </h3>
                                     <span>
