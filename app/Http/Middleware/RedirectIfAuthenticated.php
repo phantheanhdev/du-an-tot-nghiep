@@ -17,14 +17,30 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
-        $guards = empty($guards) ? [null] : $guards;
+        // $guards = empty($guards) ? [null] : $guards;
 
+        // foreach ($guards as $guard) {
+        //     if (Auth::guard($guard)->check()) {
+        //         return redirect(RouteServiceProvider::HOME);
+        //     }
+        // }
+
+        // return $next($request);
+        $table_id = $_GET['tableId'];
+        $table_no = $_GET['tableNo'];
+        $guards = empty($guards) ? [null] : $guards;
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                if ($guard === 'web') {
+                    return redirect(RouteServiceProvider::HOME);
+                } else if ($guard === 'customer') {
+                    return redirect(route('order.menu', [
+                        'tableNo' => $table_no,
+                        'tableId' => $table_id
+                    ]));
+                }
             }
         }
-
         return $next($request);
     }
 }
