@@ -52,6 +52,9 @@ Route::middleware(['auth'])->group(function () {
     // table
     Route::resource('table', TableController::class);
 
+    // download qr code
+    Route::get('download_qr_code/{id}', [TableController::class, 'download_qr_code'])->name('download_qr_code');
+
     //products
     Route::get('product', [ProductController::class, 'index'])->name('product.index');
     Route::match(['GET', 'POST'], '/add', [App\Http\Controllers\ProductController::class, 'add'])->name('create');
