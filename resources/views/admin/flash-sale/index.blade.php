@@ -100,25 +100,31 @@
 
 
                                 </div>
-
+                                <form action="{{ route('flash-sale.deleteAll') }}" method="post">
+@csrf
                                     <div class="card-body">
                                         <table id="myTable" class="display">
                                             <thead>
                                                 <tr>
-
+                                                    <th>
+                                                        <input type="checkbox" name="checkAll" class="checkContainer">
+                                                    </th>
                                                     <th>STT</th>
                                                     <th>Sản phẩm</th>
                                                     <th>Ngày bắt đầu</th>
                                                     <th>Ngày kết thúc</th>
                                                     <th>Tỷ lệ chiết khấu</th>
                                                     <th>Trạng thái</th>
-                                                    <th>Hành động</th>
+                                                    <th> <button type="submit" class="btn btn-danger">Delete</button></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach ($flashSaleItem as $item)
                                                     <tr>
-
+                                                        <td>
+                                                            <input type="checkbox" name="list_check[]" class="checkItem"
+                                                                value="{{ $item->id }}">
+                                                        </td>
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $item->product->name }}</td>
                                                         <td>{{ $item->start_date }}</td>
@@ -155,6 +161,7 @@
 
 
 
+                                </form>
 
 
 
@@ -244,6 +251,4 @@
             $('.checkItem').prop('checked', checked);
         })
     </script>
-
-
 @endpush

@@ -102,6 +102,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('flash-sale/add-product', [FlashSaleController::class, 'addProduct'])->name('flash-sale.add-product');
     Route::get('flash-sale-status', [FlashSaleController::class, 'changeStatus'])->name('flash-sale-status');
     Route::delete('flash-sale/{id}', [FlashSaleController::class, 'destory'])->name('flash-sale.destory');
+    Route::post('flash-sale/deleteAll',[FlashSaleController::class , 'deleteSelectAll'])->name('flash-sale.deleteAll');
     //changePassword
     Route::get('/change-password', [App\Http\Controllers\Login\LoginController::class, 'showForm'])->name('show.password.form');
     Route::post('/update-password', [App\Http\Controllers\Login\LoginController::class, 'updatePassword'])->name('update.password');

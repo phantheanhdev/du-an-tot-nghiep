@@ -44,7 +44,7 @@
 
                                 <div class="m-b-md">
 
-                                    <p id="table-notification-2" style="font-size: 15px">Đang chờ xử lý</p>
+                                    <p id="table-notification-2" style="font-size: 15px">Đơn hàng đang chờ xử lý</p>
 
                                     <h3 class="font-bold no-margins">
                                         {{ $totalPendingOrders }}
