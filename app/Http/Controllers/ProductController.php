@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
 use App\Models\Category;
+use App\Models\FlashSaleItem;
 use App\Models\Product;
+use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,8 +18,8 @@ class ProductController extends Controller
     public function index()
     {
         $product = Product::join('categories', 'products.category_id', '=', 'categories.id')
-        ->select('products.*', 'categories.category_name as category_name')
-        ->get();
+            ->select('products.*', 'categories.category_name as category_name')
+            ->get();
         return view('admin.products.index', compact('product'));
     }
 
@@ -39,7 +41,7 @@ class ProductController extends Controller
             $product->description = $request->description;
             $product->category_id = $request->category_id;
             $product->status = $request->status;
-          
+
             $product->image = $request->image;
 
             $product->save();
@@ -81,7 +83,7 @@ class ProductController extends Controller
             $product->description = $request->description;
             $product->category_id = $request->category_id;
             $product->status = $request->status;
-         
+
             $product->image = $imagePath;
             $product->save();
 
@@ -91,15 +93,24 @@ class ProductController extends Controller
             );
             return redirect()->route('product.index')->with($notification);
         }
-        $category =Category::all();
-        return view('admin.products.edit', compact('product','category'));
+        $category = Category::all();
+        return view('admin.products.edit', compact('product', 'category'));
     }
 
     public function delete($id)
     {
         if ($id) {
             $product = Product::where('id', $id);
-            $deleted = $product->delete();
+
+            $variants = ProductVariant::where('product_id', $id)->get();
+            foreach ($variants as $variant) {
+                $variant->productVariantItems()->delete();
+                $variant->delete();
+            }
+            $flashSaleItem  = FlashSaleItem::where('product_id', $id);
+            $flashSaleItem->delete();
+
+            $deleted = $product->forceDelete();
             if ($deleted) {
                 $notification = array(
                     "message" => "Deleted Product successfully",

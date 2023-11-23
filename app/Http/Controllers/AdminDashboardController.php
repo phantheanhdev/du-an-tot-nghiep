@@ -32,7 +32,7 @@ class AdminDashboardController extends Controller
 
         $lastFourDay = DB::table('orders')
             ->select(DB::raw('order_day, SUM(total_price) as total_amount'))
-            ->where('order_day', '>=', DB::raw('CURDATE() - INTERVAL 3 DAY'))
+            ->where('order_day', '>=', DB::raw('CURDATE() - INTERVAL 4 DAY'))
             ->groupBy('order_day')
             ->get();
 

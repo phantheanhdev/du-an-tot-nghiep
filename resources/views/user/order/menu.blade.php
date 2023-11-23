@@ -35,7 +35,13 @@
                                             <a href="/Account/ChangePassword">Change Password</a>
                                         </li>
                                         <li class="divider"></li>
-                                        <li class="dropdown-item"><a href="/Account/logout">Logout</a></li>
+                                        <li class="dropdown-item">
+                                            <form method="POST"
+                                                action="{{ route('customer.logout', ['tableNo' => $tableNo, 'tableId' => $tableId]) }}">
+                                                @csrf
+                                                <button type="submit" class="btn btn-primary">Logout</button>
+                                            </form>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
@@ -173,6 +179,9 @@
                                             
                                             echo "$timeOfDay";
                                             ?>
+                                            @if (auth()->check())
+                                                {{ Auth::guard('customer')->user()->phone }}
+                                            @endif
                                         </b>
                                     </h3>
                                     <span>

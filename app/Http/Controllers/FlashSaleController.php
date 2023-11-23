@@ -77,7 +77,7 @@ class FlashSaleController extends Controller
         return response(['status' => 'success', 'message' => 'Đã xoá thành công!']);
     }
 
-    public function delete(Request $request)
+    public function deleteSelectAll(Request $request)
     {
         $list_check = $request->input('list_check');
         if ($list_check) {
