@@ -216,7 +216,7 @@
                                         <input type="hidden" name="table_id" value="{{ $tableId }}">
                                         <input type="hidden" name="status" value="0">
                                         <input type="hidden" name="customer_name" value="BBB">
-                                        <input type="hidden" name="phone" value="0">
+                                        <input type="hidden" name="phone" value="{{ Auth::guard('customer')->user()->phone }}">
                                         <input type="hidden" name="customer_phone"
                                             value="{{ Auth::guard('customer')->user()->phone }}">
                                         @php $total = 0 @endphp
@@ -269,7 +269,7 @@
                                                                                     </span> <!----></div>
                                                                                 <div class="edit-text"
                                                                                     style="color: rgb(247, 148, 30);">
-                                                                                    Chỉnh sửa
+                                                                                    Xóa
                                                                                 </div>
                                                                             </div>
                                                                             <div class="btn-remove-item-in-cart"><span

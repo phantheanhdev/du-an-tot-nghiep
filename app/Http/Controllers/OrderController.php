@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Customer;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -113,13 +114,15 @@ class OrderController extends Controller
         return $pdf->download('invoice-' . $order->id . '-' . $todayDate . 'pdf');
     }
 
-    public function print_order(string $id)
+    public function print_order(Request $request, $id)
     {
         // $pdfPath = storage_path('app/documents/document.pdf');
         $order = Order::findOrFail($id);
-        $order->update([
-            'status' => 5
-        ]);
+        
+        // $order->update([
+        //     'status' => 5
+        // ]);
+
         $todayDate = Carbon::now('Asia/Ho_Chi_Minh');
         $bill = OrderDetail::where('order_id', $id)->get();
         $pdf = Pdf::loadView('admin.invoice.print_invoice', [

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTableRequest;
 use App\Http\Requests\UpdateTableRequest;
+use App\Models\Customer;
 use App\Models\Table;
 use App\Models\Order;
 use App\Models\Product;
@@ -227,9 +228,26 @@ class TableController extends Controller
         if (!in_array($newStatus, [0, 1, 2, 3, 4, 5])) {
             return redirect()->back()->with('error', 'Invalid status.');
         }
+        $phone = $request->input('phone');
+        $total = $request->input('total');
+
+        if ($newStatus == 5) {
+            $customer = Customer::where('phone', $phone)->first();
+
+            if ($customer) {
+                $point = $total * 0.03;
+                $customer->point += $point;
+                $customer->save();
+            }
+            $order->status = $newStatus;
+            $order->save();
+            return redirect('print_order/'.$id);
+        }
 
         $order->status = $newStatus;
         $order->save();
+
+        
 
         return redirect()->back()->with('success', 'Status updated successfully.');
     }

@@ -72,6 +72,8 @@
                                                     </th>
                                                     <td>
                                                         <form action="" method="get">
+                                                            <input type="hidden" name="phone" value="{{ $item->phone }}">
+                                                            <input type="hidden" name="total" value="{{ $item->total_price }}">
                                                             <select class="form-control order-status" name="status"
                                                                 id="{{ $item->id }}">
                                                                 <option value="0"
