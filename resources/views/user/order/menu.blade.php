@@ -21,7 +21,7 @@
         .component__combo-editor,
         .component__item-editor {
             /* -webkit-box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
-                                                                                                box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
+                                                                                                    box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
             padding: 2px;
             border-radius: 8px;
             margin-bottom: 10px;
@@ -325,10 +325,10 @@
                                     <h3 class=" d-flex text-qrRest-dark font-weight-bold text-styling">Chào
                                         <b class="mx-1">
                                             <?php
-
+                                            
                                             date_default_timezone_set('Asia/Ho_Chi_Minh');
                                             $currentHour = date('G');
-
+                                            
                                             if ($currentHour >= 5 && $currentHour < 10) {
                                                 $timeOfDay = 'buổi sáng';
                                             } elseif ($currentHour >= 10 && $currentHour < 13) {
@@ -338,7 +338,7 @@
                                             } else {
                                                 $timeOfDay = 'buổi tối';
                                             }
-
+                                            
                                             echo "$timeOfDay";
                                             ?>
                                             @if (auth()->check())
@@ -430,7 +430,7 @@
                                                                 </div>
 
                                                                 <div class="modal-body">
-                                                                    <div class="row">
+                                                                    {{-- <div class="row">
                                                                         <div class="product-image">
                                                                             <img src="{{ Storage::url($product->image) }}"
                                                                                 class="img-fluid" alt="Responsive image">
@@ -441,7 +441,7 @@
                                                                             <h3 class="text-center">{{ $product->name }}
                                                                             </h3>
                                                                         </div>
-                                                                    </div>
+                                                                    </div> --}}
 
                                                                     <div class="row bg-danger">
                                                                         <div class="">
@@ -545,17 +545,21 @@
                                                                             <hr>
                                                                         @endforeach
                                                                     </div>
-                                                                </div>
-                                                                <div class="modal-footer">
-
-
-                                                                    <div class="product_qty_wrapper">
-                                                                        <div class="btn-minus btn btn-danger">-</div>
-                                                                        <input type="number" class="product-qty"
-                                                                            id="txtQuantity-{{ $product->id }}"
-                                                                            value="1" name="quantity" readonly />
-                                                                        <div class="btn-plus btn btn-danger">+</div>
+                                                                    <div class="numbers-row" >
+                                                                        <input type="text" value="1"  id="txtQuantity-{{ $product->id }}"
+                                                                            class="qty2 form-control" name="quantity">
+                                                                        <div class="inc button_inc">+</div>
+                                                                        <div class="dec button_inc">-</div>
                                                                     </div>
+                                                                </div>
+                                                                {{-- <div class="product_qty_wrapper">
+                                                                    <div class="btn-minus btn btn-danger">-</div>
+                                                                    <input type="number" class="product-qty"
+                                                                        id="txtQuantity-{{ $product->id }}"
+                                                                        value="1" name="quantity" readonly />
+                                                                    <div class="btn-plus btn btn-danger">+</div>
+                                                                </div> --}}
+                                                                <div class="modal-footer">
 
                                                                     <button type="button"
                                                                         onclick="addToCart({{ $product->id }})"
@@ -584,13 +588,13 @@
                     <script>
                         $(document).ready(function() {
 
-                            $(".btn-plus").on("click", function() {
-                                var currentValue = parseInt($(".product-qty").val());
-                                $(".product-qty").val(currentValue <= 10 ? currentValue + 1 : 10);
+                            $(".inc").on("click", function() {
+                                var currentValue = parseInt($(".qty2").val());
+                                $(".qty2").val(currentValue <= 10 ? currentValue + 1 : 10);
                             });
-                            $(".btn-minus").on("click", function() {
-                                var currentValue = parseInt($(".product-qty").val());
-                                $(".product-qty").val(currentValue > 1 ? currentValue - 1 : 1);
+                            $(".dec").on("click", function() {
+                                var currentValue = parseInt($(".qty2").val());
+                                $(".qty2").val(currentValue > 1 ? currentValue - 1 : 1);
                             });
                         });
                     </script>
@@ -688,7 +692,7 @@
                                 success: function(response) {
                                     updateCartContentsHtml(response.cart);
 
-                                    Command: toastr["success"]("Đã thêm sản phẩm vào giỏ hàng");
+                                    Command: toastr["success"]("Đã thêm sản phẩm");
 
                                     toastr.options = {
                                         "closeButton": false,
@@ -723,7 +727,7 @@
 
 
                         function remove_product(id) {
-                            if (confirm("Are you sure want to remove? " + id)) {
+                            if (confirm("Are you sure want to remove? ")) {
                                 $.ajax({
                                     url: '/remove-from-cart',
                                     method: "DELETE",
