@@ -38,7 +38,11 @@ Route::match(['GET', 'POST'], '/register', [App\Http\Controllers\Login\LoginCont
 Route::get('/logout', [App\Http\Controllers\Login\LoginController::class, 'logout'])->name('logout');
 
 
+<<<<<<< HEAD
 Route::middleware(['auth:web'])->group(function () {
+=======
+Route::middleware(['auth'])->group(function () {
+>>>>>>> 59fcbc8 (edit loi vat)
     // Dashboard admin
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 

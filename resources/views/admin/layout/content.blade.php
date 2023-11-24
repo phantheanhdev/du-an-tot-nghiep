@@ -253,6 +253,7 @@
                                             style="color: #d35352;"></i>
                                         Nhân viên
                                     </button>
+<<<<<<< HEAD
                                     {{-- Coupon admin --}}
                                     {{-- <button id="btnOrder" onclick="getLink('coupons')"
                                         class="btn btn-outline btn-primary btn-block">
@@ -265,12 +266,18 @@
                                         <i class="fa-solid fa-bolt float-left mt-1"></i>
                                         Giảm giá thần tốc</button>
 
+=======
+>>>>>>> 59fcbc8 (edit loi vat)
                                     {{-- Dashboard admin --}}
                                     <button id="btnOrder" onclick="getLink('dashboard')"
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa-solid fa-table-columns float-left mt-1"></i>
+<<<<<<< HEAD
                                         Thống kê</button>
 
+=======
+                                        DASHBOARD</button>
+>>>>>>> 59fcbc8 (edit loi vat)
                                 </div>
                             </div>
                         </div>
