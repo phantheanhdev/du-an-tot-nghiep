@@ -24,6 +24,6 @@ class Customer extends Middleware
             'tableId' => $tableId
         ]);
 
-       
+
     }
 }

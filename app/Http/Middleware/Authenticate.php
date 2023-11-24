@@ -16,14 +16,17 @@ class Authenticate extends Middleware
         // if (!$request->expectsJson()) {
         //     return route('login');
         // }
-        $table_id = $_GET['tableId'];
-        $table_no = $_GET['tableNo'];
-        if (!$request->expectsJson()) {
-            return route('form_infor_user', [
-                'tableNo' => $table_no,
-                'tableId' => $table_id
-            ]);
+        if (!Auth::guard('web')->check()) {
+            return route('login');
         }
+        // if (!$request->expectsJson()) {
+        //     $table_id = $_GET['tableId'];
+        //     $table_no = $_GET['tableNo'];
+        //     return route('form_infor_user', [
+        //         'tableNo' => $table_no,
+        //         'tableId' => $table_id
+        //     ]);
+        // }
 
 
 
