@@ -60,6 +60,7 @@
                                                 <div class="bg-warning fs-1 rounded"><span>Chưa xác nhận</span></div>
                                             @elseif ($order->status === 1)
                                                 <div class="bg-primary fs-1 rounded"><span>Đã xác nhận</span></div>
+                                                <div class="bg-secondary fs-1 rounded mt-2"><a class="text-white" href="{{url('/order-form/'.$order->id)}}">In hóa đơn</a></div>
                                             @elseif ($order->status === 3)
                                                 <div class="bg-primary fs-1 rounded"><span>Đang chuẩn bị</span></div>
                                             @elseif ($order->status === 4)
