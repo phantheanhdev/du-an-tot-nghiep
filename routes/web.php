@@ -133,7 +133,7 @@ Route::middleware(['auth:web'])->group(function () {
 //  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8
 //  bat dau quet , nhap ten  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8
 
-Route::group(['middleware' => 'auth:customer'], function () {
+Route::group(['middleware' => ['customer:customer', 'checkCustomer']], function () {
     Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
 
     // Action order food
