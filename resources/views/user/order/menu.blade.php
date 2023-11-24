@@ -325,10 +325,10 @@
                                     <h3 class=" d-flex text-qrRest-dark font-weight-bold text-styling">Chào
                                         <b class="mx-1">
                                             <?php
-                                            
+
                                             date_default_timezone_set('Asia/Ho_Chi_Minh');
                                             $currentHour = date('G');
-                                            
+
                                             if ($currentHour >= 5 && $currentHour < 10) {
                                                 $timeOfDay = 'buổi sáng';
                                             } elseif ($currentHour >= 10 && $currentHour < 13) {
@@ -338,7 +338,7 @@
                                             } else {
                                                 $timeOfDay = 'buổi tối';
                                             }
-                                            
+
                                             echo "$timeOfDay";
                                             ?>
                                             @if (auth()->check())
@@ -884,7 +884,8 @@
                                             '</tbody>' +
                                             '</table>' +
                                             '</div>' +
-                                            '</div>';
+                                            '</div>' +
+                                            '<hr>';
                                     }
                                 }
                             }
