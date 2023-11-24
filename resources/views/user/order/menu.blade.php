@@ -13,6 +13,99 @@
             padding: 10px;
             cursor: pointer;
         }
+
+        .bought--item {
+            background-color: #fff;
+        }
+
+        .component__combo-editor,
+        .component__item-editor {
+            /* -webkit-box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
+                                                                                            box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
+            padding: 2px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .component__item-editor {
+            background-color: #fff;
+        }
+
+        .component__item-editor .table-rule {
+            width: 100%;
+            font-size: 1.2em;
+        }
+
+        .image__item-cart {
+            width: 70px;
+            height: 70px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: 50%;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+        }
+
+        .td--product-name {
+            color: #363636;
+            font-weight: 400;
+            font-size: 14px;
+            padding-left: 5px;
+        }
+
+        .component__card-description-bound {
+            min-height: 20px !important;
+        }
+
+        .component__card-description-bound {
+            font-weight: 400;
+            position: relative;
+            color: grey !important;
+        }
+
+        .price-and-edit-text__container {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+        }
+
+        .origin-price,
+        .component__item-editor .origin-price {
+            font-size: 14px;
+            color: #363636;
+            font-weight: 400;
+        }
+
+        .price-and-edit-text__container .edit-text {
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 16px;
+            letter-spacing: 0;
+        }
+
+        .price-and-edit-text__container>div {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+        }
+
+        .total-price__v2 {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            margin-top: 12px;
+            padding: 0 12px;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+        }
     </style>
     <div id="wrapper">
         <div id="page-wrapper" class="gray-bg">
@@ -59,13 +152,14 @@
                                 </div>
                                 <div class="ibox-content ibox-br">
 
-                                    <form id="orderForm" enctype="multipart/form-data">
+                                    {{-- <form id="orderForm" enctype="multipart/form-data">
                                         @csrf
 
                                         <input type="hidden" name="table_id" value="{{ $tableId }}">
                                         <input type="hidden" name="status" value="0">
+                                        <input type="hidden" name="customer_name" value="BBB">
                                         <input type="hidden" name="phone" value="0">
-                                        {{-- <input type="hidden" name="customer_phone" value="0"> --}}
+                                        <input type="hidden" name="customer_phone" value="{{ Auth::guard('customer')->user()->phone }}">
 
 
                                         <table class="table table-borderless">
@@ -82,7 +176,7 @@
                                                         <tr>
                                                             <td style="width:60%" class="cart-item">
                                                                 {{ $details['name'] }}<br> <span
-                                                                    class="text-menu-description text-muted"></span> </td>
+                                                                    class="text-menu-description text-muted">fdf</span> </td>
 
                                                             <td><input onblur="updateQuantity()" id="cartquantity-3"
                                                                     class="quantity-input"
@@ -103,7 +197,7 @@
                                                         <h5>Tổng</h5>
                                                     </td>
                                                     <td></td>
-                                                    <td class="cart-item"> <strong>$ {{ number_format($total) }}</strong>
+                                                    <td class="cart-item"> <strong>{{ number_format($total) }} đ</strong>
                                                     </td>
                                                     <td></td>
                                                 </tr>
@@ -113,185 +207,108 @@
                                         <div class="form-group" id="txtOrderIsReady">
                                             <textarea class="form-control" name="note" maxlength="70" rows="2" placeholder="Ghi chú"></textarea>
                                         </div>
-                                        <button type="button" id="placeOrder" onclick="submitOrder(<?= $tableId ?>)"
+                                        <button type="button" id="placeOrder" onclick="submitOrder(<?= $tableNo ?>)"
+                                            class="btn btn-primary btn-outline btn-block mt-4 btn-sm"> Đặt món</button>
+                                    </form> --}}
+                                    <form id="orderForm" enctype="multipart/form-data">
+                                        @csrf
+
+                                        <input type="hidden" name="table_id" value="{{ $tableId }}">
+                                        <input type="hidden" name="status" value="0">
+                                        <input type="hidden" name="customer_name" value="BBB">
+                                        <input type="hidden" name="phone" value="0">
+                                        <input type="hidden" name="customer_phone"
+                                            value="{{ Auth::guard('customer')->user()->phone }}">
+                                        @php $total = 0 @endphp
+
+
+                                        <div class="component__cart-table" id="cartContentsHtml">
+                                            @if (session('cart'))
+                                                @foreach (session('cart') as $id => $details)
+                                                    @php $total += $details['price'] * $details['quantity'] @endphp
+                                                    <input type="hidden" value="{{ $total }}" id="total_price"
+                                                        name="total_price">
+                                                    <div class="bought--item">
+                                                        <div class="component__item-editor">
+                                                            <table class="table-rule">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td rowspan="2"
+                                                                            style="width: 78px; vertical-align: top;">
+                                                                            <div class="image__item-cart"
+                                                                                style="background-image: url(&quot;/static/images/default_food.svg&quot;);">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="td--product-name"
+                                                                            style="vertical-align: top;"><span
+                                                                                style="font-weight: 500; color: #910400; font-size: 14px;">{{ $details['quantity'] }}
+                                                                                x</span> <span class="name"
+                                                                                style="font-size: 14px; font-weight: 500;">{{ $details['name'] }}</span><br>
+                                                                            <div class="component__card-description-bound"
+                                                                                style="color: rgb(54, 54, 54); margin-top: 4px;">
+                                                                                <div
+                                                                                    style="line-height: 1.2; margin-top: 5px;">
+                                                                                    @php
+                                                                                        $itemDetails = json_decode($details['item'], true);
+                                                                                        if (is_array($itemDetails) && !empty($itemDetails)) {
+                                                                                            foreach ($itemDetails as $item) {
+                                                                                                $itemName = $item['name'] ?? '';
+                                                                                                echo '- ' . $itemName . '<br>';
+                                                                                            }
+                                                                                        }
+                                                                                    @endphp
+
+                                                                                    {{-- {{ $itemName }} --}}
+                                                                                </div> <!----> <!---->
+                                                                            </div>
+                                                                            <div class="price-and-edit-text__container"
+                                                                                style="margin-top: 5px;">
+                                                                                <div><span class="origin-price">
+                                                                                        {{ number_format($details['price']) }}
+                                                                                        đ
+                                                                                    </span> <!----></div>
+                                                                                <div class="edit-text"
+                                                                                    style="color: rgb(247, 148, 30);">
+                                                                                    Chỉnh sửa
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="btn-remove-item-in-cart"><span
+                                                                                    class="ti-close"></span></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                @endforeach
+                                            @endif
+                                            <div class="total-price__v2 mb-2">
+                                                <div>
+                                                    <h3><b>Tổng tiền</b></h3>
+                                                </div>
+                                                <div>
+                                                    <h3><b>{{ number_format($total) }} đ</b></h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="txtOrderIsReady">
+                                            <textarea class="form-control" name="note" maxlength="70" rows="2" placeholder="Ghi chú"></textarea>
+                                        </div>
+                                        <button type="button" id="placeOrder" onclick="submitOrder(<?= $tableNo ?>)"
                                             class="btn btn-primary btn-outline btn-block mt-4 btn-sm"> Đặt món</button>
                                     </form>
-                                    {{-- <style>
-                                        .bought--item {
-                                            background-color: #fff;
-                                        }
-
-                                        .component__combo-editor,
-                                        .component__item-editor {
-                                            -webkit-box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
-                                            box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
-                                            padding: 12px;
-                                            border-radius: 8px;
-                                            margin-bottom: 10px;
-                                            position: relative;
-                                        }
-
-                                        .component__item-editor {
-                                            background-color: #fff;
-                                        }
-
-                                        .component__item-editor .table-rule {
-                                            width: 100%;
-                                            font-size: 1.2em;
-                                        }
-
-                                        .image__item-cart {
-                                            width: 70px;
-                                            height: 70px;
-                                            background-size: cover;
-                                            background-repeat: no-repeat;
-                                            background-position: 50%;
-                                            border-radius: 5px;
-                                            background-color: #f5f5f5;
-                                        }
-
-                                        .td--product-name {
-                                            color: #363636;
-                                            font-weight: 400;
-                                            font-size: 14px;
-                                            padding-left: 5px;
-                                        }
-
-                                        .component__card-description-bound {
-                                            min-height: 20px !important;
-                                        }
-
-                                        .component__card-description-bound {
-                                            font-weight: 400;
-                                            position: relative;
-                                            color: grey !important;
-                                        }
-
-                                        .price-and-edit-text__container {
-                                            display: -webkit-box;
-                                            display: -ms-flexbox;
-                                            display: flex;
-                                            -webkit-box-pack: justify;
-                                            -ms-flex-pack: justify;
-                                            justify-content: space-between;
-                                        }
-
-                                        .origin-price,
-                                        .component__item-editor .origin-price {
-                                            font-size: 14px;
-                                            color: #363636;
-                                            font-weight: 400;
-                                        }
-
-                                        .price-and-edit-text__container .edit-text {
-                                            font-size: 13px;
-                                            font-weight: 500;
-                                            line-height: 16px;
-                                            letter-spacing: 0;
-                                        }
-
-                                        .price-and-edit-text__container>div {
-                                            display: -webkit-box;
-                                            display: -ms-flexbox;
-                                            display: flex;
-                                            -webkit-box-align: center;
-                                            -ms-flex-align: center;
-                                            align-items: center;
-                                        }
-                                    </style>
-                                    <div class="component__cart-table">
-                                        <div class="bought--item">
-                                            <div class="component__item-editor">
-                                                <table class="table-rule">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td rowspan="2" style="width: 78px; vertical-align: top;">
-                                                                <div class="image__item-cart"
-                                                                    style="background-image: url(&quot;/static/images/default_food.svg&quot;);">
-                                                                </div>
-                                                            </td>
-                                                            <td class="td--product-name" style="vertical-align: top;"><span
-                                                                    style="font-weight: 500; color: rgb(247, 148, 30); font-size: 14px;">1
-                                                                    x</span> <span class="name"
-                                                                    style="font-size: 14px; font-weight: 500;">Sữa
-                                                                    đặc</span><br>
-                                                                <div class="component__card-description-bound"
-                                                                    style="color: rgb(54, 54, 54); margin-top: 4px;">
-                                                                    <!---->
-                                                                    <div style="line-height: 1.2; margin-top: 5px;">
-
-                                                                    </div> <!----> <!---->
-                                                                </div>
-                                                                <div class="price-and-edit-text__container"
-                                                                    style="margin-top: 5px;">
-                                                                    <div><span class="origin-price">
-                                                                            5.000 đ
-                                                                        </span> <!----></div>
-                                                                    <div class="edit-text"
-                                                                        style="color: rgb(247, 148, 30);">
-                                                                        Chỉnh sửa
-                                                                    </div>
-                                                                </div>
-                                                                <div class="btn-remove-item-in-cart"><span
-                                                                        class="ti-close"></span></div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="bought--item">
-                                            <div class="component__item-editor">
-                                                <table class="table-rule">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td rowspan="2" style="width: 78px; vertical-align: top;">
-                                                                <div class="image__item-cart"
-                                                                    style="background-image: url(&quot;/static/images/default_food.svg&quot;);">
-                                                                </div>
-                                                            </td>
-                                                            <td class="td--product-name" style="vertical-align: top;"><span
-                                                                    style="font-weight: 500; color: rgb(247, 148, 30); font-size: 14px;">1
-                                                                    x</span> <span class="name"
-                                                                    style="font-size: 14px; font-weight: 500;">Sữa
-                                                                    đặc</span><br>
-                                                                <div class="component__card-description-bound"
-                                                                    style="color: rgb(54, 54, 54); margin-top: 4px;">
-                                                                    <!---->
-                                                                    <div style="line-height: 1.2; margin-top: 5px;">
-
-                                                                    </div> <!----> <!---->
-                                                                </div>
-                                                                <div class="price-and-edit-text__container"
-                                                                    style="margin-top: 5px;">
-                                                                    <div><span class="origin-price">
-                                                                            5.000 đ
-                                                                        </span> <!----></div>
-                                                                    <div class="edit-text"
-                                                                        style="color: rgb(247, 148, 30);">
-                                                                        Chỉnh sửa
-                                                                    </div>
-                                                                </div>
-                                                                <div class="btn-remove-item-in-cart"><span
-                                                                        class="ti-close"></span></div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div> --}}
 
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-6" style="padding-right:7px">
-                                    <button onclick="callTheWaiter(<?= $tableId ?>)" id="btnCallWaiter"
+                                    <button onclick="callTheWaiter(<?= $tableNo ?>)" id="btnCallWaiter"
                                         class="call-button btn-block"><img src="{{ asset('upload_file/call-waiter.png') }}">
                                         Gọi Nhân Viên</button>
                                 </div>
                                 <div class="col-6" style="padding-left:7px">
-                                    <button onclick="callPayment(<?= $tableId ?>)" id="btnCallBill"
+                                    <button onclick="callPayment(<?= $tableNo ?>)" id="btnCallBill"
                                         class="call-button btn-block"><img src="{{ asset('upload_file/get-money.png') }}">
                                         Thanh toán</button>
                                 </div>
@@ -498,10 +515,9 @@
                                                                                                     {{ $variantItem->name }}
                                                                                                     :
                                                                                                     <span
-                                                                                                        class="text-danger">{{ $variantItem->price }}đ</span>
-                                                                                                        <input type="hidden" value="{{ $variantItem->name }}" id="name_variantItem">
+                                                                                                        class="text-danger">{{ number_format($variantItem->price) }}đ</span>
                                                                                                 </label>
-                                                                                                
+
                                                                                             </div>
                                                                                         @endforeach
                                                                                     @elseif($variant->multi_choice === 1)
@@ -519,8 +535,7 @@
                                                                                                     {{ $variantItem->name }}
                                                                                                     :
                                                                                                     <span
-                                                                                                        class="text-danger">{{ $variantItem->price }}đ</span>
-                                                                                                        <input type="hidden" value="{{ $variantItem->name }}" id="name_variantItem">
+                                                                                                        class="text-danger">{{ number_format($variantItem->price) }}đ</span>
                                                                                                 </label>
                                                                                             </div>
                                                                                         @endforeach
@@ -583,28 +598,29 @@
                     <script>
                         function getSelectedItemsInfo() {
                             var selectedItemsInfo = [];
-                        
+
                             // Lặp qua các phần tử input có name là 'variants_items[]'
                             var variantItems = document.querySelectorAll('input[name="variants_items[]"]:checked');
-                            
+
                             variantItems.forEach(function(item) {
                                 var label = item.parentElement; // Lấy phần tử label chứa thông tin
-                                var itemName = document.getElementById('name_variantItem').value; // Lấy tên mục
+                                var itemName = label.innerText.trim(); // Lấy tên mục
                                 var itemPriceText = label.querySelector('.text-danger').textContent; // Lấy giá mục
-                                var itemPrice = parseFloat(itemPriceText.replace('đ', '').replace(',', '')); // Chuyển đổi giá thành số
-                        
+                                var itemPrice = parseFloat(itemPriceText.replace('đ', '').replace(',',
+                                    '')); // Chuyển đổi giá thành số
+
                                 // Thêm thông tin vào mảng
                                 selectedItemsInfo.push({
                                     name: itemName,
                                     price: itemPrice
                                 });
                             });
-                        
-                            return selectedItemsInfo;
+
+                            // Trả về dữ liệu JSON
+                            return JSON.stringify(selectedItemsInfo);
                         }
-                    
                     </script>
-    
+
 
                     <script>
                         var csrfToken = @json(csrf_token());
@@ -618,17 +634,19 @@
 
                                 // Lấy giá của biến thể được chọn
                                 $(this).find('input:checked').each(function() {
-                                    var variantPrice = parseFloat($(this).siblings('label').find('.text-danger').text());
-                                    selectedVariantPrice += variantPrice;
+                                    var variantPrice = $(this).siblings('label').find('.text-danger').text();
+                                    var itemPrice = parseFloat(variantPrice.replace('đ', '').replace(',',
+                                        '')); // Chuyển đổi giá thành số
+                                    selectedVariantPrice += itemPrice;
+
                                 });
 
                                 // Cộng giá biến thể vào tổng giá
                                 totalPrice += selectedVariantPrice;
                             });
-                            
+
 
                             return totalPrice
-                            // Bạn có thể cập nhật giao diện người dùng với giá mới ở đây
                         }
 
                         // Hàm để thêm sản phẩm vào giỏ hàng
@@ -652,9 +670,9 @@
                             // Lấy giá sản phẩm và giá các item được chọn
                             var selectedItemsPrice = updateTotalPrice();
                             var itemsInfo = getSelectedItemsInfo();
-                            console.log(itemsInfo);
                             // Cập nhật giá sản phẩm bằng cách cộng giá sản phẩm và giá các item được chọn
                             var totalPrice = productPrice + selectedItemsPrice;
+
 
                             $.ajax({
                                 type: 'POST',
@@ -689,65 +707,19 @@
                                         "showMethod": "fadeIn",
                                         "hideMethod": "fadeOut"
                                     };
+
+                                    $('.box').each(function() {
+                                        var selectedVariantPrice = 0;
+                                        $(this).find('input:checked').each(function() {
+                                            $(this).prop('checked', false);
+                                        })
+                                    })
+                                    $('#exampleModalScrollable-product-' + productId).modal('hide');
                                 }
                             });
 
                             console.log('Đã thêm sản phẩm có ID ' + productId + ' vào giỏ hàng.');
                         }
-
-                        // function addToCart(productId) {
-                        //     var inputElement = document.getElementById('txtQuantity-' + productId);
-                        //     var currentQuantity = parseFloat(inputElement.value);
-
-                        //     var productNameElement = document.getElementById('product-name-' + productId);
-                        //     var productPriceElement = document.getElementById('product-price-' + productId);
-
-                        //     if (productNameElement && productPriceElement) {
-                        //         var productName = productNameElement.textContent;
-                        //         var productPrice = parseFloat(productPriceElement.value);
-                        //     } else {
-                        //         console.log('Không tìm thấy phần tử sản phẩm với ID ' + productId);
-                        //     }
-                        //     var quantity = currentQuantity; // Số lượng sản phẩm bạn muốn thêm
-
-                        //     $.ajax({
-                        //         type: 'POST',
-                        //         url: '/add-to-cart/' + productId, // Đường dẫn đến API route bạn đã tạo
-                        //         data: {
-                        //             _token: csrfToken,
-                        //             product_id: productId,
-                        //             product_name: productName,
-                        //             quantity: quantity,
-                        //             price: productPrice,
-                        //         },
-                        //         success: function(response) {
-                        //             // alert();
-                        //             updateCartContentsHtml(response.cart);
-
-                        //             Command: toastr["success"]("Đã thêm sản phẩm vào giỏ hàng")
-
-                        //             toastr.options = {
-                        //                 "closeButton": false,
-                        //                 "debug": false,
-                        //                 "newestOnTop": false,
-                        //                 "progressBar": false,
-                        //                 "positionClass": "toast-top-right",
-                        //                 "preventDuplicates": false,
-                        //                 "onclick": null,
-                        //                 "showDuration": "300",
-                        //                 "hideDuration": "1000",
-                        //                 "timeOut": "5000",
-                        //                 "extendedTimeOut": "1000",
-                        //                 "showEasing": "swing",
-                        //                 "hideEasing": "linear",
-                        //                 "showMethod": "fadeIn",
-                        //                 "hideMethod": "fadeOut"
-                        //             }
-                        //         }
-                        //     });
-                        //     console.log('Đã thêm sản phẩm có ID ' + productId + ' vào giỏ hàng.');
-
-                        // }
 
 
                         function remove_product(id) {
@@ -865,7 +837,6 @@
                             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                         }
 
-
                         function updateCartContentsHtml(cart) {
                             var total = 0;
                             var cartContentsHtml = '';
@@ -875,32 +846,60 @@
                                     if (cart.hasOwnProperty(id)) {
                                         var details = cart[id];
                                         total += details['price'] * details['quantity'];
-                                        var price_id = formatNumberWithCommas(details['price']);
-                                        cartContentsHtml += '<tr>' +
-                                            '<td style="width:60%" class="cart-item">' + details['name'] + '<br>' +
-                                            '<span class="text-menu-description text-muted"></span></td>' +
-                                            '<td><input onblur="updateQuantity(' + id + ')" id="cartquantity-' + id + '" ' +
-                                            'class="quantity-input" value="' + details['quantity'] + '"></td>' +
-                                            '<td style="width:28%;" class="cart-item">$' + price_id + '</td>' +
-                                            '<td><a onclick="remove_product(' + id + ')" class="float-right">' +
-                                            '<i class="fa fa-times text-qrRestremove-from-cart"></i></a></td>' +
-                                            '</tr>';
+
+                                        cartContentsHtml += '<div class="bought--item">' +
+                                            '<div class="component__item-editor">' +
+                                            '<table class="table-rule">' +
+                                            '<tbody>' +
+                                            '<tr>' +
+                                            '<td rowspan="2" style="width: 78px; vertical-align: top;">' +
+                                            '<div class="image__item-cart" style="background-image: url(&quot;/static/images/default_food.svg&quot;);"></div>' +
+                                            '</td>' +
+                                            '<td class="td--product-name" style="vertical-align: top;">' +
+                                            '<span style="font-weight: 500; color: #910400; font-size: 14px;">' +
+                                            details['quantity'] + ' x</span> ' +
+                                            '<span class="name" style="font-size: 14px; font-weight: 500;">' +
+                                            details['name'] + '</span><br>' +
+                                            '<div class="component__card-description-bound" style="color: rgb(54, 54, 54); margin-top: 4px;">';
+
+                                        // Assuming details['item'] is a JSON string
+                                        var itemDetails = JSON.parse(details['item']);
+                                        if (Array.isArray(itemDetails) && itemDetails.length > 0) {
+                                            cartContentsHtml += '<div style="line-height: 1.2; margin-top: 5px;">';
+                                            for (var i = 0; i < itemDetails.length; i++) {
+                                                cartContentsHtml += "- " + itemDetails[i]['name'] + '<br>';
+                                            }
+                                            cartContentsHtml += '</div>';
+                                        }
+
+                                        cartContentsHtml += '</div>' +
+                                            '<div class="price-and-edit-text__container" style="margin-top: 5px;">' +
+                                            '<div><span class="origin-price">' +
+                                            formatNumberWithCommas(details['price']) + ' đ</span></div>' +
+                                            '<div class="edit-text" style="color: rgb(247, 148, 30);">Chỉnh sửa</div>' +
+                                            '</div>' +
+                                            '<div class="btn-remove-item-in-cart"><span class="ti-close"></span></div>' +
+                                            '</td>' +
+                                            '</tr>' +
+                                            '</tbody>' +
+                                            '</table>' +
+                                            '</div>' +
+                                            '</div>';
                                     }
                                 }
                             }
 
                             var formattedTotal = formatNumberWithCommas(total);
 
-                            cartContentsHtml += ' <input type="hidden" value="' + total +
-                                '" name="total_price" id="total_price"><tr class="spacer">' +
-                                '<td class="cart-item"><h5>TOTAL</h5></td>' +
-                                '<td></td>' +
-                                '<td class="cart-item"><strong>$ ' + formattedTotal + '</strong></td>' +
-                                '<td></td>' +
-                                '</tr>';
+                            cartContentsHtml += '<input type="hidden" value="' + total +
+                                '" name="total_price" id="total_price"><div class="total-price__v2 mb-2">' +
+                                '<div><h3><b>Tổng tiền</b></h3></div>' +
+                                '<div><h3><b>' + formattedTotal + ' đ</b></h3></div>' +
+                                '</div></div>'; // Closing the outermost div for correct structure
 
                             $('#cartContentsHtml').html(cartContentsHtml);
                         }
+
 
                         function callTheWaiter(id) {
                             var contentsData = "Bàn " + id + " gọi nhân viên";

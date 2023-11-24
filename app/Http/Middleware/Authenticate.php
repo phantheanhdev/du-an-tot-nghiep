@@ -13,9 +13,9 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request)
     {
-        if (!$request->expectsJson()) {
-            return route('login');
-        }
+        // if (!$request->expectsJson()) {
+        //     return route('login');
+        // }
         $table_id = $_GET['tableId'];
         $table_no = $_GET['tableNo'];
         if (!$request->expectsJson()) {
@@ -25,8 +25,19 @@ class Authenticate extends Middleware
             ]);
         }
 
+
+
         if (Auth::guard('customer')->check()) {
+            $table_id = $_GET['tableId'];
+            $table_no = $_GET['tableNo'];
             return redirect()->route('order.menu', [
+                'tableNo' => $table_no,
+                'tableId' => $table_id
+            ]);
+        } else {
+            $table_id = $_GET['tableId'];
+            $table_no = $_GET['tableNo'];
+            return route('form_infor_user', [
                 'tableNo' => $table_no,
                 'tableId' => $table_id
             ]);

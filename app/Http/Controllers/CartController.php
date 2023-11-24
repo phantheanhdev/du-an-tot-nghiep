@@ -60,10 +60,10 @@ class CartController extends Controller
 
         $cart = session()->get('cart', []);
 
-        // Sử dụng hàm băm để tạo giá trị duy nhất từ mảng
-        $itemHash = md5(serialize($request->input('item', [])));
+        // Sử dụng crc32 để tạo giá trị chỉ chứa chữ số từ mảng
+        $itemHash = sprintf("%u", crc32(serialize($request->input('item', []))));
 
-        $cartKey = $id . '_' . $itemHash;
+        $cartKey = $id . $itemHash;
 
         if (isset($cart[$cartKey])) {
             $cart[$cartKey]['quantity'] += $request->input('quantity', 1);
@@ -83,6 +83,7 @@ class CartController extends Controller
         // Trả về thông tin giỏ hàng dưới dạng JSON
         return response()->json(['cart' => $cart]);
     }
+
 
 
 
@@ -110,6 +111,7 @@ class CartController extends Controller
             $productOrder->product_name = $item['name'];
             $productOrder->product_price = $item['price'];
             $productOrder->product_img = $item['image'];
+            $productOrder->item = json_encode($item['item']);
             $productOrder->save();
         }
 

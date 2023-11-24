@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Support\Facades\Auth;
 
 class Customer extends Middleware
 {
@@ -22,5 +23,7 @@ class Customer extends Middleware
             'tableNo' => $tableNo,
             'tableId' => $tableId
         ]);
+
+       
     }
 }

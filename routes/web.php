@@ -38,7 +38,7 @@ Route::match(['GET', 'POST'], '/register', [App\Http\Controllers\Login\LoginCont
 Route::get('/logout', [App\Http\Controllers\Login\LoginController::class, 'logout'])->name('logout');
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth:web'])->group(function () {
     // Dashboard admin
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
@@ -105,7 +105,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('flash-sale/add-product', [FlashSaleController::class, 'addProduct'])->name('flash-sale.add-product');
     Route::get('flash-sale-status', [FlashSaleController::class, 'changeStatus'])->name('flash-sale-status');
     Route::delete('flash-sale/{id}', [FlashSaleController::class, 'destory'])->name('flash-sale.destory');
-    Route::post('flash-sale/deleteAll',[FlashSaleController::class , 'deleteSelectAll'])->name('flash-sale.deleteAll');
+    Route::post('flash-sale/deleteAll', [FlashSaleController::class, 'deleteSelectAll'])->name('flash-sale.deleteAll');
     //changePassword
     Route::get('/change-password', [App\Http\Controllers\Login\LoginController::class, 'showForm'])->name('show.password.form');
     Route::post('/update-password', [App\Http\Controllers\Login\LoginController::class, 'updatePassword'])->name('update.password');
@@ -134,32 +134,35 @@ Route::middleware(['auth'])->group(function () {
 //  bat dau quet , nhap ten  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8
 
 Route::group(['middleware' => 'auth:customer'], function () {
-Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
+    Route::get('order/menu', [MenuController::class, 'index'])->name('order.menu');
 
-// Action order food
-Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
-Route::delete('/remove-from-cart', [CartController::class, 'remove']);
-Route::post('order', [CartController::class, 'order'])->name('order');
-Route::get('/get-cart', [CartController::class, 'getCart'])->name('get.cart');
+    // Action order food
+    Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
+    Route::delete('/remove-from-cart', [CartController::class, 'remove']);
+    Route::post('order', [CartController::class, 'order'])->name('order');
+    Route::get('/get-cart', [CartController::class, 'getCart'])->name('get.cart');
 
-// Apply coupon
-Route::get('apply-coupon', [CartController::class, 'applyCoupon'])->name('apply-coupon');
-Route::get('coupon-calculation', [CartController::class, 'couponCalculation'])->name('coupon-calculation');
-Route::get('cacel-coupon', [CartController::class, 'cencelCoupon'])->name('cencel-coupon');
+    // Apply coupon
+    Route::get('apply-coupon', [CartController::class, 'applyCoupon'])->name('apply-coupon');
+    Route::get('coupon-calculation', [CartController::class, 'couponCalculation'])->name('coupon-calculation');
+    Route::get('cacel-coupon', [CartController::class, 'cencelCoupon'])->name('cencel-coupon');
 });
 
 // form infor user
 //  http://127.0.0.1:8000/foodie?tableId=6&tableNo=8
+
 Route::get('/foodie', [HomeController::class, 'form_infor_user'])->name('form_infor_user')->middleware('guest:customer');
+
 
 Route::post('/submit_form', [HomeController::class, 'loginUser'])->name('login.user');
 Route::post('/customer/logout', [HomeController::class, 'logout'])->name('customer.logout');
+
+
 Route::get('home', [HomeController::class, 'home']);
 
 // pusher event
 Route::get('/pusher', function (Illuminate\Http\Request $request) {
     event(new HelloPusherEvent($request));
-    return redirect('getPusher');
 });
 
 // 2 route test pusher
