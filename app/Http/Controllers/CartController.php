@@ -97,7 +97,7 @@ class CartController extends Controller
         $order->total_price = $request->total_price;
         $order->status = 0;
         $order->note = $request->note;
-        $order->phone = $request->phone;
+        $order->phone = $request->customer_phone;
         $order->save();
 
         $cart = session()->get('cart');

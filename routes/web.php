@@ -91,7 +91,7 @@ Route::middleware(['auth:web'])->group(function () {
     Route::get('/invoice/{id}/generate', [OrderController::class, 'genarateInvoice'])->name('genarateInvoice');
     // print order
     Route::get('/print_order/{id}', [OrderController::class, 'print_order'])->name('print_order');
-
+    Route::get('/order-form/{id}',[OrderController::class,'billOrder'])->name('order-form');
     // bill
     Route::resource('order-board', BillController::class);
 

@@ -22,9 +22,11 @@
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <button class="nav-link  active" id="nav-home-tab" data-toggle="tab" data-target="#nav-home"
-                            type="button" role="tab" aria-controls="nav-home" aria-selected="true">Đơn đặt hàng</button>
+                            type="button" role="tab" aria-controls="nav-home" aria-selected="true">Đơn đặt
+                            hàng</button>
                         <button class="nav-link " id="nav-profile-tab" data-toggle="tab" data-target="#nav-profile"
-                            type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Đơn hàng đã hoàn thành
+                            type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Đơn hàng đã hoàn
+                            thành
                         </button>
                     </div>
                 </nav>
@@ -33,14 +35,14 @@
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         <div class="col-md-12">
                             <div class="card-body mt-3" id="nonPayOrder">
-                                <table id="appTable"  class="display text-center">
+                                <table id="appTable" class="display text-center">
                                     @if (isset($order) && count($order) > 0)
                                         <thead class="">
                                             <tr>
                                                 <th>Bàn</th>
                                                 <th>Sản phẩm</th>
                                                 <th>Tổng cộng</th>
-                                                <th>Khách hàng</th>
+                                                {{-- <th>Khách hàng</th> --}}
                                                 <th>Ghi chú</th>
                                                 <th>Thời gian</th>
                                                 <th>Trạng thái</th>
@@ -55,6 +57,16 @@
                                                         <ul style="list-style: none; padding: 0;">
                                                             @foreach ($item->orderDetails as $orderDetail)
                                                                 <li>
+                                                                    @php
+                                                                        $variant = json_decode($orderDetail->item, true);
+                                                                    @endphp
+                                                                    @if ( $variant !== null && is_array($variant))
+                                                                        @foreach ($variant as $key => $value)
+                                                                                @if ($key === 'price')
+                                                                                    {{$value}}
+                                                                                @endif
+                                                                        @endforeach
+                                                                    @endif
                                                                     {{ $orderDetail->quantity }} x
                                                                     {{ $orderDetail->product->name }}
                                                                 </li>
@@ -62,7 +74,7 @@
                                                         </ul>
                                                     <td>{{ $item->total_price }} </td>
                                                     </td>
-                                                    <td>{{ $item->customer_name }}</td>
+                                                    {{-- <td>{{ $item->customer_name }}</td> --}}
                                                     <td>{{ $item->note }}</td>
                                                     <td>{{ $item->created_at }}</td>
                                                     <th>

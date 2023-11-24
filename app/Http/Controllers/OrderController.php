@@ -24,8 +24,8 @@ class OrderController extends Controller
     public function index()
     {
 
-        $order = $this->order->where('status', 0)->get();
-        $orders = $this->order->whereIn('status', [2, 5])->get();
+        $order = $this->order->where('status', 0)->orderBy('id', 'desc')->get();
+        $orders = $this->order->whereIn('status', [2, 5])->orderBy('id', 'desc')->get();
         return view('admin.orders.index', [
             'order' => $order,
             'orders' => $orders
@@ -111,7 +111,7 @@ class OrderController extends Controller
             'bill' => $bill,
             'todayDate' => $todayDate
         ]);
-        return $pdf->download('invoice-' . $order->id . '-' . $todayDate . 'pdf');
+        return $pdf->download('invoice-' . $order->id . '-' . $todayDate . '.pdf');
     }
 
     public function print_order(Request $request, $id)
@@ -141,5 +141,16 @@ class OrderController extends Controller
         // if ($pdf->stream()) {
         //     return back()->with(['message' => 'Thanh toan thanh cong']);
         // }
+    }
+
+    public function billOrder(string $id){
+        $order = Order::findOrFail($id);
+        $bill = OrderDetail::where('order_id', $id)->get();
+        $pdf = Pdf::loadView('admin.orders.bill-order', [
+            'order' => $order,
+            'bill' => $bill,
+
+        ]);
+         return $pdf->stream();
     }
 }
