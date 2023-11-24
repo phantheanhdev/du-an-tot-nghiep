@@ -163,14 +163,4 @@ Route::get('home', [HomeController::class, 'home']);
 // pusher event
 Route::get('/pusher', function (Illuminate\Http\Request $request) {
     event(new HelloPusherEvent($request));
-    return redirect('getPusher');
-});
-
-// 2 route test pusher
-Route::get('/test', function () {
-    return view('showNotification');
-});
-
-Route::get('getPusher', function () {
-    return view('form_pusher');
 });

@@ -10,12 +10,6 @@
                     <div class="sk-rect4"></div>
                     <div class="sk-rect5"></div>
                 </div>
-                <input hidden value="Table No" id="lblTableNo" />
-                <input hidden value="1" id="lblRestaurantId" />
-                <input hidden value="You have a new order!" id="lblNewOrderMessage" />
-                <input hidden value="Have a new order" id="lblNewOrderNotification" />
-                <input hidden value="The waiter has been called." id="lblCallWaiter" />
-                <input hidden value="Invoice is requested" id="lblCallBill" />
 
                 <h3 class="text-qrRest-dark text-center">TABLES</h3>
                 <div class="text-center">
@@ -39,7 +33,7 @@
                                 class="text-white">
 
 
-                                <div id="table-{{ $table->id }}"
+                                <div id="table-{{ $table->name }}"
                                     class="widget p-lg text-center {{ $table->orders->filter(function ($order) {
                                             return $order->status != 2 && $order->status != 5;
                                         })->count() > 0
