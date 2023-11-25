@@ -267,10 +267,11 @@
                                                                                         {{ number_format($details['price']) }}
                                                                                         đ
                                                                                     </span> <!----></div>
-                                                                                <div class="edit-text"
+                                                                                {{-- <div class="edit-text"
                                                                                     style="color: rgb(247, 148, 30);">
-                                                                                    Xóa
-                                                                                </div>
+                                                                                    <button class="btn btn-link" type="button" onclick="remove_product({{ $id }})">Xóa</button>
+                                                                                    
+                                                                                </div> --}}
                                                                             </div>
                                                                             <div class="btn-remove-item-in-cart"><span
                                                                                     class="ti-close"></span></div>
@@ -880,7 +881,6 @@
                                             '<div class="price-and-edit-text__container" style="margin-top: 5px;">' +
                                             '<div><span class="origin-price">' +
                                             formatNumberWithCommas(details['price']) + ' đ</span></div>' +
-                                            '<div class="edit-text" style="color: rgb(247, 148, 30);">Chỉnh sửa</div>' +
                                             '</div>' +
                                             '<div class="btn-remove-item-in-cart"><span class="ti-close"></span></div>' +
                                             '</td>' +
