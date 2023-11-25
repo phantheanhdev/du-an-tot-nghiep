@@ -8,6 +8,7 @@ use App\Http\Controllers\QrController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FlashSaleController;
 use App\Http\Controllers\HomeController;
@@ -95,6 +96,8 @@ Route::middleware(['auth'])->group(function () {
     // bill
     Route::resource('order-board', BillController::class);
 
+    // customer
+    Route::resource('/customer', CustomerController::class);
     //Coupon
     Route::get('coupons/change-status', [CouponController::class, 'changeStatus'])->name('coupons.change-status');
     Route::resource('coupons', CouponController::class);

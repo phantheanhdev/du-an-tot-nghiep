@@ -245,12 +245,16 @@
                                             style="color: #d35352;"></i>
                                         Menu thực phẩm
                                     </button>
-
+                                    {{-- khách hàng --}}
+                                    <button id="staff" onclick="getLink('customer')"
+                                        class="btn btn-outline btn-primary btn-block">
+                                            <i class="fa-solid fa-user-group fa-square-kanban fa-sharp fa-solid float-left mt-1" style="color: #d35352;"></i>
+                                        Khách hàng
+                                    </button>
                                     {{-- employee --}}
                                     <button id="staff" onclick="getLink('staff')"
                                         class="btn btn-outline btn-primary btn-block">
-                                        <i class="fa-solid fa-bars fa-square-kanban fa-sharp fa-solid float-left mt-1"
-                                            style="color: #d35352;"></i>
+                                            <i class="fa-solid fa-user fa-square-kanban fa-sharp fa-solid float-left mt-1" style="color: #d35352;"></i>
                                         Nhân viên
                                     </button>
                                     {{-- Coupon admin --}}
@@ -299,6 +303,9 @@
                                     case 'settings':
                                         window.location.href = '/Restaurant/settings';
                                         return;
+                                    case 'customer':
+                                        window.location.href = '/customer';
+                                    return;
                                     case 'staff':
                                         window.location.href = '/staff';
                                         return;

@@ -25,10 +25,12 @@ class OrderController extends Controller
     {
 
         $order = $this->order->where('status', 0)->orderBy('id', 'desc')->get();
-        $orders = $this->order->whereIn('status', [2, 5])->orderBy('id', 'desc')->get();
+        $orders = $this->order->where('status',5)->orderBy('id', 'desc')->get();
+        $cancel = $this->order->where('status',2)->orderBy('id', 'desc')->get();
         return view('admin.orders.index', [
             'order' => $order,
-            'orders' => $orders
+            'orders' => $orders,
+            'cancel' => $cancel
         ])->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
@@ -118,10 +120,9 @@ class OrderController extends Controller
     {
         // $pdfPath = storage_path('app/documents/document.pdf');
         $order = Order::findOrFail($id);
-        
-        // $order->update([
-        //     'status' => 5
-        // ]);
+        $order->update([
+            'status' => 5
+        ]);
 
         $todayDate = Carbon::now('Asia/Ho_Chi_Minh');
         $bill = OrderDetail::where('order_id', $id)->get();
