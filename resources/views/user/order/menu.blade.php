@@ -217,6 +217,7 @@
                                         <input type="hidden" name="status" value="0">
                                         <input type="hidden" name="customer_name" value="BBB">
                                         <input type="hidden" name="phone" value="{{ Auth::guard('customer')->user()->phone }}">
+                                        <input type="hidden" name="customer_id" value="{{ Auth::guard('customer')->user()->id }}">
                                         <input type="hidden" name="customer_phone"
                                             value="{{ Auth::guard('customer')->user()->phone }}">
                                         @php $total = 0 @endphp
@@ -270,7 +271,7 @@
                                                                                 {{-- <div class="edit-text"
                                                                                     style="color: rgb(247, 148, 30);">
                                                                                     <button class="btn btn-link" type="button" onclick="remove_product({{ $id }})">Xóa</button>
-                                                                                    
+
                                                                                 </div> --}}
                                                                             </div>
                                                                             <div class="btn-remove-item-in-cart"><span
@@ -326,10 +327,10 @@
                                     <h3 class=" d-flex text-qrRest-dark font-weight-bold text-styling">Chào
                                         <b class="mx-1">
                                             <?php
-                                            
+
                                             date_default_timezone_set('Asia/Ho_Chi_Minh');
                                             $currentHour = date('G');
-                                            
+
                                             if ($currentHour >= 5 && $currentHour < 10) {
                                                 $timeOfDay = 'buổi sáng';
                                             } elseif ($currentHour >= 10 && $currentHour < 13) {
@@ -339,7 +340,7 @@
                                             } else {
                                                 $timeOfDay = 'buổi tối';
                                             }
-                                            
+
                                             echo "$timeOfDay";
                                             ?>
                                             @if (auth()->check())
