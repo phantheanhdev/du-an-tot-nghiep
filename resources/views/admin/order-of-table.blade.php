@@ -58,14 +58,14 @@
                                         <td>{{ $order->total_price }} VNĐ</td>
                                         <td>
                                             @if ($order->status == 0)
-                                                <div class="bg-warning fs-1 rounded"><span>Chưa xác nhận</span></div>
+                                                <div class=" bg-primary fs-1 rounded"><span>Chưa xác nhận</span></div>
                                             @elseif ($order->status === 1)
-                                                <div class="bg-primary fs-1 rounded"><span>Đã xác nhận</span></div>
-                                                <div class="bg-secondary fs-1 rounded mt-2"><a class="text-white" href="{{url('/order-form/'.$order->id)}}">In hóa đơn</a></div>
-                                            @elseif ($order->status === 3)
+                                                <div class="bg-warning fs-1 rounded"><span>Đã xác nhận</span></div>
+                                                {{-- <div class="bg-secondary fs-1 rounded mt-2"><a class="text-white" href="{{url('/order-form/'.$order->id)}}">In hóa đơn</a></div> --}}
+                                            {{-- @elseif ($order->status === 3)
                                                 <div class="bg-primary fs-1 rounded"><span>Đang chuẩn bị</span></div>
                                             @elseif ($order->status === 4)
-                                                <div class="bg-success fs-1 rounded"><span>Đã ra món</span></div>
+                                                <div class="bg-success fs-1 rounded"><span>Đã ra món</span></div> --}}
                                             @endif
                                         </td>
                                         <td>
@@ -79,10 +79,10 @@
 
                                                 @if ($order->status == 0)
                                                     <button type="submit" name="status" value="1"
-                                                        class="btn btn-info btn-sm">Xác nhận</button>
+                                                        class="btn btn-info btn-sm float-end mx-1"><i class="fa-solid fa-check px-1"></i></button>
                                                     <button type="submit" name="status" value="2"
-                                                        class="btn btn-danger btn-sm">Hủy</button>
-                                                @elseif ($order->status === 1)
+                                                        class="btn btn-danger btn-sm float-end mx-1"><i class="fa-solid fa-xmark px-1"></i></button>
+                                                 {{-- @elseif ($order->status === 1)
                                                     <button type="submit" name="status" value="3"
                                                         class="btn btn-info btn-sm">Đang chuẩn bị</button>
                                                 @elseif ($order->status === 3)
@@ -91,13 +91,13 @@
                                                 @elseif ($order->status === 4)
                                                 <button type="submit" name="status" value="5"
                                                         class="btn btn-outline btn-primary btn-block"><i
-                                                        class="fa fa-credit-card" style="color: #d35352;"></i> Thanh toán</button>
-                                                    {{-- <a href="{{ url('print_order/' . $order->id) }}"
-                                                        class="btn btn-outline btn-primary btn-block"> <i
-                                                            class="fa fa-credit-card" style="color: #d35352;"></i>Thanh
-                                                        toán</a> --}}
+                                                        class="fa fa-credit-card" style="color: #d35352;"></i> Thanh toán</button> --}}
                                                 @endif
                                             </form>
+                                            @if ($order->status === 1)
+                                                <a class="btn btn-warning btn-sm float-end mx-1" href="{{url('/order-form/'.$order->id)}}"><i class="fa-solid fa-print"></i></a>
+                                                <a class="btn btn-warning btn-sm float-end mx-1" href=""><i class="fa-solid fa-money-bill-1-wave"></i></a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
