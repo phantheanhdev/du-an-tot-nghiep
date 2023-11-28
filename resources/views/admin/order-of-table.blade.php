@@ -19,82 +19,111 @@
             <input hidden value="Completed" id="lblCompleted" />
             <input hidden value="2" id="txtTableId" />
 
-                <div class="col-md-12">
-                    <div class="row table-responsive" id="nonPayOrder">
-                        <table class="table table-hover">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Bàn</th>
-                                    <th>Sản phẩm</th>
-                                    <th>Ghi chú </th>
-                                    <th>Thời Gian </th>
-                                    <th>Tổng Tiền </th>
-                                    <th>Trạng Thái</th>
-                                    <th>Hành Động</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($orders->sortByDesc('created_at') as $order)
-                                    <tr>
-                                        <td>{{ $order->table_id }}</td>
-                                        <td>
-                                            <ul style="list-style: none; padding: 0;">
-                                                @foreach ($order->orderDetails as $orderDetail)
-                                                    <li>
-                                                        {{ $orderDetail->quantity }} x {{ $orderDetail->product->name }}
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        </td>
-                                        <td>
-                                            @if (isset($order->note) && !empty($order->note))
-                                                {{ $order->note }}
-                                            @else
-                                                Không Có
-                                            @endif
-                                        </td>
-                                        <td>{{ $order->created_at }}</td>
-                                        <td>{{ $order->total_price }} VNĐ</td>
-                                        <td>
-                                            @if ($order->status == 0)
-                                                <div class="bg-warning fs-1 rounded"><span>Chưa xác nhận</span></div>
-                                            @elseif ($order->status === 1)
-                                                <div class="bg-primary fs-1 rounded"><span>Đã xác nhận</span></div>
-                                            @elseif ($order->status === 3)
-                                                <div class="bg-primary fs-1 rounded"><span>Đang chuẩn bị</span></div>
-                                            @elseif ($order->status === 4)
-                                                <div class="bg-success fs-1 rounded"><span>Đã ra món</span></div>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <form action="{{ route('admin.orders.updateStatus', ['id' => $order->id]) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('PATCH')
+            <div class="col-md-12">
+                <div class="row table-responsive" id="nonPayOrder">
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Bàn</th>
+                                <th>Sản phẩm</th>
+                                <th>Ghi chú </th>
+                                <th>Thời Gian </th>
+                                <th>Tổng Tiền </th>
+                                <th>Trạng Thái</th>
+                                <th>Hành Động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($orders->sortByDesc('created_at') as $order)
+                            <tr>
+                                <td>{{ $order->table_id }}</td>
+                                <td>
+                                    <ul style="list-style: none; padding: 0;">
+                                        @foreach ($order->orderDetails as $orderDetail)
+                                        <li>
+                                            {{ $orderDetail->quantity }} x {{ $orderDetail->product->name }}
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                                <td>
+                                    @if (isset($order->note) && !empty($order->note))
+                                    {{ $order->note }}
+                                    @else
+                                    Không Có
+                                    @endif
+                                </td>
+                                <td>{{ $order->created_at }}</td>
+                                <td>{{ $order->total_price }} VNĐ</td>
+                                <td>
+                                    @if ($order->status == 0)
+                                    <div class="bg-warning fs-1 rounded"><span>Chưa xác nhận</span></div>
+                                    @elseif ($order->status === 1)
+                                    <div class="bg-primary fs-1 rounded"><span>Đã xác nhận</span></div>
+                                    @elseif ($order->status === 3)
+                                    <div class="bg-primary fs-1 rounded"><span>Đang chuẩn bị</span></div>
+                                    @elseif ($order->status === 4)
+                                    <div class="bg-success fs-1 rounded"><span>Đã ra món</span></div>
+                                    @endif
+                                </td>
+                                <td>
+                                    <form action="{{ route('admin.orders.updateStatus', ['id' => $order->id]) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
 
-                                                @if ($order->status == 0)
-                                                    <button type="submit" name="status" value="1"
-                                                        class="btn btn-info btn-sm">Xác nhận</button>
-                                                    <button type="submit" name="status" value="2"
-                                                        class="btn btn-danger btn-sm">Hủy</button>
-                                                @elseif ($order->status === 1)
-                                                    <button type="submit" name="status" value="3"
-                                                        class="btn btn-info btn-sm">Đang chuẩn bị</button>
-                                                @elseif ($order->status === 3)
-                                                    <button type="submit" name="status" value="4"
-                                                        class="btn btn-info btn-sm">Đã ra món</button>
-                                                @elseif ($order->status === 4)
-                                                    <a href="{{ url('print_order/' . $order->id) }}" class="btn btn-outline btn-primary btn-block"> <i class="fa fa-credit-card" style="color: #d35352;"></i>Thanh toán</a>
-                                                @endif
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                                        @if ($order->status == 0)
+                                        <button type="submit" name="status" value="1" class="btn btn-info btn-sm">Xác nhận</button>
+                                        <button type="submit" name="status" value="2" class="btn btn-danger btn-sm">Hủy</button>
+                                        @elseif ($order->status === 1)
+                                        <button type="submit" name="status" value="3" class="btn btn-info btn-sm">Đang chuẩn bị</button>
+                                        @elseif ($order->status === 3)
+                                        <button type="submit" name="status" value="4" class="btn btn-info btn-sm">Đã ra món</button>
+                                        @elseif ($order->status === 4)
+                                        <a href="{{ url('print_order/' . $order->id) }}" class="btn btn-outline btn-primary btn-block"> <i class="fa fa-credit-card" style="color: #d35352;"></i>Thanh toán</a>
+                                        @endif
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="//js.pusher.com/3.1/pusher.min.js"></script>
+<script type="text/javascript">
+    var pusher = new Pusher('3f445aa654bdfac71f01', {
+        encrypted: true,
+        cluster: "ap1"
+    });
+
+    var channel = pusher.subscribe('development');
+
+    channel.bind('App\\Events\\HelloPusherEvent', function(data) {
+        Command: toastr["warning"](data.message)
+
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        location.reload();
+    });
+</script>
 @endsection
