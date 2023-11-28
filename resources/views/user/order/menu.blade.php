@@ -21,7 +21,7 @@
         .component__combo-editor,
         .component__item-editor {
             /* -webkit-box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
-                                                                                                    box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
+                                                                                                                        box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
             padding: 2px;
             border-radius: 8px;
             margin-bottom: 10px;
@@ -216,7 +216,10 @@
                                         <input type="hidden" name="table_id" value="{{ $tableId }}">
                                         <input type="hidden" name="status" value="0">
                                         <input type="hidden" name="customer_name" value="BBB">
-                                        <input type="hidden" name="phone" value="{{ Auth::guard('customer')->user()->phone }}">
+                                        <input type="hidden" name="phone"
+                                            value="{{ Auth::guard('customer')->user()->phone }}">
+                                        <input type="hidden" name="customer_id"
+                                            value="{{ Auth::guard('customer')->user()->id }}">
                                         <input type="hidden" name="customer_phone"
                                             value="{{ Auth::guard('customer')->user()->phone }}">
                                         @php $total = 0 @endphp
@@ -267,10 +270,11 @@
                                                                                         {{ number_format($details['price']) }}
                                                                                         đ
                                                                                     </span> <!----></div>
-                                                                                <div class="edit-text"
+                                                                                {{-- <div class="edit-text"
                                                                                     style="color: rgb(247, 148, 30);">
-                                                                                    Xóa
-                                                                                </div>
+                                                                                    <button class="btn btn-link" type="button" onclick="remove_product({{ $id }})">Xóa</button>
+
+                                                                                </div> --}}
                                                                             </div>
                                                                             <div class="btn-remove-item-in-cart"><span
                                                                                     class="ti-close"></span></div>
@@ -288,10 +292,22 @@
                                                     <h3><b>Tổng tiền</b></h3>
                                                 </div>
                                                 <div>
-                                                    <h3><b>{{ number_format($total) }} đ</b></h3>
+                                                    <h3><b id="total">{{ number_format($total) }} đ</b></h3>
                                                 </div>
                                             </div>
+                                            @if (auth()->check() && Auth::guard('customer')->user()->point > 0)
+                                                {{-- <h5>Sử dụng {{ Auth::guard('customer')->user()->point }} point.</h5> --}}
+                                                <input type="hidden" value="{{ Auth::guard('customer')->user()->point }}"
+                                                    id="point">
+                                                    <input type="hidden" value=""
+                                                    id="pointAdd">
+                                                <button class="btn btn-primary btn-outline btn-block mt-4 btn-sm mb-4"
+                                                    type="button" id="buttonPoint">Sử dụng
+                                                    {{ Auth::guard('customer')->user()->point }} ngay</button>
+                                            @endif
+
                                         </div>
+
                                         <div class="form-group" id="txtOrderIsReady">
                                             <textarea class="form-control" name="note" maxlength="70" rows="2" placeholder="Ghi chú"></textarea>
                                         </div>
@@ -304,12 +320,14 @@
                             <div class="row mb-3">
                                 <div class="col-6" style="padding-right:7px">
                                     <button onclick="callTheWaiter(<?= $tableNo ?>)" id="btnCallWaiter"
-                                        class="call-button btn-block"><img src="{{ asset('upload_file/call-waiter.png') }}">
+                                        class="call-button btn-block"><img
+                                            src="{{ asset('upload_file/call-waiter.png') }}">
                                         Gọi Nhân Viên</button>
                                 </div>
                                 <div class="col-6" style="padding-left:7px">
                                     <button onclick="callPayment(<?= $tableNo ?>)" id="btnCallBill"
-                                        class="call-button btn-block"><img src="{{ asset('upload_file/get-money.png') }}">
+                                        class="call-button btn-block"><img
+                                            src="{{ asset('upload_file/get-money.png') }}">
                                         Thanh toán</button>
                                 </div>
                             </div>
@@ -376,9 +394,9 @@
                                                                 <span class="product-price">
                                                                     {{ number_format($product->price) }} đ
                                                                 </span>
-                                                                <input type="hidden"
+                                                                {{-- <input type="hidden"
                                                                     id="product-price-{{ $product->id }}"
-                                                                    value="{{ $product->price }}">
+                                                                    value="{{ $product->price }}"> --}}
                                                                 <small class="text-muted"> {{ $categoryName }} </small>
                                                                 <a class="product-name"
                                                                     id="product-name-{{ $product->id }}">
@@ -545,8 +563,9 @@
                                                                             <hr>
                                                                         @endforeach
                                                                     </div>
-                                                                    <div class="numbers-row" >
-                                                                        <input type="text" value="1"  id="txtQuantity-{{ $product->id }}"
+                                                                    <div class="numbers-row">
+                                                                        <input type="text" value="1"
+                                                                            id="txtQuantity-{{ $product->id }}"
                                                                             class="qty2 form-control" name="quantity">
                                                                         <div class="inc button_inc">+</div>
                                                                         <div class="dec button_inc">-</div>
@@ -600,6 +619,45 @@
                     </script>
 
                     <script>
+                        var daThucHienFunction = false;
+
+                        function layDiem() {
+                            if (!daThucHienFunction) {
+                                var diem = document.getElementById('point').value;
+                                if (diem > 0) {
+                                    var tong = document.getElementById('total_price').value;
+                                    tong = tong - diem;
+                                    document.getElementById('total_price').value = tong;
+                                    document.getElementById('pointAdd').value = diem;
+                                    document.getElementById('total').innerHTML = formatNumberWithCommas(tong) +" đ"
+                                    console.log(tong);
+                                    daThucHienFunction = true;
+                                    Command: toastr["success"]("Đã đổi POINT ");
+
+                                    toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": false,
+                                        "progressBar": false,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    };
+
+                                }
+                            }
+                        }
+
+                        document.getElementById('buttonPoint').addEventListener('click', layDiem);
+
                         function getSelectedItemsInfo() {
                             var selectedItemsInfo = [];
 
@@ -668,7 +726,7 @@
                             }
                             var productPriceElement = document.getElementById('product-price-' + productId);
                             var productPrice = parseFloat(productPriceElement.value);
-
+                            console.log(productPrice);
                             var quantity = currentQuantity; // Số lượng sản phẩm bạn muốn thêm
 
                             // Lấy giá sản phẩm và giá các item được chọn
@@ -677,7 +735,7 @@
                             // Cập nhật giá sản phẩm bằng cách cộng giá sản phẩm và giá các item được chọn
                             var totalPrice = productPrice + selectedItemsPrice;
 
-
+                            var pointAdd = document.getElementById('pointAdd').value
                             $.ajax({
                                 type: 'POST',
                                 url: '/add-to-cart/' + productId,
@@ -687,6 +745,7 @@
                                     product_name: productName,
                                     item: itemsInfo,
                                     quantity: quantity,
+                                    point: pointAdd,
                                     price: totalPrice, // Sử dụng giá tính toán tổng cả sản phẩm và các item
                                 },
                                 success: function(response) {
@@ -880,7 +939,6 @@
                                             '<div class="price-and-edit-text__container" style="margin-top: 5px;">' +
                                             '<div><span class="origin-price">' +
                                             formatNumberWithCommas(details['price']) + ' đ</span></div>' +
-                                            '<div class="edit-text" style="color: rgb(247, 148, 30);">Chỉnh sửa</div>' +
                                             '</div>' +
                                             '<div class="btn-remove-item-in-cart"><span class="ti-close"></span></div>' +
                                             '</td>' +

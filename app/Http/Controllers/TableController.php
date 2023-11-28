@@ -218,6 +218,22 @@ class TableController extends Controller
 
         return view('admin.order-of-table', ['table' => $table, 'orders' => $orders]);
     }
+
+    public function getOrderNew($id)
+    {
+        // Assuming Table and Order models have relationships defined
+        $table = Table::findOrFail($id);
+
+        // Eager loading relationships to optimize queries
+        $orders = Order::with(['orderDetails.product'])
+            ->where('table_id', $id)
+            ->whereIn('status', [0, 1, 3, 4])
+            ->orderByDesc('created_at')
+            ->get();
+
+        return $orders;
+    }
+
     public function updateStatus(Request $request, $id)
     {
         $order = Order::findOrFail($id);
@@ -241,13 +257,13 @@ class TableController extends Controller
             }
             $order->status = $newStatus;
             $order->save();
-            return redirect('print_order/'.$id);
+            return redirect('print_order/' . $id);
         }
 
         $order->status = $newStatus;
         $order->save();
 
-        
+
 
         return redirect()->back()->with('success', 'Status updated successfully.');
     }

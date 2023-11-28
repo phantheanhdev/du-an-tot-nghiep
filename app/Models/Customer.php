@@ -11,11 +11,15 @@ use Laravel\Sanctum\HasApiTokens;
 class Customer extends  Authenticatable
 {
     use HasFactory;
-
+    protected $table = 'customers';
+    protected $primaryKey = 'id';
     protected $guard = 'customer';
     protected $fillable = [
         'phone',
         'password',
         'point'
     ];
+    public function orders(){
+        return $this->hasMany(Order::class,'customer_id','id');
+    }
 }

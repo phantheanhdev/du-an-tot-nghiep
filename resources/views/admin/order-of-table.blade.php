@@ -18,7 +18,7 @@
                 </h3>
                 <hr />
                 <input hidden value="Completed" id="lblCompleted" />
-                <input hidden value="2" id="txtTableId" />
+                <input type="hidden" name="" id="id" value="{{ $table->id }}">
 
                 <div class="col-md-12">
                     <div class="row table-responsive" id="nonPayOrder">
@@ -58,14 +58,9 @@
                                         <td>{{ $order->total_price }} VNĐ</td>
                                         <td>
                                             @if ($order->status == 0)
-                                                <div class="bg-warning fs-1 rounded"><span>Chưa xác nhận</span></div>
+                                                <div class=" bg-primary fs-1 rounded"><span>Chưa xác nhận</span></div>
                                             @elseif ($order->status === 1)
-                                                <div class="bg-primary fs-1 rounded"><span>Đã xác nhận</span></div>
-                                                <div class="bg-secondary fs-1 rounded mt-2"><a class="text-white" href="{{url('/order-form/'.$order->id)}}">In hóa đơn</a></div>
-                                            @elseif ($order->status === 3)
-                                                <div class="bg-primary fs-1 rounded"><span>Đang chuẩn bị</span></div>
-                                            @elseif ($order->status === 4)
-                                                <div class="bg-success fs-1 rounded"><span>Đã ra món</span></div>
+                                                <div class="bg-warning fs-1 rounded"><span>Đã xác nhận</span></div>
                                             @endif
                                         </td>
                                         <td>
@@ -79,25 +74,22 @@
 
                                                 @if ($order->status == 0)
                                                     <button type="submit" name="status" value="1"
-                                                        class="btn btn-info btn-sm">Xác nhận</button>
+                                                        class="btn btn-info btn-sm float-end mx-1"><i
+                                                            class="fa-solid fa-check px-1"></i></button>
                                                     <button type="submit" name="status" value="2"
-                                                        class="btn btn-danger btn-sm">Hủy</button>
-                                                @elseif ($order->status === 1)
-                                                    <button type="submit" name="status" value="3"
-                                                        class="btn btn-info btn-sm">Đang chuẩn bị</button>
-                                                @elseif ($order->status === 3)
-                                                    <button type="submit" name="status" value="4"
-                                                        class="btn btn-info btn-sm">Đã ra món</button>
-                                                @elseif ($order->status === 4)
-                                                <button type="submit" name="status" value="5"
-                                                        class="btn btn-outline btn-primary btn-block"><i
-                                                        class="fa fa-credit-card" style="color: #d35352;"></i> Thanh toán</button>
-                                                    {{-- <a href="{{ url('print_order/' . $order->id) }}"
-                                                        class="btn btn-outline btn-primary btn-block"> <i
-                                                            class="fa fa-credit-card" style="color: #d35352;"></i>Thanh
-                                                        toán</a> --}}
+                                                        class="btn btn-danger btn-sm float-end mx-1"><i
+                                                            class="fa-solid fa-xmark px-1"></i></button>
+                                                @endif
+                                                @if ($order->status === 1)
+                                                    <a class="btn btn-warning btn-sm float-end mx-1"
+                                                        href="{{ url('/order-form/' . $order->id) }}"><i
+                                                            class="fa-solid fa-print"></i></a>
+                                                    <button type="submit" name="status" value="5"
+                                                        class="btn btn-warning btn-sm float-end mx-1"><i
+                                                            class="fa-solid fa-money-bill-1-wave"></i></button>
                                                 @endif
                                             </form>
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -108,4 +100,133 @@
             </div>
         </div>
     </div>
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script src="//js.pusher.com/3.1/pusher.min.js"></script>
+    <script type="text/javascript">
+        var pusher = new Pusher('3f445aa654bdfac71f01', {
+            encrypted: true,
+            cluster: "ap1"
+        });
+
+        var channel = pusher.subscribe('development');
+
+        channel.bind('App\\Events\\HelloPusherEvent', function(data) {
+            Command: toastr["warning"](data.message)
+
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+
+            var audio = new Audio('{{ asset('Doorbell.mp3') }}');
+            audio.addEventListener('canplaythrough', function() {
+                audio.play();
+            });;
+
+            updateTable();
+        });
+    </script>
+    <!-- Add the following script to your page -->
+    <script>
+        function formatDateTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        }
+
+        function updateTable() {
+            var idtable = document.getElementById("id").value;
+            $.ajax({
+                url: '/getOrder/' + idtable,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    var $tableBody = $('#nonPayOrder tbody');
+                    $tableBody.html('');
+
+                    $.each(data, function(index, order) {
+                        var row = '<tr>';
+                        row += '<td>' + order.table_id + '</td>';
+                        row += '<td>';
+                        row += '<ul style="list-style: none; padding: 0;">';
+
+                        $.each(order.order_details, function(index, orderDetail) {
+                            row += '<li>' + orderDetail.quantity + ' x ' + orderDetail
+                                .product_name + '</li>';
+                        });
+
+                        row += '</ul>';
+                        row += '</td>';
+                        row += '<td>' + (order.note ? order.note : 'Không Có') + '</td>';
+                        row += '<td>' + formatDateTime(order.created_at) + '</td>';
+                        row += '<td>' + order.total_price + ' VNĐ</td>';
+                        row += '<td>';
+
+                        if (order.status == 0) {
+                            row +=
+                                '<div class="bg-primary fs-1 rounded"><span>Chưa xác nhận</span></div>';
+                        } else if (order.status === 1) {
+                            row +=
+                                '<div class="bg-warning fs-1 rounded"><span>Đã xác nhận</span></div>';
+                        }
+
+                        row += '</td>';
+                        row += '<td>';
+                        row += '<form action="' + '/admin/orders/' + order.id +
+                            '/update-status" method="POST">';
+                        row += '<input type="hidden" name="_token" value="' + $(
+                            'meta[name="csrf-token"]').attr('content') + '">';
+                        row += '<input type="hidden" name="_method" value="PATCH">';
+                        row += '<input type="hidden" name="phone" value="' + order.phone + '">';
+                        row += '<input type="hidden" name="total" value="' + order.total_price + '">';
+
+                        if (order.status == 0) {
+                            row +=
+                                '<button type="submit" name="status" value="1" class="btn btn-info btn-sm float-end mx-1"><i class="fa-solid fa-check px-1"></i></button>';
+                            row +=
+                                '<button type="submit" name="status" value="2" class="btn btn-danger btn-sm float-end mx-1"><i class="fa-solid fa-xmark px-1"></i></button>';
+                        } else if (order.status === 1) {
+                            row += '<a class="btn btn-warning btn-sm float-end mx-1" href="' +
+                                '/order-form/' + order.id + '"><i class="fa-solid fa-print"></i></a>';
+                            row +=
+                                '<button type="submit" name="status" value="5" class="btn btn-warning btn-sm float-end mx-1"><i class="fa-solid fa-money-bill-1-wave"></i></button>';
+                        }
+
+                        row += '</form>';
+                        row += '</td>';
+                        row += '</tr>';
+
+                        $tableBody.append(row);
+                    });
+                },
+                error: function(error) {
+                    console.error('Lỗi khi lấy dữ liệu:', error);
+                }
+            });
+        }
+
+
+        // setInterval(updateTable, 3000); // Adjust the interval as needed
+    </script>
 @endsection

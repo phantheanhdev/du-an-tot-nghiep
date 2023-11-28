@@ -245,15 +245,18 @@
                                             style="color: #d35352;"></i>
                                         Menu thực phẩm
                                     </button>
-
+                                    {{-- khách hàng --}}
+                                    <button id="staff" onclick="getLink('customer')"
+                                        class="btn btn-outline btn-primary btn-block">
+                                            <i class="fa-solid fa-user-group fa-square-kanban fa-sharp fa-solid float-left mt-1" style="color: #d35352;"></i>
+                                        Khách hàng
+                                    </button>
                                     {{-- employee --}}
                                     <button id="staff" onclick="getLink('staff')"
                                         class="btn btn-outline btn-primary btn-block">
-                                        <i class="fa-solid fa-bars fa-square-kanban fa-sharp fa-solid float-left mt-1"
-                                            style="color: #d35352;"></i>
+                                            <i class="fa-solid fa-user fa-square-kanban fa-sharp fa-solid float-left mt-1" style="color: #d35352;"></i>
                                         Nhân viên
                                     </button>
-<<<<<<< HEAD
                                     {{-- Coupon admin --}}
                                     {{-- <button id="btnOrder" onclick="getLink('coupons')"
                                         class="btn btn-outline btn-primary btn-block">
@@ -266,18 +269,12 @@
                                         <i class="fa-solid fa-bolt float-left mt-1"></i>
                                         Giảm giá thần tốc</button>
 
-=======
->>>>>>> 59fcbc8 (edit loi vat)
                                     {{-- Dashboard admin --}}
                                     <button id="btnOrder" onclick="getLink('dashboard')"
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa-solid fa-table-columns float-left mt-1"></i>
-<<<<<<< HEAD
                                         Thống kê</button>
 
-=======
-                                        DASHBOARD</button>
->>>>>>> 59fcbc8 (edit loi vat)
                                 </div>
                             </div>
                         </div>
@@ -306,6 +303,9 @@
                                     case 'settings':
                                         window.location.href = '/Restaurant/settings';
                                         return;
+                                    case 'customer':
+                                        window.location.href = '/customer';
+                                    return;
                                     case 'staff':
                                         window.location.href = '/staff';
                                         return;
