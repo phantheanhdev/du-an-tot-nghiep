@@ -20,8 +20,9 @@
 
         .component__combo-editor,
         .component__item-editor {
-            /* -webkit-box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
-                                                                                                                            box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
+           
+        /* -webkit-box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
+                                                                                                                        box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */ main
             padding: 2px;
             border-radius: 8px;
             margin-bottom: 10px;
@@ -223,7 +224,7 @@
                                         <input type="hidden" name="customer_phone"
                                             value="{{ Auth::guard('customer')->user()->phone }}">
                                         @php $total = 0 @endphp
-
+             
 
                                         <div class="component__cart-table" id="cartContentsHtml">
                                             @if (session('cart'))

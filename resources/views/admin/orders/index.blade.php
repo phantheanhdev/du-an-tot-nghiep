@@ -75,8 +75,9 @@
                                                         </li>
                                                     @endforeach
                                                 </ul>
-                                            <td>{{ $item->total_price }} </td>
                                             </td>
+                                            <td>{{ $item->total_price }} </td>
+
                                             <td>{{ $item->note }}</td>
                                             <td>{{ $item->created_at }}</td>
                                             <th>
@@ -122,6 +123,7 @@
                             <thead class="">
                                 <tr>
                                     <th>Bàn</th>
+                                    <th>Sản phẩm</th>
                                     <th>Tổng cộng</th>
                                     <th>Ghi chú</th>
                                     <th>Thời gian</th>
@@ -134,6 +136,26 @@
                                     <tr>
                                         <td>
                                             {{ $item->table->name }}
+                                        </td>
+                                        <td>
+                                            <ul style="list-style: none; padding: 0;">
+                                                @foreach ($item->orderDetails as $orderDetail)
+                                                    <li>
+                                                        @php
+                                                            $variant = json_decode($orderDetail->item, true);
+                                                        @endphp
+                                                        @if ($variant !== null && is_array($variant))
+                                                            @foreach ($variant as $key => $value)
+                                                                @if ($key === 'price')
+                                                                    {{ $value }}
+                                                                @endif
+                                                            @endforeach
+                                                        @endif
+                                                        {{ $orderDetail->quantity }} x
+                                                        {{ $orderDetail->product->name }}
+                                                    </li>
+                                                @endforeach
+                                            </ul>
                                         </td>
                                         <td>{{ $item->total_price }}</td>
                                         <td>{{ $item->note }}</td>
@@ -168,6 +190,7 @@
                             <thead class="">
                                 <tr>
                                     <th>Bàn</th>
+                                    <th>Sản phẩm</th>
                                     <th>Tổng cộng</th>
                                     <th>Ghi chú</th>
                                     <th>Thời gian</th>
@@ -180,6 +203,26 @@
                                     <tr>
                                         <td>
                                             {{ $item->table->name }}
+                                        </td>
+                                        <td>
+                                            <ul style="list-style: none; padding: 0;">
+                                                @foreach ($item->orderDetails as $orderDetail)
+                                                    <li>
+                                                        @php
+                                                            $variant = json_decode($orderDetail->item, true);
+                                                        @endphp
+                                                        @if ($variant !== null && is_array($variant))
+                                                            @foreach ($variant as $key => $value)
+                                                                @if ($key === 'price')
+                                                                    {{ $value }}
+                                                                @endif
+                                                            @endforeach
+                                                        @endif
+                                                        {{ $orderDetail->quantity }} x
+                                                        {{ $orderDetail->product->name }}
+                                                    </li>
+                                                @endforeach
+                                            </ul>
                                         </td>
                                         <td>{{ $item->total_price }}</td>
                                         <td>{{ $item->note }}</td>
