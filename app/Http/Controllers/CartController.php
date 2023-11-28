@@ -116,9 +116,16 @@ class CartController extends Controller
             $productOrder->item = json_encode($item['item']);
             $productOrder->save();
         }
-        // Customer
+        if ($request->point && $request->point > 0) {
+            $customer = Customer::where('phone', $request->customer_phone)->first();
 
-        //id , name , quantity , price
+            if ($customer) {
+                $now = $customer->point;
+                $newPoint = $now - $request->point;
+                $customer->update(['point' => $newPoint]);
+            }
+        }
+
 
         session()->forget('cart');
 

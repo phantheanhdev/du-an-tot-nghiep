@@ -20,10 +20,10 @@
 
         .component__combo-editor,
         .component__item-editor {
-           
-        /* -webkit-box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
-                                                                                                                        box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */ main
-            padding: 2px;
+
+            /* -webkit-box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
+                                                                                                                                                        box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
+            main padding: 2px;
             border-radius: 8px;
             margin-bottom: 10px;
             position: relative;
@@ -224,14 +224,13 @@
                                         <input type="hidden" name="customer_phone"
                                             value="{{ Auth::guard('customer')->user()->phone }}">
                                         @php $total = 0 @endphp
-             
+
 
                                         <div class="component__cart-table" id="cartContentsHtml">
                                             @if (session('cart'))
                                                 @foreach (session('cart') as $id => $details)
                                                     @php $total += $details['price'] * $details['quantity'] @endphp
-                                                    <input type="hidden" value="{{ $total }}" id="total_price"
-                                                        name="total_price">
+
                                                     <div class="bought--item">
                                                         <div class="component__item-editor">
                                                             <table class="table-rule">
@@ -289,19 +288,28 @@
                                                 @endforeach
                                             @endif
 
-                                            {{--  --}}
-                                            <div class="d-flex justify-content-between">
-                                                <div class="">
-                                                    <input type="checkbox" class="mr-2">
-                                                    <label for="" class="" style="font-size: 14px">Dùng 1000
-                                                        điểm Foodie</label>
+                                            @if (auth()->check() && Auth::guard('customer')->user()->point > 0)
+                                                <input type="hidden" value="{{ Auth::guard('customer')->user()->point }}"
+                                                    id="point">
+                                                <input type="hidden" value="" id="pointAdd" name="point">
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="">
+                                                        <input type="checkbox" class="mr-2" id="buttonSubmit">
+                                                        <label for="" class="" style="font-size: 14px">Dùng
+                                                            {{ number_format(Auth::guard('customer')->user()->point) }}
+                                                            điểm Foodie</label>
+                                                    </div>
+                                                    <div class="">
+                                                        <p class="text-danger" style="font-size: 14px">
+                                                            -{{ number_format(Auth::guard('customer')->user()->point) }} đ
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                                <div class="">
-                                                    <p class="text-danger" style="font-size: 14px">-1000 đ</p>
-                                                </div>
-                                            </div>
+                                            @endif
 
                                             <div class="total-price__v2 mb-2">
+                                                <input type="hidden" value="{{ $total }}" id="total_price"
+                                                    name="total_price">
                                                 <div>
                                                     <h3><b>Tổng tiền</b></h3>
                                                 </div>
@@ -309,15 +317,7 @@
                                                     <h3><b id="total">{{ number_format($total) }} đ</b></h3>
                                                 </div>
                                             </div>
-                                            @if (auth()->check() && Auth::guard('customer')->user()->point > 0)
-                                                {{-- <h5>Sử dụng {{ Auth::guard('customer')->user()->point }} point.</h5> --}}
-                                                <input type="hidden" value="{{ Auth::guard('customer')->user()->point }}"
-                                                    id="point">
-                                                <input type="hidden" value="" id="pointAdd">
-                                                <button class="btn btn-primary btn-outline btn-block mt-4 btn-sm mb-4"
-                                                    type="button" id="buttonPoint">Sử dụng
-                                                    {{ Auth::guard('customer')->user()->point }} ngay</button>
-                                            @endif
+
 
                                         </div>
 
@@ -632,6 +632,18 @@
                     </script>
 
                     <script>
+                        $(document).on('change', '#buttonSubmit', function() {
+                            if ($(this).prop('checked')) {
+                                console.log('Checkbox đã được tích.');
+                                layDiem();
+                            } else {
+                                console.log('Checkbox chưa được tích.');
+                                boDiem();
+                                // Add handling code when the checkbox is not checked here
+                            }
+                        });
+
+
                         var daThucHienFunction = false;
 
                         function layDiem() {
@@ -669,7 +681,42 @@
                             }
                         }
 
-                        document.getElementById('buttonPoint').addEventListener('click', layDiem);
+                        function boDiem() {
+                            if (daThucHienFunction) {
+                                var diem = document.getElementById('pointAdd').value;
+                                if (diem > 0) {
+                                    var tong = document.getElementById('total_price').value;
+                                    tong = parseFloat(tong) + parseFloat(diem); // Convert to float to handle decimals
+                                    document.getElementById('total_price').value = tong;
+                                    document.getElementById('pointAdd').value = "";
+                                    document.getElementById('total').innerHTML = formatNumberWithCommas(tong) + " đ";
+                                    console.log(tong);
+                                    daThucHienFunction = false;
+
+                                    Command: toastr["success"]("Đã bỏ POINT ");
+
+                                    toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": false,
+                                        "progressBar": false,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    };
+                                }
+                            }
+                        }
+
+
 
                         function getSelectedItemsInfo() {
                             var selectedItemsInfo = [];
@@ -962,13 +1009,29 @@
                                     }
                                 }
                             }
+                            @if (auth()->check() && Auth::guard('customer')->user()->point > 0)
+                                cartContentsHtml +=
+                                    '<input type="hidden" value="{{ Auth::guard('customer')->user()->point }}" id="point">';
+                                cartContentsHtml += '<input type="hidden" value="" id="pointAdd" name="point">';
+                                cartContentsHtml += '<div class="d-flex justify-content-between">';
+                                cartContentsHtml += '<div class="">';
+                                cartContentsHtml += '<input type="checkbox" class="mr-2" id="buttonSubmit">';
+                                cartContentsHtml += '<label for="" class="" style="font-size: 14px">Dùng ' +
+                                    '{{ number_format(Auth::guard('customer')->user()->point) }} điểm Foodie</label>';
+                                cartContentsHtml += '</div>';
+                                cartContentsHtml += '<div class="">';
+                                cartContentsHtml += '<p class="text-danger" style="font-size: 14px">' +
+                                    '-{{ number_format(Auth::guard('customer')->user()->point) }} đ</p>';
+                                cartContentsHtml += '</div>';
+                                cartContentsHtml += '</div>';
+                            @endif
 
                             var formattedTotal = formatNumberWithCommas(total);
 
                             cartContentsHtml += '<input type="hidden" value="' + total +
                                 '" name="total_price" id="total_price"><div class="total-price__v2 mb-2">' +
-                                '<div><h3><b>Tổng tiền</b></h3></div>' +
-                                '<div><h3><b>' + formattedTotal + ' đ</b></h3></div>' +
+                                '<div><h3><b >Tổng tiền</b></h3></div>' +
+                                '<div><h3><b id="total">' + formattedTotal + ' đ</b></h3></div>' +
                                 '</div></div>'; // Closing the outermost div for correct structure
 
                             $('#cartContentsHtml').html(cartContentsHtml);

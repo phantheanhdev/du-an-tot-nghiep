@@ -251,7 +251,7 @@ class TableController extends Controller
             $customer = Customer::where('phone', $phone)->first();
 
             if ($customer) {
-                $point = $total * 0.03;
+                $point = ceil($total * 0.03);
                 $customer->point += $point;
                 $customer->save();
             }
