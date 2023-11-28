@@ -98,6 +98,8 @@ Route::middleware(['auth'])->group(function () {
 
     // customer
     Route::resource('/customer', CustomerController::class);
+    Route::delete('/delete-customer',[CustomerController::class,'destroy'])->name('delete-customer');
+    Route::get('/show-customer/{id}',[CustomerController::class,'showCustomer'])->name('show-customer');
     //Coupon
     Route::get('coupons/change-status', [CouponController::class, 'changeStatus'])->name('coupons.change-status');
     Route::resource('coupons', CouponController::class);

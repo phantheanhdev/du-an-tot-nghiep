@@ -21,7 +21,7 @@
         .component__combo-editor,
         .component__item-editor {
             /* -webkit-box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
-                                                                                                    box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
+                                                                                                        box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
             padding: 2px;
             border-radius: 8px;
             margin-bottom: 10px;
@@ -216,12 +216,14 @@
                                         <input type="hidden" name="table_id" value="{{ $tableId }}">
                                         <input type="hidden" name="status" value="0">
                                         <input type="hidden" name="customer_name" value="BBB">
-                                        <input type="hidden" name="phone" value="{{ Auth::guard('customer')->user()->phone }}">
-                                        <input type="hidden" name="customer_id" value="{{ Auth::guard('customer')->user()->id }}">
+                                        <input type="hidden" name="phone"
+                                            value="{{ Auth::guard('customer')->user()->phone }}">
+                                        <input type="hidden" name="customer_id"
+                                            value="{{ Auth::guard('customer')->user()->id }}">
                                         <input type="hidden" name="customer_phone"
                                             value="{{ Auth::guard('customer')->user()->phone }}">
                                         @php $total = 0 @endphp
-
+             
 
                                         <div class="component__cart-table" id="cartContentsHtml">
                                             @if (session('cart'))
@@ -306,12 +308,14 @@
                             <div class="row mb-3">
                                 <div class="col-6" style="padding-right:7px">
                                     <button onclick="callTheWaiter(<?= $tableNo ?>)" id="btnCallWaiter"
-                                        class="call-button btn-block"><img src="{{ asset('upload_file/call-waiter.png') }}">
+                                        class="call-button btn-block"><img
+                                            src="{{ asset('upload_file/call-waiter.png') }}">
                                         Gọi Nhân Viên</button>
                                 </div>
                                 <div class="col-6" style="padding-left:7px">
                                     <button onclick="callPayment(<?= $tableNo ?>)" id="btnCallBill"
-                                        class="call-button btn-block"><img src="{{ asset('upload_file/get-money.png') }}">
+                                        class="call-button btn-block"><img
+                                            src="{{ asset('upload_file/get-money.png') }}">
                                         Thanh toán</button>
                                 </div>
                             </div>
@@ -547,8 +551,9 @@
                                                                             <hr>
                                                                         @endforeach
                                                                     </div>
-                                                                    <div class="numbers-row" >
-                                                                        <input type="text" value="1"  id="txtQuantity-{{ $product->id }}"
+                                                                    <div class="numbers-row">
+                                                                        <input type="text" value="1"
+                                                                            id="txtQuantity-{{ $product->id }}"
                                                                             class="qty2 form-control" name="quantity">
                                                                         <div class="inc button_inc">+</div>
                                                                         <div class="dec button_inc">-</div>
