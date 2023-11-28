@@ -199,3 +199,8 @@
 </body>
 
 </html>
+@if(session('open_new_tab'))
+    <script>
+        window.open('{{ url('/print_order/' . $order->id) }}', '_blank');
+    </script>
+@endif
