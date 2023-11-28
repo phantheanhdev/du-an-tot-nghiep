@@ -19,7 +19,9 @@ class Customer extends  Authenticatable
         'password',
         'point'
     ];
-    public function orders(){
-        return $this->hasMany(Order::class,'customer_id','id');
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'customer_id', 'id');
     }
 }
