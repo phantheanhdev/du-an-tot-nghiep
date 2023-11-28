@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('address');
             $table->string('position');
             $table->string('shift');
-            $table->decimal('salary',10,0);
             $table->date('hire_date');
             $table->timestamps();
         });
