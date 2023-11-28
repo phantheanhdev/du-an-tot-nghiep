@@ -29,7 +29,7 @@ class LoginController extends Controller
             if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) //đăng nhập thành công
             {
                 Session::put('username', $request->username);
-                return redirect('/')->with('success', 'Đăng Nhập thành công');
+                return redirect('/')->with(session()->flash('alert', 'Đăng nhập thành công'));
             } else {
                 return redirect()->back()->withErrors(['password' => 'Không đúng tên đăng nhập hoặc mật khẩu.']);
             }

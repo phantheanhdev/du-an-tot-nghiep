@@ -17,7 +17,8 @@ class Order extends Model
         'status',
         'phone',
         'customer_phone',
-        'order_day'
+        'order_day',
+        'customer_id'
     ];
     public function orderdetails(){
        return $this->hasMany(OrderDetail::class,'order_id','id');
@@ -25,6 +26,10 @@ class Order extends Model
 
     public function table(){
         return $this->belongsTo(Table::class);
+    }
+
+    public function customer(){
+        return $this->belongsTo(Customer::class);
     }
 
 }

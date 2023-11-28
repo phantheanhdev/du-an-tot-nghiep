@@ -13,6 +13,7 @@ use App\Http\Requests\OrderRequest;
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
 use App\Models\Coupon;
+use App\Models\Customer;
 use App\Models\OrderDetail;
 use Illuminate\Support\Facades\Session;
 
@@ -97,7 +98,8 @@ class CartController extends Controller
         $order->total_price = $request->total_price;
         $order->status = 0;
         $order->note = $request->note;
-        $order->phone = $request->phone;
+        $order->phone = $request->customer_phone;
+        $order->customer_id = $request->customer_id;
         $order->save();
 
         $cart = session()->get('cart');
@@ -114,6 +116,7 @@ class CartController extends Controller
             $productOrder->item = json_encode($item['item']);
             $productOrder->save();
         }
+        // Customer
 
         //id , name , quantity , price
 

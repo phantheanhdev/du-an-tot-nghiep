@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Customer;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -23,11 +24,13 @@ class OrderController extends Controller
     public function index()
     {
 
-        $order = $this->order->where('status', 0)->get();
-        $orders = $this->order->whereIn('status', [2, 5])->get();
+        $order = $this->order->where('status', 0)->orderBy('id', 'desc')->get();
+        $orders = $this->order->where('status',5)->orderBy('id', 'desc')->get();
+        $cancel = $this->order->where('status',2)->orderBy('id', 'desc')->get();
         return view('admin.orders.index', [
             'order' => $order,
-            'orders' => $orders
+            'orders' => $orders,
+            'cancel' => $cancel
         ])->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
@@ -110,16 +113,17 @@ class OrderController extends Controller
             'bill' => $bill,
             'todayDate' => $todayDate
         ]);
-        return $pdf->download('invoice-' . $order->id . '-' . $todayDate . 'pdf');
+        return $pdf->download('invoice-' . $order->id . '-' . $todayDate . '.pdf');
     }
 
-    public function print_order(string $id)
+    public function print_order(Request $request, $id)
     {
         // $pdfPath = storage_path('app/documents/document.pdf');
         $order = Order::findOrFail($id);
         $order->update([
             'status' => 5
         ]);
+
         $todayDate = Carbon::now('Asia/Ho_Chi_Minh');
         $bill = OrderDetail::where('order_id', $id)->get();
         $pdf = Pdf::loadView('admin.invoice.print_invoice', [
@@ -138,5 +142,16 @@ class OrderController extends Controller
         // if ($pdf->stream()) {
         //     return back()->with(['message' => 'Thanh toan thanh cong']);
         // }
+    }
+
+    public function billOrder(string $id){
+        $order = Order::findOrFail($id);
+        $bill = OrderDetail::where('order_id', $id)->get();
+        $pdf = Pdf::loadView('admin.orders.bill-order', [
+            'order' => $order,
+            'bill' => $bill,
+
+        ]);
+         return $pdf->stream();
     }
 }

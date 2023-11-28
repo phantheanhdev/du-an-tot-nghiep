@@ -8,6 +8,7 @@ use App\Http\Controllers\QrController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FlashSaleController;
 use App\Http\Controllers\HomeController;
@@ -38,7 +39,7 @@ Route::match(['GET', 'POST'], '/register', [App\Http\Controllers\Login\LoginCont
 Route::get('/logout', [App\Http\Controllers\Login\LoginController::class, 'logout'])->name('logout');
 
 
-Route::middleware(['auth:web'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     // Dashboard admin
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
@@ -46,6 +47,8 @@ Route::middleware(['auth:web'])->group(function () {
     Route::get('restaurant-manager', [TableController::class, 'restaurant_manager'])->name('restaurant-manager');
 
     Route::get('order-of-table/{id}', [TableController::class, 'order_of_table'])->name('order-of-table');
+    Route::get('getOrder/{id}', [TableController::class, 'getOrderNew']);
+
     Route::patch('/admin/orders/{id}/update-status', [App\Http\Controllers\TableController::class, 'updateStatus'])->name('admin.orders.updateStatus');
     Route::get('qr-builder', [QrController::class, 'qr_builder'])->name('qr-builder');
 
@@ -91,10 +94,14 @@ Route::middleware(['auth:web'])->group(function () {
     Route::get('/invoice/{id}/generate', [OrderController::class, 'genarateInvoice'])->name('genarateInvoice');
     // print order
     Route::get('/print_order/{id}', [OrderController::class, 'print_order'])->name('print_order');
-
+    Route::get('/order-form/{id}',[OrderController::class,'billOrder'])->name('order-form');
     // bill
     Route::resource('order-board', BillController::class);
 
+    // customer
+    Route::resource('/customer', CustomerController::class);
+    Route::delete('/delete-customer',[CustomerController::class,'destroy'])->name('delete-customer');
+    Route::get('/show-customer/{id}',[CustomerController::class,'showCustomer'])->name('show-customer');
     //Coupon
     Route::get('coupons/change-status', [CouponController::class, 'changeStatus'])->name('coupons.change-status');
     Route::resource('coupons', CouponController::class);
