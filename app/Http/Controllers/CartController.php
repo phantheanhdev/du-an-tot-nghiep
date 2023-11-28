@@ -13,6 +13,7 @@ use App\Http\Requests\OrderRequest;
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
 use App\Models\Coupon;
+use App\Models\Customer;
 use App\Models\OrderDetail;
 use Illuminate\Support\Facades\Session;
 
@@ -115,6 +116,7 @@ class CartController extends Controller
             $productOrder->item = json_encode($item['item']);
             $productOrder->save();
         }
+        // Customer
 
         //id , name , quantity , price
 

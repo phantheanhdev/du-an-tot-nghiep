@@ -20,8 +20,8 @@
 
         .component__combo-editor,
         .component__item-editor {
-            /* -webkit-box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
-                                                                                                        box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
+        /* -webkit-box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
+                                                                                                                        box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
             padding: 2px;
             border-radius: 8px;
             margin-bottom: 10px;
@@ -292,10 +292,22 @@
                                                     <h3><b>Tổng tiền</b></h3>
                                                 </div>
                                                 <div>
-                                                    <h3><b>{{ number_format($total) }} đ</b></h3>
+                                                    <h3><b id="total">{{ number_format($total) }} đ</b></h3>
                                                 </div>
                                             </div>
+                                            @if (auth()->check() && Auth::guard('customer')->user()->point > 0)
+                                                {{-- <h5>Sử dụng {{ Auth::guard('customer')->user()->point }} point.</h5> --}}
+                                                <input type="hidden" value="{{ Auth::guard('customer')->user()->point }}"
+                                                    id="point">
+                                                    <input type="hidden" value=""
+                                                    id="pointAdd">
+                                                <button class="btn btn-primary btn-outline btn-block mt-4 btn-sm mb-4"
+                                                    type="button" id="buttonPoint">Sử dụng
+                                                    {{ Auth::guard('customer')->user()->point }} ngay</button>
+                                            @endif
+
                                         </div>
+
                                         <div class="form-group" id="txtOrderIsReady">
                                             <textarea class="form-control" name="note" maxlength="70" rows="2" placeholder="Ghi chú"></textarea>
                                         </div>
@@ -382,9 +394,9 @@
                                                                 <span class="product-price">
                                                                     {{ number_format($product->price) }} đ
                                                                 </span>
-                                                                <input type="hidden"
+                                                                {{-- <input type="hidden"
                                                                     id="product-price-{{ $product->id }}"
-                                                                    value="{{ $product->price }}">
+                                                                    value="{{ $product->price }}"> --}}
                                                                 <small class="text-muted"> {{ $categoryName }} </small>
                                                                 <a class="product-name"
                                                                     id="product-name-{{ $product->id }}">
@@ -607,6 +619,45 @@
                     </script>
 
                     <script>
+                        var daThucHienFunction = false;
+
+                        function layDiem() {
+                            if (!daThucHienFunction) {
+                                var diem = document.getElementById('point').value;
+                                if (diem > 0) {
+                                    var tong = document.getElementById('total_price').value;
+                                    tong = tong - diem;
+                                    document.getElementById('total_price').value = tong;
+                                    document.getElementById('pointAdd').value = diem;
+                                    document.getElementById('total').innerHTML = formatNumberWithCommas(tong) +" đ"
+                                    console.log(tong);
+                                    daThucHienFunction = true;
+                                    Command: toastr["success"]("Đã đổi POINT ");
+
+                                    toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": false,
+                                        "progressBar": false,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    };
+
+                                }
+                            }
+                        }
+
+                        document.getElementById('buttonPoint').addEventListener('click', layDiem);
+
                         function getSelectedItemsInfo() {
                             var selectedItemsInfo = [];
 
@@ -675,7 +726,7 @@
                             }
                             var productPriceElement = document.getElementById('product-price-' + productId);
                             var productPrice = parseFloat(productPriceElement.value);
-
+                            console.log(productPrice);
                             var quantity = currentQuantity; // Số lượng sản phẩm bạn muốn thêm
 
                             // Lấy giá sản phẩm và giá các item được chọn
@@ -683,7 +734,6 @@
                             var itemsInfo = getSelectedItemsInfo();
                             // Cập nhật giá sản phẩm bằng cách cộng giá sản phẩm và giá các item được chọn
                             var totalPrice = productPrice + selectedItemsPrice;
-
 
                             $.ajax({
                                 type: 'POST',

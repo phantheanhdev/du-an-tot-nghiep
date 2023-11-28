@@ -55,13 +55,7 @@
                           <span class="text-danger">{{ $message }}</span>
                       @enderror
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">	Lương / 1h</label>
-                        <input type="number" name="salary" class="form-control" value="{{ old('salary') }}">
-                        @error('salary')
-    <span class="text-danger">{{ $message }}</span>
-@enderror
-                    </div>
+
                     <div class="mb-3">
                         <label class="form-label">Ngày tuyển dụng</label>
                         <input type="date" name="hire_date" class="form-control" value="{{ old('hire_date') }}">

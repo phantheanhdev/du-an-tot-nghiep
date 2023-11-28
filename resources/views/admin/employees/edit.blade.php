@@ -51,12 +51,6 @@
                           @error('shift')
                           <span class="text-danger">{{ $message }}</span>
                       @enderror
-                    </div> <div class="mb-3">
-                        <label class="form-label">Lương / 1h</label>
-                        <input type="number" name="salary" class="form-control" value="{{ $employee->salary }}" >
-                        @error('salary')
-    <span class="text-danger">{{ $message }}</span>
-@enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Ngày tuyển dụng</label>

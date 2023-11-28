@@ -31,19 +31,28 @@
                     </div>
                     <br>
                     <div class="enhanced-hr enhanced-hr-2">
-                        <span>WELCOME   </span>
+                        <span>WELCOME </span>
                     </div>
                     <br>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
-                        <span class="text-danger field-validation-valid" data-valmsg-for="UserName" data-valmsg-replace="true"></span>
+                        <span class="text-danger field-validation-valid" data-valmsg-for="UserName"
+                            data-valmsg-replace="true"></span>
                         <div class="form-group">
-                            <input placeholder="Username" class="form-control" type="text" data-val="true" data-val-required="Please enter username." id="UserName" name="username" value="">
-                            @error('username') <div class="text-danger">{{ $message }}</div> @enderror
-                        </div> <span class="text-danger field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+                            <input placeholder="Username" class="form-control" type="text" data-val="true"
+                                data-val-required="Please enter username." id="UserName" name="username"
+                                value="">
+                            @error('username')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div> <span class="text-danger field-validation-valid" data-valmsg-for="Password"
+                            data-valmsg-replace="true"></span>
                         <div class="form-group">
-                            <input type="password" placeholder="Password" class="form-control" data-val="true" data-val-required="Please enter password." id="Password" name="password">
-                            @error('password') <div class="text-danger">{{ $message }}</div> @enderror
+                            <input type="password" placeholder="Password" class="form-control" data-val="true"
+                                data-val-required="Please enter password." id="Password" name="password">
+                            @error('password')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
 
                         </div>
                         <button type="submit" class="btn btn-outline btn-primary btn-block">
@@ -66,4 +75,5 @@
     <script src="{{ asset('/lib/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
 
 </body>
+
 </html>
