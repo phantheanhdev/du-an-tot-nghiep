@@ -257,7 +257,8 @@ class TableController extends Controller
             }
             $order->status = $newStatus;
             $order->save();
-            return redirect('print_order/' . $id);
+            // return redirect('print_order/' . $id);
+            return redirect()->route('print_order', ['id' => $id])->with('open_new_tab', true);
         }
 
         $order->status = $newStatus;
