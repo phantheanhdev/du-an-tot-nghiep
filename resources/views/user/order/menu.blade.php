@@ -20,8 +20,9 @@
 
         .component__combo-editor,
         .component__item-editor {
+           
         /* -webkit-box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
-                                                                                                                        box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
+                                                                                                                        box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */ main
             padding: 2px;
             border-radius: 8px;
             margin-bottom: 10px;
@@ -287,6 +288,19 @@
                                                     <hr>
                                                 @endforeach
                                             @endif
+
+                                            {{--  --}}
+                                            <div class="d-flex justify-content-between">
+                                                <div class="">
+                                                    <input type="checkbox" class="mr-2">
+                                                    <label for="" class="" style="font-size: 14px">Dùng 1000
+                                                        điểm Foodie</label>
+                                                </div>
+                                                <div class="">
+                                                    <p class="text-danger" style="font-size: 14px">-1000 đ</p>
+                                                </div>
+                                            </div>
+
                                             <div class="total-price__v2 mb-2">
                                                 <div>
                                                     <h3><b>Tổng tiền</b></h3>
@@ -299,8 +313,7 @@
                                                 {{-- <h5>Sử dụng {{ Auth::guard('customer')->user()->point }} point.</h5> --}}
                                                 <input type="hidden" value="{{ Auth::guard('customer')->user()->point }}"
                                                     id="point">
-                                                    <input type="hidden" value=""
-                                                    id="pointAdd">
+                                                <input type="hidden" value="" id="pointAdd">
                                                 <button class="btn btn-primary btn-outline btn-block mt-4 btn-sm mb-4"
                                                     type="button" id="buttonPoint">Sử dụng
                                                     {{ Auth::guard('customer')->user()->point }} ngay</button>
@@ -343,10 +356,10 @@
                                     <h3 class=" d-flex text-qrRest-dark font-weight-bold text-styling">Chào
                                         <b class="mx-1">
                                             <?php
-
+                                            
                                             date_default_timezone_set('Asia/Ho_Chi_Minh');
                                             $currentHour = date('G');
-
+                                            
                                             if ($currentHour >= 5 && $currentHour < 10) {
                                                 $timeOfDay = 'buổi sáng';
                                             } elseif ($currentHour >= 10 && $currentHour < 13) {
@@ -356,7 +369,7 @@
                                             } else {
                                                 $timeOfDay = 'buổi tối';
                                             }
-
+                                            
                                             echo "$timeOfDay";
                                             ?>
                                             @if (auth()->check())
@@ -629,7 +642,7 @@
                                     tong = tong - diem;
                                     document.getElementById('total_price').value = tong;
                                     document.getElementById('pointAdd').value = diem;
-                                    document.getElementById('total').innerHTML = formatNumberWithCommas(tong) +" đ"
+                                    document.getElementById('total').innerHTML = formatNumberWithCommas(tong) + " đ"
                                     console.log(tong);
                                     daThucHienFunction = true;
                                     Command: toastr["success"]("Đã đổi POINT ");
