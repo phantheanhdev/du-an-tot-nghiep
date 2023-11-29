@@ -65,8 +65,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <form action="{{ route('admin.orders.updateStatus', ['id' => $order->id]) }}"
-                                                method="POST">
+                                            <form action="{{ route('admin.orders.updateStatus', ['id' => $order->id]) }}" method="post">
                                                 @csrf
                                                 @method('PATCH')
 
@@ -81,9 +80,14 @@
                                                         class="btn btn-danger btn-sm float-end mx-1"><i
                                                             class="fa-solid fa-xmark px-1"></i></button>
                                                 @endif
+                                            </form>
+                                            <form  action="{{ route('admin.orders.updateStatus', ['id' => $order->id]) }}"
+                                                method="POST" target="_blank">
+                                                @csrf
+                                                @method('PATCH')
                                                 @if ($order->status === 1)
                                                     <a class="btn btn-warning btn-sm float-end mx-1"
-                                                        href="{{ url('/order-form/' . $order->id) }}"><i
+                                                        href="{{ url('/order-form/' . $order->id) }}" target="_blank"><i
                                                             class="fa-solid fa-print"></i></a>
                                                     <button type="submit" name="status" value="5"
                                                         class="btn btn-warning btn-sm float-end mx-1"><i
@@ -231,5 +235,13 @@
 
         // setInterval(updateTable, 3000); // Adjust the interval as needed
     </script>
+
+<script>
+    function openNewTab() {
+        var form = document.getElementById('orderForm');
+        form.submit();
+        window.open('', '_blank');
+    }
+</script>
 @endsection
 
