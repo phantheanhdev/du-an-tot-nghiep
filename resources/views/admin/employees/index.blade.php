@@ -17,11 +17,10 @@
                     </a>
                     Nhân viên
                     <a href="{{ route('employee.create') }}" class="float-right">
-                        <button class="btn btn-primary">+ Thêm nhân viên</button>
+                        <button class="btn btn-primary">Thêm nhân viên</button>
                     </a>
 
                 </h3>
-                <hr />
                 <input hidden value="Completed" id="lblCompleted" />
                 <input hidden value="2" id="txtTableId" />
 
@@ -38,7 +37,7 @@
                                     <th>Ca làm việc</th>
 
                                     <th>Ngày tuyển dụng</th>
-                                    <th>Action</th>
+                                    <th>Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>
