@@ -20,6 +20,7 @@
                 <input hidden value="Completed" id="lblCompleted" />
                 <input type="hidden" name="" id="id" value="{{ $table->id }}">
 
+
                 <div class="col-md-12">
                     <div class="row table-responsive" id="nonPayOrder">
                         <table class="table table-hover">
@@ -104,6 +105,7 @@
             </div>
         </div>
     </div>
+
     <!-- Include jQuery library -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
@@ -242,3 +244,4 @@
     }
 </script>
 @endsection
+
