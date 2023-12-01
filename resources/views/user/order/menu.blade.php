@@ -1080,7 +1080,7 @@
                         }
 
                         function pusher_order(id) {
-                            var contentsData = "Bàn " + id + " có đơn order mới !";
+                            var contentsData = "Bàn " + id + " có đơn mới !";
 
                             var postData = {
                                 contents: contentsData,

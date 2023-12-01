@@ -43,7 +43,8 @@
         }
 
         .green-bg {
-            background-color: #2EFE64;
+            background-color: #2EFE64 !important ;
+
             /* Hoặc màu sắc xanh lá cây khác tùy thuộc vào yêu cầu của bạn */
         }
 

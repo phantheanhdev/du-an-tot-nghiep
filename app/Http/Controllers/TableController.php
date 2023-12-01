@@ -206,7 +206,7 @@ class TableController extends Controller
         $table = Table::findOrFail($id);
 
         $orders = Order::where('table_id', $id)
-            ->whereIn('status', [0, 1, 3, 4])
+            ->whereIn('status', [0, 1])
             ->get();
         foreach ($orders as $order) {
             $order->orderDetails = OrderDetail::where('order_id', $order->id)->get();
