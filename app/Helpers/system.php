@@ -62,3 +62,7 @@ function newPrice($subTotal, $percent)
     $total  = $subTotal - ($subTotal * $percent / 100);
     return  $total;
 }
+function formatNumberPrice($number)
+{
+	return number_format($number, 0, '.', ',') . "đ";
+}

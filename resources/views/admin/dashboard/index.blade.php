@@ -63,7 +63,7 @@
                                     <p id="table-notification-2" style="font-size: 15px">Thu nhập hôm nay</p>
 
                                     <h3 class="font-bold no-margins ">
-                                        {{ $todaysEarnings }} đ
+                                        {{ formatNumberPrice($todaysEarnings) }} đ
                                     </h3>
                                 </div>
                             </div>
@@ -76,7 +76,7 @@
                                     <p id="table-notification-2" style="font-size: 15px">Thu nhập tháng này</p>
 
                                     <h3 class="font-bold no-margins ">
-                                        {{ $monthEarnings }} đ
+                                        {{  formatNumberPrice($monthEarnings) }}
                                     </h3>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@
                                     <p id="table-notification-2" style="font-size: 15px">Thu nhập năm nay</p>
 
                                     <h3 class="font-bold no-margins ">
-                                        {{ $yearEarnings }} đ
+                                        {{ formatNumberPrice($yearEarnings) }}
                                     </h3>
                                 </div>
                             </div>
