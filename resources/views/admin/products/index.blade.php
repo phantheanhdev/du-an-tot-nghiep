@@ -49,7 +49,7 @@
                                                 alt="">
                                         </td>
                                         <td>{{ $item->name }}</td>
-                                        <td>{{ $item->price }}</td>
+                                        <td>{{ formatNumberPrice($item->price) }}</td>
                                         <td>{{ $item->description }}</td>
                                         <td>{{ $item->category_name }}</td>
                                         <td>

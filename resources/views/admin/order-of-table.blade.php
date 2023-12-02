@@ -56,7 +56,7 @@
                                             @endif
                                         </td>
                                         <td>{{ $order->created_at }}</td>
-                                        <td>{{ $order->total_price }} VNĐ</td>
+                                        <td>{{ formatNumberPrice($order->total_price) }}</td>
                                         <td>
                                             @if ($order->status == 0)
                                                 <div class=" bg-primary fs-1 rounded"><span>Chưa xác nhận</span></div>

@@ -76,7 +76,7 @@
                                                     @endforeach
                                                 </ul>
                                             </td>
-                                            <td>{{ $item->total_price }} </td>
+                                            <td>{{ formatNumberPrice($item->total_price) }} </td>
 
                                             <td>{{ $item->note }}</td>
                                             <td>{{ $item->created_at }}</td>
@@ -157,7 +157,7 @@
                                                 @endforeach
                                             </ul>
                                         </td>
-                                        <td>{{ $item->total_price }}</td>
+                                        <td>{{ formatNumberPrice($item->total_price) }}</td>
                                         <td>{{ $item->note }}</td>
                                         <td>{{ $item->created_at }}</td>
                                         <td>
@@ -224,7 +224,7 @@
                                                 @endforeach
                                             </ul>
                                         </td>
-                                        <td>{{ $item->total_price }}</td>
+                                        <td>{{ formatNumberPrice($item->total_price) }}</td>
                                         <td>{{ $item->note }}</td>
                                         <td>{{ $item->created_at }}</td>
                                         <td>
