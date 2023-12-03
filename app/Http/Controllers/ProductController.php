@@ -49,7 +49,7 @@ class ProductController extends Controller
 
             if ($product->save()) {
                 $notification = array(
-                    "message" => "Add product successfully",
+                    "message" => "Thêm thực phẩm thành công",
                     "alert-type" => "success",
                 );
                 return redirect()->route('product.index')->with($notification);
@@ -88,7 +88,7 @@ class ProductController extends Controller
             $product->save();
 
             $notification = array(
-                "message" => "Update product successfully",
+                "message" => "Cập nhật thực phẩm thành công",
                 "alert-type" => "success",
             );
             return redirect()->route('product.index')->with($notification);
@@ -113,12 +113,12 @@ class ProductController extends Controller
             $deleted = $product->forceDelete();
             if ($deleted) {
                 $notification = array(
-                    "message" => "Deleted Product successfully",
+                    "message" => "Xóa thực phẩm thành công",
                     "alert-type" => "success",
                 );
             } else {
                 $notification = array(
-                    "message" => "Delete product failed",
+                    "message" => "Xóa sản thực phẩm thất bại",
                     "alert-type" => "error",
                 );
             }

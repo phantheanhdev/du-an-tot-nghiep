@@ -46,7 +46,7 @@ class CategoryController extends Controller
 
             if ($category->save()) {
                 $notification = array(
-                    "message" => "Add category successfully",
+                    "message" => "Thêm danh mục thành công",
                     "alert-type" => "success",
                 );
                 return redirect()->route('category.index')->with($notification);
@@ -81,7 +81,7 @@ class CategoryController extends Controller
             $category->save();
 
             $notification = array(
-                "message" => "Update category successfully",
+                "message" => "Cập nhật danh mục thành công",
                 "alert-type" => "success",
             );
             return redirect()->route('category.index')->with($notification);
@@ -98,14 +98,14 @@ class CategoryController extends Controller
             $delete = $category->delete();
             if($delete){
                 $notification = array(
-                    "message"=> "Delete category successfully",
+                    "message"=> "Xóa danh mục thành công",
                     "alert-type" =>"success",
                 );
                 return redirect()->route('category.index')->with($notification);
             }else{
                 $notification = array(
-                    "message"=> "Delete category fail",
-                    "alert-type" =>"success",
+                    "message"=> "Xóa danh mục thất bại",
+                    "alert-type" =>"error",
                 );
                 return redirect()->back()->with($notification);
             }
