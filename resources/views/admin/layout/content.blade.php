@@ -225,6 +225,7 @@
                                         Xây dựng QR
                                     </button> --}}
                                     {{-- tale --}}
+                                    @if(Auth::user()->role == 1)
                                     <button id="table" onclick="getLink('table')"
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa-regular fa-table fa fa-columns fa-square-kanban fa-sharp fa-solid float-left mt-1"
@@ -275,7 +276,7 @@
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa-solid fa-table-columns float-left mt-1"></i>
                                         Thống kê</button>
-
+                                        @endif
                                 </div>
                             </div>
                         </div>
