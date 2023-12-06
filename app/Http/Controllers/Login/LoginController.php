@@ -55,7 +55,7 @@ class LoginController extends Controller
 
             $user = new User();
             $user->username = $request->input('username');
-            $user->role = 1;
+            $user->role = 2;
             $user->remember_token = Str::random(10);
             $user->email = $request->input('email');
             $user->password = bcrypt($request->input('password'));

@@ -161,14 +161,14 @@
                                     </a>
                                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                         <li class="dropdown-item">
-                                            <a href="/restaurant-manager">Management Panel</a>
+                                            <a href="{{ route('register') }}">Tạo tài khoản</a>
                                         </li>
 
                                         <li class="dropdown-item">
-                                            <a href="{{ route('show.password.form') }}">Change Password</a>
+                                            <a href="{{ route('show.password.form') }}">Đổi mật khẩu</a>
                                         </li>
                                         <li class="divider"></li>
-                                        <li class="dropdown-item"><a href="{{ route('logout') }}">Logout</a></li>
+                                        <li class="dropdown-item"><a href="{{ route('logout') }}">Đăng xuất</a></li>
                                     </ul>
                                 </div>
                             </li>
