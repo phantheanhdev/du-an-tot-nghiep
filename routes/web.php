@@ -18,6 +18,7 @@ use App\Http\Controllers\TableController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\ProductVariantItemController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Cookie;
 
 /*
@@ -131,6 +132,10 @@ Route::middleware(['auth'])->group(function () {
     Route::put('products-variant-item-update/{variantItemId}', [ProductVariantItemController::class, 'update'])->name('products-variant-item.update');
 
     Route::delete('products-variant-item/{variantItemId}', [ProductVariantItemController::class, 'destroy'])->name('products-variant-item.destroy');
+
+     /** product review routes */
+     Route::get('reviews', [ReviewController::class, 'index'])->name('review.index');
+     Route::delete('reviews/{id}', [ReviewController::class, 'destroy'])->name('feedback.destroy');
 });
 
 
@@ -153,6 +158,8 @@ Route::group(['middleware' => ['customer:customer', 'checkCustomer']], function 
     Route::get('apply-coupon', [CartController::class, 'applyCoupon'])->name('apply-coupon');
     Route::get('coupon-calculation', [CartController::class, 'couponCalculation'])->name('coupon-calculation');
     Route::get('cacel-coupon', [CartController::class, 'cencelCoupon'])->name('cencel-coupon');
+
+    Route::post('review', [ReviewController::class, 'create'])->name('review.create');
 });
 
 // form infor user
