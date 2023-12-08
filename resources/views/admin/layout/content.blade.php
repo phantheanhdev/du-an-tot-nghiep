@@ -240,29 +240,30 @@
                                             Danh mục thực phẩm
                                         </button>
 
-                                        {{-- product --}}
-                                        <button id="table" onclick="getLink('product')"
-                                            class="btn btn-outline btn-primary btn-block">
-                                            <i class="fa-solid fa-mug-hot  fa-square-kanban fa-sharp fa-solid float-left mt-1"
-                                                style="color: #d35352;"></i>
-                                            Menu thực phẩm
-                                        </button>
-                                        {{-- khách hàng --}}
-                                        <button id="staff" onclick="getLink('customer')"
-                                            class="btn btn-outline btn-primary btn-block">
-                                            <i class="fa-solid fa-user-group fa-square-kanban fa-sharp fa-solid float-left mt-1"
-                                                style="color: #d35352;"></i>
-                                            Khách hàng
-                                        </button>
-                                        {{-- employee --}}
-                                        <button id="staff" onclick="getLink('staff')"
-                                            class="btn btn-outline btn-primary btn-block">
-                                            <i class="fa-solid fa-user fa-square-kanban fa-sharp fa-solid float-left mt-1"
-                                                style="color: #d35352;"></i>
-                                            Nhân viên
-                                        </button>
-                                        {{-- Coupon admin --}}
-                                        {{-- <button id="btnOrder" onclick="getLink('coupons')"
+
+                                    {{-- product --}}
+                                    <button id="table" onclick="getLink('product')"
+                                        class="btn btn-outline btn-primary btn-block">
+                                        <i class="fa-solid fa-mug-hot  fa-square-kanban fa-sharp fa-solid float-left mt-1"
+                                            style="color: #d35352;"></i>
+                                        Menu thực phẩm
+                                    </button>
+                                    @endif
+                                    {{-- khách hàng --}}
+                                    <button id="staff" onclick="getLink('customer')"
+                                        class="btn btn-outline btn-primary btn-block">
+                                            <i class="fa-solid fa-user-group fa-square-kanban fa-sharp fa-solid float-left mt-1" style="color: #d35352;"></i>
+                                        Khách hàng
+                                    </button>
+                                    @if(Auth::user()->role == 1)
+                                    {{-- employee --}}
+                                    <button id="staff" onclick="getLink('staff')"
+                                        class="btn btn-outline btn-primary btn-block">
+                                            <i class="fa-solid fa-user fa-square-kanban fa-sharp fa-solid float-left mt-1" style="color: #d35352;"></i>
+                                        Nhân viên
+                                    </button>
+                                    {{-- Coupon admin --}}
+                                    {{-- <button id="btnOrder" onclick="getLink('coupons')"
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa-solid fa-table-columns float-left mt-1"></i>
                                         Phiếu mua hàng</button> --}}
