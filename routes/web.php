@@ -3,6 +3,7 @@
 use App\Http\Controllers\BillController;
 use App\Events\HelloPusherEvent;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QrController;
 use App\Http\Controllers\CartController;
@@ -135,6 +136,10 @@ Route::middleware(['auth'])->group(function () {
         Route::put('products-variant-item-update/{variantItemId}', [ProductVariantItemController::class, 'update'])->name('products-variant-item.update');
 
         Route::delete('products-variant-item/{variantItemId}', [ProductVariantItemController::class, 'destroy'])->name('products-variant-item.destroy');
+
+         /** product review routes */
+     Route::get('reviews', [ReviewController::class, 'index'])->name('review.index');
+     Route::delete('reviews/{id}', [ReviewController::class, 'destroy'])->name('feedback.destroy');
     });
 
 });

@@ -63,6 +63,7 @@ class HomeController extends Controller
         if ($customer) {
             $credential = [
                 'phone' => $phone,
+                'isComment' => 0,
                 'password' => $password
             ];
 

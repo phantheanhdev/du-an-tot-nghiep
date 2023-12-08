@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
 use App\Models\Category;
+use App\Models\Feedback;
 use App\Models\FlashSaleItem;
 use App\Models\Product;
 use App\Models\ProductVariant;
@@ -109,6 +110,11 @@ class ProductController extends Controller
             }
             $flashSaleItem  = FlashSaleItem::where('product_id', $id);
             $flashSaleItem->delete();
+
+            $feedbacks  = Feedback::where('product_id', $id)->get();
+            foreach ($feedbacks as $feedback) {
+                $feedback->delete();
+            }
 
             $deleted = $product->forceDelete();
             if ($deleted) {
