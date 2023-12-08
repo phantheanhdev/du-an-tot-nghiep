@@ -164,6 +164,7 @@ Route::group(['middleware' => ['customer:customer', 'checkCustomer']], function 
     Route::get('apply-coupon', [CartController::class, 'applyCoupon'])->name('apply-coupon');
     Route::get('coupon-calculation', [CartController::class, 'couponCalculation'])->name('coupon-calculation');
     Route::get('cacel-coupon', [CartController::class, 'cencelCoupon'])->name('cencel-coupon');
+    Route::post('review', [ReviewController::class, 'create'])->name('review.create');
 });
 
 // form infor user
