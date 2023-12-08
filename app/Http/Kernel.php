@@ -71,5 +71,6 @@ class Kernel extends HttpKernel
         'verify-user-information' => \App\Http\Middleware\VerifyUserInformation::class,
         'customer' => \App\Http\Middleware\Customer::class,
         'checkCustomer' =>  \App\Http\Middleware\checkCustomer::class,
+        'checkRole' => \App\Http\Middleware\CheckRole::class,
     ];
 }

@@ -247,12 +247,14 @@
                                             style="color: #d35352;"></i>
                                         Menu thực phẩm
                                     </button>
+                                    @endif
                                     {{-- khách hàng --}}
                                     <button id="staff" onclick="getLink('customer')"
                                         class="btn btn-outline btn-primary btn-block">
                                             <i class="fa-solid fa-user-group fa-square-kanban fa-sharp fa-solid float-left mt-1" style="color: #d35352;"></i>
                                         Khách hàng
                                     </button>
+                                    @if(Auth::user()->role == 1)
                                     {{-- employee --}}
                                     <button id="staff" onclick="getLink('staff')"
                                         class="btn btn-outline btn-primary btn-block">
