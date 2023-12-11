@@ -105,7 +105,7 @@ class LoginController extends Controller
         Auth::logout();
 
         // Chuyển hướng người dùng về trang chủ hoặc trang đăng nhập (tùy chọn)
-        return redirect('/');
+        return redirect('/')->with('message', 'Đăng xuất thành công');
     }
     public function showForm()
     {

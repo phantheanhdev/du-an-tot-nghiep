@@ -28,13 +28,13 @@
                     @csrf
                     <label for="new_password" class="form-label">Tên đăng nhập:</label>
                     <div class="form-group">
-                        <input type="text" name="username" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder=" Tên Đăng Nhập...">
+                        <input type="text" name="username" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" >
                         @error('username') <div class="text-danger">{{ $message }}</div> @enderror
 
                     </div>
                     <label for="new_password" class="form-label">Mật khẩu :</label>
                     <div class="form-group">
-                        <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Mật Khẩu....">
+                        <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" >
                         @error('password') <div class="text-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="form-group">
