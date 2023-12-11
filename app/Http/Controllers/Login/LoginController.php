@@ -29,7 +29,7 @@ class LoginController extends Controller
             if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) //đăng nhập thành công
             {
                 Session::put('username', $request->username);
-                return redirect('/')->with(session()->flash('alert', 'Đăng nhập thành công'));
+                return redirect('/')->with('message', 'Đăng nhập thành công');
             } else {
                 return redirect()->back()->withErrors(['password' => 'Không đúng tên đăng nhập hoặc mật khẩu.']);
             }
@@ -41,32 +41,59 @@ class LoginController extends Controller
         if ($request->isMethod('POST')) {
             $this->validate($request, [
                 'username' => 'required|unique:users',
-                'email' => 'required|email|unique:users',
-                'password' => 'required',
+                // 'email' => 'required|email|unique:users',
+                'password' => 'required|min:6',
+                'role' => 'required|in:0,1',
             ], [
                 'username.required' => 'Vui lòng nhập tên đăng nhập.',
-                'email.required' => 'Vui lòng nhập email.',
-                'email.email' => 'Địa chỉ email không hợp lệ.',
-                'email.unique' => 'Email đã được sử dụng.',
+                // 'email.required' => 'Vui lòng nhập email.',
+                // 'email.email' => 'Địa chỉ email không hợp lệ.',
+                // 'email.unique' => 'Email đã được sử dụng.',
                 'username.unique' => 'Tên đăng nhập đã tồn tại.',
                 'password.required' => 'Vui lòng nhập mật khẩu .',
                 'password.min' => 'Mật khẩu mới phải có ít nhất 6 ký tự.',
+                'role.required' => 'Vui lòng chọn vai trò.',
+                'role.in' => 'Vai trò không hợp lệ.',
             ]);
 
             $user = new User();
             $user->username = $request->input('username');
-            $user->role = 2;
+            $user->role = $request->input('role');
             $user->remember_token = Str::random(10);
-            $user->email = $request->input('email');
             $user->password = bcrypt($request->input('password'));
             $user->save();
 
-
-            Auth::login($user);
-            return redirect('/');
+            return redirect('/showUser')->with('message', 'Tạo tài khoản thành công.');
         }
         return view('login.register');
     }
+
+    public function showUser()
+    {
+        $user = User::all();
+        return view('login.index', compact('user'));
+    }
+    public function delete($id)
+    {
+        if ($id) {
+            $user = user::find($id);
+            if ($user->delete()) {
+                $notification = array(
+                    "message" => "Xóa tài khoản thành công",
+                    "alert-type" => "success",
+                );
+                return redirect('/showUser')->with($notification);
+            } else {
+                $notification = array(
+                    "message" => "Xóa tàu khoản thất bại",
+                    "alert-type" => "success",
+                );
+                return redirect()->back()->with($notification);
+            }
+        }
+        return;
+    }
+
     public function showRegister()
     {
 
@@ -110,4 +137,38 @@ class LoginController extends Controller
             return redirect()->back()->withErrors(['current_password' => 'Không đúng mật khẩu.']);
         }
     }
+    // public function edit(Request $request, $id)
+    // {
+    //     $user = user::find($id);
+    //     if ($request->isMethod('POST')) {
+    //         $this->validate($request, [
+    //            // 'username' => 'required',
+    //             // 'email' => 'required|email|unique:users',
+    //            // 'password' => 'required|min:6',
+    //             'role' => 'required|in:0,1',
+    //         ], [
+    //            // 'username.required' => 'Vui lòng nhập tên đăng nhập.',
+    //             // 'email.required' => 'Vui lòng nhập email.',
+    //             // 'email.email' => 'Địa chỉ email không hợp lệ.',
+    //             // 'email.unique' => 'Email đã được sử dụng.',
+    //            // 'username.unique' => 'Tên đăng nhập đã tồn tại.',
+    //            // 'password.required' => 'Vui lòng nhập mật khẩu .',
+    //             //'password.min' => 'Mật khẩu mới phải có ít nhất 6 ký tự.',
+    //             'role.required' => 'Vui lòng chọn vai trò.',
+    //             'role.in' => 'Vai trò không hợp lệ.',
+    //         ]);
+    //         $data = [
+    //             'role' => $request->input('role'),
+    //         ];
+    //         $result = $user->update($data);
+    //         if ($result) {
+    //             $notification = array(
+    //                 "message" => "Cập nhập tài khoản thành công",
+    //                 "alert-type" => "success",
+    //             );
+    //             return redirect('/showUser')->with($notification);
+    //         }
+    //     }
+    //     return view('login.edit', compact('user'));
+    // }
 }

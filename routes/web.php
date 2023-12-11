@@ -35,7 +35,6 @@ use Illuminate\Support\Facades\Cookie;
 
 //Login
 Route::match(['GET', 'POST'], '/login', [App\Http\Controllers\Login\LoginController::class, 'login'])->name('login');
-Route::match(['GET', 'POST'], '/register', [App\Http\Controllers\Login\LoginController::class, 'register'])->name('register');
 Route::get('/logout', [App\Http\Controllers\Login\LoginController::class, 'logout'])->name('logout');
 
 
@@ -51,6 +50,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::patch('/admin/orders/{id}/update-status', [App\Http\Controllers\TableController::class, 'updateStatus'])->name('admin.orders.updateStatus');
     Route::get('qr-builder', [QrController::class, 'qr_builder'])->name('qr-builder');
+    //User
+    Route::match(['GET', 'POST'], '/register', [App\Http\Controllers\Login\LoginController::class, 'register'])->name('register');
+    Route::get('/showUser', [App\Http\Controllers\Login\LoginController::class, 'showUser'])->name('showUser');
+    Route::get('user/delete/{id}', [App\Http\Controllers\Login\LoginController::class, 'delete'])->name('user.delete');
+    Route::match(['get', 'post'], 'user/edit/{id}', [App\Http\Controllers\Login\LoginController::class, 'edit'])->name('user.edit');
 
     // table
     Route::resource('table', TableController::class);

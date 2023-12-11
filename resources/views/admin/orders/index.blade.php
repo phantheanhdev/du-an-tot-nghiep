@@ -162,7 +162,7 @@
                                         <td>{{ $item->created_at }}</td>
                                         <td>
                                             @if ($item->status == 5)
-                                                <span>Đã than toán</span>
+                                                <span>Đã thanh toán</span>
                                             @endif
                                         </td>
                                         <th>

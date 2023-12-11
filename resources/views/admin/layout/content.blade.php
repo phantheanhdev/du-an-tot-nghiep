@@ -161,7 +161,7 @@
                                     </a>
                                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                         <li class="dropdown-item">
-                                            <a href="{{ route('register') }}">Tạo tài khoản</a>
+                                            <a href="{{ route('showUser') }}">Quản lí tài khoản</a>
                                         </li>
 
                                         <li class="dropdown-item">
