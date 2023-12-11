@@ -36,7 +36,6 @@ use Illuminate\Support\Facades\Cookie;
 
 //Login
 Route::match(['GET', 'POST'], '/login', [App\Http\Controllers\Login\LoginController::class, 'login'])->name('login');
-Route::match(['GET', 'POST'], '/register', [App\Http\Controllers\Login\LoginController::class, 'register'])->name('register');
 Route::get('/logout', [App\Http\Controllers\Login\LoginController::class, 'logout'])->name('logout');
 
 
@@ -52,6 +51,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::patch('/admin/orders/{id}/update-status', [App\Http\Controllers\TableController::class, 'updateStatus'])->name('admin.orders.updateStatus');
     Route::get('qr-builder', [QrController::class, 'qr_builder'])->name('qr-builder');
+
 
     // order
     Route::get('list-order', [OrderController::class, 'index']);
@@ -72,6 +72,11 @@ Route::middleware(['auth'])->group(function () {
     // /
     Route::get('/', [TableController::class, 'restaurant_manager'])->name('restaurant_manager');
     Route::middleware(['checkRole'])->group(function () {
+        //User
+        Route::match(['GET', 'POST'], '/register', [App\Http\Controllers\Login\LoginController::class, 'register'])->name('register');
+        Route::get('/showUser', [App\Http\Controllers\Login\LoginController::class, 'showUser'])->name('showUser');
+        Route::get('user/delete/{id}', [App\Http\Controllers\Login\LoginController::class, 'delete'])->name('user.delete');
+        Route::match(['get', 'post'], 'user/edit/{id}', [App\Http\Controllers\Login\LoginController::class, 'edit'])->name('user.edit');
         // table
         Route::resource('table', TableController::class);
 
@@ -137,11 +142,10 @@ Route::middleware(['auth'])->group(function () {
 
         Route::delete('products-variant-item/{variantItemId}', [ProductVariantItemController::class, 'destroy'])->name('products-variant-item.destroy');
 
-         /** product review routes */
-     Route::get('reviews', [ReviewController::class, 'index'])->name('review.index');
-     Route::delete('reviews/{id}', [ReviewController::class, 'destroy'])->name('feedback.destroy');
+        /** product review routes */
+        Route::get('reviews', [ReviewController::class, 'index'])->name('review.index');
+        Route::delete('reviews/{id}', [ReviewController::class, 'destroy'])->name('feedback.destroy');
     });
-
 });
 
 
