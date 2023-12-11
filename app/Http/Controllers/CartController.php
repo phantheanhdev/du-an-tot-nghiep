@@ -102,6 +102,10 @@ class CartController extends Controller
         $order->customer_id = $request->customer_id;
         $order->save();
 
+        Customer::where('id', $request->customer_id)->update([
+            'isComment' => 1
+        ]);
+
         $cart = session()->get('cart');
 
         foreach ($cart as $item) {

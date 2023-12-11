@@ -43,7 +43,7 @@
         }
 
         .green-bg {
-            background-color: #2EFE64 !important ;
+            background-color: #2EFE64 !important;
 
             /* Hoặc màu sắc xanh lá cây khác tùy thuộc vào yêu cầu của bạn */
         }
@@ -225,20 +225,21 @@
                                         Xây dựng QR
                                     </button> --}}
                                     {{-- tale --}}
-                                    @if(Auth::user()->role == 1)
-                                    <button id="table" onclick="getLink('table')"
-                                        class="btn btn-outline btn-primary btn-block">
-                                        <i class="fa-regular fa-table fa fa-columns fa-square-kanban fa-sharp fa-solid float-left mt-1"
-                                            style="color: #d35352;"></i>
-                                        Bàn
-                                    </button>
-                                    {{-- category --}}
-                                    <button id="category" onclick="getLink('category')"
-                                        class="btn btn-outline btn-primary btn-block">
-                                        <i class="fa-solid fa-bars fa-square-kanban fa-sharp fa-solid float-left mt-1"
-                                            style="color: #d35352;"></i>
-                                        Danh mục thực phẩm
-                                    </button>
+                                    @if (Auth::user()->role == 1)
+                                        <button id="table" onclick="getLink('table')"
+                                            class="btn btn-outline btn-primary btn-block">
+                                            <i class="fa-regular fa-table fa fa-columns fa-square-kanban fa-sharp fa-solid float-left mt-1"
+                                                style="color: #d35352;"></i>
+                                            Bàn
+                                        </button>
+                                        {{-- category --}}
+                                        <button id="category" onclick="getLink('category')"
+                                            class="btn btn-outline btn-primary btn-block">
+                                            <i class="fa-solid fa-bars fa-square-kanban fa-sharp fa-solid float-left mt-1"
+                                                style="color: #d35352;"></i>
+                                            Danh mục thực phẩm
+                                        </button>
+
 
                                     {{-- product --}}
                                     <button id="table" onclick="getLink('product')"
@@ -247,12 +248,14 @@
                                             style="color: #d35352;"></i>
                                         Menu thực phẩm
                                     </button>
+                                    @endif
                                     {{-- khách hàng --}}
                                     <button id="staff" onclick="getLink('customer')"
                                         class="btn btn-outline btn-primary btn-block">
                                             <i class="fa-solid fa-user-group fa-square-kanban fa-sharp fa-solid float-left mt-1" style="color: #d35352;"></i>
                                         Khách hàng
                                     </button>
+                                    @if(Auth::user()->role == 1)
                                     {{-- employee --}}
                                     <button id="staff" onclick="getLink('staff')"
                                         class="btn btn-outline btn-primary btn-block">
@@ -264,19 +267,26 @@
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa-solid fa-table-columns float-left mt-1"></i>
                                         Phiếu mua hàng</button> --}}
-                                    {{-- Flash Sale admin --}}
-                                    <button id="btnOrder" onclick="getLink('flash-sale')"
-                                        class="btn btn-outline btn-primary btn-block">
+                                        {{-- Flash Sale admin --}}
+                                        <button id="btnOrder" onclick="getLink('flash-sale')"
+                                            class="btn btn-outline btn-primary btn-block">
 
-                                        <i class="fa-solid fa-bolt float-left mt-1"></i>
-                                        Giảm giá thần tốc</button>
+                                            <i class="fa-solid fa-bolt float-left mt-1"></i>
+                                            Giảm giá thần tốc</button>
 
-                                    {{-- Dashboard admin --}}
-                                    <button id="btnOrder" onclick="getLink('dashboard')"
-                                        class="btn btn-outline btn-primary btn-block">
-                                        <i class="fa-solid fa-table-columns float-left mt-1"></i>
-                                        Thống kê</button>
-                                        @endif
+                                        {{-- Dashboard admin --}}
+                                        <button id="btnOrder" onclick="getLink('dashboard')"
+                                            class="btn btn-outline btn-primary btn-block">
+                                            <i class="fa-solid fa-table-columns float-left mt-1"></i>
+                                            Thống kê</button>
+
+
+                                        {{-- Feedback admin --}}
+                                        <button id="btnOrder" onclick="getLink('reviews')"
+                                            class="btn btn-outline btn-primary btn-block">
+                                            <i class="fa-solid fa-table-columns float-left mt-1"></i>
+                                            Quản lý feedback</button>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -307,7 +317,7 @@
                                         return;
                                     case 'customer':
                                         window.location.href = '/customer';
-                                    return;
+                                        return;
                                     case 'staff':
                                         window.location.href = '/staff';
                                         return;
@@ -331,6 +341,9 @@
                                         return;
                                     case 'flash-sale':
                                         window.location.href = '/flash-sale';
+                                        return;
+                                    case 'reviews':
+                                        window.location.href = '/reviews';
                                         return;
                                     default:
                                         return;
