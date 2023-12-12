@@ -26,27 +26,7 @@ class HomeController extends Controller
 
     public function loginUser(Request $request)
     {
-        // $request->validate([
-        //     'phone' => 'required|regex:/^[0-9]+$/|min:10|max:10',
-        // ], [
-        //     'phone.required' => 'Vui lòng nhập số điện thoại.',
-        //     'phone.regex' => 'Số điện thoại chỉ được chứa ký tự số.',
-        //     'phone.min' => 'Số điện thoại phải có ít nhất 10 số.',
-        //     'phone.max' => 'Số điện thoại không được vượt quá 10 số.',
-        // ]);
-        // $phone = $request->phone;
 
-        // $customer = Customer::firstOrNew(['phone' => $phone]);
-
-        // if (!$customer->exists) {
-        //     $customer->save();
-        // }
-        // session(['customer' => $customer,'phone' =>$phone]);
-
-        // return redirect()->route('order.menu', [
-        //     'tableNo' => $request->tableNo,
-        //     'tableId' => $request->tableId
-        // ]);
 
         $request->validate([
             'phone' => 'required|regex:/^[0-9]+$/|min:10|max:10',
@@ -74,7 +54,7 @@ class HomeController extends Controller
                 ]);
             }
         } else {
-            $customer =   Customer::create([
+            $customer = Customer::create([
                 'phone' => $phone,
                 'password' => bcrypt($password),
 

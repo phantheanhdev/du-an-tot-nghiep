@@ -27,7 +27,7 @@
         </div>
 
         <div class="">
-            <form action="{{ route('login.user') }}" class="text-center" method="POST">
+            <form action="{{ route('login.customer') }}" class="text-center" method="POST">
                 @csrf
                 <input type="text" name="tableId" value="{{ $table_id }}" hidden>
                 <input type="text" name="tableNo" value="{{ $table_no }}" hidden>

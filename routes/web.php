@@ -177,7 +177,7 @@ Route::group(['middleware' => ['customer:customer', 'checkCustomer']], function 
 Route::get('/foodie', [HomeController::class, 'form_infor_user'])->name('form_infor_user')->middleware('guest:customer');
 
 
-Route::post('/submit_form', [HomeController::class, 'loginUser'])->name('login.user');
+Route::post('/submit_form', [HomeController::class, 'loginUser'])->name('login.customer');
 Route::post('/customer/logout', [HomeController::class, 'logout'])->name('customer.logout');
 
 
