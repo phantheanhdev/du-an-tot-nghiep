@@ -352,6 +352,7 @@
                                 </div>
                             </div>
 
+
                         </div>
                         <div class="col-md-8">
                             <div class="ibox-content m-b-sm border-bottom" id="welcome-lg">
