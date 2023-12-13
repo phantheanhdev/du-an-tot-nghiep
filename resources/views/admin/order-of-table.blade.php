@@ -40,13 +40,33 @@
                                     <tr>
                                         <td>{{ $order->table_id }}</td>
                                         <td>
+
+                                            {{-- order product --}}
                                             <ul style="list-style: none; padding: 0;">
                                                 @foreach ($order->orderDetails as $orderDetail)
-                                                    <li>
-                                                        {{ $orderDetail->quantity }} x {{ $orderDetail->product->name }}
+                                                    <li style="text-align: left">
+
+                                                        <p class="my-2 h6" style="color: #DFA018">
+                                                            {{ $orderDetail->quantity }} x {{ $orderDetail->product->name }}
+                                                        </p>
+
+                                                        @php
+                                                            $de_item = json_decode($orderDetail->item);
+                                                            $de_item2 = json_decode($de_item);
+                                                        @endphp
+
+                                                        @if ($de_item2 != null)
+                                                            @foreach ($de_item2 as $value)
+                                                                - {{ $value->name }}<br>
+
+                                                                <input type="hidden" value="{{ $value->price }}">
+                                                            @endforeach
+                                                        @endif
+
                                                     </li>
                                                 @endforeach
                                             </ul>
+
                                         </td>
                                         <td>
                                             @if (isset($order->note) && !empty($order->note))
@@ -182,8 +202,20 @@
                         row += '<ul style="list-style: none; padding: 0;">';
 
                         $.each(order.order_details, function(index, orderDetail) {
-                            row += '<li>' + orderDetail.quantity + ' x ' + orderDetail
-                                .product_name + '</li>';
+                            row += '<li style="text-align: left"> <p class="my-2 h6" style="color: #DFA018">' + orderDetail.quantity + ' x ' + orderDetail
+                                .product_name + '</p>';
+
+                            let parse_item = JSON.parse(orderDetail.item)
+                            let parse_item2 = JSON.parse(parse_item)
+
+                            if(parse_item2 != null){
+                                $.each(parse_item2, function(index, value){
+                                    row += '-' + value.name + '<br>'
+                                    row += '<input type="hidden" value=" ' + value.price + '">'
+                                });
+                            }
+
+                            row += '</li>';
                         });
 
                         row += '</ul>';

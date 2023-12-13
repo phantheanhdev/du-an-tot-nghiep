@@ -43,7 +43,6 @@ class HomeController extends Controller
         if ($customer) {
             $credential = [
                 'phone' => $phone,
-                'isComment' => 0,
                 'password' => $password
             ];
 
@@ -70,10 +69,8 @@ class HomeController extends Controller
     public function logout()
     {
         Auth::guard('customer')->logout();
-
         $table_id = $_GET['tableId'];
         $table_no = $_GET['tableNo'];
-        // return redirect()->route('form_infor_user')->with('error', 'Logout is success !');
         return redirect('/foodie?tableNo=' . $table_no . '&tableId=' . $table_id);
     }
 }
