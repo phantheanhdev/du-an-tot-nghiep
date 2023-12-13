@@ -44,8 +44,25 @@
                                             {{-- order product --}}
                                             <ul style="list-style: none; padding: 0;">
                                                 @foreach ($order->orderDetails as $orderDetail)
-                                                    <li>
-                                                        {{ $orderDetail->quantity }} x {{ $orderDetail->product->name }}
+                                                    <li style="text-align: left">
+                                                        <p class="my-2 h6" style="color: #DFA018">
+                                                            {{ $orderDetail->quantity }} x
+                                                            {{ $orderDetail->product->name }}
+                                                        </p>
+                                                        @php
+                                                            $variant = json_decode($orderDetail->item);
+                                                            $variant2 = json_decode($variant);
+                                                        @endphp
+
+                                                        @if ($variant2 != null)
+                                                            @foreach ($variant2 as $value)
+                                                                - {{ $value->name }}<br>
+
+                                                                <input type="hidden"
+                                                                    value="{{ $value->price }}">
+                                                            @endforeach
+                                                        @endif
+
                                                     </li>
                                                 @endforeach
                                             </ul>
