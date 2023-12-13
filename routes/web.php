@@ -70,7 +70,13 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/delete-customer', [CustomerController::class, 'destroy'])->name('delete-customer');
     Route::get('/show-customer/{id}', [CustomerController::class, 'showCustomer'])->name('show-customer');
     // /
+
     Route::get('/', [TableController::class, 'restaurant_manager'])->name('restaurant_manager');
+
+    //changePassword
+    Route::get('/change-password', [App\Http\Controllers\Login\LoginController::class, 'showForm'])->name('show.password.form');
+    Route::post('/update-password', [App\Http\Controllers\Login\LoginController::class, 'updatePassword'])->name('update.password');
+    
     Route::middleware(['checkRole'])->group(function () {
         //User
         Route::match(['GET', 'POST'], '/register', [App\Http\Controllers\Login\LoginController::class, 'register'])->name('register');
@@ -123,9 +129,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('flash-sale-status', [FlashSaleController::class, 'changeStatus'])->name('flash-sale-status');
         Route::delete('flash-sale/{id}', [FlashSaleController::class, 'destory'])->name('flash-sale.destory');
         Route::post('flash-sale/deleteAll', [FlashSaleController::class, 'deleteSelectAll'])->name('flash-sale.deleteAll');
-        //changePassword
-        Route::get('/change-password', [App\Http\Controllers\Login\LoginController::class, 'showForm'])->name('show.password.form');
-        Route::post('/update-password', [App\Http\Controllers\Login\LoginController::class, 'updatePassword'])->name('update.password');
+
         /** Products variant route */
 
         Route::resource('products-variant', ProductVariantController::class);
