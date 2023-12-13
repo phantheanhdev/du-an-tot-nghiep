@@ -85,7 +85,13 @@
                                                     </td>
                                                     <td>{{ formatNumberPrice($item->total_price) }} </td>
 
-                                                    <td>{{ $item->note }}</td>
+                                                    <td>
+                                                        @if (isset($item->note) && !empty($item->note))
+                                                            {{ $item->note }}
+                                                        @else
+                                                            Không Có
+                                                        @endif
+                                                    </td>
                                                     <td>{{ $item->created_at }}</td>
                                                     <th>
                                                         @if ($item->status == 0)
@@ -175,7 +181,13 @@
                                                     </ul>
                                                 </td>
                                                 <td>{{ formatNumberPrice($item->total_price) }}</td>
-                                                <td>{{ $item->note }}</td>
+                                                <td>
+                                                    @if (isset($item->note) && !empty($item->note))
+                                                        {{ $item->note }}
+                                                    @else
+                                                        Không Có
+                                                    @endif
+                                                </td>
                                                 <td>{{ $item->created_at }}</td>
                                                 <td>
                                                     @if ($item->status == 5)
@@ -249,7 +261,13 @@
                                                     </ul>
                                                 </td>
                                                 <td>{{ formatNumberPrice($item->total_price) }}</td>
-                                                <td>{{ $item->note }}</td>
+                                                <td>
+                                                    @if (isset($item->note) && !empty($item->note))
+                                                        {{ $item->note }}
+                                                    @else
+                                                        Không Có
+                                                    @endif
+                                                </td>
                                                 <td>{{ $item->created_at }}</td>
                                                 <td>
                                                     @if ($item->status == 2)
