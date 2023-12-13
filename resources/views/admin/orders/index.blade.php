@@ -61,7 +61,7 @@
                                                         <ul style="list-style: none; padding: 0;">
                                                             @foreach ($item->orderDetails as $orderDetail)
                                                                 <li style="text-align: left">
-                                                                    <p class="text-success my-2 h6">
+                                                                    <p class="my-2 h6" style="color: #DFA018">
                                                                         {{ $orderDetail->quantity }} x
                                                                         {{ $orderDetail->product->name }}
                                                                     </p>
@@ -153,7 +153,7 @@
                                                     <ul style="list-style: none; padding: 0;">
                                                         @foreach ($item->orderDetails as $orderDetail)
                                                             <li style="text-align: left">
-                                                                <p class="text-success my-2 h6">
+                                                                <p class="my-2 h6" style="color: #DFA018">
                                                                     {{ $orderDetail->quantity }} x
                                                                     {{ $orderDetail->product->name }}
                                                                 </p>
@@ -224,9 +224,8 @@
                                                 <td>
                                                     <ul style="list-style: none; padding: 0;">
                                                         @foreach ($item->orderDetails as $orderDetail)
-                                                            {{-- {{ dd($orderDetail ) }} --}}
                                                             <li style="text-align: left">
-                                                                <p class="text-success my-2 h6">
+                                                                <p class="my-2 h6" style="color: #DFA018">
                                                                     {{ $orderDetail->quantity }} x
                                                                     {{ $orderDetail->product->name }}
                                                                 </p>
