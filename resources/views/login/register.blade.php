@@ -11,7 +11,7 @@
                 <div class="sk-rect5"></div>
             </div>
             <h1 class="text-qr Rest-dark text-center p-2">
-                <a href="/showUser" class="btn btn-outline btn-primary btn-sm float-left">
+                <a href="#" id="goBackButton" class="btn btn-outline btn-primary btn-sm float-left">
                     <i class="fa fa-long-arrow-left mt-1"></i>
                 </a>
                 Tạo tài khoản
@@ -33,10 +33,26 @@
 
                     </div>
                     <label for="new_password" class="form-label">Mật khẩu :</label>
-                    <div class="form-group">
-                        <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" >
-                        @error('password') <div class="text-danger">{{ $message }}</div> @enderror
-                    </div>
+                    <div class="input-group">
+                                <input type="password" name="password" class="form-control" id="password">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary show-password" onclick="togglePassword('password')">
+                                        <i class="fa-regular fa-eye"></i> Show
+                                    </button>
+                                </div>
+                            </div>
+                            @error('password') <div class="text-danger">{{ $message }}</div> @enderror
+
+                            <label for="confirm_password" class="form-label">Nhập lại mật khẩu:</label>
+                            <div class="input-group">
+                                <input type="password" name="confirm_password" class="form-control" id="confirm_password">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary show-password" onclick="togglePassword('confirm_password')">
+                                        <i class="fa-regular fa-eye"></i> Show
+                                    </button>
+                                </div>
+                            </div>
+                            @error('confirm_password') <div class="text-danger">{{ $message }}</div> @enderror
                     <button type="submit" class="btn btn-danger">Tạo</button>
                 </form>
             </div>
@@ -60,5 +76,10 @@
             button.innerHTML = '<i class="fa-regular fa-eye"></i> Show';
         }
     }
+</script>
+<script>
+    document.getElementById('goBackButton').addEventListener('click', function() {
+        history.back();
+    });
 </script>
 @endsection
