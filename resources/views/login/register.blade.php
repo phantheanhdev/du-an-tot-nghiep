@@ -37,19 +37,10 @@
                         <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" >
                         @error('password') <div class="text-danger">{{ $message }}</div> @enderror
                     </div>
-                    <div class="form-group">
-                        <label for="role" class="form-label">Chọn vai trò:</label>
-                        <select class="form-select" id="role" name="role">
-                            <option selected disabled>Chọn vai trò</option>
-                            <option value="0">Nhân Viên</option>
-                            <option value="1">Admin</option>
-                        </select>
-                        @error('role') <div class="text-danger">{{ $message }}</div> @enderror
-                    </div>
-
                     <button type="submit" class="btn btn-danger">Tạo</button>
                 </form>
             </div>
+
 
 
 

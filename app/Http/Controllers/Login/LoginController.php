@@ -58,7 +58,7 @@ class LoginController extends Controller
 
             $user = new User();
             $user->username = $request->input('username');
-            $user->role = $request->input('role');
+            $user->role = 0;
             $user->remember_token = Str::random(10);
             $user->password = bcrypt($request->input('password'));
             $user->save();
@@ -77,6 +77,14 @@ class LoginController extends Controller
     {
         if ($id) {
             $user = user::find($id);
+            if ($user->role == 1) {
+                $notification = array(
+                    "message" => "Không thể xóa tài khoản admin",
+                    "alert-type" => "warning",
+                );
+                return redirect()->back()->with($notification);
+            }
+
             if ($user->delete()) {
                 $notification = array(
                     "message" => "Xóa tài khoản thành công",
