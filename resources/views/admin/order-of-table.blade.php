@@ -44,25 +44,8 @@
                                             {{-- order product --}}
                                             <ul style="list-style: none; padding: 0;">
                                                 @foreach ($order->orderDetails as $orderDetail)
-                                                    <li style="text-align: left">
-
-                                                        <p class="my-2 h6" style="color: #DFA018">
-                                                            {{ $orderDetail->quantity }} x {{ $orderDetail->product->name }}
-                                                        </p>
-
-                                                        @php
-                                                            $de_item = json_decode($orderDetail->item);
-                                                            $de_item2 = json_decode($de_item);
-                                                        @endphp
-
-                                                        @if ($de_item2 != null)
-                                                            @foreach ($de_item2 as $value)
-                                                                - {{ $value->name }}<br>
-
-                                                                <input type="hidden" value="{{ $value->price }}">
-                                                            @endforeach
-                                                        @endif
-
+                                                    <li>
+                                                        {{ $orderDetail->quantity }} x {{ $orderDetail->product->name }}
                                                     </li>
                                                 @endforeach
                                             </ul>

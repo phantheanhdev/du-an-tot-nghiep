@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Session;
-
+use Symfony\Component\String\Slugger\AsciiSlugger;
 function uploadFile($nameFolder, $file)
 {
     $fileName = time() . '_' . $file->getClientOriginalName();
@@ -65,4 +65,13 @@ function newPrice($subTotal, $percent)
 function formatNumberPrice($number)
 {
 	return number_format($number, 0, '.', ',') . "đ";
+}
+
+function convertVietnameseToEnglish($text)
+{
+    
+    $slugger = new AsciiSlugger();
+    $cleanedText = $slugger->slug($text)->replace('-', ' ')->toString();
+
+    return $cleanedText;
 }
