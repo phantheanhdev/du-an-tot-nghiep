@@ -171,6 +171,7 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         Illuminate\Cookie\CookieServiceProvider::class,
         Elibyy\TCPDF\ServiceProvider::class,
+    
 
     ])->toArray(),
 

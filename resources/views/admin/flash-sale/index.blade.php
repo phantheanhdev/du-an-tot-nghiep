@@ -70,7 +70,7 @@
                                 <span class="text-danger discount_rate_err formErrors"></span>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             <div class="form-group">
                                 <label>Trạng thái</label>
                                 <select name="status" id="" class="form-control">
@@ -80,7 +80,7 @@
 
 
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <button type="submit" class="btn btn-primary">Lưu</button>
                 </form>
@@ -110,7 +110,7 @@
                                                 <th>Ngày bắt đầu</th>
                                                 <th>Ngày kết thúc</th>
                                                 <th>Tỷ lệ chiết khấu</th>
-                                                <th>Trạng thái</th>
+                                                {{-- <th>Trạng thái</th> --}}
                                                 <th> <button type="submit" class="btn btn-danger">Delete</button></th>
                                             </tr>
                                         </thead>
@@ -125,7 +125,7 @@
                                                 <td>{{ $item->start_date }}</td>
                                                 <td>{{ $item->end_date }}</td>
                                                 <td>{{ $item->discount_rate }}(%)</td>
-                                                <td>
+                                                {{-- <td>
 
                                                     <form action="" method="get">
                                                         <select class="form-control change-status-flash-sale" name="status" id="{{ $item->id }}">
@@ -138,7 +138,7 @@
                                                             </option>
                                                         </select>
                                                     </form>
-                                                </td>
+                                                </td> --}}
                                                 <td>
                                                     <a href="{{ route('flash-sale.destory', $item->id) }}" class="btn btn-danger ml-2 delete-item"><i class="fa-solid fa-trash-can"></i></a>
                                                 </td>

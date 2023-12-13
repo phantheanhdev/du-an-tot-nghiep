@@ -22,7 +22,7 @@
         .component__item-editor {
 
             /* -webkit-box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
-                                                                                                                                                                        box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
+                                                                                                                                                                            box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
             main padding: 2px;
             border-radius: 8px;
             margin-bottom: 10px;
@@ -403,21 +403,70 @@
                                                 <div class="col-md-4">
                                                     <div class="ibox">
                                                         <div class="ibox-content product-box" style="height:370px;">
-                                                            {{-- <div class="product-imitation"
-                                                                style="background-image:url('{{ asset($product->image) }}'); background-size:cover;">
-                                                            </div> --}}
+
 
                                                             <div class="product-imitation"
                                                                 style="background-image:url({{ Storage::url($product->image) }}); background-size:cover;">
                                                             </div>
 
                                                             <div class="product-desc">
+                                                                {{-- 
                                                                 <span class="product-price">
-                                                                    {{ number_format($product->price) }} đ
-                                                                </span>
-                                                                {{-- <input type="hidden"
-                                                                    id="product-price-{{ $product->id }}"
-                                                                    value="{{ $product->price }}"> --}}
+                                                                  <del style="background-color: #910400">100000</del>  {{ number_format($product->price) }} đ 
+                                                                </span> --}}
+
+
+                                                                @if ($product->flashSale === 1)
+                                                                    @php
+                                                                        $saleProduct = \App\Models\FlashSaleItem::where('product_id', $product->id)->first();
+
+                                                                        $start_date = $saleProduct->start_date;
+
+                                                                        $end_date = $saleProduct->end_date;
+
+                                                                        $discount_rate = $saleProduct->discount_rate;
+
+                                                                    @endphp
+                                                                    @if ($product->flashSale === 1 && now()->between($start_date, $end_date))
+                                                                        @php
+
+                                                                            $newPrice = newPrice($product->price, $discount_rate);
+                                                                        @endphp
+                                                                        <span class="product-price">
+                                                                            <del class="px-1"
+                                                                                style="background-color: #910400">
+                                                                                {{ number_format($product->price) }}
+                                                                                đ</del>
+                                                                            {{ number_format($newPrice) }}
+                                                                            đ
+
+                                                                        </span>
+                                                                    @else
+                                                                        <span class="product-price">
+                                                                            {{ number_format($product->price) }}
+                                                                            đ
+
+                                                                        </span>
+                                                                    @endif
+                                                                @else
+                                                                    <span class="product-price">
+                                                                        {{ number_format($product->price) }} đ
+
+                                                                    </span>
+                                                                @endif
+
+
+
+
+
+
+
+
+
+
+
+
+
                                                                 <small class="text-muted"> {{ $categoryName }} </small>
                                                                 <a class="product-name"
                                                                     id="product-name-{{ $product->id }}">
@@ -426,14 +475,7 @@
                                                                     {{ $product->description }} </div>
                                                                 <div class="m-t mx-auto">
                                                                     <div class="row">
-                                                                        {{-- <input id="txtQuantity-{{ $product->id }}"
-                                                                            class="product-quantity-input ml-3"
-                                                                            value="1" max="99"> --}}
-                                                                        {{-- <button onclick="addToCart({{ $product->id }})"
-                                                                            class="btn btn-sm btn-outline btn-primary ml-1">
-                                                                            Thêm
-                                                                            <i class="fa fa-long-arrow-right mt-1"></i>
-                                                                        </button> --}}
+
                                                                         <button
                                                                             class="btn btn-sm btn-outline btn-primary ml-1"
                                                                             data-toggle="modal"
@@ -442,13 +484,13 @@
                                                                             <i class="fa fa-long-arrow-right mt-1"></i>
                                                                         </button>
                                                                         <button
-                                                                        class="btn btn-sm btn-outline btn-primary ml-1"
-                                                                        data-toggle="modal"
-                                                                        data-target="#exampleModalScrollable-product-review-{{ $product->id }}">
-                                                                        Đánh giá
+                                                                            class="btn btn-sm btn-outline btn-primary ml-1"
+                                                                            data-toggle="modal"
+                                                                            data-target="#exampleModalScrollable-product-review-{{ $product->id }}">
+                                                                            Đánh giá
 
-                                                                        <i class="fa-solid fa-star mt-1"></i>
-                                                                    </button>
+                                                                            <i class="fa-solid fa-star mt-1"></i>
+                                                                        </button>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -477,18 +519,6 @@
                                                                 </div>
 
                                                                 <div class="modal-body">
-                                                                    {{-- <div class="row">
-                                                                        <div class="product-image">
-                                                                            <img src="{{ Storage::url($product->image) }}"
-                                                                                class="img-fluid" alt="Responsive image">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="row bg-danger">
-                                                                        <div class="product-name p-2 text-white">
-                                                                            <h3 class="text-center">{{ $product->name }}
-                                                                            </h3>
-                                                                        </div>
-                                                                    </div> --}}
 
                                                                     <div class="row bg-danger">
                                                                         <div class="">
@@ -600,13 +630,7 @@
                                                                         <div class="dec button_inc">-</div>
                                                                     </div>
                                                                 </div>
-                                                                {{-- <div class="product_qty_wrapper">
-                                                                    <div class="btn-minus btn btn-danger">-</div>
-                                                                    <input type="number" class="product-qty"
-                                                                        id="txtQuantity-{{ $product->id }}"
-                                                                        value="1" name="quantity" readonly />
-                                                                    <div class="btn-plus btn btn-danger">+</div>
-                                                                </div> --}}
+
                                                                 <div class="modal-footer">
 
                                                                     <button type="button"
@@ -620,207 +644,207 @@
                                                 </div>
                                             @endforeach
 
-                                              {{-- Đánh giá sản phẩm --}}
-                                              @foreach ($products as $product)
-                                              <div class="modal fade"
-                                                  id="exampleModalScrollable-product-review-{{ $product->id }}"
-                                                  tabindex="-1" role="dialog"
-                                                  aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-                                                  <div class="modal-dialog bd-example-modal-lg" role="document">
-                                                      <form action="{{ route('review.create') }}" method="post"
-                                                          class="feedback-product-form">
-                                                          @csrf
-                                                          <div class="modal-content">
-                                                              <div class="modal-header">
-                                                                  <h3 class="modal-title"
-                                                                      id="exampleModalScrollableTitle">
-                                                                      Đánh giá từ khách hàng : {{ $product->name }}</h3>
-                                                                  <button type="button" class="close"
-                                                                      data-dismiss="modal" aria-label="Close">
-                                                                      <span aria-hidden="true">&times;</span>
-                                                                  </button>
-                                                              </div>
+                                            {{-- Đánh giá sản phẩm --}}
+                                            @foreach ($products as $product)
+                                                <div class="modal fade"
+                                                    id="exampleModalScrollable-product-review-{{ $product->id }}"
+                                                    tabindex="-1" role="dialog"
+                                                    aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                                                    <div class="modal-dialog bd-example-modal-lg" role="document">
+                                                        <form action="{{ route('review.create') }}" method="post"
+                                                            class="feedback-product-form">
+                                                            @csrf
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h3 class="modal-title"
+                                                                        id="exampleModalScrollableTitle">
+                                                                        Đánh giá từ khách hàng : {{ $product->name }}</h3>
+                                                                    <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
 
-                                                              <div class="modal-body">
-
-
-                                                                  @if (Auth::guard('customer')->check())
-                                                                      @php
-                                                                          $isBrought = false;
-                                                                          $orders = \App\Models\Order::where([
-                                                                              'customer_id' => Auth::guard('customer')->user()->id,
-                                                                          ])->get();
-                                                                          foreach ($orders as $key => $order) {
-                                                                              $exisItem = $order
-                                                                                  ->orderdetails()
-                                                                                  ->where('product_id', $product->id)
-                                                                                  ->first();
-                                                                              if ($exisItem) {
-                                                                                  $isBrought = true;
-                                                                              }
-                                                                          }
-                                                                      @endphp
-                                                                      @if (Auth::guard('customer')->user()->isComment === 1 && $isBrought == true)
-                                                                          <div class="product-review mb-4">
-                                                                              <p class="rating">
-                                                                                  <span>Số điểm (sao) : </span>
-                                                                              </p>
-
-                                                                              <div class="row">
-
-                                                                                  <div class="col-xl-12 mb-4">
-                                                                                      <select name="rating"
-                                                                                          class="form-control">
-                                                                                          <option value="">Chọn
-                                                                                          </option>
-                                                                                          <option value="1">1
-                                                                                          </option>
-                                                                                          <option value="2">2
-                                                                                          </option>
-                                                                                          <option value="3">3
-                                                                                          </option>
-                                                                                          <option value="4">4
-                                                                                          </option>
-                                                                                          <option value="5">5
-                                                                                          </option>
-                                                                                      </select>
-                                                                                  </div>
-                                                                                  <input type="hidden"
-                                                                                      name="customer_id"
-                                                                                      value="{{ Auth::guard('customer')->user()->id }}">
-                                                                                  <input type="hidden"
-                                                                                      name="product_id"
-                                                                                      value="{{ $product->id }}">
-                                                                                  <div class="col-xl-12">
-
-                                                                                      <div class="wsus__single_com">
-                                                                                          <textarea cols="3" rows="3" name="comment" class="form-control" placeholder="Đánh giá của bạn"
-                                                                                              required>{{ old('comment') }}</textarea>
-                                                                                      </div>
-
-                                                                                  </div>
-                                                                              </div>
-
-                                                                          </div>
-                                                                      @else
-                                                                          <p>Hãy gọi món để đánh giá sản phẩm</p>
-                                                                      @endif
-                                                                  @endif
+                                                                <div class="modal-body">
 
 
+                                                                    @if (Auth::guard('customer')->check())
+                                                                        @php
+                                                                            $isBrought = false;
+                                                                            $orders = \App\Models\Order::where([
+                                                                                'customer_id' => Auth::guard('customer')->user()->id,
+                                                                            ])->get();
+                                                                            foreach ($orders as $key => $order) {
+                                                                                $exisItem = $order
+                                                                                    ->orderdetails()
+                                                                                    ->where('product_id', $product->id)
+                                                                                    ->first();
+                                                                                if ($exisItem) {
+                                                                                    $isBrought = true;
+                                                                                }
+                                                                            }
+                                                                        @endphp
+                                                                        @if (Auth::guard('customer')->user()->isComment === 1 && $isBrought == true)
+                                                                            <div class="product-review mb-4">
+                                                                                <p class="rating">
+                                                                                    <span>Số điểm (sao) : </span>
+                                                                                </p>
+
+                                                                                <div class="row">
+
+                                                                                    <div class="col-xl-12 mb-4">
+                                                                                        <select name="rating"
+                                                                                            class="form-control">
+                                                                                            <option value="">Chọn
+                                                                                            </option>
+                                                                                            <option value="1">1
+                                                                                            </option>
+                                                                                            <option value="2">2
+                                                                                            </option>
+                                                                                            <option value="3">3
+                                                                                            </option>
+                                                                                            <option value="4">4
+                                                                                            </option>
+                                                                                            <option value="5">5
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                    <input type="hidden"
+                                                                                        name="customer_id"
+                                                                                        value="{{ Auth::guard('customer')->user()->id }}">
+                                                                                    <input type="hidden"
+                                                                                        name="product_id"
+                                                                                        value="{{ $product->id }}">
+                                                                                    <div class="col-xl-12">
+
+                                                                                        <div class="wsus__single_com">
+                                                                                            <textarea cols="3" rows="3" name="comment" class="form-control" placeholder="Đánh giá của bạn"
+                                                                                                required>{{ old('comment') }}</textarea>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        @else
+                                                                            <p>Hãy gọi món để đánh giá sản phẩm</p>
+                                                                        @endif
+                                                                    @endif
 
 
 
-                                                                  <hr>
-
-                                                                  <div class="list-product-review mt-4">
 
 
-                                                                      @php
-                                                                          $feedbacks = \App\Models\Feedback::where('product_id', $product->id)
-                                                                              ->orderBy('id', 'desc')
-                                                                              ->paginate(10);
-                                                                          $countFeedback = \App\Models\Feedback::where('product_id', $product->id)->count();
-                                                                      @endphp
-                                                                      @if ($countFeedback > 0)
-                                                                          <p class="text-center fs-3">Các đánh giá khác
-                                                                          </p>
+                                                                    <hr>
 
-                                                                          @foreach ($feedbacks as $feedback)
-                                                                              <div class=" mt-3">
-                                                                                  <h5 style="font-size: 15px;">
-                                                                                      {{ $feedback->customer->phone }}
-                                                                                      <span>({{ date('d M Y', strtotime($feedback->created_at)) }})</span>
-                                                                                  </h5>
-
-                                                                                  <div>
-                                                                                      {{-- Render kiểu này hơi đần --}}
-                                                                                      <div class="rating-point">
-                                                                                          @if ($feedback->rating == 1)
-                                                                                              <i
-                                                                                                  class="fa-solid fa-star"></i>
-                                                                                          @elseif($feedback->rating == 2)
-                                                                                              <i
-                                                                                                  class="fa-solid fa-star"></i>
-                                                                                              <i
-                                                                                                  class="fa-solid fa-star"></i>
-                                                                                          @elseif($feedback->rating == 3)
-                                                                                              <i
-                                                                                                  class="fa-solid fa-star"></i>
-                                                                                              <i
-                                                                                                  class="fa-solid fa-star"></i>
-                                                                                              <i
-                                                                                                  class="fa-solid fa-star"></i>
-                                                                                          @elseif($feedback->rating == 4)
-                                                                                              <i
-                                                                                                  class="fa-solid fa-star"></i>
-                                                                                              <i
-                                                                                                  class="fa-solid fa-star"></i>
-                                                                                              <i
-                                                                                                  class="fa-solid fa-star"></i>
-                                                                                              <i
-                                                                                                  class="fa-solid fa-star"></i>
-                                                                                          @else
-                                                                                              <i
-                                                                                                  class="fa-solid fa-star"></i>
-                                                                                              <i
-                                                                                                  class="fa-solid fa-star"></i>
-                                                                                              <i
-                                                                                                  class="fa-solid fa-star"></i>
-                                                                                              <i
-                                                                                                  class="fa-solid fa-star"></i>
-                                                                                              <i
-                                                                                                  class="fa-solid fa-star"></i>
-                                                                                          @endif
+                                                                    <div class="list-product-review mt-4">
 
 
+                                                                        @php
+                                                                            $feedbacks = \App\Models\Feedback::where('product_id', $product->id)
+                                                                                ->orderBy('id', 'desc')
+                                                                                ->paginate(10);
+                                                                            $countFeedback = \App\Models\Feedback::where('product_id', $product->id)->count();
+                                                                        @endphp
+                                                                        @if ($countFeedback > 0)
+                                                                            <p class="text-center fs-3">Các đánh giá khác
+                                                                            </p>
 
-                                                                                      </div>
-                                                                                      <p>{{ $feedback->comment }}</p>
-                                                                                  </div>
-                                                                              </div>
-                                                                          @endforeach
-                                                                      @else
-                                                                          <p class="text-center fs-3">Chưa có đánh giá
-                                                                              nào !</p>
-                                                                      @endif
+                                                                            @foreach ($feedbacks as $feedback)
+                                                                                <div class=" mt-3">
+                                                                                    <h5 style="font-size: 15px;">
+                                                                                        {{ $feedback->customer->phone }}
+                                                                                        <span>({{ date('d M Y', strtotime($feedback->created_at)) }})</span>
+                                                                                    </h5>
+
+                                                                                    <div>
+                                                                                        {{-- Render kiểu này hơi đần --}}
+                                                                                        <div class="rating-point">
+                                                                                            @if ($feedback->rating == 1)
+                                                                                                <i
+                                                                                                    class="fa-solid fa-star"></i>
+                                                                                            @elseif($feedback->rating == 2)
+                                                                                                <i
+                                                                                                    class="fa-solid fa-star"></i>
+                                                                                                <i
+                                                                                                    class="fa-solid fa-star"></i>
+                                                                                            @elseif($feedback->rating == 3)
+                                                                                                <i
+                                                                                                    class="fa-solid fa-star"></i>
+                                                                                                <i
+                                                                                                    class="fa-solid fa-star"></i>
+                                                                                                <i
+                                                                                                    class="fa-solid fa-star"></i>
+                                                                                            @elseif($feedback->rating == 4)
+                                                                                                <i
+                                                                                                    class="fa-solid fa-star"></i>
+                                                                                                <i
+                                                                                                    class="fa-solid fa-star"></i>
+                                                                                                <i
+                                                                                                    class="fa-solid fa-star"></i>
+                                                                                                <i
+                                                                                                    class="fa-solid fa-star"></i>
+                                                                                            @else
+                                                                                                <i
+                                                                                                    class="fa-solid fa-star"></i>
+                                                                                                <i
+                                                                                                    class="fa-solid fa-star"></i>
+                                                                                                <i
+                                                                                                    class="fa-solid fa-star"></i>
+                                                                                                <i
+                                                                                                    class="fa-solid fa-star"></i>
+                                                                                                <i
+                                                                                                    class="fa-solid fa-star"></i>
+                                                                                            @endif
 
 
-                                                                  </div>
+
+                                                                                        </div>
+                                                                                        <p>{{ $feedback->comment }}</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            @endforeach
+                                                                        @else
+                                                                            <p class="text-center fs-3">Chưa có đánh giá
+                                                                                nào !</p>
+                                                                        @endif
 
 
+                                                                    </div>
 
 
 
 
 
 
-                                                              </div>
-
-                                                              <div class="modal-footer">
-
-                                                                  @if (Auth::guard('customer')->check())
-                                                                      @if (Auth::guard('customer')->user()->isComment === 1)
-                                                                          <button type="submit"
-                                                                              class="btn btn-primary">Đánh
-                                                                              giá</button>
-                                                                      @else
-                                                                          <button type="submit" disabled
-                                                                              class="btn btn-primary">Hãy đặt món
-                                                                              nào</button>
-                                                                      @endif
-                                                                  @endif
 
 
-                                                              </div>
-                                                          </div>
-                                                      </form>
+                                                                </div>
+
+                                                                <div class="modal-footer">
+
+                                                                    @if (Auth::guard('customer')->check())
+                                                                        @if (Auth::guard('customer')->user()->isComment === 1)
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary">Đánh
+                                                                                giá</button>
+                                                                        @else
+                                                                            <button type="submit" disabled
+                                                                                class="btn btn-primary">Hãy đặt món
+                                                                                nào</button>
+                                                                        @endif
+                                                                    @endif
 
 
-                                                  </div>
-                                              </div>
-                                          @endforeach
-                                          {{-- ----------------- --}}
+                                                                </div>
+                                                            </div>
+                                                        </form>
+
+
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                            {{-- ----------------- --}}
                                         </div>
                                     @endforeach
                                 </div>
