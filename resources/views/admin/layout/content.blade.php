@@ -159,19 +159,6 @@
                                             <i class="fa fa-chevron-down ml-1"></i>
                                         </span>
                                     </a>
-                                    @if(Auth::user()->role == 1)
-                                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                        <li class="dropdown-item">
-                                            <a href="{{ route('showUser') }}">Quản lí tài khoản</a>
-                                        </li>
-
-                                        <li class="dropdown-item">
-                                            <a href="{{ route('show.password.form') }}">Đổi mật khẩu</a>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li class="dropdown-item"><a href="{{ route('logout') }}">Đăng xuất</a></li>
-                                    </ul>
-                                    @else
                                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
 
                                         <li class="dropdown-item">
@@ -180,8 +167,6 @@
                                         <li class="divider"></li>
                                         <li class="dropdown-item"><a href="{{ route('logout') }}">Đăng xuất</a></li>
                                     </ul>
-                                    
-                                    @endif
                                 </div>
                             </li>
 
@@ -298,6 +283,11 @@
                                             class="btn btn-outline btn-primary btn-block">
                                             <i class="fa-solid fa-table-columns float-left mt-1"></i>
                                             Phản hồi</button>
+                                            {{-- Quản lí tài khoản --}}
+                                        <button id="btnOrder" onclick="getLink('showUser')"
+                                            class="btn btn-outline btn-primary btn-block">
+                                            <i class="fa-solid fa-user float-left mt-1"></i>
+                                            Quản lí tài khoản</button>
                                     @endif
                                 </div>
                             </div>
@@ -356,6 +346,9 @@
                                         return;
                                     case 'reviews':
                                         window.location.href = '/reviews';
+                                        return;
+                                        case 'showUser':
+                                        window.location.href = '/showUser';
                                         return;
                                     default:
                                         return;
