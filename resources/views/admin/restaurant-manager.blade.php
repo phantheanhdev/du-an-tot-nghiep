@@ -23,21 +23,40 @@
                 <div class="row">
                     @foreach ($tables as $table)
                     <a href="{{ route('order-of-table', $table->id) }}" class="text-white">
-                        <div id="table-{{ $table->name }}" class="widget p-lg text-center {{ $table->orders->filter(function ($order) {
-                                            return $order->status == 0 || $order->status == 1;
-                                        })->count() > 0
-                                        ? 'green-bg'
-                                        : 'black-bg' }} " style="height: 160px;">
-
+                        <div id="table-{{ $table->name }}" class="widget p-lg text-center 
+                        @if($table->orders->filter(function ($order) {
+                            return $order->status == 0;
+                        })->count() > 0)
+                        yellow-bg
+                        
+                        @elseif($table->orders->filter(function ($order) {
+                            return $order->status == 1;
+                        })->count() > 0)
+                        green-bg
+                        
+                        @else
+                        black-bg
+                        @endif
+                         " style="height: 160px;">
                             <div class="m-b-md">
-                                <i id="table-icon-2" class="fa fa-minus fa-4x"></i>
-                                <br />
+                                
                                 @if (
                                 $table->orders->filter(function ($order) {
-                                return $order->status == 0 || $order->status == 1;
+                                return $order->status == 0 ;
                                 })->count() > 0)
+                                <i id="table-icon-2" class="fa fa-bell fa-4x"></i>
+                                <br />
+                                <small id="table-notification-{{ $table->id }}">Có đơn mới</small>
+                                @elseif (
+                                $table->orders->filter(function ($order) {
+                                return  $order->status == 1;
+                                })->count() > 0)
+                                <i id="table-icon-2" class="fa fa-cutlery fa-4x"></i>
+                                <br />
                                 <small id="table-notification-{{ $table->id }}">Bàn có khách</small>
                                 @else
+                                <i id="table-icon-2" class="fa fa-minus fa-4x"></i>
+                                <br />
                                 <small id="table-notification-{{ $table->id }}">Bàn trống</small>
                                 @endif
 
@@ -68,10 +87,9 @@
         let originClass = ''
         if (data.message.includes('có đơn mới')) {
             $('#table-' + data.id).addClass('yellow-bg');
-        }
-         else {
+        } else {
             originClass = $('#table-' + data.id).attr('class');
-            $('#table-' + data.id).addClass('red-bg').removeClass('green-bg');
+            $('#table-' + data.id).addClass('red-bg').removeClass('yellow-bg');
         }
 
         Command: toastr["warning"](data.message)
@@ -100,13 +118,13 @@
         });;
 
         setTimeout(function() {
-            
-            $('#table-' + data.id).addClass(originClass).removeClass('red-bg').removeClass('yellow-bg')
+
+            $('#table-' + data.id).addClass(originClass).removeClass('red-bg')
             if (data.message.includes('có đơn mới')) {
-                $('#table-' + data.id).addClass('green-bg');
-                $('#table-notification-' + data.id).text('Bàn có khách')
+                $('#table-' + data.id).addClass('yellow-bg');
+                $('#table-notification-' + data.id).text('Có đơn mới')
             }
-        }, 30000);
+        }, 5000);
     });
 </script>
 @endsection
