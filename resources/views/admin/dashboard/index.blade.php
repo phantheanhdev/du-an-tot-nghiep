@@ -63,7 +63,7 @@
                                     <p id="table-notification-2" style="font-size: 15px">Thu nhập hôm nay</p>
 
                                     <h3 class="font-bold no-margins ">
-                                        {{ $todaysEarnings }} đ
+                                        {{ formatNumberPrice($todaysEarnings) }} 
                                     </h3>
                                 </div>
                             </div>
@@ -76,7 +76,7 @@
                                     <p id="table-notification-2" style="font-size: 15px">Thu nhập tháng này</p>
 
                                     <h3 class="font-bold no-margins ">
-                                        {{ $monthEarnings }} đ
+                                        {{  formatNumberPrice($monthEarnings) }}
                                     </h3>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@
                                     <p id="table-notification-2" style="font-size: 15px">Thu nhập năm nay</p>
 
                                     <h3 class="font-bold no-margins ">
-                                        {{ $yearEarnings }} đ
+                                        {{ formatNumberPrice($yearEarnings) }}
                                     </h3>
                                 </div>
                             </div>
@@ -166,7 +166,7 @@
 
                                         <td>{{ $item->month }}</td>
                                         <td>{{ $item->total_orders }}</td>
-                                        <td style="color: red;">{{ number_format($item->total_amount, 2) }} đ</td>
+                                        <td style="color: red;">{{ number_format($item->total_amount, 0) }} đ</td>
                                     </tr>
                                 @endforeach
 
@@ -185,8 +185,7 @@
                     <table class="table">
                         <thead>
                             <tr>
-
-                                <th scope="col">Tháng</th>
+                                <th scope="col">Năm</th>
                                 <th scope="col">Tổng số đơn đặt hàng</th>
                                 <th scope="col">Tổng cộng</th>
                             </tr>
@@ -198,7 +197,7 @@
 
                                     <td>{{ $item->year }}</td>
                                     <td>{{ $item->total_orders }}</td>
-                                    <td style="color: red;">{{ number_format($item->total_amount, 2) }} đ</td>
+                                    <td style="color: red;">{{ number_format($item->total_amount, 0) }} đ</td>
                                 </tr>
                             @endforeach
 

@@ -55,6 +55,12 @@ class CartController extends Controller
         }
     }
 
+    public function clean_session()
+    {
+        session(['cart' => []]);  // Set the 'cart' key to an empty array
+
+        return response()->json(['cart' => []]);
+    }
     public function addToCart($id, Request $request)
     {
         $product = Product::findOrFail($id);
@@ -101,6 +107,10 @@ class CartController extends Controller
         $order->phone = $request->customer_phone;
         $order->customer_id = $request->customer_id;
         $order->save();
+
+        Customer::where('id', $request->customer_id)->update([
+            'isComment' => 1
+        ]);
 
         $cart = session()->get('cart');
 

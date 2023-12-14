@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
 use App\Models\Category;
+use App\Models\Feedback;
 use App\Models\FlashSaleItem;
 use App\Models\Product;
 use App\Models\ProductVariant;
@@ -49,7 +50,7 @@ class ProductController extends Controller
 
             if ($product->save()) {
                 $notification = array(
-                    "message" => "Add product successfully",
+                    "message" => "Thêm thực phẩm thành công",
                     "alert-type" => "success",
                 );
                 return redirect()->route('product.index')->with($notification);
@@ -88,7 +89,7 @@ class ProductController extends Controller
             $product->save();
 
             $notification = array(
-                "message" => "Update product successfully",
+                "message" => "Cập nhật thực phẩm thành công",
                 "alert-type" => "success",
             );
             return redirect()->route('product.index')->with($notification);
@@ -110,15 +111,20 @@ class ProductController extends Controller
             $flashSaleItem  = FlashSaleItem::where('product_id', $id);
             $flashSaleItem->delete();
 
+            $feedbacks  = Feedback::where('product_id', $id)->get();
+            foreach ($feedbacks as $feedback) {
+                $feedback->delete();
+            }
+
             $deleted = $product->forceDelete();
             if ($deleted) {
                 $notification = array(
-                    "message" => "Deleted Product successfully",
+                    "message" => "Xóa thực phẩm thành công",
                     "alert-type" => "success",
                 );
             } else {
                 $notification = array(
-                    "message" => "Delete product failed",
+                    "message" => "Xóa sản thực phẩm thất bại",
                     "alert-type" => "error",
                 );
             }

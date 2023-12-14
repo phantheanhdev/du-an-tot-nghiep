@@ -43,11 +43,7 @@
                     @enderror
                     </div> <div class="mb-3">
                         <label class="form-label">Ca làm việc</label>
-                        <select class="form-control" name="shift" >
-                            <option {{$employee->shift == 'Ca 1(8h-13h)' ? "selected" : ""}}  value="Ca 1(8h-13h)">Ca 1(8h-13h)</option>
-                            <option {{$employee->shift == 'Ca 2(13h-18h)' ? "selected" : ""}}  value="Ca 2(13h-18h)">Ca 2(13h-18h)</option>
-                            <option {{$employee->shift == 'Ca 3(18h-23h)' ? "selected" : ""}}  value="Ca 3(18h-23h)">Ca 3(18h-23h)</option>
-                          </select>
+                        <input type="text" name="shift" class="form-control" value="{{ $employee->shift }}" >
                           @error('shift')
                           <span class="text-danger">{{ $message }}</span>
                       @enderror

@@ -20,10 +20,11 @@
                 <input hidden value="Completed" id="lblCompleted" />
                 <input type="hidden" name="" id="id" value="{{ $table->id }}">
 
+
                 <div class="col-md-12">
                     <div class="row table-responsive" id="nonPayOrder">
-                        <table class="table table-hover">
-                            <thead class="thead-dark">
+                        <table id="myTable" class="table table-hover">
+                            <thead >
                                 <tr>
                                     <th>Bàn</th>
                                     <th>Sản phẩm</th>
@@ -39,13 +40,32 @@
                                     <tr>
                                         <td>{{ $order->table_id }}</td>
                                         <td>
+
+                                            {{-- order product --}}
                                             <ul style="list-style: none; padding: 0;">
                                                 @foreach ($order->orderDetails as $orderDetail)
-                                                    <li>
-                                                        {{ $orderDetail->quantity }} x {{ $orderDetail->product->name }}
+                                                    <li style="text-align: left">
+                                                        <p class="my-2 h6" style="color: #DFA018">
+                                                            {{ $orderDetail->quantity }} x
+                                                            {{ $orderDetail->product->name }}
+                                                        </p>
+                                                        @php
+                                                            $variant = json_decode($orderDetail->item);
+                                                            $variant2 = json_decode($variant);
+                                                        @endphp
+
+                                                        @if ($variant2 != null)
+                                                            @foreach ($variant2 as $value)
+                                                                - {{ $value->name }}<br>
+
+                                                                <input type="hidden" value="{{ $value->price }}">
+                                                            @endforeach
+                                                        @endif
+
                                                     </li>
                                                 @endforeach
                                             </ul>
+
                                         </td>
                                         <td>
                                             @if (isset($order->note) && !empty($order->note))
@@ -55,7 +75,7 @@
                                             @endif
                                         </td>
                                         <td>{{ $order->created_at }}</td>
-                                        <td>{{ $order->total_price }} VNĐ</td>
+                                        <td>{{ formatNumberPrice($order->total_price) }}</td>
                                         <td>
                                             @if ($order->status == 0)
                                                 <div class=" bg-primary fs-1 rounded"><span>Chưa xác nhận</span></div>
@@ -64,7 +84,8 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <form action="{{ route('admin.orders.updateStatus', ['id' => $order->id]) }}" method="post">
+                                            <form action="{{ route('admin.orders.updateStatus', ['id' => $order->id]) }}"
+                                                method="post">
                                                 @csrf
                                                 @method('PATCH')
 
@@ -80,14 +101,15 @@
                                                             class="fa-solid fa-xmark px-1"></i></button>
                                                 @endif
                                             </form>
-                                            <form  action="{{ route('admin.orders.updateStatus', ['id' => $order->id]) }}"
+                                            <form action="{{ route('admin.orders.updateStatus', ['id' => $order->id]) }}"
                                                 method="POST" target="_blank">
                                                 @csrf
                                                 @method('PATCH')
                                                 <input type="hidden" name="phone" value="{{ $order->phone }}">
                                                 <input type="hidden" name="total" value="{{ $order->total_price }}">
+
                                                 @if ($order->status === 1)
-                                                    <a class="btn btn-warning btn-sm float-end mx-1"
+                                                    <a class="btn btn-warning btn-sm float-end mx-1 print-btn"
                                                         href="{{ url('/order-form/' . $order->id) }}" target="_blank"><i
                                                             class="fa-solid fa-print"></i></a>
                                                     <button type="submit" name="status" value="5"
@@ -106,6 +128,7 @@
             </div>
         </div>
     </div>
+
     <!-- Include jQuery library -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
@@ -178,8 +201,23 @@
                         row += '<ul style="list-style: none; padding: 0;">';
 
                         $.each(order.order_details, function(index, orderDetail) {
-                            row += '<li>' + orderDetail.quantity + ' x ' + orderDetail
-                                .product_name + '</li>';
+                            row +=
+                                '<li style="text-align: left"> <p class="my-2 h6" style="color: #DFA018">' +
+                                orderDetail.quantity + ' x ' + orderDetail
+                                .product_name + '</p>';
+
+                            let parse_item = JSON.parse(orderDetail.item)
+                            let parse_item2 = JSON.parse(parse_item)
+
+                            if (parse_item2 != null) {
+                                $.each(parse_item2, function(index, value) {
+                                    row += '-' + value.name + '<br>'
+                                    row += '<input type="hidden" value=" ' + value
+                                        .price + '">'
+                                });
+                            }
+
+                            row += '</li>';
                         });
 
                         row += '</ul>';
@@ -233,14 +271,39 @@
         }
 
 
-        setInterval(updateTable, 5000); // Adjust the interval as needed
+        // setInterval(updateTable, 3000); // Adjust the interval as needed
     </script>
 
-<script>
-    function openNewTab() {
-        var form = document.getElementById('orderForm');
-        form.submit();
-        window.open('', '_blank');
-    }
-</script>
+    <script>
+        let printButtonClickCount = 0;
+
+        document.querySelectorAll('.print-btn').forEach((btn) => {
+            btn.addEventListener('click', (event) => {
+                printButtonClickCount++;
+                if (printButtonClickCount === 2) {
+                    const confirmPrint = confirm('Bạn có muốn in lại không?');
+                    if (confirmPrint) {
+                        window.open(btn.getAttribute('href'), '_blank');
+                    } else {
+                        event.preventDefault();
+                        printButtonClickCount = 1;
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        function openNewTab() {
+            var form = document.getElementById('orderForm');
+            form.submit();
+            window.open('', '_blank');
+        }
+    </script>
+    @push('scripts')
+        <script>
+            let table = new DataTable('#myTable', {
+                responsive: true
+            });
+        </script>
+    @endpush
 @endsection

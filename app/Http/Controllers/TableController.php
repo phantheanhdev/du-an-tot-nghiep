@@ -12,6 +12,7 @@ use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Symfony\Component\VarDumper\VarDumper;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Elibyy\TCPDF\Facades\TCPDF;
 
 
 class TableController extends Controller
@@ -179,18 +180,31 @@ class TableController extends Controller
         $table = Table::findOrFail($id);
         $name = $table->name;
 
-        $pdf = Pdf::loadView('admin.table.template_qr', [
-            'id' => $table->id,
-            'name' => $name,
-            // 'qr' => $table->qr,
-        ]);
-
-        // return view('admin.table.template_qr', [
+        // $pdf = Pdf::loadView('admin.table.template_qr', [
         //     'id' => $table->id,
         //     'name' => $name,
+        //     // 'qr' => $table->qr,
         // ]);
 
-        return $pdf->download('qr_code.pdf');
+        // // return view('admin.table.template_qr', [
+        // //     'id' => $table->id,
+        // //     'name' => $name,
+        // // ]);
+
+        // return $pdf->download('qr_code.pdf');
+
+        $filename = 'Foodie_QR.pdf';
+        $html = '<img src="https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://127.0.0.1:8000/foodie?tableId=' . $table->id . '%26tableNo=' . $name . '" alt="">';
+
+        $pdf = new TCPDF;
+
+        $pdf::SetTitle('Foodie');
+        $pdf::AddPage();
+        $pdf::writeHTML($html, true, false, true, false, '');
+
+        $pdf::Output(public_path($filename), 'F');
+
+        return response()->download(public_path($filename));
     }
 
     // trang đầu tiên khi chuyển hướng về admin
@@ -206,7 +220,7 @@ class TableController extends Controller
         $table = Table::findOrFail($id);
 
         $orders = Order::where('table_id', $id)
-            ->whereIn('status', [0, 1, 3, 4])
+            ->whereIn('status', [0, 1])
             ->get();
         foreach ($orders as $order) {
             $order->orderDetails = OrderDetail::where('order_id', $order->id)->get();

@@ -15,7 +15,7 @@ class AdminDashboardController extends Controller
     {
         //Thống kê doanh thu theo ngày - tháng - năm
         $todaysOrder = Order::whereDate('created_at', Carbon::today())->where('status', 5)->count();
-        $totalPendingOrders = Order::where('status', 5)->count();
+        $totalPendingOrders = Order::where('status', 0)->count();
 
         $todaysEarnings = Order::where('status', 5)
             ->whereDate('order_day', Carbon::today())

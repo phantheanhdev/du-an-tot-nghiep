@@ -43,7 +43,8 @@
         }
 
         .green-bg {
-            background-color: #2EFE64;
+            background-color: #2EFE64 !important;
+
             /* Hoặc màu sắc xanh lá cây khác tùy thuộc vào yêu cầu của bạn */
         }
 
@@ -72,7 +73,7 @@
         <div id="page-wrapper" class="gray-bg">
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary box-shadow mb-3">
                 <div class="container">
-                    <a class="navbar-brand" href="restaurant-manager">QR MENU</a>
+                    <a class="navbar-brand" href="restaurant-manager">FOODIE</a>
                     <button class="custom-toggler navbar-toggler" type="button" data-toggle="collapse"
                         data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false"
                         aria-label="Toggle navigation">
@@ -81,7 +82,7 @@
                     </button>
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav mx-auto">
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <div class="dropdown profile-element">
                                     <a class="nav-link" data-toggle="dropdown" aria-expanded="false">
                                         <span>
@@ -144,7 +145,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </li>
+                            </li> --}}
                         </ul>
 
                         <ul class="nav navbar-top-links">
@@ -158,16 +159,13 @@
                                             <i class="fa fa-chevron-down ml-1"></i>
                                         </span>
                                     </a>
-                                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                        <li class="dropdown-item">
-                                            <a href="/restaurant-manager">Management Panel</a>
-                                        </li>
+                                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
 
                                         <li class="dropdown-item">
-                                            <a href="{{ route('show.password.form') }}">Change Password</a>
+                                            <a href="{{ route('show.password.form') }}">Đổi mật khẩu</a>
                                         </li>
                                         <li class="divider"></li>
-                                        <li class="dropdown-item"><a href="{{ route('logout') }}">Logout</a></li>
+                                        <li class="dropdown-item"><a href="{{ route('logout') }}">Đăng xuất</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -184,21 +182,21 @@
                             <div class="contact-box center-version">
                                 <a style="text-decoration:none; color:black;">
                                     <img alt="image" class="img-lg"
-                                        src="/images/logos/80735333-a467-43a8-ad98-36c55b23711b.jpg">
-                                    <h3 class="m-b-xs"><strong>
+                                        src="{{ asset('storage/images/icon_form_user.svg') }}">
+                                    <h3 class="m-b-xs">Xin chào: <strong>
                                             @php
                                                 if (Session::has('username') && Session::get('username') != '') {
                                                     echo Session::get('username');
                                                 }
                                             @endphp
                                         </strong></h3>
-                                    <address class="m-t-md">
+                                    {{-- <address class="m-t-md">
                                         Quang<br>
                                         <abbr title="Phone"><i class="fa fa-phone"></i></abbr>
                                         <p> (098) 765-4321</p>
                                     </address>
                                     <strong>Description</strong>
-                                    <p>Linh</p>
+                                    <p>Linh</p> --}}
                                 </a>
 
                                 <div class="contact-box-footer">
@@ -224,19 +222,21 @@
                                         Xây dựng QR
                                     </button> --}}
                                     {{-- tale --}}
-                                    <button id="table" onclick="getLink('table')"
-                                        class="btn btn-outline btn-primary btn-block">
-                                        <i class="fa-regular fa-table fa fa-columns fa-square-kanban fa-sharp fa-solid float-left mt-1"
-                                            style="color: #d35352;"></i>
-                                        Bàn
-                                    </button>
-                                    {{-- category --}}
-                                    <button id="category" onclick="getLink('category')"
-                                        class="btn btn-outline btn-primary btn-block">
-                                        <i class="fa-solid fa-bars fa-square-kanban fa-sharp fa-solid float-left mt-1"
-                                            style="color: #d35352;"></i>
-                                        Danh mục thực phẩm
-                                    </button>
+                                    @if (Auth::user()->role == 1)
+                                        <button id="table" onclick="getLink('table')"
+                                            class="btn btn-outline btn-primary btn-block">
+                                            <i class="fa-regular fa-table fa fa-columns fa-square-kanban fa-sharp fa-solid float-left mt-1"
+                                                style="color: #d35352;"></i>
+                                            Bàn
+                                        </button>
+                                        {{-- category --}}
+                                        <button id="category" onclick="getLink('category')"
+                                            class="btn btn-outline btn-primary btn-block">
+                                            <i class="fa-solid fa-bars fa-square-kanban fa-sharp fa-solid float-left mt-1"
+                                                style="color: #d35352;"></i>
+                                            Danh mục thực phẩm
+                                        </button>
+
 
                                     {{-- product --}}
                                     <button id="table" onclick="getLink('product')"
@@ -245,12 +245,14 @@
                                             style="color: #d35352;"></i>
                                         Menu thực phẩm
                                     </button>
+                                    @endif
                                     {{-- khách hàng --}}
                                     <button id="staff" onclick="getLink('customer')"
                                         class="btn btn-outline btn-primary btn-block">
                                             <i class="fa-solid fa-user-group fa-square-kanban fa-sharp fa-solid float-left mt-1" style="color: #d35352;"></i>
                                         Khách hàng
                                     </button>
+                                    @if(Auth::user()->role == 1)
                                     {{-- employee --}}
                                     <button id="staff" onclick="getLink('staff')"
                                         class="btn btn-outline btn-primary btn-block">
@@ -262,19 +264,31 @@
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa-solid fa-table-columns float-left mt-1"></i>
                                         Phiếu mua hàng</button> --}}
-                                    {{-- Flash Sale admin --}}
-                                    <button id="btnOrder" onclick="getLink('flash-sale')"
-                                        class="btn btn-outline btn-primary btn-block">
+                                        {{-- Flash Sale admin --}}
+                                        <button id="btnOrder" onclick="getLink('flash-sale')"
+                                            class="btn btn-outline btn-primary btn-block">
 
-                                        <i class="fa-solid fa-bolt float-left mt-1"></i>
-                                        Giảm giá thần tốc</button>
+                                            <i class="fa-solid fa-bolt float-left mt-1"></i>
+                                            Giảm giá thần tốc</button>
 
-                                    {{-- Dashboard admin --}}
-                                    <button id="btnOrder" onclick="getLink('dashboard')"
-                                        class="btn btn-outline btn-primary btn-block">
-                                        <i class="fa-solid fa-table-columns float-left mt-1"></i>
-                                        Thống kê</button>
+                                        {{-- Dashboard admin --}}
+                                        <button id="btnOrder" onclick="getLink('dashboard')"
+                                            class="btn btn-outline btn-primary btn-block">
+                                            <i class="fa-solid fa-table-columns float-left mt-1"></i>
+                                            Thống kê</button>
 
+
+                                        {{-- Feedback admin --}}
+                                        <button id="btnOrder" onclick="getLink('reviews')"
+                                            class="btn btn-outline btn-primary btn-block">
+                                            <i class="fa-solid fa-table-columns float-left mt-1"></i>
+                                            Phản hồi</button>
+                                            {{-- Quản lí tài khoản --}}
+                                        <button id="btnOrder" onclick="getLink('showUser')"
+                                            class="btn btn-outline btn-primary btn-block">
+                                            <i class="fa-solid fa-user float-left mt-1"></i>
+                                            Quản lí tài khoản</button>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -305,7 +319,7 @@
                                         return;
                                     case 'customer':
                                         window.location.href = '/customer';
-                                    return;
+                                        return;
                                     case 'staff':
                                         window.location.href = '/staff';
                                         return;
@@ -329,6 +343,12 @@
                                         return;
                                     case 'flash-sale':
                                         window.location.href = '/flash-sale';
+                                        return;
+                                    case 'reviews':
+                                        window.location.href = '/reviews';
+                                        return;
+                                        case 'showUser':
+                                        window.location.href = '/showUser';
                                         return;
                                     default:
                                         return;
@@ -445,6 +465,7 @@
         </div>
     </div>
 
+    <script src="{{ asset('/admin/lib/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('/admin/lib/jquery/dist/jquery.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">

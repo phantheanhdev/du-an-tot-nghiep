@@ -24,15 +24,7 @@ class checkCustomer
                 'tableId' => $table_id
             ]);
         }
-      
-        // if ($request->is('order/menu') || $request->is('order/menu/*')) {
-        //     $table_id = $_GET['tableId'];
-        //     $table_no = $_GET['tableNo'];
-        //     return route('form_infor_user', [
-        //         'tableNo' => $table_no,
-        //         'tableId' => $table_id
-        //     ]);
-        // }
+    
         return $next($request);
     }
 }

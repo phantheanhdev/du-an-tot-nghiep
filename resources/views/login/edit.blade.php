@@ -1,6 +1,6 @@
 @extends('admin.layout.content')
 @section('main-content')
-<div class="col-md-9" style="font-size: large;">
+<div class="col-md-9" style="font-size: medium;">
     <div class="ibox float-e-margins" id="boxOrder">
         <div class="ibox-content">
             <div class="sk-spinner sk-spinner-wave">
@@ -10,12 +10,12 @@
                 <div class="sk-rect4"></div>
                 <div class="sk-rect5"></div>
             </div>
-            <h1 class="text-qr Rest-dark text-center p-2">
+            <h3 class="text-qr Rest-dark text-center p-2">
                 <a href="#" id="goBackButton" class="btn btn-outline btn-primary btn-sm float-left">
                     <i class="fa fa-long-arrow-left mt-1"></i>
                 </a>
                 Tạo tài khoản
-            </h1>
+            </h3>
             <input hidden value="Completed" id="lblCompleted" />
             <input hidden value="2" id="txtTableId" />
 
@@ -24,39 +24,37 @@
                 <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
 
-                <form method="POST" action="{{ route('register') }}">
+                <form method="POST" action="{{ route('user.edit', ['id' => $user->id]) }}">
                     @csrf
                     <label for="new_password" class="form-label">Tên đăng nhập:</label>
                     <div class="form-group">
-                        <input type="text" name="username" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" >
+                        <input type="text" name="username" class="form-control form-control-user" value="{{ $user->username }}" id="exampleInputEmail" aria-describedby="emailHelp" readonly>
                         @error('username') <div class="text-danger">{{ $message }}</div> @enderror
 
                     </div>
-                    <label for="new_password" class="form-label">Mật khẩu :</label>
+                    <label for="new_password" class="form-label">Mật khẩu mới:</label>
                     <div class="input-group">
-                                <input type="password" name="password" class="form-control" id="password">
-                                <div class="input-group-append">
-                                    <button type="button" class="btn btn-outline-secondary show-password" onclick="togglePassword('password')">
-                                        <i class="fa-regular fa-eye"></i> Show
-                                    </button>
-                                </div>
-                            </div>
-                            @error('password') <div class="text-danger">{{ $message }}</div> @enderror
-
-                            <label for="confirm_password" class="form-label">Nhập lại mật khẩu:</label>
-                            <div class="input-group">
-                                <input type="password" name="confirm_password" class="form-control" id="confirm_password">
-                                <div class="input-group-append">
-                                    <button type="button" class="btn btn-outline-secondary show-password" onclick="togglePassword('confirm_password')">
-                                        <i class="fa-regular fa-eye"></i> Show
-                                    </button>
-                                </div>
-                            </div>
-                            @error('confirm_password') <div class="text-danger">{{ $message }}</div> @enderror
-                    <button type="submit" class="btn btn-danger">Tạo</button>
+                        <input type="password" name="password" class="form-control" id="password">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-secondary show-password" onclick="togglePassword('password')">
+                                <i class="fa-regular fa-eye"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                    @error('password') <div class="text-danger">{{ $message }}</div> @enderror
+                    <label for="confirm_password" class="form-label">Nhập lại mật khẩu mới:</label>
+                    <div class="input-group">
+                        <input type="password" name="confirm_password" class="form-control" id="confirm_password">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-secondary show-password" onclick="togglePassword('confirm_password')">
+                                <i class="fa-regular fa-eye"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                    @error('confirm_password') <div class="text-danger">{{ $message }}</div> @enderror
+                    <button type="submit" class="btn btn-danger">Đăng ký</button>
                 </form>
             </div>
-
 
 
 

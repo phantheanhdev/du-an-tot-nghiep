@@ -26,27 +26,34 @@
                 <div class="col-md-12">
                     <div class="row table-responsive mt-3" id="nonPayOrder">
                         <table id="myTable" class="table table-hover">
-                            <thead class="">
+                            <thead>
                                 <tr>
                                     <th>Bàn</th>
-                                    <th>Sản phảm</th>
+                                    <th>Sản phẩm</th>
                                     <th>Giá tiền</th>
                                     <th>Thời gian</th>
-                                    <th>Điểm </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($customer->orders as $item)
-                                    <tr>
-                                        @if ($item->status == 5)
+                                    @if ($item->status == 5)
+                                        <tr>
                                             <td>{{ $item->table->name }}</td>
-                                            @foreach ($item->orderDetails as $value)
-                                                <td>{{ $value->product->name }}</td>
-                                            @endforeach
+                                            <td>
+                                                <ul style="list-style: none; padding: 0;">
+                                                    @foreach ($item->orderDetails as $value)
+                                                        <li style="text-align: left">
+                                                            <p class="my-2 h6" style="color: #DFA018">
+                                                                {{ $value->product->name }}
+                                                            </p>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </td>
                                             <td>{{ $item->total_price }}</td>
                                             <td>{{ $item->created_at }}</td>
-                                        @endif
-                                    </tr>
+                                        </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>
