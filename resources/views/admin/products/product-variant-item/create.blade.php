@@ -26,7 +26,7 @@
                     <form action="{{ route('products-variant-item.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label>Variant Name</label>
+                            <label>Tên biến thể</label>
                             <input type="text" class="form-control" name="variant_name" value="{{ $variant->name }}"
                                 readonly>
                         </div>
@@ -39,17 +39,17 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Item Name</label>
+                            <label>Tên item</label>
                             <input type="text" class="form-control" name="name" value="{{ old('name') }}">
                         </div>
 
                         <div class="form-group">
-                            <label>Price <code>(Set 0 for make it free)</code></label>
+                            <label>Giá <code>(Đặt 0 để làm cho nó miễn phí)</code></label>
                             <input type="text" class="form-control" name="price" value="{{ old('price') }}">
                         </div>
 
 
-                        <button type="submmit" class="btn btn-primary">Create</button>
+                        <button type="submmit" class="btn btn-primary">Thêm</button>
                     </form>
                 </div>
             </div>
