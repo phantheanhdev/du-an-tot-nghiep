@@ -24,7 +24,7 @@
                 <input hidden value="Completed" id="lblCompleted" />
                 <input hidden value="2" id="txtTableId" />
 
-                <div class="col-md-12">
+                <div class="col-md-12 mt-5">
                     <div class="row table-responsive" id="nonPayOrder">
                         <table class="table table-hover">
                             <thead class="thead-dark">

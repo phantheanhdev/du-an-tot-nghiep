@@ -73,7 +73,7 @@
         <div id="page-wrapper" class="gray-bg">
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary box-shadow mb-3">
                 <div class="container">
-                    <a class="navbar-brand" href="restaurant-manager">QR MENU</a>
+                    <a class="navbar-brand" href="restaurant-manager">FOODIE</a>
                     <button class="custom-toggler navbar-toggler" type="button" data-toggle="collapse"
                         data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false"
                         aria-label="Toggle navigation">
@@ -82,7 +82,7 @@
                     </button>
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav mx-auto">
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <div class="dropdown profile-element">
                                     <a class="nav-link" data-toggle="dropdown" aria-expanded="false">
                                         <span>
@@ -145,7 +145,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </li>
+                            </li> --}}
                         </ul>
 
                         <ul class="nav navbar-top-links">
@@ -197,21 +197,21 @@
                             <div class="contact-box center-version">
                                 <a style="text-decoration:none; color:black;">
                                     <img alt="image" class="img-lg"
-                                        src="/images/logos/80735333-a467-43a8-ad98-36c55b23711b.jpg">
-                                    <h3 class="m-b-xs"><strong>
+                                        src="{{ asset('storage/images/icon_form_user.svg') }}">
+                                    <h3 class="m-b-xs">Xin chào: <strong>
                                             @php
                                                 if (Session::has('username') && Session::get('username') != '') {
                                                     echo Session::get('username');
                                                 }
                                             @endphp
                                         </strong></h3>
-                                    <address class="m-t-md">
+                                    {{-- <address class="m-t-md">
                                         Quang<br>
                                         <abbr title="Phone"><i class="fa fa-phone"></i></abbr>
                                         <p> (098) 765-4321</p>
                                     </address>
                                     <strong>Description</strong>
-                                    <p>Linh</p>
+                                    <p>Linh</p> --}}
                                 </a>
 
                                 <div class="contact-box-footer">
@@ -297,7 +297,7 @@
                                         <button id="btnOrder" onclick="getLink('reviews')"
                                             class="btn btn-outline btn-primary btn-block">
                                             <i class="fa-solid fa-table-columns float-left mt-1"></i>
-                                            Quản lý feedback</button>
+                                            Phản hồi</button>
                                     @endif
                                 </div>
                             </div>
