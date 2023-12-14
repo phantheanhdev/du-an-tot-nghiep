@@ -23,8 +23,8 @@
 
                 <div class="col-md-12">
                     <div class="row table-responsive" id="nonPayOrder">
-                        <table class="table table-hover">
-                            <thead class="thead-dark">
+                        <table id="myTable" class="table table-hover">
+                            <thead >
                                 <tr>
                                     <th>Bàn</th>
                                     <th>Sản phẩm</th>
@@ -58,8 +58,7 @@
                                                             @foreach ($variant2 as $value)
                                                                 - {{ $value->name }}<br>
 
-                                                                <input type="hidden"
-                                                                    value="{{ $value->price }}">
+                                                                <input type="hidden" value="{{ $value->price }}">
                                                             @endforeach
                                                         @endif
 
@@ -202,16 +201,19 @@
                         row += '<ul style="list-style: none; padding: 0;">';
 
                         $.each(order.order_details, function(index, orderDetail) {
-                            row += '<li style="text-align: left"> <p class="my-2 h6" style="color: #DFA018">' + orderDetail.quantity + ' x ' + orderDetail
+                            row +=
+                                '<li style="text-align: left"> <p class="my-2 h6" style="color: #DFA018">' +
+                                orderDetail.quantity + ' x ' + orderDetail
                                 .product_name + '</p>';
 
                             let parse_item = JSON.parse(orderDetail.item)
                             let parse_item2 = JSON.parse(parse_item)
 
-                            if(parse_item2 != null){
-                                $.each(parse_item2, function(index, value){
+                            if (parse_item2 != null) {
+                                $.each(parse_item2, function(index, value) {
                                     row += '-' + value.name + '<br>'
-                                    row += '<input type="hidden" value=" ' + value.price + '">'
+                                    row += '<input type="hidden" value=" ' + value
+                                        .price + '">'
                                 });
                             }
 
@@ -297,4 +299,11 @@
             window.open('', '_blank');
         }
     </script>
+    @push('scripts')
+        <script>
+            let table = new DataTable('#myTable', {
+                responsive: true
+            });
+        </script>
+    @endpush
 @endsection
