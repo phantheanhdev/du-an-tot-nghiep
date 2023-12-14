@@ -84,6 +84,8 @@
                                                 method="POST" target="_blank">
                                                 @csrf
                                                 @method('PATCH')
+                                                <input type="hidden" name="phone" value="{{ $order->phone }}">
+                                                <input type="hidden" name="total" value="{{ $order->total_price }}">
                                                 @if ($order->status === 1)
                                                     <a class="btn btn-warning btn-sm float-end mx-1"
                                                         href="{{ url('/order-form/' . $order->id) }}" target="_blank"><i
@@ -231,7 +233,7 @@
         }
 
 
-        // setInterval(updateTable, 3000); // Adjust the interval as needed
+        setInterval(updateTable, 5000); // Adjust the interval as needed
     </script>
 
 <script>
