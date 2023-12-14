@@ -22,7 +22,7 @@
         .component__item-editor {
 
             /* -webkit-box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
-                                                                                                                                                                                                                                            box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
+                                                                                                                                                                                                                                                    box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
             main padding: 2px;
             border-radius: 8px;
             margin-bottom: 10px;
@@ -332,40 +332,45 @@
                                                     </div>
                                                     <hr>
                                                 @endforeach
-                                            @endif
 
-                                            @if (auth()->check() && Auth::guard('customer')->user()->point > 0)
-                                                <input type="hidden" value="{{ Auth::guard('customer')->user()->point }}"
-                                                    id="point">
-                                                <input type="hidden" value="" id="pointAdd" name="point">
-                                                <div style="display: flex; justify-content: space-between;"
-                                                    id="show-point-2">
-                                                    <div class="">
-                                                        <input type="checkbox" class="mr-2" id="buttonSubmit">
-                                                        <label for="buttonSubmit" class=""
-                                                            style="font-size: 14px">Dùng
-                                                            {{ number_format(Auth::guard('customer')->user()->point) }}
-                                                            điểm Foodie</label>
+
+                                                @if (auth()->check() && Auth::guard('customer')->user()->point > 0)
+                                                    <input type="hidden"
+                                                        value="{{ Auth::guard('customer')->user()->point }}" id="point">
+                                                    <input type="hidden" value="" id="pointAdd" name="point">
+                                                    <div style="display: flex; justify-content: space-between;"
+                                                        id="show-point-2">
+                                                        <div class="">
+                                                            <input type="checkbox" class="mr-2" id="buttonSubmit">
+                                                            <label for="buttonSubmit" class=""
+                                                                style="font-size: 14px">Dùng
+                                                                {{ number_format(Auth::guard('customer')->user()->point) }}
+                                                                điểm Foodie</label>
+                                                        </div>
+                                                        <div class="">
+                                                            <p class="text-danger" style="font-size: 14px">
+                                                                -{{ number_format(Auth::guard('customer')->user()->point) }}
+                                                                đ
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                    <div class="">
-                                                        <p class="text-danger" style="font-size: 14px">
-                                                            -{{ number_format(Auth::guard('customer')->user()->point) }} đ
-                                                        </p>
+                                                @endif
+
+                                                <div class="total-price__v2 mb-2">
+                                                    <input type="hidden" value="{{ $total }}" id="total_price"
+                                                        name="total_price">
+                                                    <div>
+                                                        <h3><b>Tổng tiền</b></h3>
+                                                    </div>
+                                                    <div>
+                                                        <h3><b id="total">{{ number_format($total) }} đ</b></h3>
                                                     </div>
                                                 </div>
+                                            @else
+                                                <center>
+                                                    <h4 class="mt-2 mb-2"><img src="{{ asset('empty-cart.png') }}"> <b> Giỏ hàng trống !</b></h4>
+                                                </center>
                                             @endif
-
-                                            <div class="total-price__v2 mb-2">
-                                                <input type="hidden" value="{{ $total }}" id="total_price"
-                                                    name="total_price">
-                                                <div>
-                                                    <h3><b>Tổng tiền</b></h3>
-                                                </div>
-                                                <div>
-                                                    <h3><b id="total">{{ number_format($total) }} đ</b></h3>
-                                                </div>
-                                            </div>
-
 
                                         </div>
 
@@ -597,51 +602,51 @@
                                                                     </div>
                                                                     <div id="menuFeatureList" class="mt-1 ">
                                                                         @foreach ($product->variants as $variant)
-                                                                        <div class="box">
-                                                                            <h5 class="menu-options-title">
-                                                                                {{ $variant->name }}</h5>
-                                                                            <ul class="clearfix">
-                                                                                @if ($variant->multi_choice === 0)
-                                                                                    @foreach ($variant->productVariantItems as $variantItem)
-                                                                                        <li>
-                                                                                            <label
-                                                                                                class="container_check menu-options-text">
-                                                                                                {{ $variantItem->name }}
-                                                                                                <span class="gia">+
-                                                                                                    {{ number_format($variantItem->price) }}đ</span>
-                                                                                                <input type="radio"
-                                                                                                    class="form-check-input"
-                                                                                                    type="radio"
-                                                                                                    name="variants_items[]"
-                                                                                                    id="variants_item"
-                                                                                                    value="{{ $variantItem->id }}"
-                                                                                                    required> <span
-                                                                                                    class="checkmark"></span>
-                                                                                            </label>
-                                                                                        </li>
-                                                                                    @endforeach
+                                                                            <div class="box">
+                                                                                <h5 class="menu-options-title">
+                                                                                    {{ $variant->name }}</h5>
+                                                                                <ul class="clearfix">
+                                                                                    @if ($variant->multi_choice === 0)
+                                                                                        @foreach ($variant->productVariantItems as $variantItem)
+                                                                                            <li>
+                                                                                                <label
+                                                                                                    class="container_check menu-options-text">
+                                                                                                    {{ $variantItem->name }}
+                                                                                                    <span class="gia">+
+                                                                                                        {{ number_format($variantItem->price) }}đ</span>
+                                                                                                    <input type="radio"
+                                                                                                        class="form-check-input"
+                                                                                                        type="radio"
+                                                                                                        name="variants_items[]"
+                                                                                                        id="variants_item"
+                                                                                                        value="{{ $variantItem->id }}"
+                                                                                                        required> <span
+                                                                                                        class="checkmark"></span>
+                                                                                                </label>
+                                                                                            </li>
+                                                                                        @endforeach
 
-                                                                                    <br>
-                                                                                @elseif($variant->multi_choice === 1)
-                                                                                    @foreach ($variant->productVariantItems as $variantItem)
-                                                                                        <li>
-                                                                                            <label
-                                                                                                class="container_check menu-options-text">
-                                                                                                {{ $variantItem->name }}
-                                                                                                <span class="gia">+
-                                                                                                    {{ number_format($variantItem->price) }}đ</span>
-                                                                                                <input type="checkbox"
-                                                                                                    name="variants_items[]"
-                                                                                                    id="variants_item"
-                                                                                                    value="{{ $variantItem->id }}">
-                                                                                                <span
-                                                                                                    class="checkmark"></span>
-                                                                                            </label>
-                                                                                        </li>
-                                                                                    @endforeach
-                                                                                @endif
-                                                                            </ul>
-                                                                        </div>
+                                                                                        <br>
+                                                                                    @elseif($variant->multi_choice === 1)
+                                                                                        @foreach ($variant->productVariantItems as $variantItem)
+                                                                                            <li>
+                                                                                                <label
+                                                                                                    class="container_check menu-options-text">
+                                                                                                    {{ $variantItem->name }}
+                                                                                                    <span class="gia">+
+                                                                                                        {{ number_format($variantItem->price) }}đ</span>
+                                                                                                    <input type="checkbox"
+                                                                                                        name="variants_items[]"
+                                                                                                        id="variants_item"
+                                                                                                        value="{{ $variantItem->id }}">
+                                                                                                    <span
+                                                                                                        class="checkmark"></span>
+                                                                                                </label>
+                                                                                            </li>
+                                                                                        @endforeach
+                                                                                    @endif
+                                                                                </ul>
+                                                                            </div>
                                                                         @endforeach
 
                                                                     </div>
@@ -1053,8 +1058,8 @@
                     var itemPriceText = itemPriceElement.textContent.trim(); // Lấy giá mục
                     var itemPrice = parseFloat(itemPriceText.replace('+', '').replace('đ', '').replace(',',
                         '')); // Chuyển đổi giá thành số
-                        selectedVariantPrice+= itemPrice;
-                        console.log(selectedVariantPrice);
+                    selectedVariantPrice += itemPrice;
+                    console.log(selectedVariantPrice);
 
                 } else {
                     console.error('Item name element not found');
@@ -1263,7 +1268,7 @@
             if (confirm("Bạn có muốn xóa toàn bộ sản phẩm không? ")) {
                 $.ajax({
                     url: '/remove-cart',
-                    method: "DELETE",
+                    method: "POST",
                     data: {
                         _token: csrfToken,
                     },
@@ -1290,7 +1295,7 @@
             var total = 0;
             var cartContentsHtml = '';
 
-            if (cart) {
+            if (Object.keys(cart).length > 0) {
                 for (var id in cart) {
                     var item = cart[id];
                     total += item['price'] * item['quantity'];
@@ -1340,10 +1345,25 @@
                         '<hr>';
                 }
             } else {
-                cartContentsHtml = '<p>Your cart is empty</p>';
+                cartContentsHtml = '<center><h4 class="mt-2 mb-2"><img src="{{ asset('empty-cart.png') }}"> <b> Giỏ hàng trống !</b></h4></center>';
             }
 
-            // Your existing logic for points here
+            @if (auth()->check() && Auth::guard('customer')->user()->point > 0)
+                cartContentsHtml +=
+                    '<input type="hidden" value="{{ Auth::guard('customer')->user()->point }}" id="point">';
+                cartContentsHtml += '<input type="hidden" value="" id="pointAdd" name="point">';
+                cartContentsHtml += '<div style="display: flex; justify-content: space-between;" id="show-point-2">';
+                cartContentsHtml += '<div class="">';
+                cartContentsHtml += '<input type="checkbox" class="mr-2" id="buttonSubmit">';
+                cartContentsHtml += '<label for="buttonSubmit" class="" style="font-size: 14px">Dùng ' +
+                    '{{ number_format(Auth::guard('customer')->user()->point) }} điểm Foodie</label>';
+                cartContentsHtml += '</div>';
+                cartContentsHtml += '<div class="">';
+                cartContentsHtml += '<p class="text-danger" style="font-size: 14px">' +
+                    '-{{ number_format(Auth::guard('customer')->user()->point) }} đ</p>';
+                cartContentsHtml += '</div>';
+                cartContentsHtml += '</div>';
+            @endif
 
             var formattedTotal = formatNumberWithCommas(total);
 
