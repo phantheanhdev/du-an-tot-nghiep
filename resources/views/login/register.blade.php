@@ -1,6 +1,6 @@
 @extends('admin.layout.content')
 @section('main-content')
-<div class="col-md-9" style="font-size: large;">
+<div class="col-12 col-lg-9" style="font-size: large;">
     <div class="ibox float-e-margins" id="boxOrder">
         <div class="ibox-content">
             <div class="sk-spinner sk-spinner-wave">

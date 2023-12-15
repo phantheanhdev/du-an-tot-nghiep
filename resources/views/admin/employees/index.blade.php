@@ -1,6 +1,6 @@
 @extends('admin.layout.content')
 @section('main-content')
-    <div class="col-md-9">
+    <div class="col-12 col-lg-9">
         @include('error')
         <div class="ibox float-e-margins" id="boxOrder">
             <div class="ibox-content">
