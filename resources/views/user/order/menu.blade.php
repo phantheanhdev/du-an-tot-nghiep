@@ -22,7 +22,7 @@
         .component__item-editor {
 
             /* -webkit-box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
-                                                                                                                                                                                                                                                                                            box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
+                                                                                                                                                                                                                                                                                                box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
             main padding: 2px;
             border-radius: 8px;
             margin-bottom: 10px;
@@ -392,10 +392,10 @@
                                     <h3 class=" d-flex text-qrRest-dark font-weight-bold text-styling">Chào
                                         <b class="mx-1">
                                             <?php
-
+                                            
                                             date_default_timezone_set('Asia/Ho_Chi_Minh');
                                             $currentHour = date('G');
-
+                                            
                                             if ($currentHour >= 5 && $currentHour < 10) {
                                                 $timeOfDay = 'buổi sáng';
                                             } elseif ($currentHour >= 10 && $currentHour < 13) {
@@ -405,7 +405,7 @@
                                             } else {
                                                 $timeOfDay = 'buổi tối';
                                             }
-
+                                            
                                             echo "$timeOfDay";
                                             ?>
                                             @if (auth()->check())
@@ -481,7 +481,7 @@
 
                                                                     </span>
                                                                 @endif
-                                                                ipu
+                                                                
                                                                 <small class="text-muted"> {{ $categoryName }} </small>
                                                                 <a class="product-name"
                                                                     id="product-name-{{ $product->id }}">{{ $product->name }}</a>
@@ -532,39 +532,37 @@
                                                                     <input type="hidden"
                                                                         id="product-img-{{ $product->id }}"
                                                                         value="{{ $product->image }}">
-                                                                        <div style="background-color:transparent">
-                                                                            @if ($product->flashSale === 1)
+                                                                    <div style="background-color:transparent">
+                                                                        @if ($product->flashSale === 1)
+                                                                            @php
+                                                                                $saleProduct = \App\Models\FlashSaleItem::where('product_id', $product->id)->first();
+
+                                                                                $start_date = $saleProduct->start_date;
+
+                                                                                $end_date = $saleProduct->end_date;
+
+                                                                                $discount_rate = $saleProduct->discount_rate;
+
+                                                                            @endphp
+                                                                            @if ($product->flashSale === 1 && now()->between($start_date, $end_date))
                                                                                 @php
-                                                                                    $saleProduct = \App\Models\FlashSaleItem::where('product_id', $product->id)->first();
 
-                                                                                    $start_date = $saleProduct->start_date;
-
-                                                                                    $end_date = $saleProduct->end_date;
-
-                                                                                    $discount_rate = $saleProduct->discount_rate;
-
+                                                                                    $newPrice = newPrice($product->price, $discount_rate);
                                                                                 @endphp
-                                                                                @if ($product->flashSale === 1 && now()->between($start_date, $end_date))
-                                                                                    @php
-
-                                                                                        $newPrice = newPrice($product->price, $discount_rate);
-                                                                                    @endphp
-
-                                                                                    <input type="hidden"
-                                                                                            id="product-price-{{ $product->id }}"
-                                                                                            value="{{ $newPrice }}">
-                                                                                @else
-
-                                                                                    <input type="hidden"
-                                                                                    id="product-price-{{ $product->id }}"
-                                                                                    value="{{ $product->price }}">
-                                                                                @endif
-                                                                            @else
 
                                                                                 <input type="hidden"
-                                                                                        id="product-price-{{ $product->id }}"
-                                                                                        value="{{ $product->price }}">
+                                                                                    id="product-price-{{ $product->id }}"
+                                                                                    value="{{ $newPrice }}">
+                                                                            @else
+                                                                                <input type="hidden"
+                                                                                    id="product-price-{{ $product->id }}"
+                                                                                    value="{{ $product->price }}">
                                                                             @endif
+                                                                        @else
+                                                                            <input type="hidden"
+                                                                                id="product-price-{{ $product->id }}"
+                                                                                value="{{ $product->price }}">
+                                                                        @endif
                                                                     </div>
                                                                     <div id="menuFeatureList">
                                                                         @foreach ($product->variants as $variant)
