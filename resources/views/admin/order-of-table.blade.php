@@ -111,7 +111,7 @@
                                                     <a class="btn btn-secondary btn-sm float-end mx-1 print-btn"
                                                         href="{{ url('/order-form/' . $order->id) }}" target="_blank"><i
                                                             class="fa-solid fa-print"></i></a>
-                                                    <button type="submit" name="status" value="5"
+                                                    <button type="submit" name="status" value="5" onclick="meny()"
                                                         class="btn btn-primary btn-sm float-end mx-1"><i
                                                             class="fa-solid fa fa-credit-card mt-1"></i></button>
                                                 @endif
@@ -171,6 +171,11 @@
     </script>
     <!-- Add the following script to your page -->
     <script>
+        function meny(){
+            var audio = new Audio('{{ asset('meny.mp3') }}');
+            audio.play();
+            updateTable();
+        }
         function formatDateTime(dateTimeString) {
             const date = new Date(dateTimeString);
             const year = date.getFullYear();
