@@ -184,6 +184,11 @@
             return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
         }
 
+
+        function formatNumberWithCommas(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
         function updateTable() {
             var idtable = document.getElementById("id").value;
             $.ajax({
@@ -224,7 +229,7 @@
                         row += '</td>';
                         row += '<td>' + (order.note ? order.note : 'Không Có') + '</td>';
                         row += '<td>' + formatDateTime(order.created_at) + '</td>';
-                        row += '<td>' + order.total_price + ' VNĐ</td>';
+                        row += '<td>' + formatNumberWithCommas(order.total_price) + ' VNĐ</td>';
                         row += '<td>';
 
                         if (order.status == 0) {

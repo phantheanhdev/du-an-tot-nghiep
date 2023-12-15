@@ -1168,7 +1168,7 @@
             updateCart()
             var total_price = document.getElementById('total_price')
             if (total_price.value > 0) {
-                Command: toastr["warning"]("Đang gửi yêu cầu đặt món")
+                Command: toastr["warning"]("Đang yêu cầu đặt món")
 
                 toastr.options = {
                     "closeButton": false,
