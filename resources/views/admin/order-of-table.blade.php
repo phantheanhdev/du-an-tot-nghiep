@@ -26,13 +26,13 @@
                         <table id="myTable" class="table table-hover">
                             <thead >
                                 <tr>
-                                    <th>Bàn</th>
-                                    <th>Sản phẩm</th>
-                                    <th>Ghi chú </th>
-                                    <th>Thời Gian </th>
-                                    <th>Tổng Tiền </th>
-                                    <th>Trạng Thái</th>
-                                    <th>Hành Động</th>
+                                    <th scope="col">Bàn</th>
+                                    <th scope="col">Sản phẩm</th>
+                                    <th scope="col">Ghi chú </th>
+                                    <th scope="col">Thời Gian </th>
+                                    <th scope="col">Tổng Tiền </th>
+                                    <th scope="col">Trạng Thái</th>
+                                    <th scope="col">Hành Động</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -78,9 +78,9 @@
                                         <td>{{ formatNumberPrice($order->total_price) }}</td>
                                         <td>
                                             @if ($order->status == 0)
-                                                <div class=" bg-primary fs-1 rounded"><span>Chưa xác nhận</span></div>
+                                            <span class="badge badge-warning">Chưa xác nhận</span>
                                             @elseif ($order->status === 1)
-                                                <div class="bg-warning fs-1 rounded"><span>Đã xác nhận</span></div>
+                                            <span class="badge badge-success">Đã xác nhận</span>
                                             @endif
                                         </td>
                                         <td>
@@ -234,10 +234,10 @@
 
                         if (order.status == 0) {
                             row +=
-                                '<div class="bg-primary fs-1 rounded"><span>Chưa xác nhận</span></div>';
+                            '<span class="badge badge-warning">Chưa xác nhận</span>';
                         } else if (order.status === 1) {
                             row +=
-                                '<div class="bg-warning fs-1 rounded"><span>Đã xác nhận</span></div>';
+                            '<span class="badge badge-success">Đã xác nhận</span>';
                         }
 
                         row += '</td>';

@@ -14,8 +14,9 @@ class AdminDashboardController extends Controller
     public function index()
     {
         //Thống kê doanh thu theo ngày - tháng - năm
-        $todaysOrder = Order::whereDate('created_at', Carbon::today())->where('status', 5)->count();
+        $todaysOrder = Order::whereDate('created_at', Carbon::today())->count();
         $totalPendingOrders = Order::where('status', 0)->count();
+        $totalCompleteOrders = Order::where('status', 5)->count();
 
         $todaysEarnings = Order::where('status', 5)
             ->whereDate('order_day', Carbon::today())
@@ -69,6 +70,7 @@ class AdminDashboardController extends Controller
         return view('admin.dashboard.index', compact(
             'todaysOrder',
             'totalPendingOrders',
+            'totalCompleteOrders',
             'todaysEarnings',
             'monthEarnings',
             'yearEarnings',

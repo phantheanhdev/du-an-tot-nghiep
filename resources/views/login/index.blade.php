@@ -42,9 +42,9 @@
                                 <td>{{$user->username }}</td>
                                 <td>
                                     @if ($user->role == 0)
-                                    <div class=" bg-primary fs-1 rounded"><span>Nhân viên</span></div>
+                                    <span class="badge badge-primary">Nhân viên</span>
                                     @elseif ($user->role === 1)
-                                    <div class="bg-warning fs-1 rounded"><span>Admin</span></div>
+                                    <span class="badge badge-danger">Admin</span>
                                     @endif
                                 </td>
                                 <td class="d-flex justify-content-center">
