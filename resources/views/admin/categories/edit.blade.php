@@ -1,7 +1,7 @@
 @extends('admin.layout.content')
 
 @section('main-content')
-    <div class="col-md-9">
+    <div class="col-12 col-lg-9">
         <div class="ibox float-e-margins" id="boxOrder">
             <div class="ibox-content">
                 <h3 class="text-qr Rest-dark text-center p-2">
