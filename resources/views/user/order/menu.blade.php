@@ -532,8 +532,7 @@
                                                                     <input type="hidden"
                                                                         id="product-img-{{ $product->id }}"
                                                                         value="{{ $product->image }}">
-                                                                    <div class="row bg-danger">
-                                                                        <div class="float-right">
+                                                                        <div style="background-color:transparent">
                                                                             @if ($product->flashSale === 1)
                                                                                 @php
                                                                                     $saleProduct = \App\Models\FlashSaleItem::where('product_id', $product->id)->first();
@@ -550,40 +549,24 @@
 
                                                                                         $newPrice = newPrice($product->price, $discount_rate);
                                                                                     @endphp
-                                                                                    <span class=""
-                                                                                        style="font-size: 20px;">
-                                                                                        <del class="px-2 bg-danger">
-                                                                                            {{ number_format($product->price) }}
-                                                                                            đ</del>
-                                                                                        {{ number_format($newPrice) }}
-                                                                                        đ
-                                                                                        <input type="hidden"
+                                                                                    
+                                                                                    <input type="hidden"
                                                                                             id="product-price-{{ $product->id }}"
                                                                                             value="{{ $newPrice }}">
-                                                                                    </span>
                                                                                 @else
-                                                                                    <span class="px-2"
-                                                                                        style="font-size: 20px;">
-                                                                                        {{ number_format($product->price) }}
-                                                                                        đ
-                                                                                        <input type="hidden"
-                                                                                            id="product-price-{{ $product->id }}"
-                                                                                            value="{{ $product->price }}">
-                                                                                    </span>
+                                                                                    
+                                                                                    <input type="hidden"
+                                                                                    id="product-price-{{ $product->id }}"
+                                                                                    value="{{ $product->price }}">
                                                                                 @endif
                                                                             @else
-                                                                                <span class="px-2"
-                                                                                    style="font-size: 20px;">
-                                                                                    {{ number_format($product->price) }} đ
-                                                                                    <input type="hidden"
+                                                                               
+                                                                                <input type="hidden"
                                                                                         id="product-price-{{ $product->id }}"
                                                                                         value="{{ $product->price }}">
-                                                                                </span>
                                                                             @endif
-
-                                                                        </div>
                                                                     </div>
-                                                                    <div id="menuFeatureList" class="mt-1 ">
+                                                                    <div id="menuFeatureList">
                                                                         @foreach ($product->variants as $variant)
                                                                             <div class="box">
                                                                                 <h5 class="menu-options-title">

@@ -97,8 +97,7 @@
                                                         class="btn btn-info btn-sm float-end mx-1"><i
                                                             class="fa-solid fa-check px-1"></i></button>
                                                     <button type="submit" name="status" value="2"
-                                                        class="btn btn-danger btn-sm float-end mx-1"><i
-                                                            class="fa-solid fa-xmark px-1"></i></button>
+                                                        class="btn btn-danger btn-sm float-end mx-1"><i class="fa-solid fa fa-trash-o"></i></button>
                                                 @endif
                                             </form>
                                             <form action="{{ route('admin.orders.updateStatus', ['id' => $order->id]) }}"
@@ -109,12 +108,12 @@
                                                 <input type="hidden" name="total" value="{{ $order->total_price }}">
 
                                                 @if ($order->status === 1)
-                                                    <a class="btn btn-warning btn-sm float-end mx-1 print-btn"
+                                                    <a class="btn btn-secondary btn-sm float-end mx-1 print-btn"
                                                         href="{{ url('/order-form/' . $order->id) }}" target="_blank"><i
                                                             class="fa-solid fa-print"></i></a>
                                                     <button type="submit" name="status" value="5"
-                                                        class="btn btn-warning btn-sm float-end mx-1"><i
-                                                            class="fa-solid fa-money-bill-1-wave"></i></button>
+                                                        class="btn btn-primary btn-sm float-end mx-1"><i
+                                                            class="fa-solid fa fa-credit-card mt-1"></i></button>
                                                 @endif
                                             </form>
 
