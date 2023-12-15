@@ -61,7 +61,7 @@
                                                         <ul style="list-style: none; padding: 0;">
                                                             @foreach ($item->orderDetails as $orderDetail)
                                                                 <li style="text-align: left">
-                                                                    <p class="my-2 h6" style="color: #DFA018">
+                                                                    <p class="my-2 h6" style="color: #910400">
                                                                         {{ $orderDetail->quantity }} x
                                                                         {{ $orderDetail->product->name }}
                                                                     </p>
@@ -159,7 +159,7 @@
                                                     <ul style="list-style: none; padding: 0;">
                                                         @foreach ($item->orderDetails as $orderDetail)
                                                             <li style="text-align: left">
-                                                                <p class="my-2 h6" style="color: #DFA018">
+                                                                <p class="my-2 h6" style="color: #910400">
                                                                     {{ $orderDetail->quantity }} x
                                                                     {{ $orderDetail->product->name }}
                                                                 </p>
@@ -237,7 +237,7 @@
                                                     <ul style="list-style: none; padding: 0;">
                                                         @foreach ($item->orderDetails as $orderDetail)
                                                             <li style="text-align: left">
-                                                                <p class="my-2 h6" style="color: #DFA018">
+                                                                <p class="my-2 h6" style="color: #910400">
                                                                     {{ $orderDetail->quantity }} x
                                                                     {{ $orderDetail->product->name }}
                                                                 </p>
