@@ -73,7 +73,7 @@
         <div id="page-wrapper" class="gray-bg">
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary box-shadow mb-3">
                 <div class="container">
-                    <a class="navbar-brand" href="restaurant-manager">FOODIE</a>
+                    <a class="navbar-brand" href="{{route('restaurant-manager')}}">FOODIE</a>
                     <button class="custom-toggler navbar-toggler" type="button" data-toggle="collapse"
                         data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false"
                         aria-label="Toggle navigation">
@@ -297,7 +297,7 @@
                             const getLink = (param) => {
                                 switch (param) {
                                     case 'dashboard':
-                                        window.location.href = 'dashboard';
+                                        window.location.href = '/dashboard';
                                         return;
                                     case 'restaurant-manager':
                                         window.location.href = '/restaurant-manager';
