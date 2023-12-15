@@ -199,12 +199,12 @@
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary box-shadow mb-3">
                 <div class="container">
                     <a class="navbar-brand" href="#">FOODIE MENU</a>
-                    <button class="custom-toggler navbar-toggler" type="button" data-toggle="collapse"
+                    {{-- <button class="custom-toggler navbar-toggler" type="button" data-toggle="collapse"
                         data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false"
                         aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"><i class="fa fa-bars"
                                 style="color:#fafafa; font-size:28px;"></i></span>
-                    </button>
+                    </button> --}}
                     {{-- <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav mx-auto">
 
@@ -392,10 +392,10 @@
                                     <h3 class=" d-flex text-qrRest-dark font-weight-bold text-styling">Chào
                                         <b class="mx-1">
                                             <?php
-                                            
+
                                             date_default_timezone_set('Asia/Ho_Chi_Minh');
                                             $currentHour = date('G');
-                                            
+
                                             if ($currentHour >= 5 && $currentHour < 10) {
                                                 $timeOfDay = 'buổi sáng';
                                             } elseif ($currentHour >= 10 && $currentHour < 13) {
@@ -405,7 +405,7 @@
                                             } else {
                                                 $timeOfDay = 'buổi tối';
                                             }
-                                            
+
                                             echo "$timeOfDay";
                                             ?>
                                             @if (auth()->check())
@@ -549,18 +549,18 @@
 
                                                                                         $newPrice = newPrice($product->price, $discount_rate);
                                                                                     @endphp
-                                                                                    
+
                                                                                     <input type="hidden"
                                                                                             id="product-price-{{ $product->id }}"
                                                                                             value="{{ $newPrice }}">
                                                                                 @else
-                                                                                    
+
                                                                                     <input type="hidden"
                                                                                     id="product-price-{{ $product->id }}"
                                                                                     value="{{ $product->price }}">
                                                                                 @endif
                                                                             @else
-                                                                               
+
                                                                                 <input type="hidden"
                                                                                         id="product-price-{{ $product->id }}"
                                                                                         value="{{ $product->price }}">

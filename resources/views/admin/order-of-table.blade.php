@@ -24,7 +24,7 @@
                 <div class="col-md-12">
                     <div class="row table-responsive" id="nonPayOrder">
                         <table id="myTable" class="table table-hover">
-                            <thead >
+                            <thead>
                                 <tr>
                                     <th scope="col">Bàn</th>
                                     <th scope="col">Sản phẩm</th>
@@ -78,9 +78,9 @@
                                         <td>{{ formatNumberPrice($order->total_price) }}</td>
                                         <td>
                                             @if ($order->status == 0)
-                                            <span class="badge badge-warning">Chưa xác nhận</span>
+                                                <span class="badge badge-warning">Chưa xác nhận</span>
                                             @elseif ($order->status === 1)
-                                            <span class="badge badge-success">Đã xác nhận</span>
+                                                <span class="badge badge-success">Đã xác nhận</span>
                                             @endif
                                         </td>
                                         <td>
@@ -97,7 +97,8 @@
                                                         class="btn btn-info btn-sm float-end mx-1"><i
                                                             class="fa-solid fa-check px-1"></i></button>
                                                     <button type="submit" name="status" value="2"
-                                                        class="btn btn-danger btn-sm float-end mx-1"><i class="fa-solid fa fa-trash-o"></i></button>
+                                                        class="btn btn-danger btn-sm float-end mx-1"><i
+                                                            class="fa-solid fa fa-trash-o"></i></button>
                                                 @endif
                                             </form>
                                             <form action="{{ route('admin.orders.updateStatus', ['id' => $order->id]) }}"
@@ -171,11 +172,12 @@
     </script>
     <!-- Add the following script to your page -->
     <script>
-        function meny(){
+        function meny() {
             var audio = new Audio('{{ asset('meny.mp3') }}');
             audio.play();
             updateTable();
         }
+
         function formatDateTime(dateTimeString) {
             const date = new Date(dateTimeString);
             const year = date.getFullYear();
@@ -238,10 +240,10 @@
 
                         if (order.status == 0) {
                             row +=
-                            '<span class="badge badge-warning">Chưa xác nhận</span>';
+                                '<span class="badge badge-warning">Chưa xác nhận</span>';
                         } else if (order.status === 1) {
                             row +=
-                            '<span class="badge badge-success">Đã xác nhận</span>';
+                                '<span class="badge badge-success">Đã xác nhận</span>';
                         }
 
                         row += '</td>';
@@ -258,14 +260,24 @@
                             row +=
                                 '<button type="submit" name="status" value="1" class="btn btn-info btn-sm float-end mx-1"><i class="fa-solid fa-check px-1"></i></button>';
                             row +=
-                                '<button type="submit" name="status" value="2" class="btn btn-danger btn-sm float-end mx-1"><i class="fa-solid fa-xmark px-1"></i></button>';
-                        } else if (order.status === 1) {
-                            row += '<a class="btn btn-warning btn-sm float-end mx-1" href="' +
+                                '<button type="submit" name="status" value="2" class="btn btn-danger btn-sm float-end mx-1"><i class="fa-solid fa fa-trash-o"></i></button>';
+                        }
+                        row +=
+                            '</form>';
+                        row += '<form action="' + '/admin/orders/' + order.id +
+                            '/update-status" method="POST" target="_blank">';
+                        row += '<input type="hidden" name="_token" value="' + $(
+                            'meta[name="csrf-token"]').attr('content') + '">';
+                        row += '<input type="hidden" name="_method" value="PATCH">';
+                        row += '<input type="hidden" name="phone" value="' + order.phone + '">';
+                        row += '<input type="hidden" name="total" value="' + order.total_price + '">';
+
+                        if (order.status === 1) {
+                            row += '<a class="btn btn-secondary btn-sm float-end mx-1" href="' +
                                 '/order-form/' + order.id + '"><i class="fa-solid fa-print"></i></a>';
                             row +=
-                                '<button type="submit" name="status" value="5" class="btn btn-warning btn-sm float-end mx-1"><i class="fa-solid fa-money-bill-1-wave"></i></button>';
+                                '<button type="submit" onclick="meny()" name="status" value="5" class="btn btn-primary btn-sm float-end mx-1"><i class="fa-solid fa fa-credit-card mt-1"></i></button>';
                         }
-
                         row += '</form>';
                         row += '</td>';
                         row += '</tr>';
@@ -278,7 +290,6 @@
                 }
             });
         }
-
 
         // setInterval(updateTable, 3000); // Adjust the interval as needed
     </script>
