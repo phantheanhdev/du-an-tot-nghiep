@@ -22,7 +22,7 @@
         .component__item-editor {
 
             /* -webkit-box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
-                                                                                                                                                                                                                                                    box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
+                                                                                                                                                                                                                                                                                            box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
             main padding: 2px;
             border-radius: 8px;
             margin-bottom: 10px;
@@ -155,6 +155,44 @@
         .modal-title {
             font-size: 23px;
         }
+
+        .rating-container {
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rate {
+            text-align: center;
+            width: 200px;
+            height: 200px;
+            ouline: thin solid lightgray;
+        }
+
+        .emoji {
+            font-size: 120px;
+            height: 170px;
+            line-height: 170px;
+        }
+
+        .rating-icon {
+            cursor: ew-resize;
+        }
+
+        .fa-star {
+            font-size: 20px;
+            padding: 3px;
+        }
+
+        .rating-icon {
+            font-size: 30px;
+        }
+
+        .feedback-comment {
+            font-size: 15px;
+            padding: 3px;
+        }
     </style>
     <div id="wrapper">
         <div id="page-wrapper" class="gray-bg">
@@ -199,63 +237,6 @@
                                 </div>
                                 <div class="ibox-content ibox-br">
 
-                                    {{-- <form id="orderForm" enctype="multipart/form-data">
-                                @csrf
-
-                                <input type="hidden" name="table_id" value="{{ $tableId }}">
-                                <input type="hidden" name="status" value="0">
-                                <input type="hidden" name="customer_name" value="BBB">
-                                <input type="hidden" name="phone" value="0">
-                                <input type="hidden" name="customer_phone"
-                                    value="{{ Auth::guard('customer')->user()->phone }}">
-
-
-                                <table class="table table-borderless">
-                                    <tbody id="cartContentsHtml">
-
-                                        @php $total = 0 @endphp
-
-                                        @if (session('cart'))
-                                        @foreach (session('cart') as $id => $details)
-                                        @php $total += $details['price'] * $details['quantity'] @endphp
-                                        <input type="hidden" value="{{ $total }}" id="total_price" name="total_price">
-
-                                        <tr>
-                                            <td style="width:60%" class="cart-item">
-                                                {{ $details['name'] }}<br> <span
-                                                    class="text-menu-description text-muted">fdf</span> </td>
-
-                                            <td><input onblur="updateQuantity()" id="cartquantity-3"
-                                                    class="quantity-input" value="{{ $details['quantity'] }}"></td>
-
-                                            <td style="width:28%;" class="cart-item">
-                                                ${{ number_format($details['price']) }}</td>
-
-                                            <td><a onclick="remove_product({{ $details['id'] }})" class="float-right"><i
-                                                        class="fa fa-times text-qrRestremove-from-cart"></i></a>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                        @endif
-                                        <tr class="spacer">
-                                            <td class="cart-item">
-                                                <h5>Tổng</h5>
-                                            </td>
-                                            <td></td>
-                                            <td class="cart-item"> <strong>{{ number_format($total) }} đ</strong>
-                                            </td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <hr>
-                                <div class="form-group" id="txtOrderIsReady">
-                                    <textarea class="form-control" name="note" maxlength="70" rows="2"
-                                        placeholder="Ghi chú"></textarea>
-                                </div>
-                                <button type="button" id="placeOrder" onclick="submitOrder(<?= $tableNo ?>)"
-                                    class="btn btn-primary btn-outline btn-block mt-4 btn-sm"> Đặt món</button>
-                            </form> --}}
                                     <form id="orderForm" enctype="multipart/form-data">
                                         @csrf
 
@@ -368,7 +349,8 @@
                                                 </div>
                                             @else
                                                 <center>
-                                                    <h4 class="mt-2 mb-2"><img src="{{ asset('empty-cart.png') }}"> <b> Giỏ hàng trống !</b></h4>
+                                                    <h4 class="mt-2 mb-2"><img src="{{ asset('empty-cart.png') }}"> <b>
+                                                            Giỏ hàng trống !</b></h4>
                                                 </center>
                                             @endif
 
@@ -410,10 +392,10 @@
                                     <h3 class=" d-flex text-qrRest-dark font-weight-bold text-styling">Chào
                                         <b class="mx-1">
                                             <?php
-
+                                            
                                             date_default_timezone_set('Asia/Ho_Chi_Minh');
                                             $currentHour = date('G');
-
+                                            
                                             if ($currentHour >= 5 && $currentHour < 10) {
                                                 $timeOfDay = 'buổi sáng';
                                             } elseif ($currentHour >= 10 && $currentHour < 13) {
@@ -423,7 +405,7 @@
                                             } else {
                                                 $timeOfDay = 'buổi tối';
                                             }
-
+                                            
                                             echo "$timeOfDay";
                                             ?>
                                             @if (auth()->check())
@@ -521,7 +503,8 @@
                                                                             data-target="#exampleModalScrollable-product-review-{{ $product->id }}">
                                                                             Đánh giá
 
-                                                                            <i class="fa-solid fa-star mt-1"></i>
+
+                                                                            <i class="fa-solid fa-comment mt-1"></i>
                                                                         </button>
                                                                     </div>
                                                                 </div>
@@ -722,7 +705,9 @@
                                                                             $isBrought = false;
                                                                             $orders = \App\Models\Order::where([
                                                                                 'customer_id' => Auth::guard('customer')->user()->id,
-                                                                            ])->get();
+                                                                            ])
+                                                                                ->orderBy('id', 'desc')
+                                                                                ->get();
                                                                             foreach ($orders as $key => $order) {
                                                                                 $exisItem = $order
                                                                                     ->orderdetails()
@@ -733,7 +718,7 @@
                                                                                 }
                                                                             }
                                                                         @endphp
-                                                                        @if (Auth::guard('customer')->user()->isComment === 1 && $isBrought == true)
+                                                                        @if ($isBrought == true)
                                                                             <div class="product-review mb-4">
                                                                                 <p class="rating">
                                                                                     <span>Số điểm (sao) : </span>
@@ -742,21 +727,18 @@
                                                                                 <div class="row">
 
                                                                                     <div class="col-xl-12 mb-4">
-                                                                                        <select name="rating"
-                                                                                            class="form-control">
-                                                                                            <option value="">Chọn
-                                                                                            </option>
-                                                                                            <option value="1">1
-                                                                                            </option>
-                                                                                            <option value="2">2
-                                                                                            </option>
-                                                                                            <option value="3">3
-                                                                                            </option>
-                                                                                            <option value="4">4
-                                                                                            </option>
-                                                                                            <option value="5">5
-                                                                                            </option>
-                                                                                        </select>
+                                                                                        <div class="rating-container">
+                                                                                            <div class="rate">
+                                                                                                <div class="emoji">😀
+                                                                                                </div>
+                                                                                                <input type="range"
+                                                                                                    name="rating"
+                                                                                                    class="rating-icon"
+                                                                                                    min="1"
+                                                                                                    max="5"
+                                                                                                    step="1">
+                                                                                            </div>
+                                                                                        </div>
                                                                                     </div>
                                                                                     <input type="hidden"
                                                                                         name="customer_id"
@@ -807,16 +789,21 @@
                                                                                     </h5>
 
                                                                                     <div>
-                                                                                        {{-- Render kiểu này hơi đần --}}
+
                                                                                         <div class="rating-point">
                                                                                             @if ($feedback->rating == 1)
                                                                                                 <i
                                                                                                     class="fa-solid fa-star"></i>
+
+                                                                                                <span
+                                                                                                    class="rating-icon">(😠)</span>
                                                                                             @elseif($feedback->rating == 2)
                                                                                                 <i
                                                                                                     class="fa-solid fa-star"></i>
                                                                                                 <i
                                                                                                     class="fa-solid fa-star"></i>
+                                                                                                <span
+                                                                                                    class="rating-icon">(😑)</span>
                                                                                             @elseif($feedback->rating == 3)
                                                                                                 <i
                                                                                                     class="fa-solid fa-star"></i>
@@ -824,6 +811,8 @@
                                                                                                     class="fa-solid fa-star"></i>
                                                                                                 <i
                                                                                                     class="fa-solid fa-star"></i>
+                                                                                                <span
+                                                                                                    class="rating-icon">(😀)</span>
                                                                                             @elseif($feedback->rating == 4)
                                                                                                 <i
                                                                                                     class="fa-solid fa-star"></i>
@@ -833,6 +822,8 @@
                                                                                                     class="fa-solid fa-star"></i>
                                                                                                 <i
                                                                                                     class="fa-solid fa-star"></i>
+                                                                                                <span
+                                                                                                    class="rating-icon">(&#128538)</span>
                                                                                             @else
                                                                                                 <i
                                                                                                     class="fa-solid fa-star"></i>
@@ -844,12 +835,15 @@
                                                                                                     class="fa-solid fa-star"></i>
                                                                                                 <i
                                                                                                     class="fa-solid fa-star"></i>
+                                                                                                <span
+                                                                                                    class="rating-icon">(😍)</span>
                                                                                             @endif
 
 
 
                                                                                         </div>
-                                                                                        <p>{{ $feedback->comment }}</p>
+                                                                                        <p class="feedback-comment">
+                                                                                            {{ $feedback->comment }}</p>
                                                                                     </div>
                                                                                 </div>
                                                                             @endforeach
@@ -871,18 +865,16 @@
                                                                 </div>
 
                                                                 <div class="modal-footer">
-
-                                                                    @if (Auth::guard('customer')->check())
-                                                                        @if (Auth::guard('customer')->user()->isComment === 1)
-                                                                            <button type="submit"
-                                                                                class="btn btn-primary">Đánh
-                                                                                giá</button>
-                                                                        @else
-                                                                            <button type="submit" disabled
-                                                                                class="btn btn-primary">Hãy đặt món
-                                                                                nào</button>
-                                                                        @endif
+                                                                    @if ($isBrought == true)
+                                                                        <button type="submit"
+                                                                            class="btn btn-primary">Đánh
+                                                                            giá</button>
+                                                                    @else
+                                                                        <button type="submit" disabled
+                                                                            class="btn btn-primary">Hãy đặt món
+                                                                            nào</button>
                                                                     @endif
+
 
 
                                                                 </div>
@@ -912,6 +904,16 @@
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+    <script>
+        var emojis = ['😦', '😠', '😑', '😀', '&#128538', '😍'];
+
+        $(".rating-icon").mousemove(function() {
+            var i = $(this).val();
+            $(".emoji").html(emojis[i]);
+        });
+    </script>
     <script>
         // $(document).ready(function() {
         $(".inc").on("click", function() {
@@ -1345,7 +1347,8 @@
                         '<hr>';
                 }
             } else {
-                cartContentsHtml = '<center><h4 class="mt-2 mb-2"><img src="{{ asset('empty-cart.png') }}"> <b> Giỏ hàng trống !</b></h4></center>';
+                cartContentsHtml =
+                    '<center><h4 class="mt-2 mb-2"><img src="{{ asset('empty-cart.png') }}"> <b> Giỏ hàng trống !</b></h4></center>';
             }
 
             @if (auth()->check() && Auth::guard('customer')->user()->point > 0)

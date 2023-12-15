@@ -43,6 +43,7 @@ class ReviewController extends Controller
         Customer::where('id', $request->customer_id)->update([
             'isComment' => 0
         ]);
+    
 
 
         $notification = array(
