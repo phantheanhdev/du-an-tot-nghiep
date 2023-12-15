@@ -4,7 +4,7 @@
         #scrollToTopBtn {
             display: none;
             position: fixed;
-            bottom: 30px;
+            bottom: 45px;
             right: 40px;
             background-color: #fab4b1;
             color: #fafafa;
@@ -22,7 +22,7 @@
         .component__item-editor {
 
             /* -webkit-box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
-                                                                                                                                                                            box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
+                                                                                                                                                                                                                                                    box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
             main padding: 2px;
             border-radius: 8px;
             margin-bottom: 10px;
@@ -112,6 +112,49 @@
             color: yellow;
             font-weight: bolder;
         }
+
+        #menuFeatureList .content ul {
+            padding: 0;
+            margin: 0 0 20px 0;
+            list-style: none;
+        }
+
+        ul li {
+            list-style-type: none;
+        }
+
+        .menu-options-text {
+            font-size: 14px;
+            /* font-weight: 600; */
+            /* font-family: 'Open Sans', helvetica, arial, sans-serif; */
+        }
+
+        .container_check {
+            display: block;
+            position: relative;
+            padding-left: 30px;
+            line-height: 1.7;
+            margin-bottom: 8px;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            font-weight: 400;
+        }
+
+        ul li span {
+            float: right;
+        }
+
+        .modal-header {
+            padding: 25px 10Spx;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-size: 23px;
+        }
     </style>
     <div id="wrapper">
         <div id="page-wrapper" class="gray-bg">
@@ -125,22 +168,22 @@
                                 style="color:#fafafa; font-size:28px;"></i></span>
                     </button>
                     {{-- <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav mx-auto">
+                    <ul class="navbar-nav mx-auto">
 
-                        </ul>
+                    </ul>
 
-                        <ul class="nav navbar-top-links">
-                                        <li class="dropdown-item">
-                                            <a href="/Account/ChangePassword">Change Password</a>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li class="dropdown-item"><a href="/Account/logout">Logout</a></li>
-                                    </ul>
-                                </div>
-                            </li>
+                    <ul class="nav navbar-top-links">
+                        <li class="dropdown-item">
+                            <a href="/Account/ChangePassword">Change Password</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li class="dropdown-item"><a href="/Account/logout">Logout</a></li>
+                    </ul>
+                </div>
+                </li>
 
-                        </ul>
-                    </div> --}}
+                </ul>
+            </div> --}}
                 </div>
             </nav>
             <div class="wrapper wrapper-content">
@@ -150,78 +193,75 @@
                         <div class="col-md-4">
                             <div class="ibox float-e-margins" id="fboxSf">
                                 <div class="ibox-title">
-                                    <h3 class="col-md-12">Giỏ hàng <i class="fa fa-cart-arrow-down float-right"></i></h3>
-                                    <input hidden value="&#x20AB;" id="txtCurrency" />
-                                    <input hidden value="TOTAL" id="txtTotal" />
-                                    <input hidden value="Your cart is empty yet." id="txtEmptyCart" />
-                                    <input hidden value="Please complete your selections." id="txtSelectOptions" />
+                                    <h3 class="col-md-12">Giỏ hàng <a onclick="clean_pro()" type="button"
+                                            class="float-right"><i class="fa fa-cart-arrow-down"
+                                                style="color:#D9534F"></i></a> </h3>
                                 </div>
                                 <div class="ibox-content ibox-br">
 
                                     {{-- <form id="orderForm" enctype="multipart/form-data">
-                                        @csrf
+                                @csrf
 
-                                        <input type="hidden" name="table_id" value="{{ $tableId }}">
-                                        <input type="hidden" name="status" value="0">
-                                        <input type="hidden" name="customer_name" value="BBB">
-                                        <input type="hidden" name="phone" value="0">
-                                        <input type="hidden" name="customer_phone" value="{{ Auth::guard('customer')->user()->phone }}">
+                                <input type="hidden" name="table_id" value="{{ $tableId }}">
+                                <input type="hidden" name="status" value="0">
+                                <input type="hidden" name="customer_name" value="BBB">
+                                <input type="hidden" name="phone" value="0">
+                                <input type="hidden" name="customer_phone"
+                                    value="{{ Auth::guard('customer')->user()->phone }}">
 
 
-                                        <table class="table table-borderless">
-                                            <tbody id="cartContentsHtml">
+                                <table class="table table-borderless">
+                                    <tbody id="cartContentsHtml">
 
-                                                @php $total = 0 @endphp
+                                        @php $total = 0 @endphp
 
-                                                @if (session('cart'))
-                                                    @foreach (session('cart') as $id => $details)
-                                                        @php $total += $details['price'] * $details['quantity'] @endphp
-                                                        <input type="hidden" value="{{ $total }}" id="total_price"
-                                                            name="total_price">
+                                        @if (session('cart'))
+                                        @foreach (session('cart') as $id => $details)
+                                        @php $total += $details['price'] * $details['quantity'] @endphp
+                                        <input type="hidden" value="{{ $total }}" id="total_price" name="total_price">
 
-                                                        <tr>
-                                                            <td style="width:60%" class="cart-item">
-                                                                {{ $details['name'] }}<br> <span
-                                                                    class="text-menu-description text-muted">fdf</span> </td>
+                                        <tr>
+                                            <td style="width:60%" class="cart-item">
+                                                {{ $details['name'] }}<br> <span
+                                                    class="text-menu-description text-muted">fdf</span> </td>
 
-                                                            <td><input onblur="updateQuantity()" id="cartquantity-3"
-                                                                    class="quantity-input"
-                                                                    value="{{ $details['quantity'] }}"></td>
+                                            <td><input onblur="updateQuantity()" id="cartquantity-3"
+                                                    class="quantity-input" value="{{ $details['quantity'] }}"></td>
 
-                                                            <td style="width:28%;" class="cart-item">
-                                                                ${{ number_format($details['price']) }}</td>
+                                            <td style="width:28%;" class="cart-item">
+                                                ${{ number_format($details['price']) }}</td>
 
-                                                            <td><a onclick="remove_product({{ $details['id'] }})"
-                                                                    class="float-right"><i
-                                                                        class="fa fa-times text-qrRestremove-from-cart"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                @endif
-                                                <tr class="spacer">
-                                                    <td class="cart-item">
-                                                        <h5>Tổng</h5>
-                                                    </td>
-                                                    <td></td>
-                                                    <td class="cart-item"> <strong>{{ number_format($total) }} đ</strong>
-                                                    </td>
-                                                    <td></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <hr>
-                                        <div class="form-group" id="txtOrderIsReady">
-                                            <textarea class="form-control" name="note" maxlength="70" rows="2" placeholder="Ghi chú"></textarea>
-                                        </div>
-                                        <button type="button" id="placeOrder" onclick="submitOrder(<?= $tableNo ?>)"
-                                            class="btn btn-primary btn-outline btn-block mt-4 btn-sm"> Đặt món</button>
-                                    </form> --}}
+                                            <td><a onclick="remove_product({{ $details['id'] }})" class="float-right"><i
+                                                        class="fa fa-times text-qrRestremove-from-cart"></i></a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        @endif
+                                        <tr class="spacer">
+                                            <td class="cart-item">
+                                                <h5>Tổng</h5>
+                                            </td>
+                                            <td></td>
+                                            <td class="cart-item"> <strong>{{ number_format($total) }} đ</strong>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <hr>
+                                <div class="form-group" id="txtOrderIsReady">
+                                    <textarea class="form-control" name="note" maxlength="70" rows="2"
+                                        placeholder="Ghi chú"></textarea>
+                                </div>
+                                <button type="button" id="placeOrder" onclick="submitOrder(<?= $tableNo ?>)"
+                                    class="btn btn-primary btn-outline btn-block mt-4 btn-sm"> Đặt món</button>
+                            </form> --}}
                                     <form id="orderForm" enctype="multipart/form-data">
                                         @csrf
 
                                         <input type="hidden" name="table_id" value="{{ $tableId }}">
                                         <input type="hidden" name="status" value="0">
-                                        <input type="hidden" name="customer_name" value="BBB">
+                                        <input type="hidden" name="customer_name" value="KH_Order">
                                         <input type="hidden" name="phone"
                                             value="{{ Auth::guard('customer')->user()->phone }}">
                                         <input type="hidden" name="customer_id"
@@ -243,8 +283,9 @@
                                                                     <tr>
                                                                         <td rowspan="2"
                                                                             style="width: 78px; vertical-align: top;">
+
                                                                             <div class="image__item-cart"
-                                                                                style="background-image: url(&quot;/static/images/default_food.svg&quot;);">
+                                                                                style="background-image: url({{ Storage::url($details['image']) }});">
                                                                             </div>
                                                                         </td>
                                                                         <td class="td--product-name"
@@ -265,21 +306,21 @@
                                                                                             }
                                                                                         }
                                                                                     @endphp
-
-                                                                                    {{-- {{ $itemName }} --}}
-                                                                                </div> <!----> <!---->
+                                                                                </div>
                                                                             </div>
                                                                             <div class="price-and-edit-text__container"
                                                                                 style="margin-top: 5px;">
                                                                                 <div><span class="origin-price">
-                                                                                        {{ number_format($details['price']) }}
+                                                                                        {{ number_format($details['price'] * $details['quantity']) }}
                                                                                         đ
-                                                                                    </span> <!----></div>
-                                                                                {{-- <div class="edit-text"
-                                                                                    style="color: rgb(247, 148, 30);">
-                                                                                    <button class="btn btn-link" type="button" onclick="remove_product({{ $id }})">Xóa</button>
-
-                                                                                </div> --}}
+                                                                                    </span>
+                                                                                </div>
+                                                                                <div class="edit-text">
+                                                                                    <button class="btn btn-link text-danger"
+                                                                                        type="button"
+                                                                                        onclick="remove_product({{ $id }})"><i
+                                                                                            class="fa fa-times text-qrRest"></i></button>
+                                                                                </div>
                                                                             </div>
                                                                             <div class="btn-remove-item-in-cart"><span
                                                                                     class="ti-close"></span></div>
@@ -291,40 +332,45 @@
                                                     </div>
                                                     <hr>
                                                 @endforeach
-                                            @endif
 
-                                            @if (auth()->check() && Auth::guard('customer')->user()->point > 0)
-                                                <input type="hidden" value="{{ Auth::guard('customer')->user()->point }}"
-                                                    id="point">
-                                                <input type="hidden" value="" id="pointAdd" name="point">
-                                                <div style="display: flex; justify-content: space-between;"
-                                                    id="show-point-2">
-                                                    <div class="">
-                                                        <input type="checkbox" class="mr-2" id="buttonSubmit">
-                                                        <label for="buttonSubmit" class=""
-                                                            style="font-size: 14px">Dùng
-                                                            {{ number_format(Auth::guard('customer')->user()->point) }}
-                                                            điểm Foodie</label>
+
+                                                @if (auth()->check() && Auth::guard('customer')->user()->point > 0)
+                                                    <input type="hidden"
+                                                        value="{{ Auth::guard('customer')->user()->point }}" id="point">
+                                                    <input type="hidden" value="" id="pointAdd" name="point">
+                                                    <div style="display: flex; justify-content: space-between;"
+                                                        id="show-point-2">
+                                                        <div class="">
+                                                            <input type="checkbox" class="mr-2" id="buttonSubmit">
+                                                            <label for="buttonSubmit" class=""
+                                                                style="font-size: 14px">Dùng
+                                                                {{ number_format(Auth::guard('customer')->user()->point) }}
+                                                                điểm Foodie</label>
+                                                        </div>
+                                                        <div class="">
+                                                            <p class="text-danger" style="font-size: 14px">
+                                                                -{{ number_format(Auth::guard('customer')->user()->point) }}
+                                                                đ
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                    <div class="">
-                                                        <p class="text-danger" style="font-size: 14px">
-                                                            -{{ number_format(Auth::guard('customer')->user()->point) }} đ
-                                                        </p>
+                                                @endif
+
+                                                <div class="total-price__v2 mb-2">
+                                                    <input type="hidden" value="{{ $total }}" id="total_price"
+                                                        name="total_price">
+                                                    <div>
+                                                        <h3><b>Tổng tiền</b></h3>
+                                                    </div>
+                                                    <div>
+                                                        <h3><b id="total">{{ number_format($total) }} đ</b></h3>
                                                     </div>
                                                 </div>
+                                            @else
+                                                <center>
+                                                    <h4 class="mt-2 mb-2"><img src="{{ asset('empty-cart.png') }}"> <b> Giỏ hàng trống !</b></h4>
+                                                </center>
                                             @endif
-
-                                            <div class="total-price__v2 mb-2">
-                                                <input type="hidden" value="{{ $total }}" id="total_price"
-                                                    name="total_price">
-                                                <div>
-                                                    <h3><b>Tổng tiền</b></h3>
-                                                </div>
-                                                <div>
-                                                    <h3><b id="total">{{ number_format($total) }} đ</b></h3>
-                                                </div>
-                                            </div>
-
 
                                         </div>
 
@@ -358,16 +404,16 @@
                             <div class="ibox-content m-b-sm border-bottom" id="welcome-lg">
                                 <div class="p-xs">
                                     {{-- <div class="float-left m-r-md">
-                                    <img alt="image" class="img-md"
-                                        src="/images/logos/80735333-a467-43a8-ad98-36c55b23711b.jpg">
-                                </div> --}}
+                                <img alt="image" class="img-md"
+                                    src="/images/logos/80735333-a467-43a8-ad98-36c55b23711b.jpg">
+                            </div> --}}
                                     <h3 class=" d-flex text-qrRest-dark font-weight-bold text-styling">Chào
                                         <b class="mx-1">
                                             <?php
-                                            
+
                                             date_default_timezone_set('Asia/Ho_Chi_Minh');
                                             $currentHour = date('G');
-                                            
+
                                             if ($currentHour >= 5 && $currentHour < 10) {
                                                 $timeOfDay = 'buổi sáng';
                                             } elseif ($currentHour >= 10 && $currentHour < 13) {
@@ -377,7 +423,7 @@
                                             } else {
                                                 $timeOfDay = 'buổi tối';
                                             }
-                                            
+
                                             echo "$timeOfDay";
                                             ?>
                                             @if (auth()->check())
@@ -403,17 +449,16 @@
                                                 <div class="col-md-4">
                                                     <div class="ibox">
                                                         <div class="ibox-content product-box" style="height:370px;">
-
-
                                                             <div class="product-imitation"
                                                                 style="background-image:url({{ Storage::url($product->image) }}); background-size:cover;">
                                                             </div>
 
                                                             <div class="product-desc">
-                                                                {{-- 
-                                                                <span class="product-price">
-                                                                  <del style="background-color: #910400">100000</del>  {{ number_format($product->price) }} đ 
-                                                                </span> --}}
+                                                                {{--
+                                                <span class="product-price">
+                                                    <del style="background-color: #910400">100000</del> {{
+                                                    number_format($product->price) }} đ
+                                                </span> --}}
 
 
                                                                 @if ($product->flashSale === 1)
@@ -454,23 +499,10 @@
 
                                                                     </span>
                                                                 @endif
-
-
-
-
-
-
-
-
-
-
-
-
-
+                                                                ipu
                                                                 <small class="text-muted"> {{ $categoryName }} </small>
                                                                 <a class="product-name"
-                                                                    id="product-name-{{ $product->id }}">
-                                                                    {{ $product->name }}</a>
+                                                                    id="product-name-{{ $product->id }}">{{ $product->name }}</a>
                                                                 <div class="small m-t-xs" style="height:28px">
                                                                     {{ $product->description }} </div>
                                                                 <div class="m-t mx-auto">
@@ -509,19 +541,16 @@
 
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h3 class="modal-title"
-                                                                        id="exampleModalScrollableTitle">
-                                                                        {{ $product->name }}</h3>
-                                                                    <button type="button" class="close"
-                                                                        data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
+                                                                    <h2 id="txtMenuName" class="modal-title mx-auto">
+                                                                        {{ $product->name }}</h4>
+
                                                                 </div>
-
                                                                 <div class="modal-body">
-
+                                                                    <input type="hidden"
+                                                                        id="product-img-{{ $product->id }}"
+                                                                        value="{{ $product->image }}">
                                                                     <div class="row bg-danger">
-                                                                        <div class="">
+                                                                        <div class="float-right">
                                                                             @if ($product->flashSale === 1)
                                                                                 @php
                                                                                     $saleProduct = \App\Models\FlashSaleItem::where('product_id', $product->id)->first();
@@ -571,58 +600,57 @@
 
                                                                         </div>
                                                                     </div>
-                                                                    <div class="row properties mt-4">
+                                                                    <div id="menuFeatureList" class="mt-1 ">
                                                                         @foreach ($product->variants as $variant)
-                                                                            <div class="box col-md-12 mb-4">
-                                                                                <span>{{ $variant->name }}</span>
-                                                                                <div class="choose">
+                                                                            <div class="box">
+                                                                                <h5 class="menu-options-title">
+                                                                                    {{ $variant->name }}</h5>
+                                                                                <ul class="clearfix">
                                                                                     @if ($variant->multi_choice === 0)
                                                                                         @foreach ($variant->productVariantItems as $variantItem)
-                                                                                            <div class="form-check">
-                                                                                                <input
-                                                                                                    class="form-check-input"
-                                                                                                    type="radio"
-                                                                                                    name="variants_items[]"
-                                                                                                    id="variants_item"
-                                                                                                    value="{{ $variantItem->id }}"
-                                                                                                    required>
+                                                                                            <li>
                                                                                                 <label
-                                                                                                    class="form-check-label"
-                                                                                                    for="exampleRadios1">
+                                                                                                    class="container_check menu-options-text">
                                                                                                     {{ $variantItem->name }}
-                                                                                                    :
-                                                                                                    <span
-                                                                                                        class="text-danger">{{ number_format($variantItem->price) }}đ</span>
+                                                                                                    <span class="gia">+
+                                                                                                        {{ number_format($variantItem->price) }}đ</span>
+                                                                                                    <input type="radio"
+                                                                                                        class="form-check-input"
+                                                                                                        type="radio"
+                                                                                                        name="variants_items[]"
+                                                                                                        id="variants_item"
+                                                                                                        value="{{ $variantItem->id }}"
+                                                                                                        required> <span
+                                                                                                        class="checkmark"></span>
                                                                                                 </label>
-
-                                                                                            </div>
+                                                                                            </li>
                                                                                         @endforeach
+
+                                                                                        <br>
                                                                                     @elseif($variant->multi_choice === 1)
                                                                                         @foreach ($variant->productVariantItems as $variantItem)
-                                                                                            <div class="form-check">
-                                                                                                <input
-                                                                                                    class="form-check-input"
-                                                                                                    type="checkbox"
-                                                                                                    name="variants_items[]"
-                                                                                                    id="variants_item"
-                                                                                                    value="{{ $variantItem->id }}">
+                                                                                            <li>
                                                                                                 <label
-                                                                                                    class="form-check-label"
-                                                                                                    for="defaultCheck1">
+                                                                                                    class="container_check menu-options-text">
                                                                                                     {{ $variantItem->name }}
-                                                                                                    :
+                                                                                                    <span class="gia">+
+                                                                                                        {{ number_format($variantItem->price) }}đ</span>
+                                                                                                    <input type="checkbox"
+                                                                                                        name="variants_items[]"
+                                                                                                        id="variants_item"
+                                                                                                        value="{{ $variantItem->id }}">
                                                                                                     <span
-                                                                                                        class="text-danger">{{ number_format($variantItem->price) }}đ</span>
+                                                                                                        class="checkmark"></span>
                                                                                                 </label>
-                                                                                            </div>
+                                                                                            </li>
                                                                                         @endforeach
                                                                                     @endif
-                                                                                </div>
+                                                                                </ul>
                                                                             </div>
-                                                                            <hr>
                                                                         @endforeach
+
                                                                     </div>
-                                                                    <div class="numbers-row">
+                                                                    <div class="numbers-row mt-2">
                                                                         <input type="text" value="1"
                                                                             id="txtQuantity-{{ $product->id }}"
                                                                             class="qty2 form-control" name="quantity">
@@ -631,12 +659,33 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="modal-footer">
+                                                                {{-- <div class="modal-footer">
 
                                                                     <button type="button"
                                                                         onclick="addToCart({{ $product->id }})"
                                                                         class="btn btn-primary">Thêm</button>
 
+                                                                </div> --}}
+                                                                <div class="footer" style="position:inherit">
+                                                                    <div class="row small-gutters">
+                                                                        <div class="col-4">
+                                                                            <button
+                                                                                class="btn btn-sm btn-outline btn-default btn-block"
+                                                                                data-dismiss="modal" aria-label="Close">
+                                                                                Đóng
+                                                                                <i class="fa fa-times mt-1"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="col-8">
+                                                                            <button type="button"
+                                                                                onclick="addToCart({{ $product->id }})"
+                                                                                class="btn btn-sm btn-outline btn-primary btn-block">
+                                                                                Thêm
+                                                                                <i class="fa fa-long-arrow-right mt-1"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- /Row -->
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -877,10 +926,8 @@
         $(document).on('change', '#buttonSubmit', function() {
             if ($(this).prop('checked')) {
                 isCheckedPoint = true;
-                console.log('Checkbox đã được tích.');
                 layDiem();
             } else {
-                console.log('Checkbox chưa được tích.');
                 isCheckedPoint = false;
                 boDiem();
                 // Add handling code when the checkbox is not checked here
@@ -971,45 +1018,58 @@
 
             variantItems.forEach(function(item) {
                 var label = item.parentElement; // Lấy phần tử label chứa thông tin
-                var itemName = label.innerText.trim(); // Lấy tên mục
-                var itemPriceText = label.querySelector('.text-danger').textContent; // Lấy giá mục
-                var itemPrice = parseFloat(itemPriceText.replace('đ', '').replace(',',
-                    '')); // Chuyển đổi giá thành số
 
-                // Thêm thông tin vào mảng
-                selectedItemsInfo.push({
-                    name: itemName,
-                    price: itemPrice
-                });
+                if (label) {
+                    var itemName = label.textContent.trim(); // Lấy tên mục
+                    var itemPriceElement = label.querySelector('.gia');
+                    var itemPriceText = itemPriceElement.textContent.trim(); // Lấy giá mục
+                    var itemPrice = parseFloat(itemPriceText.replace('+', '').replace('đ', '').replace(',',
+                        '')); // Chuyển đổi giá thành số
+
+                    // Thêm thông tin vào mảng
+                    selectedItemsInfo.push({
+                        name: itemName,
+                        price: itemPrice
+                    });
+                } else {
+                    console.error('Item name element not found');
+                }
             });
 
             // Trả về dữ liệu JSON
             return JSON.stringify(selectedItemsInfo);
         }
+
+
         var csrfToken = @json(csrf_token());
 
         function updateTotalPrice() {
             var totalPrice = 0;
+            var variantItems = document.querySelectorAll('input[name="variants_items[]"]:checked');
 
-            // Lặp qua từng biến thể
-            $('.box').each(function() {
+            variantItems.forEach(function(item) {
                 var selectedVariantPrice = 0;
 
-                // Lấy giá của biến thể được chọn
-                $(this).find('input:checked').each(function() {
-                    var variantPrice = $(this).siblings('label').find('.text-danger').text();
-                    var itemPrice = parseFloat(variantPrice.replace('đ', '').replace(',',
+                var label = item.parentElement;
+
+                if (label) {
+                    var itemName = label.textContent.trim(); // Lấy tên mục
+                    var itemPriceElement = label.querySelector('.gia');
+                    var itemPriceText = itemPriceElement.textContent.trim(); // Lấy giá mục
+                    var itemPrice = parseFloat(itemPriceText.replace('+', '').replace('đ', '').replace(',',
                         '')); // Chuyển đổi giá thành số
                     selectedVariantPrice += itemPrice;
+                    console.log(selectedVariantPrice);
 
-                });
-
-                // Cộng giá biến thể vào tổng giá
+                } else {
+                    console.error('Item name element not found');
+                }
                 totalPrice += selectedVariantPrice;
+
             });
 
 
-            return totalPrice
+            return totalPrice;
         }
 
         // Hàm để thêm sản phẩm vào giỏ hàng
@@ -1018,6 +1078,7 @@
             var currentQuantity = parseFloat(inputElement.value);
 
             var productNameElement = document.getElementById('product-name-' + productId);
+            var productImg = document.getElementById('product-img-' + productId).value;
 
             if (productNameElement) {
                 var productName = productNameElement.textContent;
@@ -1045,6 +1106,7 @@
                     product_name: productName,
                     item: itemsInfo,
                     quantity: quantity,
+                    image: productImg,
                     price: totalPrice, // Sử dụng giá tính toán tổng cả sản phẩm và các item
                 },
                 success: function(response) {
@@ -1087,7 +1149,7 @@
 
 
         function remove_product(id) {
-            if (confirm("Are you sure want to remove? ")) {
+            if (confirm("Bạn có muốn xóa sản phẩm này không? ")) {
                 $.ajax({
                     url: '/remove-from-cart',
                     method: "DELETE",
@@ -1194,7 +1256,7 @@
                 url: '/get-cart',
                 success: function(response) {
                     console.log(response)
-                    updateCartContentsHtml(response.cart, response.total);
+                    updateCartContentsHtml(response.cart);
                 },
                 error: function(error) {
                     console.log('Error updating cart:', error);
@@ -1202,61 +1264,90 @@
             });
         }
 
+        function clean_pro() {
+            if (confirm("Bạn có muốn xóa toàn bộ sản phẩm không? ")) {
+                $.ajax({
+                    url: '/remove-cart',
+                    method: "POST",
+                    data: {
+                        _token: csrfToken,
+                    },
+                    success: function(response) {
+                        updateCartContentsHtml(response.cart)
+                    }
+                });
+            }
+        };
+
+
         function formatNumberWithCommas(number) {
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function storageUrl(path) {
+            var baseUrl = "{{ url('') }}";
+            var pathWithoutPublic = path.replace('public/', '');
+
+            return baseUrl + '/storage/' + pathWithoutPublic;
         }
 
         function updateCartContentsHtml(cart) {
             var total = 0;
             var cartContentsHtml = '';
 
-            if (cart) {
+            if (Object.keys(cart).length > 0) {
                 for (var id in cart) {
-                    if (cart.hasOwnProperty(id)) {
-                        var details = cart[id];
-                        total += details['price'] * details['quantity'];
+                    var item = cart[id];
+                    total += item['price'] * item['quantity'];
+                    let img = item.image;
 
-                        cartContentsHtml += '<div class="bought--item">' +
-                            '<div class="component__item-editor">' +
-                            '<table class="table-rule">' +
-                            '<tbody>' +
-                            '<tr>' +
-                            '<td rowspan="2" style="width: 78px; vertical-align: top;">' +
-                            '<div class="image__item-cart" style="background-image: url(&quot;/static/images/default_food.svg&quot;);"></div>' +
-                            '</td>' +
-                            '<td class="td--product-name" style="vertical-align: top;">' +
-                            '<span style="font-weight: 500; color: #910400; font-size: 14px;">' +
-                            details['quantity'] + ' x</span> ' +
-                            '<span class="name" style="font-size: 14px; font-weight: 500;">' +
-                            details['name'] + '</span><br>' +
-                            '<div class="component__card-description-bound" style="color: rgb(54, 54, 54); margin-top: 4px;">';
+                    cartContentsHtml += '<div class="bought--item">' +
+                        '<div class="component__item-editor">' +
+                        '<table class="table-rule">' +
+                        '<tbody>' +
+                        '<tr>' +
+                        '<td rowspan="2" style="width: 78px; vertical-align: top;">' +
+                        '<div class="image__item-cart" style="background-image: url(' +
+                        storageUrl(img) + '") }}"></div>' +
+                        '</td>' +
+                        '<td class="td--product-name" style="vertical-align: top;">' +
+                        '<span style="font-weight: 500; color: #910400; font-size: 14px;">' +
+                        item.quantity + ' x</span> ' +
+                        '<span class="name" style="font-size: 14px; font-weight: 500;">' +
+                        item.name + '</span><br>' +
+                        '<div class="component__card-description-bound" style="color: rgb(54, 54, 54); margin-top: 4px;">';
 
-                        // Assuming details['item'] is a JSON string
-                        var itemDetails = JSON.parse(details['item']);
-                        if (Array.isArray(itemDetails) && itemDetails.length > 0) {
-                            cartContentsHtml += '<div style="line-height: 1.2; margin-top: 5px;">';
-                            for (var i = 0; i < itemDetails.length; i++) {
-                                cartContentsHtml += "- " + itemDetails[i]['name'] + '<br>';
-                            }
-                            cartContentsHtml += '</div>';
+                    // Assuming item.details is a JSON string
+                    var itemDetails = JSON.parse(item.item);
+                    if (Array.isArray(itemDetails) && itemDetails.length > 0) {
+                        cartContentsHtml += '<div style="line-height: 1.2; margin-top: 5px;">';
+                        for (var j = 0; j < itemDetails.length; j++) {
+                            cartContentsHtml += "- " + itemDetails[j]['name'] + '<br>';
                         }
-
-                        cartContentsHtml += '</div>' +
-                            '<div class="price-and-edit-text__container" style="margin-top: 5px;">' +
-                            '<div><span class="origin-price">' +
-                            formatNumberWithCommas(details['price']) + ' đ</span></div>' +
-                            '</div>' +
-                            '<div class="btn-remove-item-in-cart"><span class="ti-close"></span></div>' +
-                            '</td>' +
-                            '</tr>' +
-                            '</tbody>' +
-                            '</table>' +
-                            '</div>' +
-                            '</div>' +
-                            '<hr>';
+                        cartContentsHtml += '</div>';
                     }
+
+                    cartContentsHtml += '</div>' +
+                        '<div class="price-and-edit-text__container" style="margin-top: 5px;">' +
+                        '<div><span class="origin-price">' +
+                        formatNumberWithCommas(item.price * item.quantity) + ' đ</span></div>' +
+                        '<div class="edit-text"><button class="btn btn-link text-danger" type="button" onclick="remove_product(' +
+                        id + ')"><i class="fa fa-times text-qrRest"></i></button>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="btn-remove-item-in-cart"><span class="ti-close"></span></div>' +
+                        '</td>' +
+                        '</tr>' +
+                        '</tbody>' +
+                        '</table>' +
+                        '</div>' +
+                        '</div>' +
+                        '<hr>';
                 }
+            } else {
+                cartContentsHtml = '<center><h4 class="mt-2 mb-2"><img src="{{ asset('empty-cart.png') }}"> <b> Giỏ hàng trống !</b></h4></center>';
             }
+
             @if (auth()->check() && Auth::guard('customer')->user()->point > 0)
                 cartContentsHtml +=
                     '<input type="hidden" value="{{ Auth::guard('customer')->user()->point }}" id="point">';
@@ -1289,6 +1380,7 @@
                 $('#show-point-2').hide();
             }
         }
+
 
 
         function callTheWaiter(id) {

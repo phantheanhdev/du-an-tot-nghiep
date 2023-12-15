@@ -265,14 +265,14 @@ class TableController extends Controller
             $customer = Customer::where('phone', $phone)->first();
 
             if ($customer) {
-                $point = ceil($total * 0.03);
-                $customer->point += $point;
+                $points = ceil($total * 0.03);
+                $customer->point += $points;
                 $customer->save();
             }
             $order->status = $newStatus;
             $order->save();
-            // return redirect('print_order/' . $id);
-            return redirect()->route('print_order', ['id' => $id])->with('open_new_tab', true);
+            return redirect('print_order/' . $id);
+            // return redirect()->route('print_order', ['id' => $id])->with('open_new_tab', true);
         }
 
         $order->status = $newStatus;

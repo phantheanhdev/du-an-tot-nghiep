@@ -55,6 +55,12 @@ class CartController extends Controller
         }
     }
 
+    public function clean_session()
+    {
+        session(['cart' => []]);  // Set the 'cart' key to an empty array
+
+        return response()->json(['cart' => []]);
+    }
     public function addToCart($id, Request $request)
     {
         $product = Product::findOrFail($id);

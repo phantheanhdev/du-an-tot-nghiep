@@ -165,9 +165,11 @@ Route::group(['middleware' => ['customer:customer', 'checkCustomer']], function 
     // Action order food
     Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart']);
     Route::delete('/remove-from-cart', [CartController::class, 'remove']);
+    Route::post('/remove-cart', [CartController::class, 'clean_session']);
+
     Route::post('order', [CartController::class, 'order'])->name('order');
     Route::get('/get-cart', [CartController::class, 'getCart'])->name('get.cart');
-
+    
     // Apply coupon
     Route::get('apply-coupon', [CartController::class, 'applyCoupon'])->name('apply-coupon');
     Route::get('coupon-calculation', [CartController::class, 'couponCalculation'])->name('coupon-calculation');

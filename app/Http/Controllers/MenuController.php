@@ -17,27 +17,32 @@ class MenuController extends Controller
 
     public function index(Request $request)
     {
-        $tableId = $_GET['tableId'];
-        $tableNo = $_GET['tableNo'];
-        $categories = Category::where('status', 'active')->get();
-        $productsByCategory = [];
-        // $cookie_name = $request->input('customer_name');
+        if(isset($_GET['tableId']) && isset($_GET['tableNo'])){
+            $tableId = $_GET['tableId'];
+            $tableNo = $_GET['tableNo'];
+            $categories = Category::where('status', 'active')->get();
+            $productsByCategory = [];
+            // $cookie_name = $request->input('customer_name');
 
-        foreach ($categories as $category) {
-            $products = Product::with('variants')->where('category_id', $category->id)
-            ->where('status', 'active')
-            ->get();
-            $productsByCategory[$category->category_name] = $products;
+            foreach ($categories as $category) {
+                $products = Product::with('variants')->where('category_id', $category->id)
+                ->where('status', 'active')
+                ->get();
+                $productsByCategory[$category->category_name] = $products;
+            }
+            $phone = session('phone');
+
+
+            return view("user.order.menu", [
+                'tableId' => $tableId,
+                'tableNo' => $tableNo,
+                'productsByCategory' => $productsByCategory,
+                'phone' => $phone
+            ]);
+        } else {
+            return false;
         }
-        $phone = session('phone');
 
-
-        return view("user.order.menu", [
-            'tableId' => $tableId,
-            'tableNo' => $tableNo,
-            'productsByCategory' => $productsByCategory,
-            'phone' => $phone
-        ]);
     }
 
 
