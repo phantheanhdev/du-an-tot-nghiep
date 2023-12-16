@@ -736,11 +736,6 @@
                                                                             <p>Hãy gọi món để đánh giá sản phẩm</p>
                                                                         @endif
                                                                     @endif
-
-
-
-
-
                                                                     <hr>
 
                                                                     <div class="list-product-review mt-4">
