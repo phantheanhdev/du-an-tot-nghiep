@@ -112,8 +112,8 @@
                                                     <a class="btn btn-secondary btn-sm float-end mx-1 print-btn"
                                                         href="{{ url('/order-form/' . $order->id) }}" target="_blank"><i
                                                             class="fa-solid fa-print"></i></a>
-                                                    <button type="submit" name="status" value="5" onclick="meny()"
-                                                        class="btn btn-primary btn-sm float-end mx-1"><i
+                                                    <button type="submit" name="status" value="5"
+                                                        class="btn btn-primary btn-sm float-end mx-1" onclick="meny()"><i
                                                             class="fa-solid fa fa-credit-card mt-1"></i></button>
                                                 @endif
                                             </form>
@@ -276,7 +276,7 @@
                             row += '<a class="btn btn-secondary btn-sm float-end mx-1" href="' +
                                 '/order-form/' + order.id + '"><i class="fa-solid fa-print"></i></a>';
                             row +=
-                                '<button type="submit" onclick="meny()" name="status" value="5" class="btn btn-primary btn-sm float-end mx-1"><i class="fa-solid fa fa-credit-card mt-1"></i></button>';
+                                '<button type="submit" name="status" value="5" class="btn btn-primary btn-sm float-end mx-1"  onclick="meny()" ><i class="fa-solid fa fa-credit-card mt-1"></i></button>';
                         }
                         row += '</form>';
                         row += '</td>';

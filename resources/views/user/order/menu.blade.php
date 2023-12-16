@@ -22,7 +22,7 @@
         .component__item-editor {
 
             /* -webkit-box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
-                                                                                                                                                                                                                                                                                            box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
+                                                                                                                                                                                                                                                                                                                        box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
             main padding: 2px;
             border-radius: 8px;
             margin-bottom: 10px;
@@ -320,7 +320,7 @@
                                                         value="{{ Auth::guard('customer')->user()->point }}" id="point">
                                                     <input type="hidden" value="" id="pointAdd" name="point">
                                                     <div style="display: flex; justify-content: space-between;"
-                                                        id="show-point-2">
+                                                        id="showpoint2">
                                                         <div class="">
                                                             <input type="checkbox" class="mr-2" id="buttonSubmit">
                                                             <label for="buttonSubmit" class=""
@@ -358,9 +358,10 @@
 
                                         <div class="form-group" id="txtOrderIsReady">
                                             <textarea class="form-control" name="note" maxlength="70" rows="2" placeholder="Ghi chú"></textarea>
+                                            <button type="button" id="placeOrder" onclick="submitOrder(<?= $tableNo ?>)"
+                                                class="btn btn-primary btn-outline btn-block mt-4 btn-sm"> Đặt món</button>
                                         </div>
-                                        <button type="button" id="placeOrder" onclick="submitOrder(<?= $tableNo ?>)"
-                                            class="btn btn-primary btn-outline btn-block mt-4 btn-sm"> Đặt món</button>
+
                                     </form>
 
                                 </div>
@@ -431,18 +432,13 @@
                                                 <div class="col-md-4">
                                                     <div class="ibox">
                                                         <div class="ibox-content product-box" style="height:370px;">
-                                                            <div class="product-imitation"
+                                                            <div class="product-imitation" data-toggle="modal"
+                                                                data-target="#exampleModalScrollable-product-{{ $product->id }}"
                                                                 style="background-image:url({{ Storage::url($product->image) }}); background-size:cover;">
                                                             </div>
 
-                                                            <div class="product-desc">
-                                                                {{--
-                                                <span class="product-price">
-                                                    <del style="background-color: #910400">100000</del> {{
-                                                    number_format($product->price) }} đ
-                                                </span> --}}
-
-
+                                                            <div class="product-desc" data-toggle="modal"
+                                                                data-target="#exampleModalScrollable-product-{{ $product->id }}">
                                                                 @if ($product->flashSale === 1)
                                                                     @php
                                                                         $saleProduct = \App\Models\FlashSaleItem::where('product_id', $product->id)->first();
@@ -481,34 +477,30 @@
 
                                                                     </span>
                                                                 @endif
-                                                                ipu
                                                                 <small class="text-muted"> {{ $categoryName }} </small>
                                                                 <a class="product-name"
                                                                     id="product-name-{{ $product->id }}">{{ $product->name }}</a>
                                                                 <div class="small m-t-xs" style="height:28px">
-                                                                    {{ $product->description }} </div>
+                                                                    {{ $product->description }}
+                                                                </div>
                                                                 <div class="m-t mx-auto">
                                                                     <div class="row">
 
                                                                         <button
-                                                                            class="btn btn-sm btn-outline btn-primary ml-1"
+                                                                            class="btn btn-sm btn-outline btn-primary ml-1 btn-block"
                                                                             data-toggle="modal"
                                                                             data-target="#exampleModalScrollable-product-{{ $product->id }}">
-                                                                            Thêm
-                                                                            <i class="fa fa-long-arrow-right mt-1"></i>
+                                                                            Thêm vào giỏ
                                                                         </button>
-                                                                        <button
-                                                                            class="btn btn-sm btn-outline btn-primary ml-1"
-                                                                            data-toggle="modal"
-                                                                            data-target="#exampleModalScrollable-product-review-{{ $product->id }}">
-                                                                            Đánh giá
 
-
-                                                                            <i class="fa-solid fa-comment mt-1"></i>
-                                                                        </button>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            {{-- <button class="btn btn-sm btn-outline btn-link btn-block"
+                                                                data-toggle="modal"
+                                                                data-target="#exampleModalScrollable-product-review-{{ $product->id }}">
+                                                                Đánh giá
+                                                            </button> --}}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -532,39 +524,37 @@
                                                                     <input type="hidden"
                                                                         id="product-img-{{ $product->id }}"
                                                                         value="{{ $product->image }}">
-                                                                        <div style="background-color:transparent">
-                                                                            @if ($product->flashSale === 1)
+                                                                    <div style="background-color:transparent">
+                                                                        @if ($product->flashSale === 1)
+                                                                            @php
+                                                                                $saleProduct = \App\Models\FlashSaleItem::where('product_id', $product->id)->first();
+
+                                                                                $start_date = $saleProduct->start_date;
+
+                                                                                $end_date = $saleProduct->end_date;
+
+                                                                                $discount_rate = $saleProduct->discount_rate;
+
+                                                                            @endphp
+                                                                            @if ($product->flashSale === 1 && now()->between($start_date, $end_date))
                                                                                 @php
-                                                                                    $saleProduct = \App\Models\FlashSaleItem::where('product_id', $product->id)->first();
 
-                                                                                    $start_date = $saleProduct->start_date;
-
-                                                                                    $end_date = $saleProduct->end_date;
-
-                                                                                    $discount_rate = $saleProduct->discount_rate;
-
+                                                                                    $newPrice = newPrice($product->price, $discount_rate);
                                                                                 @endphp
-                                                                                @if ($product->flashSale === 1 && now()->between($start_date, $end_date))
-                                                                                    @php
-
-                                                                                        $newPrice = newPrice($product->price, $discount_rate);
-                                                                                    @endphp
-
-                                                                                    <input type="hidden"
-                                                                                            id="product-price-{{ $product->id }}"
-                                                                                            value="{{ $newPrice }}">
-                                                                                @else
-
-                                                                                    <input type="hidden"
-                                                                                    id="product-price-{{ $product->id }}"
-                                                                                    value="{{ $product->price }}">
-                                                                                @endif
-                                                                            @else
 
                                                                                 <input type="hidden"
-                                                                                        id="product-price-{{ $product->id }}"
-                                                                                        value="{{ $product->price }}">
+                                                                                    id="product-price-{{ $product->id }}"
+                                                                                    value="{{ $newPrice }}">
+                                                                            @else
+                                                                                <input type="hidden"
+                                                                                    id="product-price-{{ $product->id }}"
+                                                                                    value="{{ $product->price }}">
                                                                             @endif
+                                                                        @else
+                                                                            <input type="hidden"
+                                                                                id="product-price-{{ $product->id }}"
+                                                                                value="{{ $product->price }}">
+                                                                        @endif
                                                                     </div>
                                                                     <div id="menuFeatureList">
                                                                         @foreach ($product->variants as $variant)
@@ -618,6 +608,8 @@
                                                                     </div>
                                                                     <div class="numbers-row mt-2">
                                                                         <input type="text" value="1"
+                                                                            pattern="[1-9]|10"
+                                                                            oninput="validateInput(this)"
                                                                             id="txtQuantity-{{ $product->id }}"
                                                                             class="qty2 form-control" name="quantity">
                                                                         <div class="inc button_inc">+</div>
@@ -897,7 +889,41 @@
             $(".emoji").html(emojis[i]);
         });
     </script>
+
     <script>
+        function validateInput(input) {
+            // Lọc các ký tự không phải là số
+            input.value = input.value.replace(/[^0-9]/g, '');
+
+            // Chuyển giá trị sang số và kiểm tra giá trị tối đa
+            let numericValue = parseInt(input.value, 10) || 0;
+            if (numericValue > 10) {
+                input.value = '10';
+                Command: toastr["error"]("Số lượng nhiều nhất là 10");
+
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+            }
+        }
+    </script>
+
+    <script>
+        updateCart()
         // $(document).ready(function() {
         $(".inc").on("click", function() {
             var currentValue = parseInt($(".qty2").val());
@@ -1092,14 +1118,70 @@
                     item: itemsInfo,
                     quantity: quantity,
                     image: productImg,
-                    price: totalPrice, // Sử dụng giá tính toán tổng cả sản phẩm và các item
+                    price: totalPrice,
                 },
                 success: function(response) {
-                    console.log(response);
+                    if (response.hasOwnProperty('error')) {
+                        // Hiển thị thông báo lỗi
+                        Command: toastr["error"](response.error);
 
-                    updateCartContentsHtml(response.cart);
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+                    }
+                    else {
+                        // Xử lý khi không có lỗi
+                        $('#txtOrderIsReady').show();
 
-                    Command: toastr["success"]("Đã thêm sản phẩm");
+                        updateCartContentsHtml(response.cart);
+                        inputElement.value = 1;
+
+                        Command: toastr["success"]("Đã thêm sản phẩm");
+
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+
+                        $('.box').each(function() {
+                            var selectedVariantPrice = 0;
+                            $(this).find('input:checked').each(function() {
+                                $(this).prop('checked', false);
+                            })
+                        });
+                        $('#exampleModalScrollable-product-' + productId).modal('hide');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Xử lý khi có lỗi kết nối hoặc lỗi server
+                    Command: toastr["error"]("Có lỗi xảy ra trong quá trình xử lý yêu cầu.");
 
                     toastr.options = {
                         "closeButton": false,
@@ -1118,14 +1200,6 @@
                         "showMethod": "fadeIn",
                         "hideMethod": "fadeOut"
                     };
-
-                    $('.box').each(function() {
-                        var selectedVariantPrice = 0;
-                        $(this).find('input:checked').each(function() {
-                            $(this).prop('checked', false);
-                        })
-                    })
-                    $('#exampleModalScrollable-product-' + productId).modal('hide');
                 }
             });
 
@@ -1201,16 +1275,14 @@
                         }
                         pusher_order(id);
                         updateCart();
-
-                        if (isCheckedPoint) {
-                            $('#show-point-2').hide();
-                        }
+                        $('#showpoint2').hide();
 
                     },
                     error: function(error) {
                         console.log('Error submitting order:', error);
                     }
                 })
+                // $('#showpoint2').hide();
             }
             else {
                 Command: toastr["warning"]("Giỏ hàng trống !")
@@ -1240,7 +1312,6 @@
                 type: 'GET',
                 url: '/get-cart',
                 success: function(response) {
-                    console.log(response)
                     updateCartContentsHtml(response.cart);
                 },
                 error: function(error) {
@@ -1329,41 +1400,47 @@
                         '</div>' +
                         '<hr>';
                 }
+
             } else {
                 cartContentsHtml =
                     '<center><h4 class="mt-2 mb-2"><img src="{{ asset('empty-cart.png') }}"> <b> Giỏ hàng trống !</b></h4></center>';
+                $('#txtOrderIsReady').hide();
             }
 
             @if (auth()->check() && Auth::guard('customer')->user()->point > 0)
-                cartContentsHtml +=
-                    '<input type="hidden" value="{{ Auth::guard('customer')->user()->point }}" id="point">';
-                cartContentsHtml += '<input type="hidden" value="" id="pointAdd" name="point">';
-                cartContentsHtml += '<div style="display: flex; justify-content: space-between;" id="show-point-2">';
-                cartContentsHtml += '<div class="">';
-                cartContentsHtml += '<input type="checkbox" class="mr-2" id="buttonSubmit">';
-                cartContentsHtml += '<label for="buttonSubmit" class="" style="font-size: 14px">Dùng ' +
-                    '{{ number_format(Auth::guard('customer')->user()->point) }} điểm Foodie</label>';
-                cartContentsHtml += '</div>';
-                cartContentsHtml += '<div class="">';
-                cartContentsHtml += '<p class="text-danger" style="font-size: 14px">' +
-                    '-{{ number_format(Auth::guard('customer')->user()->point) }} đ</p>';
-                cartContentsHtml += '</div>';
-                cartContentsHtml += '</div>';
+                if (Object.keys(cart).length > 0) {
+                    cartContentsHtml +=
+                        '<input type="hidden" value="{{ Auth::guard('customer')->user()->point }}" id="point">';
+                    cartContentsHtml += '<input type="hidden" value="" id="pointAdd" name="point">';
+                    cartContentsHtml += '<div style="display: flex; justify-content: space-between;" id="showpoint2">';
+                    cartContentsHtml += '<div class="">';
+                    cartContentsHtml += '<input type="checkbox" class="mr-2" id="buttonSubmit">';
+                    cartContentsHtml += '<label for="buttonSubmit" class="" style="font-size: 14px">Dùng ' +
+                        '{{ number_format(Auth::guard('customer')->user()->point) }} điểm Foodie</label>';
+                    cartContentsHtml += '</div>';
+                    cartContentsHtml += '<div class="">';
+                    cartContentsHtml += '<p class="text-danger" style="font-size: 14px">' +
+                        '-{{ number_format(Auth::guard('customer')->user()->point) }} đ</p>';
+                    cartContentsHtml += '</div>';
+                    cartContentsHtml += '</div>';
+
+                }
             @endif
+            if (Object.keys(cart).length > 0) {
+                var formattedTotal = formatNumberWithCommas(total);
 
-            var formattedTotal = formatNumberWithCommas(total);
-
-            cartContentsHtml += '<input type="hidden" value="' + total +
-                '" name="total_price" id="total_price"><div class="total-price__v2 mb-2">' +
-                '<div><h3><b >Tổng tiền</b></h3></div>' +
-                '<div><h3><b id="total">' + formattedTotal + ' đ</b></h3></div>' +
-                '</div></div>'; // Closing the outermost div for correct structure
+                cartContentsHtml += '<input type="hidden" value="' + total +
+                    '" name="total_price" id="total_price"><div class="total-price__v2 mb-2">' +
+                    '<div><h3><b >Tổng tiền</b></h3></div>' +
+                    '<div><h3><b id="total">' + formattedTotal + ' đ</b></h3></div>' +
+                    '</div></div>'; // Closing the outermost div for correct structure
+            }
 
             $('#cartContentsHtml').html(cartContentsHtml);
 
             // display none point if point = 0
             if (isCheckedPoint) {
-                $('#show-point-2').hide();
+                $('#showpoint2').hide();
             }
         }
 

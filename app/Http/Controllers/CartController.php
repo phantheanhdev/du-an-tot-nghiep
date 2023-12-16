@@ -73,12 +73,20 @@ class CartController extends Controller
         $cartKey = $id . $itemHash;
 
         if (isset($cart[$cartKey])) {
-            $cart[$cartKey]['quantity'] += $request->input('quantity', 1);
+            $newQuantity = $cart[$cartKey]['quantity'] + $request->input('quantity', 1);
+            if ($newQuantity > 10) {
+                return response()->json(['error' => 'Số lượng vượt quá giới hạn. Vui lòng gọi nhân viên.']);
+            }
+            $cart[$cartKey]['quantity'] = $newQuantity;
         } else {
+            $quantity = $request->input('quantity', 1);
+                if ($quantity > 10) {
+                return response()->json(['error' => 'Số lượng vượt quá giới hạn. Vui lòng gọi nhân viên.']);
+            }
             $cart[$cartKey] = [
                 "id" => $product->id,
                 "name" => $product->name,
-                "quantity" => $request->input('quantity', 1),
+                "quantity" => $quantity,
                 "price" => $request->price,
                 "item" => $request->input('item', []),
                 'image' => $product->image
@@ -86,8 +94,6 @@ class CartController extends Controller
         }
 
         session()->put('cart', $cart);
-
-        // Trả về thông tin giỏ hàng dưới dạng JSON
         return response()->json(['cart' => $cart]);
     }
 
