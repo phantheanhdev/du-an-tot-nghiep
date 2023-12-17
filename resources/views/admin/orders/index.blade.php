@@ -60,26 +60,31 @@
                                                     <td>
                                                         <ul style="list-style: none; padding: 0;">
                                                             @foreach ($item->orderDetails as $orderDetail)
-                                                                <li style="text-align: left">
-                                                                    <p class="my-2 h6" style="color: #910400">
-                                                                        {{ $orderDetail->quantity }} x
-                                                                        {{ $orderDetail->product->name }}
+                                                                @if ($orderDetail->product === null)
+                                                                    <p style="padding: 5px;color:#910400;text-align:left;">Không xác định
                                                                     </p>
-                                                                    @php
-                                                                        $variant = json_decode($orderDetail->item);
-                                                                        $variant2 = json_decode($variant);
-                                                                    @endphp
+                                                                @else
+                                                                    <li style="text-align: left">
+                                                                        <p class="my-2 h6" style="color: #910400">
+                                                                            {{ $orderDetail->quantity }} x
+                                                                            {{ $orderDetail->product->name }}
+                                                                        </p>
+                                                                        @php
+                                                                            $variant = json_decode($orderDetail->item);
+                                                                            $variant2 = json_decode($variant);
+                                                                        @endphp
 
-                                                                    @if ($variant2 != null)
-                                                                        @foreach ($variant2 as $value)
-                                                                            - {{ $value->name }}<br>
+                                                                        @if ($variant2 != null)
+                                                                            @foreach ($variant2 as $value)
+                                                                                - {{ $value->name }}<br>
 
-                                                                            <input type="hidden"
-                                                                                value="{{ $value->price }}">
-                                                                        @endforeach
-                                                                    @endif
+                                                                                <input type="hidden"
+                                                                                    value="{{ $value->price }}">
+                                                                            @endforeach
+                                                                        @endif
 
-                                                                </li>
+                                                                    </li>
+                                                                @endif
                                                             @endforeach
                                                         </ul>
                                                     </td>
@@ -134,7 +139,7 @@
                         </div>
                     </div>
                     {{-- đã thanh toán --}}
-                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    {{-- <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                         <div class="col-md-12">
                             <div class="row table-responsive mt-3" id="nonPayOrder">
                                 <table id="myTable" class="table table-hover">
@@ -210,9 +215,9 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     {{-- hủy --}}
-                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    {{-- <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                         <div class="col-md-12">
                             <div class="row table-responsive mt-3" id="nonPayOrder">
                                 <table id="myCancelTable" class="table table-hover">
@@ -236,6 +241,7 @@
                                                 <td>
                                                     <ul style="list-style: none; padding: 0;">
                                                         @foreach ($item->orderDetails as $orderDetail)
+                                                        
                                                             <li style="text-align: left">
                                                                 <p class="my-2 h6" style="color: #910400">
                                                                     {{ $orderDetail->quantity }} x
@@ -289,7 +295,7 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

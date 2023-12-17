@@ -32,20 +32,22 @@
                                     <th>STT</th>
                                     <th>Hình Ảnh</th>
                                     <th>Tên Danh Mục</th>
+                                    <th>Số sản phẩm</th>
                                     <th>Ghi Chú</th>
                                     <th>Trạng Thái</th>
                                     <th>Hành Động</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($category as $key =>$item)
+                                @foreach ($category as $key => $item)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td><img width="100px" height="100px"
-                                            src="{{ $item->image ? '' . Storage::url($item->image) : 'https://www.freeiconspng.com/uploads/img-landscape-photo-photography-picture-icon-12.png' }}"
-                                            alt=""></td>
+                                                src="{{ $item->image ? '' . Storage::url($item->image) : 'https://www.freeiconspng.com/uploads/img-landscape-photo-photography-picture-icon-12.png' }}"
+                                                alt=""></td>
                                         <td>{{ $item->category_name }}</td>
-                                        <td>{{ $item->note}}</td>
+                                        <td>{{ count($item->products) }}</td>
+                                        <td>{{ $item->note }}</td>
                                         <td>
                                             @if ($item->status == 'active')
                                                 <span class="badge badge-success">Active</span>
@@ -57,9 +59,30 @@
                                             <a id="edit" href="{{ route('category.edit', ['id' => $item->id]) }}">
                                                 <button class="btn btn-success"><i class="fa-solid fa-pen"></i></button>
                                             </a>
-                                            <a id="delete" href="{{ route('category.delete', ['id' => $item->id]) }}">
-                                                <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                            </a>
+                                            @if (count($item->products) > 0)
+                                                <a href="{{ route('show_product_in_category', $item->id) }}"
+                                                    class="btn btn-primary">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </a>
+                                                <a id="delete"
+                                                    href="{{ route('category.delete', ['id' => $item->id]) }}">
+                                                    <button class="btn btn-danger" disabled><i
+                                                            class="fa-solid fa-trash-can"></i></button>
+                                                </a>
+                                            @else
+                                                <a href="{{ route('show_product_in_category', $item->id) }}">
+                                                    <button class="btn btn-primary" disabled>
+                                                        <i class="fa-solid fa-eye"></i>
+                                                    </button>
+
+                                                </a>
+                                                <a id="delete"
+                                                    href="{{ route('category.delete', ['id' => $item->id]) }}">
+                                                    <button class="btn btn-danger"><i
+                                                            class="fa-solid fa-trash-can"></i></button>
+                                                </a>
+                                            @endif
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -79,6 +102,3 @@
         });
     </script>
 @endpush
-
-
-
