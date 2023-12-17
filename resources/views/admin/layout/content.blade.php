@@ -204,7 +204,7 @@
                                     <button id="btnOrder" onclick="getLink('restaurant-manager')"
                                         class="btn btn-outline btn-primary btn-block">
                                         <i class="fa fa-th float-left mt-1"></i>
-                                        Đơn hàng</button>
+                                        Quản lý bàn</button>
                                     {{-- order_list --}}
                                     <button id="btnOrderAlternative" onclick="getLink('orderAlternative')"
                                         class="btn btn-outline btn-primary btn-block"><i
@@ -227,7 +227,7 @@
                                             class="btn btn-outline btn-primary btn-block">
                                             <i class="fa-regular fa-table fa fa-columns fa-square-kanban fa-sharp fa-solid float-left mt-1"
                                                 style="color: #d35352;"></i>
-                                            Bàn
+                                            Quản lý QR - Table
                                         </button>
                                         {{-- category --}}
                                         <button id="category" onclick="getLink('category')"
