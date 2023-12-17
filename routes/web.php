@@ -76,7 +76,7 @@ Route::middleware(['auth'])->group(function () {
     //changePassword
     Route::get('/change-password', [App\Http\Controllers\Login\LoginController::class, 'showForm'])->name('show.password.form');
     Route::post('/update-password', [App\Http\Controllers\Login\LoginController::class, 'updatePassword'])->name('update.password');
-    
+
     Route::middleware(['checkRole'])->group(function () {
         //User
         Route::match(['GET', 'POST'], '/register', [App\Http\Controllers\Login\LoginController::class, 'register'])->name('register');
@@ -93,6 +93,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('product', [ProductController::class, 'index'])->name('product.index');
         Route::match(['GET', 'POST'], '/add', [App\Http\Controllers\ProductController::class, 'add'])->name('create');
         Route::match(['get', 'post'], '/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
+        Route::get('/show-product-in-category/{id}', [ProductController::class, 'show_product_in_category'])->name('show_product_in_category');
         Route::get('delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
 
 
@@ -169,7 +170,7 @@ Route::group(['middleware' => ['customer:customer', 'checkCustomer']], function 
 
     Route::post('order', [CartController::class, 'order'])->name('order');
     Route::get('/get-cart', [CartController::class, 'getCart'])->name('get.cart');
-    
+
     // Apply coupon
     Route::get('apply-coupon', [CartController::class, 'applyCoupon'])->name('apply-coupon');
     Route::get('coupon-calculation', [CartController::class, 'couponCalculation'])->name('coupon-calculation');

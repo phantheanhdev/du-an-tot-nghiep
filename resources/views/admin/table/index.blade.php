@@ -45,6 +45,27 @@
                                         </button>
                                     </a>
                                     {{--  --}}
+
+
+
+                                    {{-- @php
+                                        //dd(count($table->orders));
+                                        $orders = \App\Models\Order::where('table_id' , 6)->count();
+                                        dd($orders);
+                                    @endphp --}}
+                                    
+
+                                    @if (count($table->orders))
+                                    <form action="{{ route('table.destroy', $table->id) }}" method="post"
+                                        id="table-form-delete" class="mx-3" onsubmit="return confirmDelete()">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button class="btn btn-danger" type="submit" disabled id="table-btn-delete">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </form>
+                                    @else
                                     <form action="{{ route('table.destroy', $table->id) }}" method="post"
                                         id="table-form-delete" class="mx-3" onsubmit="return confirmDelete()">
                                         @csrf
@@ -54,6 +75,13 @@
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                     </form>
+                                    @endif
+
+                                  
+
+
+
+
 
                                 </div>
 

@@ -19,7 +19,7 @@ class ProductController extends Controller
     public function index()
     {
         $product = Product::join('categories', 'products.category_id', '=', 'categories.id')
-            ->select('products.*', 'categories.category_name as category_name')
+            ->select('products.*', 'categories.category_name as category_name')->orderBy('id' , 'desc')
             ->get();
         return view('admin.products.index', compact('product'));
     }
@@ -130,5 +130,13 @@ class ProductController extends Controller
             }
         }
         return redirect()->back()->with($notification);
+    }
+
+
+    public function show_product_in_category($id){
+        $category_id = $id;
+        $category = Category::where('id' , $category_id)->first();
+        $products = Product::where('category_id' , $category_id)->orderBy('id' , 'desc')->get();
+        return view('admin.categories.showproduct' , compact('products' , 'category'));
     }
 }

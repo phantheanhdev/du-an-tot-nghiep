@@ -65,10 +65,30 @@
                                             <a id="edit" href="{{ route('product.edit', ['id' => $item->id]) }}">
                                                 <button class="btn btn-success"><i class="fa-solid fa-pen"></i></button>
                                             </a>
-                                            <a id="delete" href="{{ route('product.delete', ['id' => $item->id]) }}">
-                                                <button class="btn btn-danger"><i
-                                                        class="fa-solid fa-trash-can"></i></button>
-                                            </a>
+
+
+                                            {{-- @php
+                                                $orderDetail = \App\Models\OrderDetail::where('product_id', $item->id)->count();
+                                            @endphp
+                                            @if ($orderDetail > 0)
+                                                <a id="delete" href="{{ route('product.delete', ['id' => $item->id]) }}">
+                                                    <button class="btn btn-danger" disabled><i
+                                                            class="fa-solid fa-trash-can"></i></button>
+                                                </a>
+                                            @else
+                                                <a id="delete"
+                                                    href="{{ route('product.delete', ['id' => $item->id]) }}">
+                                                    <button class="btn btn-danger"><i
+                                                            class="fa-solid fa-trash-can"></i></button>
+                                                </a>
+                                            @endif --}}
+                                            <a id="delete"
+                                            href="{{ route('product.delete', ['id' => $item->id]) }}">
+                                            <button class="btn btn-danger"><i
+                                                    class="fa-solid fa-trash-can"></i></button>
+                                        </a>
+
+
                                         </td>
                                     </tr>
                                 @endforeach

@@ -62,10 +62,10 @@
                                             <a  href="{{ url('show-customer/' . $item->id)}}" class="btn btn-warning btn-sm float-end mx-1">
                                                 <i class="fa-regular fa-eye"></i>
                                             </a>
-                                            <a id="{{ $item->id }}" href=""
+                                            {{-- <a id="{{ $item->id }}" href=""
                                                 class="btn btn-danger btn-sm float-end mx-1 deleteIcon">
                                                 <i class="fa-solid fa-trash-can"></i>
-                                            </a>
+                                            </a> --}}
                                         </td>
                                     </tr>
                                 @endforeach
