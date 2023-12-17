@@ -20,7 +20,7 @@ class AdminDashboardController extends Controller
         $totalCancelOrders = Order::where('status', 2)->whereDate('created_at', Carbon::today())->count();
 
         $todaysEarnings = Order::where('status', 5)
-            ->whereDate('order_day', Carbon::today())
+            ->whereDate('created_at', Carbon::today())
             ->sum('total_price');
         $monthEarnings = Order::where('status', 5)
             ->whereMonth('created_at', Carbon::now()->month)

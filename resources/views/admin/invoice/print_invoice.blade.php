@@ -171,17 +171,24 @@
                 <tr>
                     <td>{{ $orderDetail->id }}</td>
                     <td>
-                        {{ convertVietnameseToEnglish($orderDetail->product->name) }} <br>
-                        @if (!empty($orderDetail->item))
-                            @php
-                                $items = json_decode($orderDetail->item, true);
-                                $item1 = json_decode($items);
-                            @endphp
-                            @if ($item1 != null)
-                                @foreach ($item1 as $item)
-                                  - {{convertVietnameseToEnglish($item->name)}} <br>
-                                @endforeach
+                        @if ($orderDetail->product === null)
+                            <p style="padding: 5px;color:#910400;text-align:left;">Không xác
+                                định
+                            </p>
+                        @else
+                            {{ convertVietnameseToEnglish($orderDetail->product->name) }} <br>
+                            @if (!empty($orderDetail->item))
+                                @php
+                                    $items = json_decode($orderDetail->item, true);
+                                    $item1 = json_decode($items);
+                                @endphp
+                                @if ($item1 != null)
+                                    @foreach ($item1 as $item)
+                                        - {{ convertVietnameseToEnglish($item->name) }} <br>
+                                    @endforeach
+                                @endif
                             @endif
+
                         @endif
                     </td>
                     <td>
@@ -210,7 +217,7 @@
 </body>
 
 </html>
-@if(session('open_new_tab'))
+@if (session('open_new_tab'))
     <script>
         window.open('{{ url('/print_order/' . $order->id) }}', '_blank');
     </script>

@@ -44,25 +44,31 @@
                                             {{-- order product --}}
                                             <ul style="list-style: none; padding: 0;">
                                                 @foreach ($order->orderDetails as $orderDetail)
-                                                    <li style="text-align: left">
-                                                        <p class="my-2 h6" style="color: #910400">
-                                                            {{ $orderDetail->quantity }} x
-                                                            {{ $orderDetail->product->name }}
+                                                    @if ($orderDetail->product === null)
+                                                        <p style="padding: 5px;color:#910400;text-align:left;">Không xác
+                                                            định
                                                         </p>
-                                                        @php
-                                                            $variant = json_decode($orderDetail->item);
-                                                            $variant2 = json_decode($variant);
-                                                        @endphp
+                                                    @else
+                                                        <li style="text-align: left">
+                                                            <p class="my-2 h6" style="color: #910400">
+                                                                {{ $orderDetail->quantity }} x
+                                                                {{ $orderDetail->product->name }}
+                                                            </p>
+                                                            @php
+                                                                $variant = json_decode($orderDetail->item);
+                                                                $variant2 = json_decode($variant);
+                                                            @endphp
 
-                                                        @if ($variant2 != null)
-                                                            @foreach ($variant2 as $value)
-                                                                - {{ $value->name }}<br>
+                                                            @if ($variant2 != null)
+                                                                @foreach ($variant2 as $value)
+                                                                    - {{ $value->name }}<br>
 
-                                                                <input type="hidden" value="{{ $value->price }}">
-                                                            @endforeach
-                                                        @endif
+                                                                    <input type="hidden" value="{{ $value->price }}">
+                                                                @endforeach
+                                                            @endif
 
-                                                    </li>
+                                                        </li>
+                                                    @endif
                                                 @endforeach
                                             </ul>
 
@@ -112,7 +118,7 @@
                                                     <a class="btn btn-secondary btn-sm float-end mx-1 print-btn"
                                                         href="{{ url('/order-form/' . $order->id) }}" target="_blank"><i
                                                             class="fa-solid fa-print"></i></a>
-                                                    <button type="submit" name="status" value="5" 
+                                                    <button type="submit" name="status" value="5"
                                                         class="btn btn-primary btn-sm float-end mx-1" onclick="meny()"><i
                                                             class="fa-solid fa fa-credit-card mt-1"></i></button>
                                                 @endif
