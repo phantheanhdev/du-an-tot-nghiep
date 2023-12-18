@@ -101,6 +101,8 @@ class OrderController extends Controller
             'todayDate' => $todayDate
 
         ]);
+
+        
     }
 
     public function genarateInvoice(string $id)

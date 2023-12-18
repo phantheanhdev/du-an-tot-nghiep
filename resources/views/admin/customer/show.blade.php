@@ -42,11 +42,20 @@
                                             <td>
                                                 <ul style="list-style: none; padding: 0;">
                                                     @foreach ($item->orderDetails as $value)
-                                                        <li style="text-align: left">
-                                                            <p class="my-2 h6" style="color: #DFA018">
-                                                                {{ $value->product->name }}
-                                                            </p>
-                                                        </li>
+                                                       @if ($value->product === null)
+                                                       <li style="text-align: left">
+                                                        <p class="my-2 h6" style="color: #DFA018">
+                                                            Không xác định
+                                                        </p>
+                                                    </li>
+                                                       @else
+                                                       <li style="text-align: left">
+                                                        <p class="my-2 h6" style="color: #DFA018">
+                                                            {{ $value->product->name }}
+                                                        </p>
+                                                    </li>
+                                                       @endif
+                                                      
                                                     @endforeach
                                                 </ul>
                                             </td>
