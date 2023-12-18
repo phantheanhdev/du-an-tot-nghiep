@@ -85,7 +85,7 @@
                                         <td>
                                             @if ($order->status == 0)
                                                 <span class="badge badge-warning">Chưa xác nhận</span>
-                                            @elseif ($order->status === 1)
+                                            @elseif ($order->status == 1)
                                                 <span class="badge badge-success">Đã xác nhận</span>
                                             @endif
                                         </td>
@@ -114,7 +114,7 @@
                                                 <input type="hidden" name="phone" value="{{ $order->phone }}">
                                                 <input type="hidden" name="total" value="{{ $order->total_price }}">
 
-                                                @if ($order->status === 1)
+                                                @if ($order->status == 1)
                                                     <a class="btn btn-secondary btn-sm float-end mx-1 print-btn"
                                                         href="{{ url('/order-form/' . $order->id) }}" target="_blank"><i
                                                             class="fa-solid fa-print"></i></a>
