@@ -172,8 +172,11 @@
                     <td>{{ $orderDetail->id }}</td>
                     <td>
                         @if ($orderDetail->product === null)
-                            <p style="padding: 5px;color:#910400;text-align:left;">Không xác
-                                định
+                            <p style="padding: 5px;color:#910400;text-align:left;">
+                                @php
+                                    $name = 'Không xác định';
+                                @endphp
+                                {{ convertVietnameseToEnglish($name) }}
                             </p>
                         @else
                             {{ convertVietnameseToEnglish($orderDetail->product->name) }} <br>

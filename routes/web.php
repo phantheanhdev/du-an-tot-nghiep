@@ -66,6 +66,7 @@ Route::middleware(['auth'])->group(function () {
     // print order
     Route::get('/print_order/{id}', [OrderController::class, 'print_order'])->name('print_order');
     Route::get('/order-form/{id}', [OrderController::class, 'billOrder'])->name('order-form');
+    Route::get('getOrder', [OrderController::class, 'getOrder']);
 
     // customer
     Route::resource('/customer', CustomerController::class);

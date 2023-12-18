@@ -45,8 +45,8 @@
                                             <ul style="list-style: none; padding: 0;">
                                                 @foreach ($order->orderDetails as $orderDetail)
                                                     @if ($orderDetail->product === null)
-                                                        <p style="padding: 5px;color:#910400;text-align:left;">Không xác
-                                                            định
+                                                        <p style="padding: 5px;color:#910400;text-align:left;">
+                                                            [Không xác định]
                                                         </p>
                                                     @else
                                                         <li style="text-align: left">

@@ -102,7 +102,7 @@ class OrderController extends Controller
 
         ]);
 
-        
+
     }
 
     public function genarateInvoice(string $id)
@@ -120,7 +120,7 @@ class OrderController extends Controller
 
     public function print_order(Request $request, $id)
     {
-        // $pdfPath = storage_path('app/documents/document.pdf');
+
         $order = Order::findOrFail($id);
         $order->update([
             'status' => 5
@@ -134,16 +134,7 @@ class OrderController extends Controller
             'todayDate' => $todayDate
         ]);
          return $pdf->stream();
-        // if (file_exists($pdfPath)) {
-
-        //     return response()->file($pdfPath)->deleteFileAfterSend(true);
-        // } else {
-
-        // return back()->with(['message' => 'Thanh toan thanh cong']);
-        // }
-        // if ($pdf->stream()) {
-        //     return back()->with(['message' => 'Thanh toan thanh cong']);
-        // }
+         
     }
 
     public function billOrder(string $id){
@@ -155,5 +146,15 @@ class OrderController extends Controller
 
         ]);
          return $pdf->stream();
+    }
+    public function getOrder()
+    {
+
+        $orders = Order::with(['orderDetails.product'])
+            ->whereIn('status', [0, 1, 3, 4])
+            ->orderByDesc('created_at')
+            ->get();
+
+        return $orders;
     }
 }
