@@ -45,7 +45,7 @@
                                                        @if ($value->product === null)
                                                        <li style="text-align: left">
                                                         <p class="my-2 h6" style="color: #DFA018">
-                                                            Không xác định
+                                                            [Không xác định]
                                                         </p>
                                                     </li>
                                                        @else
@@ -55,7 +55,7 @@
                                                         </p>
                                                     </li>
                                                        @endif
-                                                      
+
                                                     @endforeach
                                                 </ul>
                                             </td>
