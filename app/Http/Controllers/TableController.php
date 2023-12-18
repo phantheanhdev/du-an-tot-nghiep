@@ -22,7 +22,6 @@ class TableController extends Controller
      */
     public function index()
     {
-        // lấy bảng table và sắp xếp theo id từ lớn -> bé
         $all_table = Table::orderBy('id', 'desc')->get();
 
         return view('admin.table.index', ['all_table' => $all_table]);
@@ -43,12 +42,11 @@ class TableController extends Controller
     {
         $name = $request->input('name');
         $type = $request->input('type');
+        $get_http_host = $_SERVER['HTTP_HOST'];
 
-        // Kiểm tra xem giá trị $name đã tồn tại trong cột 'name' của bảng 'table' hay chưa
         $nameExists = Table::where('name', $name)->exists();
 
         if ($nameExists) {
-            // Nếu $name đã tồn tại, redirect với thông báo lỗi
             $notification = [
                 'message' => 'Tên bàn đã tồn tại. Vui lòng chọn tên khác',
                 'alert-type' => 'error',
@@ -63,7 +61,7 @@ class TableController extends Controller
         $data = [
             'name' => $name,
             'type' => $type,
-            'qr' => 'https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://127.0.0.1:8000/foodie?tableId=' . $new_id . '%26tableNo=' . $name,
+            'qr' => 'https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://' . $get_http_host . '/foodie?tableId=' . $new_id . '%26tableNo=' . $name
         ];
 
         try {
@@ -107,17 +105,15 @@ class TableController extends Controller
      */
     public function update(UpdateTableRequest $request, Table $table)
     {
-        // Lấy dữ liệu từ form
         $name = $request->input('name');
         $type = $request->input('type');
+        $get_http_host = $_SERVER['HTTP_HOST'];
 
-        // Kiểm tra xem giá trị $name đã tồn tại trong cột 'name' của bảng 'table' (ngoại trừ bản ghi đang được cập nhật) hay chưa
         $nameExists = Table::where('name', $name)
             ->where('id', '<>', $table->id)
             ->exists();
 
         if ($nameExists) {
-            // Nếu $name đã tồn tại (ngoại trừ bản ghi đang được cập nhật), redirect với thông báo lỗi
             $notification = [
                 'message' => 'Tên bàn đã tồn tại. Vui lòng chọn tên khác',
                 'alert-type' => 'error',
@@ -128,7 +124,7 @@ class TableController extends Controller
         $data = [
             'name' => $name,
             'type' => $type,
-            'qr' => 'https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://127.0.0.1:8000/foodie?tableId=' . $table->id . '%26tableNo=' . $name
+            'qr' => 'https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://' . $get_http_host . '/foodie?tableId=' . $table->id . '%26tableNo=' . $name
         ];
 
         try {
@@ -179,22 +175,10 @@ class TableController extends Controller
         $id = $request->id;
         $table = Table::findOrFail($id);
         $name = $table->name;
-
-        // $pdf = Pdf::loadView('admin.table.template_qr', [
-        //     'id' => $table->id,
-        //     'name' => $name,
-        //     // 'qr' => $table->qr,
-        // ]);
-
-        // // return view('admin.table.template_qr', [
-        // //     'id' => $table->id,
-        // //     'name' => $name,
-        // // ]);
-
-        // return $pdf->download('qr_code.pdf');
+        $get_http_host = $_SERVER['HTTP_HOST'];
 
         $filename = 'Foodie_QR.pdf';
-        $html = '<img src="https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://127.0.0.1:8000/foodie?tableId=' . $table->id . '%26tableNo=' . $name . '" alt="">';
+        $html = '<img src="https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://' . $get_http_host . '/foodie?tableId=' . $table->id . '%26tableNo=' . $name . '" alt="">';
 
         $pdf = new TCPDF;
 
@@ -277,8 +261,6 @@ class TableController extends Controller
 
         $order->status = $newStatus;
         $order->save();
-
-
 
         return redirect()->back()->with('success', 'Status updated successfully.');
     }
