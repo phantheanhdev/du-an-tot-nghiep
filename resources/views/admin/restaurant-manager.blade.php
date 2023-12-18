@@ -44,18 +44,18 @@
                                 $table->orders->filter(function ($order) {
                                 return $order->status == 0 ;
                                 })->count() > 0)
-                                <i id="table-icon-2" class="fa fa-bell fa-4x"></i>
+                                <i id="table-icon-2-{{$table->id}}" class="fa fa-bell fa-4x"></i>
                                 <br />
                                 <small id="table-notification-{{ $table->id }}">Có đơn mới</small>
                                 @elseif (
                                 $table->orders->filter(function ($order) {
                                 return  $order->status == 1;
                                 })->count() > 0)
-                                <i id="table-icon-2" class="fa fa-cutlery fa-4x"></i>
+                                <i id="table-icon-2-{{$table->id}}" class="fa fa-cutlery fa-4x"></i>
                                 <br />
                                 <small id="table-notification-{{ $table->id }}">Bàn có khách</small>
                                 @else
-                                <i id="table-icon-2" class="fa fa-minus fa-4x"></i>
+                                <i id="table-icon-2-{{$table->id}}" class="fa fa-minus fa-4x"></i>
                                 <br />
                                 <small id="table-notification-{{ $table->id }}">Bàn trống</small>
                                 @endif
@@ -87,9 +87,11 @@
         let originClass = ''
         if (data.message.includes('có đơn mới')) {
             $('#table-' + data.id).addClass('yellow-bg');
+            $('#table-notification-' + data.id).text('Có đơn mới');
+            $('#table-icon-2-' + data.id).addClass('fa fa-bell fa-4x');
         } else {
             originClass = $('#table-' + data.id).attr('class');
-            $('#table-' + data.id).addClass('red-bg').removeClass('yellow-bg');
+            $('#table-' + data.id).addClass('red-bg').removeClass('green-bg').removeClass('yellow-bg');
         }
 
         Command: toastr["warning"](data.message)
@@ -104,7 +106,7 @@
             "onclick": null,
             "showDuration": "300",
             "hideDuration": "1000",
-            "timeOut": "5000",
+            "timeOut": "20000",
             "extendedTimeOut": "1000",
             "showEasing": "swing",
             "hideEasing": "linear",
@@ -124,7 +126,7 @@
                 $('#table-' + data.id).addClass('yellow-bg');
                 $('#table-notification-' + data.id).text('Có đơn mới')
             }
-        }, 5000);
+        }, 20000);
     });
 </script>
 @endsection

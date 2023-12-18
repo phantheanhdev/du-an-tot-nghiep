@@ -35,7 +35,9 @@ use Illuminate\Support\Facades\Cookie;
 // ========================================================= admin ====================================================
 
 //Login
+Route::middleware(['checkLogin'])->group(function () {
 Route::match(['GET', 'POST'], '/login', [App\Http\Controllers\Login\LoginController::class, 'login'])->name('login');
+});
 Route::get('/logout', [App\Http\Controllers\Login\LoginController::class, 'logout'])->name('logout');
 
 
