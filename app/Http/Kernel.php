@@ -72,5 +72,6 @@ class Kernel extends HttpKernel
         'customer' => \App\Http\Middleware\Customer::class,
         'checkCustomer' =>  \App\Http\Middleware\checkCustomer::class,
         'checkRole' => \App\Http\Middleware\CheckRole::class,
+        'checkLogin' => \App\Http\Middleware\CheckLogin::class,
     ];
 }
