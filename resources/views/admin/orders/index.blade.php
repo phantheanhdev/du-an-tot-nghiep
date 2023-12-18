@@ -113,15 +113,15 @@
                                                             <select class="form-control order-status" name="status"
                                                                 id="{{ $item->id }}">
                                                                 <option value="0"
-                                                                    {{ $item->status === 0 ? 'selected' : '' }}>
+                                                                    {{ $item->status == 0 ? 'selected' : '' }}>
                                                                     Chưa xác nhận
                                                                 </option>
                                                                 <option value="1"
-                                                                    {{ $item->status === 1 ? 'selected' : '' }}>
+                                                                    {{ $item->status == 1 ? 'selected' : '' }}>
                                                                     Đã xác nhận
                                                                 </option>
                                                                 <option value="2"
-                                                                    {{ $item->status === 2 ? 'selected' : '' }}>
+                                                                    {{ $item->status == 2 ? 'selected' : '' }}>
                                                                     Hủy bỏ
                                                                 </option>
                                                             </select>
