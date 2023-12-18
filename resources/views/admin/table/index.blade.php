@@ -44,16 +44,7 @@
                                             <i class="fa-solid fa-pen"></i>
                                         </button>
                                     </a>
-                                    {{--  --}}
-
-
-
-                                    {{-- @php
-                                        //dd(count($table->orders));
-                                        $orders = \App\Models\Order::where('table_id' , 6)->count();
-                                        dd($orders);
-                                    @endphp --}}
-                                    
+                                    {{--  --}}                                    
 
                                     @if (count($table->orders))
                                     <form action="{{ route('table.destroy', $table->id) }}" method="post"
@@ -76,12 +67,6 @@
                                         </button>
                                     </form>
                                     @endif
-
-                                  
-
-
-
-
 
                                 </div>
 
