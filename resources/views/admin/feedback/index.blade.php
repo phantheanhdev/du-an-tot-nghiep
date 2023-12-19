@@ -55,7 +55,7 @@
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $feedback->customer->phone }}</td>
                                                     <td>
-                                                        @if ($feedback->product === null)
+                                                        @if ($feedback->product == null)
                                                             Không xác định
                                                         @else
                                                             {{ $feedback->product->name }}

@@ -439,7 +439,7 @@
 
                                                             <div class="product-desc" data-toggle="modal"
                                                                 data-target="#exampleModalScrollable-product-{{ $product->id }}">
-                                                                @if ($product->flashSale === 1)
+                                                                @if ($product->flashSale == 1)
                                                                     @php
                                                                         $saleProduct = \App\Models\FlashSaleItem::where('product_id', $product->id)->first();
 
@@ -450,7 +450,7 @@
                                                                         $discount_rate = $saleProduct->discount_rate;
 
                                                                     @endphp
-                                                                    @if ($product->flashSale === 1 && now()->between($start_date, $end_date))
+                                                                    @if ($product->flashSale == 1 && now()->between($start_date, $end_date))
                                                                         @php
 
                                                                             $newPrice = newPrice($product->price, $discount_rate);
@@ -525,7 +525,7 @@
                                                                         id="product-img-{{ $product->id }}"
                                                                         value="{{ $product->image }}">
                                                                     <div style="background-color:transparent">
-                                                                        @if ($product->flashSale === 1)
+                                                                        @if ($product->flashSale == 1)
                                                                             @php
                                                                                 $saleProduct = \App\Models\FlashSaleItem::where('product_id', $product->id)->first();
 
@@ -536,7 +536,7 @@
                                                                                 $discount_rate = $saleProduct->discount_rate;
 
                                                                             @endphp
-                                                                            @if ($product->flashSale === 1 && now()->between($start_date, $end_date))
+                                                                            @if ($product->flashSale == 1 && now()->between($start_date, $end_date))
                                                                                 @php
 
                                                                                     $newPrice = newPrice($product->price, $discount_rate);
@@ -562,7 +562,7 @@
                                                                                 <h5 class="menu-options-title">
                                                                                     {{ $variant->name }}</h5>
                                                                                 <ul class="clearfix">
-                                                                                    @if ($variant->multi_choice === 0)
+                                                                                    @if ($variant->multi_choice == 0)
                                                                                         @foreach ($variant->productVariantItems as $variantItem)
                                                                                             <li>
                                                                                                 <label
@@ -583,7 +583,7 @@
                                                                                         @endforeach
 
                                                                                         <br>
-                                                                                    @elseif($variant->multi_choice === 1)
+                                                                                    @elseif($variant->multi_choice == 1)
                                                                                         @foreach ($variant->productVariantItems as $variantItem)
                                                                                             <li>
                                                                                                 <label

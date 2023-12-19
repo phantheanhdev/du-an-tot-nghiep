@@ -65,15 +65,15 @@
                                                 <select class="form-control order-status" name="status"
                                                     id="{{ $item->id }}">
                                                     <option value="1"
-                                                        {{ $item->status === 1 ? 'selected' : '' }}>
+                                                        {{ $item->status == 1 ? 'selected' : '' }}>
                                                         Confirmed
                                                     </option>
                                                     <option value="3"
-                                                        {{ $item->status === 3 ? 'selected' : '' }}>
+                                                        {{ $item->status == 3 ? 'selected' : '' }}>
                                                         Preparing
                                                     </option>
                                                     <option value="4"
-                                                        {{ $item->status === 4 ? 'selected' : '' }}>
+                                                        {{ $item->status == 4 ? 'selected' : '' }}>
                                                         Came out the dish
                                                     </option>
                                                 </select>

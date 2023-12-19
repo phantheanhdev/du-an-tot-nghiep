@@ -43,7 +43,7 @@
                                 <td>
                                     @if ($user->role == 0)
                                     <span class="badge badge-primary">Nhân viên</span>
-                                    @elseif ($user->role === 1)
+                                    @elseif ($user->role == 1)
                                     <span class="badge badge-danger">Admin</span>
                                     @endif
                                 </td>

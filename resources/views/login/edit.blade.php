@@ -66,7 +66,7 @@
         var passwordInput = document.getElementById(inputId);
         var button = document.querySelector('[data-target="' + inputId + '"]');
 
-        if (passwordInput.type === "password") {
+        if (passwordInput.type == "password") {
             passwordInput.type = "text";
             button.innerHTML = '<i class="fa-regular fa-eye-slash"></i> Hide';
         } else {

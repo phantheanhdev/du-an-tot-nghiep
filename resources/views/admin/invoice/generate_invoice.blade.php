@@ -188,7 +188,7 @@
                 <tr>
                     <td>{{ $orderDetail->id }}</td>
                     <td>
-                        @if ($orderDetail->product === null)
+                        @if ($orderDetail->product == null)
                             <p style="padding: 5px;color:#910400;text-align:center;">
                                 @php
                                     $name = 'Không xác định';

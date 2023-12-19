@@ -56,10 +56,10 @@
                                                 <select class="form-control change-status" name="status"
                                                     id="{{ $item->id }}">
 
-                                                    <option value="1" {{ $item->status === 1 ? 'selected' : '' }}>
+                                                    <option value="1" {{ $item->status == 1 ? 'selected' : '' }}>
                                                         Active
                                                     </option>
-                                                    <option value="0" {{ $item->status === 0 ? 'selected' : '' }}>
+                                                    <option value="0" {{ $item->status == 0 ? 'selected' : '' }}>
                                                         Inactive
                                                     </option>
                                                 </select>

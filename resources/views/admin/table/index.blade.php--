@@ -27,14 +27,15 @@
 
             </div>
 
-            <div class="row mx-1 d-flex justify-content-lg-between justify-content-center">
+            <div class="row ml-lg-4">
 
                 @foreach ($all_table as $table)
-                    <div class="ibox-content mb-3 mx-lg-1 mx-2 p-0">
+                    <div class="ibox-content col-12 col-lg-3 mb-3 p-0">
                         <div class="card border-0" style="">
 
                             {{-- img qr --}}
                             <img src="{{ $table->qr }}" class="card-img-top p-0 qr-image" alt="qr code">
+
 
                             <div class="card-body text-center">
                                 <div class="d-flex justify-content-center">
@@ -78,13 +79,9 @@
                         </div>
                     </div>
                     {{-- ô trống --}}
-                    {{-- <div class="col-lg-1"></div> --}}
+                    <div class="col-lg-1"></div>
                 @endforeach
             </div>
-
-
-
-
         </div>
     </div>
 

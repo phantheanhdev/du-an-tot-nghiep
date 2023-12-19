@@ -60,7 +60,7 @@
                                                     <td>
                                                         <ul style="list-style: none; padding: 0;">
                                                             @foreach ($item->orderDetails as $orderDetail)
-                                                                @if ($orderDetail->product === null)
+                                                                @if ($orderDetail->product == null)
                                                                     <p style="padding: 5px;color:#910400;text-align:left;">
                                                                         [Không xác định]
                                                                     </p>
@@ -164,7 +164,7 @@
                                                 <td>
                                                     <ul style="list-style: none; padding: 0;">
                                                         @foreach ($item->orderDetails as $orderDetail)
-                                                            @if ($orderDetail->product === null)
+                                                            @if ($orderDetail->product == null)
                                                                 <p style="padding: 5px;color:#910400;text-align:left;">
                                                                     [Không xác định]
                                                                 </p>
@@ -249,7 +249,7 @@
                                                 <td>
                                                     <ul style="list-style: none; padding: 0;">
                                                         @foreach ($item->orderDetails as $orderDetail)
-                                                            @if ($orderDetail->product === null)
+                                                            @if ($orderDetail->product == null)
                                                                 <p style="padding: 5px;color:#910400;text-align:left;">
                                                                     [Không xác định]
                                                                 </p>
@@ -425,7 +425,7 @@
                         if (order.status == 0) {
                             row +=
                                 '<span class="badge badge-warning">Chưa xác nhận</span>';
-                        } else if (order.status === 1) {
+                        } else if (order.status == 1) {
                             row +=
                                 '<span class="badge badge-success">Đã xác nhận</span>';
                         }
@@ -456,7 +456,7 @@
                         row += '<input type="hidden" name="phone" value="' + order.phone + '">';
                         row += '<input type="hidden" name="total" value="' + order.total_price + '">';
 
-                        if (order.status === 1) {
+                        if (order.status == 1) {
                             row += '<a class="btn btn-secondary btn-sm float-end mx-1" href="' +
                                 '/order-form/' + order.id + '"><i class="fa-solid fa-print"></i></a>';
                             row +=
