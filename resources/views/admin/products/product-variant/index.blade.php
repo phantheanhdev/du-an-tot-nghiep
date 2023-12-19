@@ -42,7 +42,7 @@
                                         <td>{{ $item->name }}</td>
                                         <td>
 
-                                            <input type="checkbox" disabled {{ $item->multi_choice === 1 ? 'checked' : '' }}
+                                            <input type="checkbox" disabled {{ $item->multi_choice == 1 ? 'checked' : '' }}
                                                 class="form-control">
                                         </td>
                                         <td>

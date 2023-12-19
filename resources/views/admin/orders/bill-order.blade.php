@@ -122,7 +122,7 @@
                             @foreach ($bill as $key => $orderDetail)
                         <tr>
                             <td>
-                                @if ($orderDetail->product === null)
+                                @if ($orderDetail->product == null)
                                     <p style="padding: 5px;color:#910400;text-align:left;">
                                         @php
                                             $name = 'Không xác định';

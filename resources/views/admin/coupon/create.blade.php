@@ -131,7 +131,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    if (response.status === 'success') {
+                    if (response.status == 'success') {
                         toastr.success(response.message)
                         $("#add_coupon_btn").text('Create coupon');
                         $("#coupon_create_form")[0].reset();

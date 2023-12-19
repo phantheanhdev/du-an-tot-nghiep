@@ -130,10 +130,10 @@
                                                     <form action="" method="get">
                                                         <select class="form-control change-status-flash-sale" name="status" id="{{ $item->id }}">
 
-                                                            <option value="1" {{ $item->status === 1 ? 'selected' : '' }}>
+                                                            <option value="1" {{ $item->status == 1 ? 'selected' : '' }}>
                                                                 Hoạt động
                                                             </option>
-                                                            <option value="0" {{ $item->status === 0 ? 'selected' : '' }}>
+                                                            <option value="0" {{ $item->status == 0 ? 'selected' : '' }}>
                                                                 Không hoạt động
                                                             </option>
                                                         </select>
@@ -191,7 +191,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
-                if (response.status === 'success') {
+                if (response.status == 'success') {
                     toastr.success(response.message)
 
                     $("#form_flash_sale_add_product")[0].reset();
