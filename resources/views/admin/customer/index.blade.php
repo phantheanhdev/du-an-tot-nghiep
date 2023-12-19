@@ -23,63 +23,95 @@
                 <input hidden value="Completed" id="lblCompleted" />
                 <input hidden value="2" id="txtTableId" />
 
-                <div class="col-md-12">
+
+
+
+                <div class="col-md-12 mt-5">
                     <div class="row table-responsive" id="nonPayOrder">
-                        <table id="myTable" class="display ">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Số lần mua</th>
-                                    <th>Tổng tiền</th>
-                                    <th>Tổng điểm </th>
-                                    <th>Hành Động</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($customer as $key => $item)
-                                    <tr>
-                                        <td>{{ $key + 1 }}</td>
-                                        <td>{{ $item->phone }}</td>
-                                        <td>
-                                            @php
-                                                $countPurchases = $item->orders->where('status', 5)->count();
-                                            @endphp
-                                            @if ($countPurchases > 0)
-                                                {{ $countPurchases }}
-                                            @else
-                                                0
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @php
-                                                $totalAmount = $item->orders->where('status', 5)->sum('total_price');
-                                            @endphp
-                                            {{ $totalAmount }}
-                                        </td>
-                                        <td>{{ $item->point }}</td>
-                                        <td>
-                                            <a  href="{{ url('show-customer/' . $item->id)}}" class="btn btn-warning btn-sm float-end mx-1">
-                                                <i class="fa-regular fa-eye"></i>
-                                            </a>
-                                            {{-- <a id="{{ $item->id }}" href=""
+                        <div class="col-md-12 m5-2">
+                            <div class="card">
+                                <div class="d-flex card-header justify-content-between align-items-center">
+                                    <h4 class="header-title">Danh sách khách hàng</h4>
+                                </div>
+
+                                <div class="card-body py-0 mb-3 mt-3">
+                                    <table class="table" id="myTableCustomer">
+                                        <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Số điện thoại</th>
+                                                <th>Số lần mua</th>
+                                                <th>Tổng tiền</th>
+                                                <th>Tổng điểm </th>
+                                                <th>Hành Động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($customer as $key => $item)
+                                                <tr>
+                                                    <td>{{ $key + 1 }}</td>
+                                                    <td>{{ $item->phone }}</td>
+                                                    <td>
+                                                        @php
+                                                            $countPurchases = $item->orders->where('status', 5)->count();
+                                                        @endphp
+                                                        @if ($countPurchases > 0)
+                                                            {{ $countPurchases }}
+                                                        @else
+                                                            0
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @php
+                                                            $totalAmount = $item->orders->where('status', 5)->sum('total_price');
+                                                        @endphp
+                                                        {{ $totalAmount }}
+                                                    </td>
+                                                    <td>{{ $item->point }}</td>
+                                                    <td>
+                                                        <a href="{{ url('show-customer/' . $item->id) }}"
+                                                            class="btn btn-warning btn-sm float-end mx-1">
+                                                            <i class="fa-regular fa-eye"></i>
+                                                        </a>
+                                                        {{-- <a id="{{ $item->id }}" href=""
                                                 class="btn btn-danger btn-sm float-end mx-1 deleteIcon">
                                                 <i class="fa-solid fa-trash-can"></i>
                                             </a> --}}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+
+
+
+                                        </tbody>
+                                    </table>
+                                </div> <!-- end slimscroll -->
+                            </div>
+                            <!-- end card-->
+                        </div>
+
                     </div>
+
+
+
+
+
+
+
+
                 </div>
+
+
+
+
+
             </div>
         </div>
     </div>
 @endsection
 @push('scripts')
     <script>
-        let table = new DataTable('#myTable', {
+        let table = new DataTable('#myTableCustomer', {
             responsive: true
         });
     </script>

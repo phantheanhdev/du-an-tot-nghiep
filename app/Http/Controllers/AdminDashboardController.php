@@ -68,6 +68,20 @@ class AdminDashboardController extends Controller
 
 
 
+
+        $topProduct = Product::orderBy('purchases', 'desc')->take(5)->get();
+ 
+
+      
+
+
+
+
+
+
+
+
+
         return view('admin.dashboard.index', compact(
             'todaysOrder',
             'totalPendingOrders',
@@ -81,8 +95,8 @@ class AdminDashboardController extends Controller
             'totalProducts',
             'statisticsMonth',
             'totalCancelOrders',
-            'statisticsYear'
-
+            'statisticsYear',
+            'topProduct'
         ));
     }
 }

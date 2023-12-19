@@ -26,55 +26,83 @@
 
                 <div class="col-md-12 mt-5">
                     <div class="row table-responsive" id="nonPayOrder">
-                        <table class="table table-hover">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Tên nhân viên</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Địa chỉ</th>
-                                    <th>Vị trí</th>
-                                    <th>Ca làm việc</th>
+                        <div class="col-md-12 m5-2">
+                            <div class="card">
+                                <div class="d-flex card-header justify-content-between align-items-center">
+                                    <h4 class="header-title">Danh sách nhân viên</h4>
+                                </div>
 
-                                    <th>Ngày tuyển dụng</th>
-                                    <th>Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($employees as $key => $item)
-                                    <tr>
-                                        <td>{{$key +1}}</td>
-                                        <td>{{$item->name}}</td>
-                                        <td>{{$item->phone}}</td>
-                                        <td>{{$item->address}}</td>
-                                        <td>{{$item->position}}</td>
-                                        <td> {{$item->shift}} </td>
+                                <div class="card-body py-0 mb-3 mt-3">
+                                    <table class="table" id="myTableEmloyee">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Tên nhân viên</th>
+                                                <th>Số điện thoại</th>
+                                                <th>Địa chỉ</th>
+                                                <th>Vị trí</th>
+                                                <th>Ca làm việc</th>
 
-                                        <td>{{$item->hire_date}}</td>
-                                        <td class="d-flex justify-content-center">
-                                            <a id="edit" class="px-2" href="{{ route('employee.edit', ['id' => $item->id]) }}">
-                                                <button class="btn btn-success">
-                                                    <i class="fa-solid fa-pen"></i>
-                                                </button>
-                                            </a>
-                                            <a id="delete" href="{{ route('employee.delete', ['id' => $item->id]) }}">
-                                                <button class="btn btn-danger">
-                                                    <i class="fa-solid fa-trash-can"></i>
-                                                </button>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                                <th>Ngày tuyển dụng</th>
+                                                <th>Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($employees as $key => $item)
+                                                <tr>
+                                                    <td>{{ $key + 1 }}</td>
+                                                    <td>{{ $item->name }}</td>
+                                                    <td>{{ $item->phone }}</td>
+                                                    <td>{{ $item->address }}</td>
+                                                    <td>{{ $item->position }}</td>
+                                                    <td> {{ $item->shift }} </td>
+
+                                                    <td>{{ $item->hire_date }}</td>
+                                                    <td class="d-flex justify-content-center">
+                                                        <a id="edit" class="px-2"
+                                                            href="{{ route('employee.edit', ['id' => $item->id]) }}">
+                                                            <button class="btn btn-success">
+                                                                <i class="fa-solid fa-pen"></i>
+                                                            </button>
+                                                        </a>
+                                                        <a id="delete"
+                                                            href="{{ route('employee.delete', ['id' => $item->id]) }}">
+                                                            <button class="btn btn-danger">
+                                                                <i class="fa-solid fa-trash-can"></i>
+                                                            </button>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+
+
+
+                                        </tbody>
+                                    </table>
+                                </div> <!-- end slimscroll -->
+                            </div>
+                            <!-- end card-->
+                        </div>
+
                     </div>
+
+
+
+
+
+
+
+
                 </div>
             </div>
         </div>
-    </div>
-@endsection
+    @endsection
 
 
-
-
-
+    @push('scripts')
+        <script>
+            let table = new DataTable('#myTableEmloyee', {
+                responsive: true
+            });
+        </script>
+    @endpush

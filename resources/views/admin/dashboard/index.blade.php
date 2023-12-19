@@ -20,8 +20,15 @@
                 <h3 class="text-qrRest-dark text-center">Thống kê</h3>
 
                 <hr />
+
+
+
+
+
+
                 <div class="col-md-12">
                     {{-- <h4 class="page-title">Doanh thu</h4> --}}
+
                     <div class="row">
                         <div class="col-sm-3 mt-2">
                             <div class="card widget-flat">
@@ -53,7 +60,8 @@
                                     <div class="float-end">
                                         <i class="mdi mdi-account-multiple widget-icon"></i>
                                     </div>
-                                    <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Đơn đã hoàn thành hôm nay</h5>
+                                    <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Đơn đã hoàn thành hôm
+                                        nay</h5>
                                     <h3 class="mt-3 mb-3">{{ $totalCompleteOrders }}</h3>
                                 </div> <!-- end card-body-->
                             </div> <!-- end card-->
@@ -159,73 +167,42 @@
                             </div> <!-- end card-->
                         </div> <!-- end col-->
                     </div>
+                     
+
  --}}
-                    <div class="row mt-2">
-                        @if (count($statisticsMonth) > 0)
-
-                        <div class="col-xl-6 col-lg-6 order-lg-1 mt-2">
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 order-lg-1 mt-2">
                             <div class="card">
                                 <div class="d-flex card-header justify-content-between align-items-center">
-                                    <h4 class="header-title">Doanh thu theo tháng trong năm nay</h4>
-                                </div>
-
-                                <div class="card-body pt-0">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-
-                                                <th scope="col">Tháng</th>
-                                                <th scope="col">Tổng số đơn đặt hàng</th>
-                                                <th scope="col">Tổng cộng</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            @foreach ($statisticsMonth as $item)
-                                                <tr>
-
-                                                    <td>{{ $item->month }}</td>
-                                                    <td>{{ $item->total_orders }}</td>
-                                                    <td style="color: red;">{{ number_format($item->total_amount, 0) }} đ</td>
-                                                </tr>
-                                            @endforeach
-
-
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </div> <!-- end card-->
-                        </div> <!-- end col-->
-                        @endif
-
-
-                        @if (count($statisticsYear) > 0)
-                        <div class="col-xl-6 col-lg-6 order-lg-1 mt-2">
-                            <div class="card">
-                                <div class="d-flex card-header justify-content-between align-items-center">
-                                    <h4 class="header-title">Doanh thu những năm gần đây</h4>
+                                    <h4 class="header-title">Top 5 sản phẩm bán chạy nhất</h4>
                                 </div>
 
                                 <div class="card-body py-0 mb-3">
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th scope="col">Năm</th>
-                                                <th scope="col">Tổng số đơn đặt hàng</th>
-                                                <th scope="col">Tổng cộng</th>
+                                                <th scope="col">Tên</th>
+                                                <th scope="col">Giá</th>
+                                                <th scope="col">Lượt bán</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @if (count($topProduct) > 0)
+                                                @foreach ($topProduct as $item)
+                                                    <tr>
 
-                                            @foreach ($statisticsYear as $item)
+                                                        <td>{{ $item->name }}</td>
+                                                        <td style="color: red;">{{ formatNumberPrice($item->price) }}</td>
+                                                        <td>{{ $item->purchases }}</td>
+
+                                                    </tr>
+                                                @endforeach
+                                            @else
                                                 <tr>
-
-                                                    <td>{{ $item->year }}</td>
-                                                    <td>{{ $item->total_orders }}</td>
-                                                    <td style="color: red;">{{ number_format($item->total_amount, 0) }} đ</td>
+                                                    <td colspan="2">Chưa có sản phẩm nào hết</td>
                                                 </tr>
-                                            @endforeach
+                                            @endif
+
 
 
                                         </tbody>
@@ -234,8 +211,89 @@
                             </div>
                             <!-- end card-->
                         </div>
-                        <!-- end col -->
+                    </div>
+
+                    <div class="row mt-2">
+                        @if (count($statisticsMonth) > 0)
+                            <div class="col-xl-6 col-lg-6 order-lg-1 mt-2">
+                                <div class="card">
+                                    <div class="d-flex card-header justify-content-between align-items-center">
+                                        <h4 class="header-title">Doanh thu theo tháng trong năm nay</h4>
+                                    </div>
+
+                                    <div class="card-body pt-0">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+
+                                                    <th scope="col">Tháng</th>
+                                                    <th scope="col">Tổng số đơn đặt hàng</th>
+                                                    <th scope="col">Tổng cộng</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                @foreach ($statisticsMonth as $item)
+                                                    <tr>
+
+                                                        <td>{{ $item->month }}</td>
+                                                        <td>{{ $item->total_orders }}</td>
+                                                        <td style="color: red;">
+                                                            {{ number_format($item->total_amount, 0) }} đ</td>
+                                                    </tr>
+                                                @endforeach
+
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div> <!-- end card-->
+                            </div> <!-- end col-->
                         @endif
+
+
+                        @if (count($statisticsYear) > 0)
+                            <div class="col-xl-6 col-lg-6 order-lg-1 mt-2">
+                                <div class="card">
+                                    <div class="d-flex card-header justify-content-between align-items-center">
+                                        <h4 class="header-title">Doanh thu những năm gần đây</h4>
+                                    </div>
+
+                                    <div class="card-body py-0 mb-3">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Năm</th>
+                                                    <th scope="col">Tổng số đơn đặt hàng</th>
+                                                    <th scope="col">Tổng cộng</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                @foreach ($statisticsYear as $item)
+                                                    <tr>
+
+                                                        <td>{{ $item->year }}</td>
+                                                        <td>{{ $item->total_orders }}</td>
+                                                        <td style="color: red;">
+                                                            {{ number_format($item->total_amount, 0) }} đ</td>
+                                                    </tr>
+                                                @endforeach
+
+
+                                            </tbody>
+                                        </table>
+                                    </div> <!-- end slimscroll -->
+                                </div>
+                                <!-- end card-->
+                            </div>
+                            <!-- end col -->
+                        @endif
+
+
+
+
 
                     </div>
 

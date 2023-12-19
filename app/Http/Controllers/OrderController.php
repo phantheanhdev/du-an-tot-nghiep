@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Customer;
 use App\Models\OrderDetail;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -125,6 +126,15 @@ class OrderController extends Controller
         $order->update([
             'status' => 5
         ]);
+
+        $orderDetail = OrderDetail::where('order_id' , $order->id)->get();
+        foreach($orderDetail as $item){
+            $product = Product::where('id' , $item->product_id)->first();
+            Product::where('id' , $item->product_id)->update([
+                'purchases' => $product->purchases + $item->quantity
+            ]);
+        }
+
 
         $todayDate = Carbon::now('Asia/Ho_Chi_Minh');
         $bill = OrderDetail::where('order_id', $id)->get();

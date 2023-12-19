@@ -19,6 +19,7 @@ class Product extends Model
         'status',
         'description',
         'category_id',
+        'purchases',
     ];
 
     public function orderdetails()
