@@ -23,7 +23,7 @@ class FlashSaleController extends Controller
     {
         $request->validate([
             'product_id' => ['required', 'unique:flash_sale_items,product_id'],
-            'discount_rate' => ['required', 'numeric', 'min:0', 'max:99'],
+            'discount_rate' => ['required', 'numeric', 'min:5', 'max:99'],
             'start_date' => ['required'],
             'end_date' => ['required'],
         ], [
