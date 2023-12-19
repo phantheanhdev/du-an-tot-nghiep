@@ -23,10 +23,9 @@ class FlashSaleController extends Controller
     {
         $request->validate([
             'product_id' => ['required', 'unique:flash_sale_items,product_id'],
-            'discount_rate' => ['required', 'numeric', 'min:0', 'max:99'],
+            'discount_rate' => ['required', 'numeric', 'min:5', 'max:99'],
             'start_date' => ['required'],
             'end_date' => ['required'],
-            'status' => ['required'],
         ], [
             'product.unique' => 'Sản phẩm hiện đang có chương trình flash sale!'
         ]);
@@ -43,7 +42,7 @@ class FlashSaleController extends Controller
             $flashSaleItem->discount_rate = $request->discount_rate;
             $flashSaleItem->start_date = $request->start_date;
             $flashSaleItem->end_date = $request->end_date;
-            $flashSaleItem->status = $request->status;
+            $flashSaleItem->status = 1;
             $flashSaleItem->save();
         }
 

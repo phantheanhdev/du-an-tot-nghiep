@@ -12,6 +12,7 @@ use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Symfony\Component\VarDumper\VarDumper;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Elibyy\TCPDF\Facades\TCPDF;
 
 
 class TableController extends Controller
@@ -21,7 +22,6 @@ class TableController extends Controller
      */
     public function index()
     {
-        // lấy bảng table và sắp xếp theo id từ lớn -> bé
         $all_table = Table::orderBy('id', 'desc')->get();
 
         return view('admin.table.index', ['all_table' => $all_table]);
@@ -42,12 +42,11 @@ class TableController extends Controller
     {
         $name = $request->input('name');
         $type = $request->input('type');
+        $get_http_host = $_SERVER['HTTP_HOST'];
 
-        // Kiểm tra xem giá trị $name đã tồn tại trong cột 'name' của bảng 'table' hay chưa
         $nameExists = Table::where('name', $name)->exists();
 
         if ($nameExists) {
-            // Nếu $name đã tồn tại, redirect với thông báo lỗi
             $notification = [
                 'message' => 'Tên bàn đã tồn tại. Vui lòng chọn tên khác',
                 'alert-type' => 'error',
@@ -62,7 +61,7 @@ class TableController extends Controller
         $data = [
             'name' => $name,
             'type' => $type,
-            'qr' => 'https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://127.0.0.1:8000/foodie?tableId=' . $new_id . '%26tableNo=' . $name,
+            'qr' => 'https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://' . $get_http_host . '/foodie?tableId=' . $new_id . '%26tableNo=' . $name
         ];
 
         try {
@@ -106,17 +105,15 @@ class TableController extends Controller
      */
     public function update(UpdateTableRequest $request, Table $table)
     {
-        // Lấy dữ liệu từ form
         $name = $request->input('name');
         $type = $request->input('type');
+        $get_http_host = $_SERVER['HTTP_HOST'];
 
-        // Kiểm tra xem giá trị $name đã tồn tại trong cột 'name' của bảng 'table' (ngoại trừ bản ghi đang được cập nhật) hay chưa
         $nameExists = Table::where('name', $name)
             ->where('id', '<>', $table->id)
             ->exists();
 
         if ($nameExists) {
-            // Nếu $name đã tồn tại (ngoại trừ bản ghi đang được cập nhật), redirect với thông báo lỗi
             $notification = [
                 'message' => 'Tên bàn đã tồn tại. Vui lòng chọn tên khác',
                 'alert-type' => 'error',
@@ -127,7 +124,7 @@ class TableController extends Controller
         $data = [
             'name' => $name,
             'type' => $type,
-            'qr' => 'https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://127.0.0.1:8000/foodie?tableId=' . $table->id . '%26tableNo=' . $name
+            'qr' => 'https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://' . $get_http_host . '/foodie?tableId=' . $table->id . '%26tableNo=' . $name
         ];
 
         try {
@@ -178,19 +175,20 @@ class TableController extends Controller
         $id = $request->id;
         $table = Table::findOrFail($id);
         $name = $table->name;
+        $get_http_host = $_SERVER['HTTP_HOST'];
 
-        $pdf = Pdf::loadView('admin.table.template_qr', [
-            'id' => $table->id,
-            'name' => $name,
-            // 'qr' => $table->qr,
-        ]);
+        $filename = 'Foodie_QR.pdf';
+        $html = '<img src="https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://' . $get_http_host . '/foodie?tableId=' . $table->id . '%26tableNo=' . $name . '" alt="">';
 
-        // return view('admin.table.template_qr', [
-        //     'id' => $table->id,
-        //     'name' => $name,
-        // ]);
+        $pdf = new TCPDF;
 
-        return $pdf->download('qr_code.pdf');
+        $pdf::SetTitle('Foodie');
+        $pdf::AddPage();
+        $pdf::writeHTML($html, true, false, true, false, '');
+
+        $pdf::Output(public_path($filename), 'F');
+
+        return response()->download(public_path($filename));
     }
 
     // trang đầu tiên khi chuyển hướng về admin
@@ -206,7 +204,7 @@ class TableController extends Controller
         $table = Table::findOrFail($id);
 
         $orders = Order::where('table_id', $id)
-            ->whereIn('status', [0, 1, 3, 4])
+            ->whereIn('status', [0, 1])
             ->get();
         foreach ($orders as $order) {
             $order->orderDetails = OrderDetail::where('order_id', $order->id)->get();
@@ -218,6 +216,22 @@ class TableController extends Controller
 
         return view('admin.order-of-table', ['table' => $table, 'orders' => $orders]);
     }
+
+    public function getOrderNew($id)
+    {
+        // Assuming Table and Order models have relationships defined
+        $table = Table::findOrFail($id);
+
+        // Eager loading relationships to optimize queries
+        $orders = Order::with(['orderDetails.product'])
+            ->where('table_id', $id)
+            ->whereIn('status', [0, 1, 3, 4])
+            ->orderByDesc('created_at')
+            ->get();
+
+        return $orders;
+    }
+
     public function updateStatus(Request $request, $id)
     {
         $order = Order::findOrFail($id);
@@ -235,19 +249,18 @@ class TableController extends Controller
             $customer = Customer::where('phone', $phone)->first();
 
             if ($customer) {
-                $point = $total * 0.03;
-                $customer->point += $point;
+                $points = ceil($total * 0.03);
+                $customer->point += $points;
                 $customer->save();
             }
             $order->status = $newStatus;
             $order->save();
-            return redirect('print_order/'.$id);
+            return redirect('print_order/' . $id);
+            // return redirect()->route('print_order', ['id' => $id])->with('open_new_tab', true);
         }
 
         $order->status = $newStatus;
         $order->save();
-
-        
 
         return redirect()->back()->with('success', 'Status updated successfully.');
     }

@@ -20,6 +20,23 @@ class   ProductRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+    public function messages(): array
+{
+    return [
+        'name.required' => 'Trường tên sản phẩm là bắt buộc.',
+        'name.unique' => 'Tên sản phẩm đã tồn tại.',
+        'name.max' => 'Tên sản phẩm không được vượt quá :max ký tự.',
+        'price.required' => 'Trường giá sản phẩm là bắt buộc.',
+        'price.min' => 'Trường giá sản phẩm không được nhỏ hơn :min.',
+        'image.required' => 'Trường hình ảnh là bắt buộc.',
+        'image.image' => 'Trường hình ảnh phải là một hình ảnh.',
+        'description.required' => 'Trường mô tả là bắt buộc.',
+        'description.string' => 'Trường mô tả phải là một chuỗi.',
+        'category_id.required' => 'Trường danh mục là bắt buộc.',
+        'status.required' => 'Trường trạng thái là bắt buộc.',
+        'status.in' => 'Trường trạng thái không hợp lệ.',
+    ];
+}
     public function rules(): array
     {
         $rules = [];

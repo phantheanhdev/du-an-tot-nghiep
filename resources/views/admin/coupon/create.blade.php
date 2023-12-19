@@ -1,7 +1,7 @@
 @extends('admin.layout.content')
 
 @section('main-content')
-    <div class="col-md-9">
+    <div class="col-12 col-lg-9">
         <div class="ibox float-e-margins" id="boxOrder">
             <div class="ibox-content">
                 <div class="sk-spinner sk-spinner-wave">
@@ -131,7 +131,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    if (response.status === 'success') {
+                    if (response.status == 'success') {
                         toastr.success(response.message)
                         $("#add_coupon_btn").text('Create coupon');
                         $("#coupon_create_form")[0].reset();

@@ -1,6 +1,6 @@
 @extends('admin.layout.content')
 @section('main-content')
-    <div class="col-md-9">
+    <div class="col-12 col-lg-9">
         <div class="ibox float-e-margins" id="boxOrder">
             <div class="ibox-content">
                 <div class="sk-spinner sk-spinner-wave">
@@ -21,231 +21,262 @@
 
                 <hr />
                 <div class="col-md-12">
-                    <div class="title">
-                        <p style="font-size: 25px" class="text-danger">Doanh thu</p>
-                    </div>
+                    {{-- <h4 class="page-title">Doanh thu</h4> --}}
                     <div class="row">
+                        <div class="col-sm-3 mt-2">
+                            <div class="card widget-flat">
+                                <div class="card-body">
+                                    <div class="float-end">
+                                        <i class="mdi mdi-account-multiple widget-icon"></i>
+                                    </div>
+                                    <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Tổng đơn hôm nay</h5>
+                                    <h3 class="mt-3 mb-3">{{ $todaysOrder }}</h3>
+                                </div> <!-- end card-body-->
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
 
-                        <a href="" class="text-white">
-                            <div id="table-2" class="widget bg-danger p-lg text-center">
+                        <div class="col-sm-3 mt-2">
+                            <div class="card widget-flat">
+                                <div class="card-body">
+                                    <div class="float-end">
+                                        <i class="mdi mdi-cart-plus widget-icon"></i>
+                                    </div>
+                                    <h5 class="text-muted fw-normal mt-0" title="Number of Orders">Đơn chờ xử lý</h5>
+                                    <h3 class="mt-3 mb-3">{{ $totalPendingOrders }}</h3>
+                                </div> <!-- end card-body-->
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
 
-                                <div class="m-b-md">
+                        <div class="col-sm-3 mt-2">
+                            <div class="card widget-flat">
+                                <div class="card-body">
+                                    <div class="float-end">
+                                        <i class="mdi mdi-account-multiple widget-icon"></i>
+                                    </div>
+                                    <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Đơn đã hoàn thành hôm nay</h5>
+                                    <h3 class="mt-3 mb-3">{{ $totalCompleteOrders }}</h3>
+                                </div> <!-- end card-body-->
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
 
-                                    <p id="table-notification-2" style="font-size: 15px">Đơn đặt hàng hôm nay</p>
+                        <div class="col-sm-3 mt-2">
+                            <div class="card widget-flat">
+                                <div class="card-body">
+                                    <div class="float-end">
+                                        <i class="mdi mdi-cart-plus widget-icon"></i>
+                                    </div>
+                                    <h5 class="text-muted fw-normal mt-0" title="Number of Orders">Đơn hủy hôm nay</h5>
+                                    <h3 class="mt-3 mb-3">{{ $totalCancelOrders }}</h3>
+                                </div> <!-- end card-body-->
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
 
-                                    <h3 class="font-bold no-margins">
-                                        {{ $todaysOrder }}
-                                    </h3>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="" class="text-white">
-                            <div id="table-2" class="widget bg-danger p-lg text-center">
+                    </div> <!-- end row -->
 
-                                <div class="m-b-md">
+                    <div class="row mt-2 ">
+                        <div class="col-sm-4 mt-2">
+                            <div class="card widget-flat">
+                                <div class="card-body">
+                                    <div class="float-end">
+                                        <i class="mdi mdi-account-multiple widget-icon"></i>
+                                    </div>
+                                    <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Doanh thu hôm nay</h5>
+                                    <h3 class="mt-3 mb-3">{{ formatNumberPrice($todaysEarnings) }}</h3>
 
-                                    <p id="table-notification-2" style="font-size: 15px">Đơn hàng đang chờ xử lý</p>
+                                </div> <!-- end card-body-->
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
+                        <div class="col-sm-4 mt-2">
+                            <div class="card widget-flat">
+                                <div class="card-body">
+                                    <div class="float-end">
+                                        <i class="mdi mdi-account-multiple widget-icon"></i>
+                                    </div>
+                                    <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Doanh thu tháng nay
+                                    </h5>
+                                    <h3 class="mt-3 mb-3"> {{ formatNumberPrice($monthEarnings) }}</h3>
+                                </div> <!-- end card-body-->
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
+                        <div class="col-sm-4 mt-2">
+                            <div class="card widget-flat">
+                                <div class="card-body">
+                                    <div class="float-end">
+                                        <i class="mdi mdi-account-multiple widget-icon"></i>
+                                    </div>
+                                    <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Doanh thu năm nay</h5>
+                                    <h3 class="mt-3 mb-3">{{ formatNumberPrice($yearEarnings) }}</h3>
+                                </div> <!-- end card-body-->
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
+                    </div> <!-- end row -->
 
-                                    <h3 class="font-bold no-margins">
-                                        {{ $totalPendingOrders }}
-                                    </h3>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="row">
-
-                        <a href="" class="text-white">
-                            <div id="table-2" class="widget bg-danger p-lg text-center">
-
-                                <div class="m-b-md">
-
-                                    <p id="table-notification-2" style="font-size: 15px">Thu nhập hôm nay</p>
-
-                                    <h3 class="font-bold no-margins ">
-                                        {{ $todaysEarnings }} đ
-                                    </h3>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="" class="text-white">
-                            <div id="table-2" class="widget bg-danger p-lg text-center">
-
-                                <div class="m-b-md">
-
-                                    <p id="table-notification-2" style="font-size: 15px">Thu nhập tháng này</p>
-
-                                    <h3 class="font-bold no-margins ">
-                                        {{ $monthEarnings }} đ
-                                    </h3>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="" class="text-white">
-                            <div id="table-2" class="widget bg-danger p-lg text-center">
-
-                                <div class="m-b-md">
-
-                                    <p id="table-notification-2" style="font-size: 15px">Thu nhập năm nay</p>
-
-                                    <h3 class="font-bold no-margins ">
-                                        {{ $yearEarnings }} đ
-                                    </h3>
-                                </div>
-                            </div>
-                        </a>
-
-
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="title">
-                        <p style="font-size: 25px" class="text-danger">Số lượng sản phẩm và danh mục</p>
-                    </div>
-                    <div class="row">
-                        <a href="" class="text-white">
-                            <div id="table-2" class="widget bg-danger p-lg text-center">
-
-                                <div class="m-b-md">
-
-                                    <p id="table-notification-2" style="font-size: 15px">Tổng số danh mục</p>
-
-                                    <h3 class="font-bold no-margins ">
-                                        {{ $totalCategories }}
-                                    </h3>
-                                </div>
-                            </div>
-                        </a>
-
-
-                        <a href="" class="text-white">
-                            <div id="table-2" class="widget bg-danger p-lg text-center">
-
-                                <div class="m-b-md">
-
-                                    <p id="table-notification-2" style="font-size: 15px">Tổng số sản phẩm</p>
-
-                                    <h3 class="font-bold no-margins ">
-                                        {{ $totalProducts }}
-                                    </h3>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-
-
-
-
-
-                <div class="Order statistics mt-4 mb-4">
-                    <div id="curve_chart" style="width: 100%; height: 500px"></div>
-                </div>
-
-
-
-                @if (count($statisticsMonth) > 0)
-                    <div class="col-md-12 mt-4 mb-4">
-                        <div class="title text-center">
-                            <p style="font-size:20px">Doanh thu theo tháng trong năm nay</p>
+                    {{-- <div class="col-md-12">
+                        <div class="title">
+                            <p style="font-size: 25px" class="text-danger">Số lượng sản phẩm và danh mục</p>
                         </div>
-                        <table class="table">
-                            <thead>
-                                <tr>
+                        <div class="row">
+                            <a href="" class="text-white">
+                                <div id="table-2" class="widget bg-danger p-lg text-center">
 
-                                    <th scope="col">Tháng</th>
-                                    <th scope="col">Tổng số đơn đặt hàng</th>
-                                    <th scope="col">Tổng cộng</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                                    <div class="m-b-md">
 
-                                @foreach ($statisticsMonth as $item)
-                                    <tr>
+                                        <p id="table-notification-2" style="font-size: 15px">Tổng số danh mục</p>
 
-                                        <td>{{ $item->month }}</td>
-                                        <td>{{ $item->total_orders }}</td>
-                                        <td style="color: red;">{{ number_format($item->total_amount, 2) }} đ</td>
-                                    </tr>
-                                @endforeach
+                                        <h3 class="font-bold no-margins ">
+                                            {{ $totalCategories }}
+                                        </h3>
+                                    </div>
+                                </div>
+                            </a>
 
 
-                            </tbody>
-                        </table>
+                            <a href="" class="text-white">
+                                <div id="table-2" class="widget bg-danger p-lg text-center">
+
+                                    <div class="m-b-md">
+
+                                        <p id="table-notification-2" style="font-size: 15px">Tổng số sản phẩm</p>
+
+                                        <h3 class="font-bold no-margins ">
+                                            {{ $totalProducts }}
+                                        </h3>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div> --}}
+                    {{--
+                    <div class="row mt-4">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="align-items-center">
+
+                                <div class="card-body pt-0 mt-2 mb-2">
+                                    <div id="curve_chart" style="width: 100%; height: 400px"></div>
+                                </div>
+                            </div>
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
                     </div>
-                @endif
+ --}}
+                    <div class="row mt-2">
+                        @if (count($statisticsMonth) > 0)
+
+                        <div class="col-xl-6 col-lg-6 order-lg-1 mt-2">
+                            <div class="card">
+                                <div class="d-flex card-header justify-content-between align-items-center">
+                                    <h4 class="header-title">Doanh thu theo tháng trong năm nay</h4>
+                                </div>
+
+                                <div class="card-body pt-0">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+
+                                                <th scope="col">Tháng</th>
+                                                <th scope="col">Tổng số đơn đặt hàng</th>
+                                                <th scope="col">Tổng cộng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach ($statisticsMonth as $item)
+                                                <tr>
+
+                                                    <td>{{ $item->month }}</td>
+                                                    <td>{{ $item->total_orders }}</td>
+                                                    <td style="color: red;">{{ number_format($item->total_amount, 0) }} đ</td>
+                                                </tr>
+                                            @endforeach
 
 
-                @if (count($statisticsYear) > 0)
-                <div class="col-md-12 mt-4 mb-4">
-                    <div class="title text-center">
-                        <p style="font-size:20px">Doanh thu những năm gần đây</p>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
+                        @endif
+
+
+                        @if (count($statisticsYear) > 0)
+                        <div class="col-xl-6 col-lg-6 order-lg-1 mt-2">
+                            <div class="card">
+                                <div class="d-flex card-header justify-content-between align-items-center">
+                                    <h4 class="header-title">Doanh thu những năm gần đây</h4>
+                                </div>
+
+                                <div class="card-body py-0 mb-3">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Năm</th>
+                                                <th scope="col">Tổng số đơn đặt hàng</th>
+                                                <th scope="col">Tổng cộng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach ($statisticsYear as $item)
+                                                <tr>
+
+                                                    <td>{{ $item->year }}</td>
+                                                    <td>{{ $item->total_orders }}</td>
+                                                    <td style="color: red;">{{ number_format($item->total_amount, 0) }} đ</td>
+                                                </tr>
+                                            @endforeach
+
+
+                                        </tbody>
+                                    </table>
+                                </div> <!-- end slimscroll -->
+                            </div>
+                            <!-- end card-->
+                        </div>
+                        <!-- end col -->
+                        @endif
+
                     </div>
-                    <table class="table">
-                        <thead>
-                            <tr>
 
-                                <th scope="col">Tháng</th>
-                                <th scope="col">Tổng số đơn đặt hàng</th>
-                                <th scope="col">Tổng cộng</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            @foreach ($statisticsYear as $item)
-                                <tr>
-
-                                    <td>{{ $item->year }}</td>
-                                    <td>{{ $item->total_orders }}</td>
-                                    <td style="color: red;">{{ number_format($item->total_amount, 2) }} đ</td>
-                                </tr>
-                            @endforeach
-
-
-                        </tbody>
-                    </table>
                 </div>
-            @endif
-
             </div>
+
         </div>
 
-    </div>
 
 
 
-
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-        google.charts.load('current', {
-            'packages': ['corechart']
-        });
-        google.charts.setOnLoadCallback(drawChart);
-
-
-        function drawChart() {
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            google.charts.load('current', {
+                'packages': ['corechart']
+            });
+            google.charts.setOnLoadCallback(drawChart);
 
 
-            var data = google.visualization.arrayToDataTable([
-                ['Day', 'Tổng cộng (đ)'],
-
-                <?php echo $chart_data; ?>
+            function drawChart() {
 
 
-            ]);
+                var data = google.visualization.arrayToDataTable([
+                    ['Day', 'Tổng cộng (đ)'],
 
-            var options = {
-                title: 'Thống kê đơn hàng',
-                curveType: 'function',
-                legend: {
-                    position: 'bottom'
-                }
-            };
+                    <?php echo $chart_data; ?>
 
-            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
 
-            chart.draw(data, options);
-        }
-    </script>
-@endsection
+                ]);
+
+                var options = {
+                    title: 'Thống kê đơn hàng',
+                    curveType: 'function',
+                    legend: {
+                        position: 'bottom'
+                    }
+                };
+
+                var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+                chart.draw(data, options);
+            }
+        </script>
+    @endsection

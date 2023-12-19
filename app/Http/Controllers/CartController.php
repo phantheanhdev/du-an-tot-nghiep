@@ -13,6 +13,7 @@ use App\Http\Requests\OrderRequest;
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
 use App\Models\Coupon;
+use App\Models\Customer;
 use App\Models\OrderDetail;
 use Illuminate\Support\Facades\Session;
 
@@ -54,6 +55,12 @@ class CartController extends Controller
         }
     }
 
+    public function clean_session()
+    {
+        session(['cart' => []]);  // Set the 'cart' key to an empty array
+
+        return response()->json(['cart' => []]);
+    }
     public function addToCart($id, Request $request)
     {
         $product = Product::findOrFail($id);
@@ -66,12 +73,20 @@ class CartController extends Controller
         $cartKey = $id . $itemHash;
 
         if (isset($cart[$cartKey])) {
-            $cart[$cartKey]['quantity'] += $request->input('quantity', 1);
+            $newQuantity = $cart[$cartKey]['quantity'] + $request->input('quantity', 1);
+            if ($newQuantity > 10) {
+                return response()->json(['error' => 'Số lượng vượt quá giới hạn. Vui lòng gọi nhân viên.']);
+            }
+            $cart[$cartKey]['quantity'] = $newQuantity;
         } else {
+            $quantity = $request->input('quantity', 1);
+                if ($quantity > 10) {
+                return response()->json(['error' => 'Số lượng vượt quá giới hạn. Vui lòng gọi nhân viên.']);
+            }
             $cart[$cartKey] = [
                 "id" => $product->id,
                 "name" => $product->name,
-                "quantity" => $request->input('quantity', 1),
+                "quantity" => $quantity,
                 "price" => $request->price,
                 "item" => $request->input('item', []),
                 'image' => $product->image
@@ -79,8 +94,6 @@ class CartController extends Controller
         }
 
         session()->put('cart', $cart);
-
-        // Trả về thông tin giỏ hàng dưới dạng JSON
         return response()->json(['cart' => $cart]);
     }
 
@@ -101,6 +114,10 @@ class CartController extends Controller
         $order->customer_id = $request->customer_id;
         $order->save();
 
+        Customer::where('id', $request->customer_id)->update([
+            'isComment' => 1
+        ]);
+
         $cart = session()->get('cart');
 
         foreach ($cart as $item) {
@@ -115,8 +132,16 @@ class CartController extends Controller
             $productOrder->item = json_encode($item['item']);
             $productOrder->save();
         }
+        if ($request->point && $request->point > 0) {
+            $customer = Customer::where('phone', $request->customer_phone)->first();
 
-        //id , name , quantity , price
+            if ($customer) {
+                $now = $customer->point;
+                $newPoint = $now - $request->point;
+                $customer->update(['point' => $newPoint]);
+            }
+        }
+
 
         session()->forget('cart');
 

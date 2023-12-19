@@ -1,6 +1,6 @@
 @extends('admin.layout.content')
 @section('main-content')
-    <div class="col-md-9">
+    <div class="col-12 col-lg-9">
         <div class="ibox float-e-margins" id="boxOrder">
             <div class="ibox-content">
                 <div class="sk-spinner sk-spinner-wave">
@@ -47,6 +47,8 @@
                                             @endphp
                                             @if ($countPurchases > 0)
                                                 {{ $countPurchases }}
+                                            @else
+                                                0
                                             @endif
                                         </td>
                                         <td>
@@ -57,12 +59,13 @@
                                         </td>
                                         <td>{{ $item->point }}</td>
                                         <td>
-                                            <a id="edit" href="" class="btn btn-warning btn-sm float-end mx-1">
-                                                <i class="fa-solid fa-pen"></i>
-                                            </a>
-                                            <a id="view" href="" class="btn btn-warning btn-sm float-end mx-1">
+                                            <a  href="{{ url('show-customer/' . $item->id)}}" class="btn btn-warning btn-sm float-end mx-1">
                                                 <i class="fa-regular fa-eye"></i>
                                             </a>
+                                            {{-- <a id="{{ $item->id }}" href=""
+                                                class="btn btn-danger btn-sm float-end mx-1 deleteIcon">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </a> --}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -78,6 +81,44 @@
     <script>
         let table = new DataTable('#myTable', {
             responsive: true
+        });
+    </script>
+
+    <script>
+        $(document).on('click', '.deleteIcon', function(e) {
+            e.preventDefault();
+            let id = $(this).attr('id');
+            let csrf = '{{ csrf_token() }}';
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '{{ route('delete-customer') }}',
+                        method: 'delete',
+                        data: {
+                            id: id,
+                            _token: csrf
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            )
+                            window.location.reload();
+
+                        }
+                    });
+                }
+            })
         });
     </script>
 @endpush

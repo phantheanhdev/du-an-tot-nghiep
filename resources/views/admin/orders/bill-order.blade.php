@@ -119,16 +119,37 @@
                             <th scope="col">Don gia</th>
                         </tr>
                         <tr>
-                            @foreach ($bill as $key => $item)
+                            @foreach ($bill as $key => $orderDetail)
                         <tr>
                             <td>
-                                {{ $item->product->name }}
+                                @if ($orderDetail->product == null)
+                                    <p style="padding: 5px;color:#910400;text-align:left;">
+                                        @php
+                                            $name = 'Không xác định';
+                                        @endphp
+                                        {{ convertVietnameseToEnglish($name) }}
+                                    </p>
+                                @else
+                                    {{ convertVietnameseToEnglish($orderDetail->product->name) }} <br>
+                                    @if (!empty($orderDetail->item))
+                                        @php
+                                            $items = json_decode($orderDetail->item, true);
+                                            $item1 = json_decode($items);
+                                        @endphp
+                                        @if ($item1 != null)
+                                            @foreach ($item1 as $item)
+                                                - {{ convertVietnameseToEnglish($item->name) }} <br>
+                                            @endforeach
+                                        @endif
+                                    @endif
+                                @endif
+
                             </td>
                             <td>
-                                {{ $item->quantity }}
+                                {{ $orderDetail->quantity }}
                             </td>
                             <td>
-                                {{ $item->product->price }}
+                                {{ $orderDetail->product_price }}
                             </td>
                         </tr>
                         @endforeach

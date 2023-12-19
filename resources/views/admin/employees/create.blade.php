@@ -1,7 +1,7 @@
 @extends('admin.layout.content')
 
 @section('main-content')
-    <div class="col-md-9">
+    <div class="col-12 col-lg-9">
         <div class="ibox float-e-margins" id="boxOrder">
             <div class="ibox-content">
                 <h3 class="text-qr Rest-dark text-center p-2">
@@ -45,23 +45,12 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Ca làm việc</label>
-                        <select class="form-control" name="shift">
-                            <option value="">Chọn...</option>
-                            <option value="Ca 1(8h-13h)">Ca 1(8h-13h)</option>
-                            <option value="Ca 2(13h-18h)">Ca 2(13h-18h)</option>
-                            <option value="Ca 3(18h-23h)">Ca 3(18h-23h)</option>
-                          </select>
+                        <input type="text" name="shift" class="form-control" value="{{ old('shift') }}">
                           @error('shift')
                           <span class="text-danger">{{ $message }}</span>
                       @enderror
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">	Lương / 1h</label>
-                        <input type="number" name="salary" class="form-control" value="{{ old('salary') }}">
-                        @error('salary')
-    <span class="text-danger">{{ $message }}</span>
-@enderror
-                    </div>
+
                     <div class="mb-3">
                         <label class="form-label">Ngày tuyển dụng</label>
                         <input type="date" name="hire_date" class="form-control" value="{{ old('hire_date') }}">

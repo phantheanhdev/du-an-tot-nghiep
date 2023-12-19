@@ -1,7 +1,7 @@
 @extends('admin.layout.content')
 
 @section('main-content')
-    <div class="col-md-9">
+    <div class="col-12 col-lg-9">
         <div class="ibox float-e-margins" id="boxOrder">
             <div class="ibox-content">
                 <div class="sk-spinner sk-spinner-wave">
@@ -29,27 +29,27 @@
                             <input type="hidden" class="form-control" name="product" value="{{ request()->product }}">
                         </div>
                         <div class="row">
-                            <div class="form-group col-12 col-md-6">
-                                <label class="font-weight-bold" for="name">Name</label>
+
+                        <div class="row col-12 col-md-10">
+                            <div class="form-group col-12 col-md-12">
+                                <label class="font-weight-bold" for="name">Tên biến thể</label>
+
                                 <input type="text" name="name" id="name" class="form-control">
+
                                 @error('name')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-
                         </div>
-                        <div class="form-group">
-                            <label class="font-weight-bold" for="description">Multi choice</label>
+                        <div class="form-group col-12 col-md-2">
+                            <label class="font-weight-bold text-center" for="description">Đa lựa chọn</label>
                             <input type="checkbox" name="multi_choice" value="1" class="form-control">
-
                         </div>
-
-
+                    </div>
 
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Thêm</button>
-
                         </div>
                     </form>
                 </div>

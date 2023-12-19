@@ -1,6 +1,6 @@
 @extends('admin.layout.content')
 @section('main-content')
-    <div class="col-md-9">
+    <div class="col-12 col-lg-9">
         @include('error')
         <div class="ibox float-e-margins" id="boxOrder">
             <div class="ibox-content">
@@ -17,15 +17,14 @@
                     </a>
                     Nhân viên
                     <a href="{{ route('employee.create') }}" class="float-right">
-                        <button class="btn btn-primary">+ Thêm nhân viên</button>
+                        <button class="btn btn-primary">Thêm nhân viên</button>
                     </a>
 
                 </h3>
-                <hr />
                 <input hidden value="Completed" id="lblCompleted" />
                 <input hidden value="2" id="txtTableId" />
 
-                <div class="col-md-12">
+                <div class="col-md-12 mt-5">
                     <div class="row table-responsive" id="nonPayOrder">
                         <table class="table table-hover">
                             <thead class="thead-dark">
@@ -36,9 +35,9 @@
                                     <th>Địa chỉ</th>
                                     <th>Vị trí</th>
                                     <th>Ca làm việc</th>
-                                    <th>Lương / 1h</th>
+
                                     <th>Ngày tuyển dụng</th>
-                                    <th>Action</th>
+                                    <th>Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,7 +49,7 @@
                                         <td>{{$item->address}}</td>
                                         <td>{{$item->position}}</td>
                                         <td> {{$item->shift}} </td>
-                                        <td>${{$item->salary}} / 1h</td>
+
                                         <td>{{$item->hire_date}}</td>
                                         <td class="d-flex justify-content-center">
                                             <a id="edit" class="px-2" href="{{ route('employee.edit', ['id' => $item->id]) }}">

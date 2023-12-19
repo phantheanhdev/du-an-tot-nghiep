@@ -46,7 +46,7 @@ class CategoryController extends Controller
 
             if ($category->save()) {
                 $notification = array(
-                    "message" => "Add category successfully",
+                    "message" => "Thêm danh mục thành công",
                     "alert-type" => "success",
                 );
                 return redirect()->route('category.index')->with($notification);
@@ -81,7 +81,7 @@ class CategoryController extends Controller
             $category->save();
 
             $notification = array(
-                "message" => "Update category successfully",
+                "message" => "Cập nhật danh mục thành công",
                 "alert-type" => "success",
             );
             return redirect()->route('category.index')->with($notification);
@@ -94,19 +94,19 @@ class CategoryController extends Controller
     public function delete($id)
     {
         if($id){
-            $category = Category::where('id', $id);
-            $delete = $category->delete();
-            if($delete){
+            $category = Category::findOrFail($id);
+            if ($category->products->isEmpty()) {
                 $notification = array(
-                    "message"=> "Delete category successfully",
-                    "alert-type" =>"success",
-                );
-                return redirect()->route('category.index')->with($notification);
-            }else{
+                            "message"=> "Xóa danh mục thành công",
+                             "alert-type" =>"success",
+                        );
+                $category->delete();
+                return redirect()->back()->with($notification);
+            } else {
                 $notification = array(
-                    "message"=> "Delete category fail",
-                    "alert-type" =>"success",
-                );
+                            "message"=> "Không thể xóa danh mục với chứa sản phẩm",
+                            "alert-type" =>"error",
+                        );
                 return redirect()->back()->with($notification);
             }
         }

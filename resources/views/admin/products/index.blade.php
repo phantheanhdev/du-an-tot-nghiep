@@ -1,7 +1,7 @@
 @extends('admin.layout.content')
 
 @section('main-content')
-    <div class="col-md-9">
+    <div class="col-12 col-lg-9">
         <div class="ibox float-e-margins" id="boxOrder">
             <div class="ibox-content">
                 <div class="sk-spinner sk-spinner-wave">
@@ -49,7 +49,7 @@
                                                 alt="">
                                         </td>
                                         <td>{{ $item->name }}</td>
-                                        <td>{{ $item->price }}</td>
+                                        <td>{{ formatNumberPrice($item->price) }}</td>
                                         <td>{{ $item->description }}</td>
                                         <td>{{ $item->category_name }}</td>
                                         <td>
@@ -65,10 +65,30 @@
                                             <a id="edit" href="{{ route('product.edit', ['id' => $item->id]) }}">
                                                 <button class="btn btn-success"><i class="fa-solid fa-pen"></i></button>
                                             </a>
-                                            <a id="delete" href="{{ route('product.delete', ['id' => $item->id]) }}">
-                                                <button class="btn btn-danger"><i
-                                                        class="fa-solid fa-trash-can"></i></button>
-                                            </a>
+
+
+                                            {{-- @php
+                                                $orderDetail = \App\Models\OrderDetail::where('product_id', $item->id)->count();
+                                            @endphp
+                                            @if ($orderDetail > 0)
+                                                <a id="delete" href="{{ route('product.delete', ['id' => $item->id]) }}">
+                                                    <button class="btn btn-danger" disabled><i
+                                                            class="fa-solid fa-trash-can"></i></button>
+                                                </a>
+                                            @else
+                                                <a id="delete"
+                                                    href="{{ route('product.delete', ['id' => $item->id]) }}">
+                                                    <button class="btn btn-danger"><i
+                                                            class="fa-solid fa-trash-can"></i></button>
+                                                </a>
+                                            @endif --}}
+                                            <a id="delete"
+                                            href="{{ route('product.delete', ['id' => $item->id]) }}">
+                                            <button class="btn btn-danger"><i
+                                                    class="fa-solid fa-trash-can"></i></button>
+                                        </a>
+
+
                                         </td>
                                     </tr>
                                 @endforeach

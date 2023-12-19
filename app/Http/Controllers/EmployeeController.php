@@ -18,12 +18,22 @@ class EmployeeController extends Controller
         if($request->isMethod('post')){
             $validator = Validator::make($request->all(), [
                 'name' => 'required|unique:employees',
-                'phone' => 'required',
+                'phone' => 'required|regex:/^[0-9]+$/|min:10|max:10',
                 'address' => 'required',
                 'position' => 'required',
                 'shift' => 'required',
-                'salary' => 'required',
                 'hire_date' => 'required',
+            ],[
+                'name.required'=>"Tên không được bỏ trống!",
+                'name.unique' => 'Tên này đã tồn tại!',
+                'phone.required' => 'SĐT không được bỏ trống!',
+                'phone.regex' => "SĐT phải là số và có 10 chữ số!",
+                'phone.min' => "SĐT phải có 10 chữ số!",
+                'phone.max' => "SĐT phải có 10 chữ số!",
+                'address.required' => 'Địa chỉ không được bỏ trống!',
+                'position.required' => "Chức danh không được bỏ trống!",
+                'shift.required' => "Ca làm việc không được bỏ trống",
+                'hire_date.required' => "Ngày tuyển dụng không được bỏ trống",
             ]);
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
@@ -32,7 +42,7 @@ class EmployeeController extends Controller
             $employee = Employee::create($request->except('_token'));
             if($employee->id) {
                 $notification = array(
-                    "message" => "Add staff successfully",
+                    "message" => "Thêm nhân viên thành công!",
                     "alert-type" => "success",
                 );
                 return redirect()->route('employee.index')->with($notification);
@@ -46,17 +56,27 @@ class EmployeeController extends Controller
         if($request->isMethod('post')){
             $request->validate([
                 'name' => 'required',
-                'phone' => 'required',
+                'phone' => 'required|regex:/^[0-9]+$/|min:10|max:10',
                 'address' => 'required',
                 'position' => 'required',
                 'shift' => 'required',
-                'salary' => 'required',
                 'hire_date' => 'required',
+            ],[
+                'name.required'=>"Tên không được bỏ trống!",
+
+                'phone.required' => 'SĐT không được bỏ trống!',
+                'phone.regex' => "SĐT phải là số và có 10 chữ số!",
+                'phone.min' => "SĐT phải có 10 chữ số!",
+                'phone.max' => "SĐT phải có 10 chữ số!",
+                'address.required' => 'Địa chỉ không được bỏ trống!',
+                'position.required' => "Chức danh không được bỏ trống!",
+                'shift.required' => "Ca làm việc không được bỏ trống",
+                'hire_date.required' => "Ngày tuyển dụng không được bỏ trống",
             ]);
             $result = Employee::where('id',$id)->update($request->except('_token'));
             if($result){
                 $notification = array(
-                    "message" => "Update staff successfully",
+                    "message" => "Cập nhập nhân viên thành công",
                     "alert-type" => "success",
                 );
                 return redirect()->route('employee.index')->with($notification);
@@ -70,13 +90,13 @@ class EmployeeController extends Controller
         $employee = Employee::find($id);
         if($employee->delete()){
             $notification = array(
-                "message"=> "Delete staff successfully",
+                "message"=> "Xóa nhân viên thành công",
                 "alert-type" =>"success",
             );
             return redirect()->route('employee.index')->with($notification);
         }else{
             $notification = array(
-                "message"=> "Delete staff fail",
+                "message"=> "Xóa nhân viên thất bại",
                 "alert-type" =>"success",
             );
             return redirect()->back()->with($notification);

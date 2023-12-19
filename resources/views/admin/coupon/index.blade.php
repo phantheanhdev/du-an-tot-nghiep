@@ -1,7 +1,7 @@
 @extends('admin.layout.content')
 
 @section('main-content')
-    <div class="col-md-9">
+    <div class="col-12 col-lg-9">
         <div class="ibox float-e-margins" id="boxOrder">
             <div class="ibox-content">
                 <div class="sk-spinner sk-spinner-wave">
@@ -56,10 +56,10 @@
                                                 <select class="form-control change-status" name="status"
                                                     id="{{ $item->id }}">
 
-                                                    <option value="1" {{ $item->status === 1 ? 'selected' : '' }}>
+                                                    <option value="1" {{ $item->status == 1 ? 'selected' : '' }}>
                                                         Active
                                                     </option>
-                                                    <option value="0" {{ $item->status === 0 ? 'selected' : '' }}>
+                                                    <option value="0" {{ $item->status == 0 ? 'selected' : '' }}>
                                                         Inactive
                                                     </option>
                                                 </select>

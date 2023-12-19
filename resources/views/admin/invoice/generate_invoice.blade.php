@@ -115,10 +115,10 @@
         </div>
         <div class="">
             <a href="{{ url('invoice/' . $order->id . '/generate') }}" class="btn btn-primary btn-sm float-end mx-2">
-                Export
+                Xuat
             </a>
             <a href="{{ url('print_order/' . $order->id) }}" class="btn btn-primary btn-sm float-end px-2 ">
-                Print
+                In
             </a>
         </div>
     </div>
@@ -129,39 +129,40 @@
                     <h2 class="text-start">Foodie</h2>
                 </th>
                 <th width="50%" colspan="2" class="text-end company-data">
-                    <span>Invoice Id: {{ $order->id }}</span> <br>
-                    <span>Date: {{ $todayDate->toDateTimeString() }}</span> <br>
-                    <span>Address: Nam Từ Liêm, Hà Nội</span> <br>
+                    <span>Hoa dơn: {{ $order->id }}</span> <br>
+                    <span>Ngay xuat: {{ $todayDate->toDateTimeString() }}</span> <br>
+                    <span>Dia chi: Nam Tu Liem , Ha Noi</span> <br>
                 </th>
             </tr>
             <tr class="bg-blue">
-                <th width="50%" colspan="2">Order Details</th>
-                <th width="50%" colspan="2">User Details</th>
+                <th width="50%" colspan="2">
+                    Chi tiet don hang</th>
+                <th width="50%" colspan="2">Thong tin khach hang</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>Order Id:</td>
+                <td>Hoa don:</td>
                 <td>{{ $order->id }}</td>
-                <td>Full Name:</td>
-                <td>{{ $order->customer_name }}</td>
+                <td>SDT:</td>
+                <td>{{ $order->phone }}</td>
             </tr>
             <tr>
-                <td>Ordered Date:</td>
+                <td>Ngay mua:</td>
                 <td>{{ $order->created_at }}</td>
-                <td>Table name</td>
+                <td>Ban</td>
                 <td>{{ $order->table->name }}</td>
             </tr>
             <tr>
-                <td>Order Status:</td>
+                <td>Trang Thai:</td>
                 <td>
                     @if ($order->status == 2)
-                        Cancelled
+                        Da huy
                     @elseif ($order->status == 5)
-                        Paid
+                        Da thanh toan
                     @endif
                 </td>
-                <td>Note</td>
+                <td>Ghi chu:</td>
                 <td>{{ $order->note }}</td>
             </tr>
         </tbody>
@@ -171,46 +172,64 @@
         <thead>
             <tr>
                 <th class="no-border text-start heading" colspan="5">
-                    Order Items
+                    Don hang
                 </th>
             </tr>
             <tr class="bg-blue">
-                <th>ID</th>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
+                <th>STT</th>
+                <th>San pham</th>
+                <th>Gia</th>
+                <th>So luong</th>
+                <th>Thanh tien</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($bill as $key => $item)
+            @foreach ($bill as $orderDetail)
                 <tr>
-                    <td>{{ $item->id }}</td>
+                    <td>{{ $orderDetail->id }}</td>
                     <td>
-                        {{ $item->product->name }}
+                        @if ($orderDetail->product == null)
+                            <p style="padding: 5px;color:#910400;text-align:center;">
+                                @php
+                                    $name = 'Không xác định';
+                                @endphp
+                                {{ convertVietnameseToEnglish($name) }}
+                            </p>
+                        @else
+                            {{ convertVietnameseToEnglish($orderDetail->product->name) }} <br>
+                            @if (!empty($orderDetail->item))
+                                @php
+                                    $items = json_decode($orderDetail->item, true);
+                                    $item1 = json_decode($items);
+                                @endphp
+                                @if ($item1 != null)
+                                    @foreach ($item1 as $item)
+                                        - {{ convertVietnameseToEnglish($item->name) }} <br>
+                                    @endforeach
+                                @endif
+                            @endif
+                        @endif
+
                     </td>
                     <td>
-                        {{ $item->product->price }}
+                        {{ $orderDetail->product_price }}
                     </td>
                     <td>
-                        {{ $item->quantity }}
+                        {{ $orderDetail->quantity }}
                     </td>
                     <td>
-                        {{ $item->total_amount }}
+                        {{ $orderDetail->total_amount }}
                     </td>
                 </tr>
             @endforeach
             <tr>
-                <td colspan="4" class="total-heading">Total Amount - <small>Inc. all vat/tax</small> :</td>
+                <td colspan="4" class="total-heading">Tong tien <small></small> :</td>
                 <td colspan="1" class="total-heading">{{ $order->total_price }}</td>
             </tr>
         </tbody>
     </table>
 
     <br>
-    <p class="text-center">
-        Thank you for using our service
-    </p>
 </body>
 
 </html>

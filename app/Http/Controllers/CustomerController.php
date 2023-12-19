@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -15,11 +14,12 @@ class CustomerController extends Controller
     public function index()
     {
         $customer = Customer::all();
-        return view('admin.customer.index',
-        [
-            'customer'=>$customer
-        ]
-    );
+        return view(
+            'admin.customer.index',
+            [
+                'customer' => $customer
+            ]
+        );
     }
 
     /**
@@ -43,7 +43,6 @@ class CustomerController extends Controller
      */
     public function show(string $id)
     {
-        
     }
 
     /**
@@ -51,7 +50,6 @@ class CustomerController extends Controller
      */
     public function edit(string $id)
     {
-        //
     }
 
     /**
@@ -65,9 +63,20 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $customer = Customer::findOrFail($request->id);
+        $customer->delete();
     }
 
+    public function showCustomer(string $id)
+    {
+        $customer = Customer::findOrFail($id);
+        return view(
+            'admin.customer.show',
+            [
+                'customer' => $customer
+            ]
+        );
+    }
 }

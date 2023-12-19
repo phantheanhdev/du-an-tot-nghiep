@@ -1,6 +1,6 @@
 @extends('admin.layout.content')
 @section('main-content')
-    <div class="col-md-9">
+    <div class="col-12 col-lg-9">
         <div class="ibox float-e-margins" id="boxOrder">
             <div class="ibox-content">
                 <div class="sk-spinner sk-spinner-wave">
@@ -11,204 +11,472 @@
                     <div class="sk-rect5"></div>
                 </div>
                 <h3 class="text-qr Rest-dark text-center p-2">
-                    <a href="/restaurant-manager" class="btn btn-outline btn-primary btn-sm float-left">
+                    <a href="{{ route('restaurant-manager') }}" class="btn btn-outline btn-primary btn-sm float-left">
                         <i class="fa fa-long-arrow-left mt-1"></i>
                     </a>
+
+                    Danh sách đơn hàng
                 </h3>
                 <hr />
                 <input hidden value="Completed" id="lblCompleted" />
                 <input hidden value="2" id="txtTableId" />
                 {{--  --}}
-                <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <button class="nav-link  active" id="nav-home-tab" data-toggle="tab" data-target="#nav-home"
-                            type="button" role="tab" aria-controls="nav-home" aria-selected="true">Đơn đặt
-                            hàng</button>
-                        <button class="nav-link " id="nav-profile-tab" data-toggle="tab" data-target="#nav-profile"
-                            type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Đơn hàng đã hoàn
-                            thành
-                        </button>
-                        <button class="nav-link" id="nav-contact-tab" data-toggle="tab" data-target="#nav-contact"
-                            type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Đơn hủy</button>
+
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link  active" id="nav-home-tab" data-toggle="tab" data-target="#nav-home"
+                        type="button" role="tab" aria-controls="nav-home" aria-selected="true">Đơn đặt
+                        hàng</button>
+                    <button class="nav-link " id="nav-profile-tab" data-toggle="tab" data-target="#nav-profile"
+                        type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Đơn hàng đã hoàn
+                        thành
+                    </button>
+                    <button class="nav-link" id="nav-contact-tab" data-toggle="tab" data-target="#nav-contact"
+                        type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Đơn hủy</button>
+                </div>
+
+
+                <div class="tab-content " id="nav-tabContent">
+                    {{-- đơn đến --}}
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="col-md-12">
+                            <div class="row table-responsive mt-3" id="nonPayOrder">
+                                <table id="appTable" class="table table-hover">
+                                    @if (isset($order) && count($order) > 0)
+                                        <thead class="">
+                                            <tr>
+                                                <th>Bàn</th>
+                                                <th>Sản phẩm</th>
+                                                <th>Tổng cộng</th>
+                                                <th>Ghi chú</th>
+                                                <th>Thời gian</th>
+                                                <th>Trạng thái</th>
+                                                <th>Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($order as $item)
+                                                <tr>
+                                                    <td>{{ $item->table->name }}</td>
+                                                    <td>
+                                                        <ul style="list-style: none; padding: 0;">
+                                                            @foreach ($item->orderDetails as $orderDetail)
+                                                                @if ($orderDetail->product == null)
+                                                                    <p style="padding: 5px;color:#910400;text-align:left;">
+                                                                        [Không xác định]
+                                                                    </p>
+                                                                @else
+                                                                    <li style="text-align: left">
+                                                                        <p class="my-2 h6" style="color: #910400">
+                                                                            {{ $orderDetail->quantity }} x
+                                                                            {{ $orderDetail->product->name }}
+                                                                        </p>
+                                                                        @php
+                                                                            $variant = json_decode($orderDetail->item);
+                                                                            $variant2 = json_decode($variant);
+                                                                        @endphp
+
+                                                                        @if ($variant2 != null)
+                                                                            @foreach ($variant2 as $value)
+                                                                                - {{ $value->name }}<br>
+
+                                                                                <input type="hidden"
+                                                                                    value="{{ $value->price }}">
+                                                                            @endforeach
+                                                                        @endif
+
+                                                                    </li>
+                                                                @endif
+                                                            @endforeach
+                                                        </ul>
+                                                    </td>
+                                                    <td>{{ formatNumberPrice($item->total_price) }} </td>
+
+                                                    <td>
+                                                        @if (isset($item->note) && !empty($item->note))
+                                                            {{ $item->note }}
+                                                        @else
+                                                            Không Có
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $item->created_at }}</td>
+                                                    <th>
+                                                        @if ($item->status == 0)
+                                                            <span> Chưa xác nhận </span>
+                                                        @endif
+                                                    </th>
+                                                    <td>
+                                                        <form action="" method="get">
+                                                            <input type="hidden" name="phone"
+                                                                value="{{ $item->phone }}">
+                                                            <input type="hidden" name="total"
+                                                                value="{{ $item->total_price }}">
+                                                            <select class="form-control order-status" name="status"
+                                                                id="{{ $item->id }}">
+                                                                <option value="0"
+                                                                    {{ $item->status == 0 ? 'selected' : '' }}>
+                                                                    Chưa xác nhận
+                                                                </option>
+                                                                <option value="1"
+                                                                    {{ $item->status == 1 ? 'selected' : '' }}>
+                                                                    Đã xác nhận
+                                                                </option>
+                                                                <option value="2"
+                                                                    {{ $item->status == 2 ? 'selected' : '' }}>
+                                                                    Hủy bỏ
+                                                                </option>
+                                                            </select>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    @else
+                                        <div class="alert alert-danger" role="alert">
+                                            Bạn không có đơn đặt hàng mới <i class="fa-solid fa-bell"></i>
+                                        </div>
+                                    @endif
+                                </table>
+                            </div>
+                        </div>
                     </div>
-            </div>
-        </div>
-        </nav>
-        <div class="tab-content" id="nav-tabContent">
-            {{-- đơn đến --}}
-            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                <div class="col-md-12">
-                    <div class="row table-responsive mt-3" id="nonPayOrder">
-                        <table id="appTable" class="table table-hover">
-                            @if (isset($order) && count($order) > 0)
-                                <thead class="">
-                                    <tr>
-                                        <th>Bàn</th>
-                                        <th>Sản phẩm</th>
-                                        <th>Tổng cộng</th>
-                                        <th>Ghi chú</th>
-                                        <th>Thời gian</th>
-                                        <th>Trạng thái</th>
-                                        <th>Hành động</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($order as $item)
+                    {{-- đã thanh toán --}}
+                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <div class="col-md-12">
+                            <div class="row table-responsive mt-3" id="nonPayOrder">
+                                <table id="myTable" class="table table-hover">
+                                    <thead class="">
                                         <tr>
-                                            <td>{{ $item->table->name }}</td>
-                                            <td>
-                                                <ul style="list-style: none; padding: 0;">
-                                                    @foreach ($item->orderDetails as $orderDetail)
-                                                        <li>
-                                                            @php
-                                                                $variant = json_decode($orderDetail->item, true);
-                                                            @endphp
-                                                            @if ($variant !== null && is_array($variant))
-                                                                @foreach ($variant as $key => $value)
-                                                                    @if ($key === 'price')
-                                                                        {{ $value }}
-                                                                    @endif
-                                                                @endforeach
-                                                            @endif
-                                                            {{ $orderDetail->quantity }} x
-                                                            {{ $orderDetail->product->name }}
-                                                        </li>
-                                                    @endforeach
-                                                </ul>
-                                            <td>{{ $item->total_price }} </td>
-                                            </td>
-                                            <td>{{ $item->note }}</td>
-                                            <td>{{ $item->created_at }}</td>
-                                            <th>
-                                                @if ($item->status == 0)
-                                                    <span> Chưa xác nhận </span>
-                                                @endif
-                                            </th>
-                                            <td>
-                                                <form action="" method="get">
-                                                    <input type="hidden" name="phone" value="{{ $item->phone }}">
-                                                    <input type="hidden" name="total" value="{{ $item->total_price }}">
-                                                    <select class="form-control order-status" name="status"
-                                                        id="{{ $item->id }}">
-                                                        <option value="0" {{ $item->status === 0 ? 'selected' : '' }}>
-                                                            Chưa xác nhận
-                                                        </option>
-                                                        <option value="1" {{ $item->status === 1 ? 'selected' : '' }}>
-                                                            Đã xác nhận
-                                                        </option>
-                                                        <option value="2" {{ $item->status === 2 ? 'selected' : '' }}>
-                                                            Hủy bỏ
-                                                        </option>
-                                                    </select>
-                                                </form>
-                                            </td>
+                                            <th>Bàn</th>
+                                            <th>Sản phẩm</th>
+                                            <th>Tổng cộng</th>
+                                            <th>Ghi chú</th>
+                                            <th>Thời gian</th>
+                                            <th>Trạng thái</th>
+                                            <th>Hành động</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            @else
-                                <div class="alert alert-danger" role="alert">
-                                    Bạn không có đơn đặt hàng mới <i class="fa-solid fa-bell"></i>
-                                </div>
-                            @endif
-                        </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($orders as $key => $item)
+                                            <tr>
+                                                <td>
+                                                    {{ $item->table->name }}
+                                                </td>
+                                                <td>
+                                                    <ul style="list-style: none; padding: 0;">
+                                                        @foreach ($item->orderDetails as $orderDetail)
+                                                            @if ($orderDetail->product == null)
+                                                                <p style="padding: 5px;color:#910400;text-align:left;">
+                                                                    [Không xác định]
+                                                                </p>
+                                                            @else
+                                                                <li style="text-align: left">
+                                                                    <p class="my-2 h6" style="color: #910400">
+                                                                        {{ $orderDetail->quantity }} x
+                                                                        {{ $orderDetail->product->name }}
+                                                                    </p>
+                                                                    @php
+                                                                        $variant = json_decode($orderDetail->item);
+                                                                        $variant2 = json_decode($variant);
+                                                                    @endphp
+
+                                                                    @if ($variant2 != null)
+                                                                        @foreach ($variant2 as $value)
+                                                                            - {{ $value->name }}<br>
+
+                                                                            <input type="hidden"
+                                                                                value="{{ $value->price }}">
+                                                                        @endforeach
+                                                                    @endif
+
+                                                                </li>
+                                                            @endif
+                                                        @endforeach
+                                                    </ul>
+                                                </td>
+                                                <td>{{ formatNumberPrice($item->total_price) }}</td>
+                                                <td>
+                                                    @if (isset($item->note) && !empty($item->note))
+                                                        {{ $item->note }}
+                                                    @else
+                                                        Không Có
+                                                    @endif
+                                                </td>
+                                                <td>{{ $item->created_at }}</td>
+                                                <td>
+                                                    @if ($item->status == 5)
+                                                        <span>Đã thanh toán</span>
+                                                    @endif
+                                                </td>
+                                                <th>
+                                                    <a href="{{ url('invoice/' . $item->id) }}"
+                                                        class="btn btn-warning btn-sm float-end mx-1"><i
+                                                            class="fa-solid fa-eye"></i>
+                                                    </a>
+                                                    <a id="{{ $item->id }}"
+                                                        href="#"class="btn btn-warning btn-sm float-end mx-1 deleteIcon">
+                                                        <i class="fa-solid fa-trash-can"></i>
+                                                    </a>
+                                                </th>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            {{-- đã thanh toán --}}
-            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                <div class="col-md-12">
-                    <div class="row table-responsive mt-3" id="nonPayOrder">
-                        <table id="myTable" class="table table-hover">
-                            <thead class="">
-                                <tr>
-                                    <th>Bàn</th>
-                                    <th>Tổng cộng</th>
-                                    <th>Ghi chú</th>
-                                    <th>Thời gian</th>
-                                    <th>Trạng thái</th>
-                                    <th>Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($orders as $key => $item)
-                                    <tr>
-                                        <td>
-                                            {{ $item->table->name }}
-                                        </td>
-                                        <td>{{ $item->total_price }}</td>
-                                        <td>{{ $item->note }}</td>
-                                        <td>{{ $item->created_at }}</td>
-                                        <td>
-                                            @if ($item->status == 5)
-                                                <span>Đã than toán</span>
-                                            @endif
-                                        </td>
-                                        <th>
-                                            <a href="{{ url('invoice/' . $item->id) }}"
-                                                class="btn btn-warning btn-sm float-end mx-1"><i
-                                                    class="fa-solid fa-eye"></i>
-                                            </a>
-                                            <a id="{{ $item->id }}"
-                                                href="#"class="btn btn-warning btn-sm float-end mx-1 deleteIcon">
-                                                <i class="fa-solid fa-trash-can"></i>
-                                            </a>
-                                        </th>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            {{-- hủy --}}
-            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                <div class="col-md-12">
-                    <div class="row table-responsive mt-3" id="nonPayOrder">
-                        <table id="myCancelTable" class="table table-hover">
-                            <thead class="">
-                                <tr>
-                                    <th>Bàn</th>
-                                    <th>Tổng cộng</th>
-                                    <th>Ghi chú</th>
-                                    <th>Thời gian</th>
-                                    <th>Trạng thái</th>
-                                    <th>Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($cancel as $key => $item)
-                                    <tr>
-                                        <td>
-                                            {{ $item->table->name }}
-                                        </td>
-                                        <td>{{ $item->total_price }}</td>
-                                        <td>{{ $item->note }}</td>
-                                        <td>{{ $item->created_at }}</td>
-                                        <td>
-                                            @if ($item->status == 2)
-                                                <span>Đã hủy</span>
-                                            @endif
-                                        </td>
-                                        <th>
-                                            <a href="{{ url('invoice/' . $item->id) }}"
-                                                class="btn btn-warning btn-sm float-end mx-1"><i
-                                                    class="fa-solid fa-eye"></i>
-                                            </a>
-                                            <a id="{{ $item->id }}"
-                                                href="#"class="btn btn-warning btn-sm float-end mx-1 deleteIcon">
-                                                <i class="fa-solid fa-trash-can"></i>
-                                            </a>
-                                        </th>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                    {{-- hủy --}}
+                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                        <div class="col-md-12">
+                            <div class="row table-responsive mt-3" id="nonPayOrder">
+                                <table id="myCancelTable" class="table table-hover">
+                                    <thead class="">
+                                        <tr>
+                                            <th>Bàn</th>
+                                            <th>Sản phẩm</th>
+                                            <th>Tổng cộng</th>
+                                            <th>Ghi chú</th>
+                                            <th>Thời gian</th>
+                                            <th>Trạng thái</th>
+                                            <th>Hành động</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($cancel as $key => $item)
+                                            <tr>
+                                                <td>
+                                                    {{ $item->table->name }}
+                                                </td>
+                                                <td>
+                                                    <ul style="list-style: none; padding: 0;">
+                                                        @foreach ($item->orderDetails as $orderDetail)
+                                                            @if ($orderDetail->product == null)
+                                                                <p style="padding: 5px;color:#910400;text-align:left;">
+                                                                    [Không xác định]
+                                                                </p>
+                                                            @else
+                                                                <li style="text-align: left">
+                                                                    <p class="my-2 h6" style="color: #910400">
+                                                                        {{ $orderDetail->quantity }} x
+                                                                        {{ $orderDetail->product->name }}
+                                                                    </p>
+                                                                    @php
+                                                                        $variant = json_decode($orderDetail->item);
+                                                                        $variant2 = json_decode($variant);
+                                                                    @endphp
+
+                                                                    @if ($variant2 != null)
+                                                                        @foreach ($variant2 as $value)
+                                                                            - {{ $value->name }}<br>
+
+                                                                            <input type="hidden"
+                                                                                value="{{ $value->price }}">
+                                                                        @endforeach
+                                                                    @endif
+
+                                                                </li>
+                                                            @endif
+                                                        @endforeach
+                                                    </ul>
+                                                </td>
+                                                <td>{{ formatNumberPrice($item->total_price) }}</td>
+                                                <td>
+                                                    @if (isset($item->note) && !empty($item->note))
+                                                        {{ $item->note }}
+                                                    @else
+                                                        Không Có
+                                                    @endif
+                                                </td>
+                                                <td>{{ $item->created_at }}</td>
+                                                <td>
+                                                    @if ($item->status == 2)
+                                                        <span>Đã hủy</span>
+                                                    @endif
+                                                </td>
+                                                <th>
+                                                    <a href="{{ url('invoice/' . $item->id) }}"
+                                                        class="btn btn-warning btn-sm float-end mx-1"><i
+                                                            class="fa-solid fa-eye"></i>
+                                                    </a>
+                                                    <a id="{{ $item->id }}"
+                                                        href="#"class="btn btn-warning btn-sm float-end mx-1 deleteIcon">
+                                                        <i class="fa-solid fa-trash-can"></i>
+                                                    </a>
+                                                </th>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script src="//js.pusher.com/3.1/pusher.min.js"></script>
+    <script type="text/javascript">
+        var pusher = new Pusher('3f445aa654bdfac71f01', {
+            encrypted: true,
+            cluster: "ap1"
+        });
+
+        var channel = pusher.subscribe('development');
+
+        channel.bind('App\\Events\\HelloPusherEvent', function(data) {
+            Command: toastr["warning"](data.message)
+
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+
+            var audio = new Audio('{{ asset('Doorbell.mp3') }}');
+            audio.addEventListener('canplaythrough', function() {
+                audio.play();
+            });;
+
+            updateTable();
+        });
+    </script>
+    <!-- Add the following script to your page -->
+    <script>
+        function meny() {
+            var audio = new Audio('{{ asset('meny.mp3') }}');
+            audio.play();
+            updateTable();
+        }
+
+        function formatDateTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        }
+
+
+        function formatNumberWithCommas(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function updateTable() {
+
+            $.ajax({
+                url: '/getOrder',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    var $tableBody = $('#nonPayOrder tbody');
+                    $tableBody.html('');
+
+                    $.each(data, function(index, order) {
+                        var row = '<tr>';
+                        row += '<td>' + order.table_id + '</td>';
+                        row += '<td>';
+                        row += '<ul style="list-style: none; padding: 0;">';
+
+                        $.each(order.order_details, function(index, orderDetail) {
+                            row +=
+                                '<li style="text-align: left"> <p class="my-2 h6" style="color: #DFA018">' +
+                                orderDetail.quantity + ' x ' + orderDetail
+                                .product_name + '</p>';
+
+                            let parse_item = JSON.parse(orderDetail.item)
+                            let parse_item2 = JSON.parse(parse_item)
+
+                            if (parse_item2 != null) {
+                                $.each(parse_item2, function(index, value) {
+                                    row += '-' + value.name + '<br>'
+                                    row += '<input type="hidden" value=" ' + value
+                                        .price + '">'
+                                });
+                            }
+
+                            row += '</li>';
+                        });
+
+                        row += '</ul>';
+                        row += '</td>';
+                        row += '<td>' + formatNumberWithCommas(order.total_price) + 'đ</td>';
+                        row += '<td>' + (order.note ? order.note : 'Không Có') + '</td>';
+                        row += '<td>' + formatDateTime(order.created_at) + '</td>';
+
+                        row += '<td>';
+
+                        if (order.status == 0) {
+                            row +=
+                                '<span class="badge badge-warning">Chưa xác nhận</span>';
+                        } else if (order.status == 1) {
+                            row +=
+                                '<span class="badge badge-success">Đã xác nhận</span>';
+                        }
+
+                        row += '</td>';
+                        row += '<td>';
+                        row += '<form action="' + '/admin/orders/' + order.id +
+                            '/update-status" method="POST">';
+                        row += '<input type="hidden" name="_token" value="' + $(
+                            'meta[name="csrf-token"]').attr('content') + '">';
+                        row += '<input type="hidden" name="_method" value="PATCH">';
+                        row += '<input type="hidden" name="phone" value="' + order.phone + '">';
+                        row += '<input type="hidden" name="total" value="' + order.total_price + '">';
+
+                        if (order.status == 0) {
+                            row +=
+                                '<button type="submit" name="status" value="1" class="btn btn-info btn-sm float-end mx-1"><i class="fa-solid fa-check px-1"></i></button>';
+                            row +=
+                                '<button type="submit" name="status" value="2" class="btn btn-danger btn-sm float-end mx-1"><i class="fa-solid fa fa-trash-o"></i></button>';
+                        }
+                        row +=
+                            '</form>';
+                        row += '<form action="' + '/admin/orders/' + order.id +
+                            '/update-status" method="POST" target="_blank">';
+                        row += '<input type="hidden" name="_token" value="' + $(
+                            'meta[name="csrf-token"]').attr('content') + '">';
+                        row += '<input type="hidden" name="_method" value="PATCH">';
+                        row += '<input type="hidden" name="phone" value="' + order.phone + '">';
+                        row += '<input type="hidden" name="total" value="' + order.total_price + '">';
+
+                        if (order.status == 1) {
+                            row += '<a class="btn btn-secondary btn-sm float-end mx-1" href="' +
+                                '/order-form/' + order.id + '"><i class="fa-solid fa-print"></i></a>';
+                            row +=
+                                '<button type="submit"  name="status" value="5" class="btn btn-primary btn-sm float-end mx-1" onclick="meny()"><i class="fa-solid fa fa-credit-card mt-1"></i></button>';
+                        }
+                        row += '</form>';
+                        row += '</td>';
+                        row += '</tr>';
+
+                        $tableBody.append(row);
+                    });
+                },
+                error: function(error) {
+                    console.error('Lỗi khi lấy dữ liệu:', error);
+                }
+            });
+        }
+
+        // setInterval(updateTable, 3000); // Adjust the interval as needed
+    </script>
 @endsection
 @push('scripts')
     <script>
@@ -282,79 +550,6 @@
                     });
                 }
             })
-        });
-    </script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-
-    <script src="//js.pusher.com/3.1/pusher.min.js"></script>
-    <script type="text/javascript">
-        var pusher = new Pusher('3f445aa654bdfac71f01', {
-            encrypted: true,
-            cluster: "ap1"
-        });
-
-        var channel = pusher.subscribe('development');
-
-        channel.bind('App\\Events\\HelloPusherEvent', function(data) {
-            $('#table-' + data.id).addClass('red-bg');
-            Command: toastr["warning"](data.message)
-
-            toastr.options = {
-                "closeButton": false,
-                "debug": false,
-                "newestOnTop": false,
-                "progressBar": true,
-                "positionClass": "toast-top-right",
-                "preventDuplicates": false,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "1000",
-                "timeOut": "5000",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            }
-
-            var audio = new Audio('{{ asset('Doorbell.mp3') }}');
-            audio.play();
-            setTimeout(function() {
-                $('#table-' + data.id).removeClass('red-bg');
-            }, 30000);
-        });
-    </script>
-    <script type="text/javascript">
-        var pusher = new Pusher('3f445aa654bdfac71f01', {
-            encrypted: true,
-            cluster: "ap1"
-        });
-        var channel = pusher.subscribe('channel-name');
-
-        channel.bind('App\\Events\\OrderCreated', function(data) {
-            $('#table-' + data.id).addClass('yellow-bg');
-            Command: toastr["warning"]("Bạn có đơn order mới")
-
-            toastr.options = {
-                "closeButton": false,
-                "debug": false,
-                "newestOnTop": false,
-                "progressBar": true,
-                "positionClass": "toast-top-right",
-                "preventDuplicates": false,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "1000",
-                "timeOut": "5000",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            }
-
-            var audio = new Audio('{{ asset('Doorbell.mp3') }}');
-            audio.play();
         });
     </script>
 @endpush

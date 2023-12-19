@@ -1,105 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('admin.layout.content')
+@section('main-content')
+<div class="col-12 col-lg-9" style="font-size: large;">
+    <div class="ibox float-e-margins" id="boxOrder">
+        <div class="ibox-content">
+            <div class="sk-spinner sk-spinner-wave">
+                <div class="sk-rect1"></div>
+                <div class="sk-rect2"></div>
+                <div class="sk-rect3"></div>
+                <div class="sk-rect4"></div>
+                <div class="sk-rect5"></div>
+            </div>
+            <h1 class="text-qr Rest-dark text-center p-2">
+                <a href="#" id="goBackButton" class="btn btn-outline btn-primary btn-sm float-left">
+                    <i class="fa fa-long-arrow-left mt-1"></i>
+                </a>
+                Tạo tài khoản
+            </h1>
+            <input hidden value="Completed" id="lblCompleted" />
+            <input hidden value="2" id="txtTableId" />
 
-<head>
+            <div class="card-body">
+                @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
 
+                <form method="POST" action="{{ route('register') }}">
+                    @csrf
+                    <label for="new_password" class="form-label">Tên đăng nhập:</label>
+                    <div class="form-group">
+                        <input type="text" name="username" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" >
+                        @error('username') <div class="text-danger">{{ $message }}</div> @enderror
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>FOODIE</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="{{ asset('bootstrap/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="{{ asset('bootstrap/css/sb-admin-2.min.css') }}" rel="stylesheet">
-    <style>
-        .small-link-container {
-            margin-top: 15px;
-        }
-
-        .small-link {
-            font-size: 14px;
-            color: #007bff;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .small-link:hover {
-            color: #ff0000;
-            text-decoration: underline;
-        }
-    </style>
-</head>
-
-<body class="bg-gradient-danger">
-
-
-    <div class="container">
-        <!-- Outer Row -->
-        <div class="row justify-content-center">
-            @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
-            <div class="col-xl-10 col-lg-12 col-md-9">
-
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                            <div class="col-lg-6">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Đăng ký</h1>
-                                    </div>
-                                    <form method="POST" action="{{ route('register') }}">
-                                        @csrf
-                                        <div class="form-group">
-                                            <input type="text" name="username" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder=" Tên Đăng Nhập...">
-                                            @error('username') <div class="text-danger">{{ $message }}</div> @enderror
-
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Mật Khẩu....">
-                                            @error('password') <div class="text-danger">{{ $message }}</div> @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="email" name="email" class="form-control form-control-user" id="exampleInputPassword" placeholder="Email....">
-                                            @error('email') <div class="text-danger">{{ $message }}</div> @enderror
-                                        </div>
-                                        <button type="submit" class="btn btn-danger">Đăng ký</button>
-                                    </form>
-                                    <div class="text-center small-link-container">
-                                        <a class="small small-link" href="{{ route('login') }}">Đăng Nhập</a>
-                                    </div>
+                    </div>
+                    <label for="new_password" class="form-label">Mật khẩu :</label>
+                    <div class="input-group">
+                                <input type="password" name="password" class="form-control" id="password">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary show-password" onclick="togglePassword('password')">
+                                        <i class="fa-regular fa-eye"></i> Show
+                                    </button>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
+                            @error('password') <div class="text-danger">{{ $message }}</div> @enderror
 
+                            <label for="confirm_password" class="form-label">Nhập lại mật khẩu:</label>
+                            <div class="input-group">
+                                <input type="password" name="confirm_password" class="form-control" id="confirm_password">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary show-password" onclick="togglePassword('confirm_password')">
+                                        <i class="fa-regular fa-eye"></i> Show
+                                    </button>
+                                </div>
+                            </div>
+                            @error('confirm_password') <div class="text-danger">{{ $message }}</div> @enderror
+                    <button type="submit" class="btn btn-danger">Tạo</button>
+                </form>
             </div>
 
+
+
+
         </div>
-
     </div>
+</div>
+<script>
+    function togglePassword(inputId) {
+        var passwordInput = document.getElementById(inputId);
+        var button = document.querySelector('[data-target="' + inputId + '"]');
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="{{ asset('bootstrap/js/jquery.easing.min.js') }}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{{ asset('bootstrap/js/sb-admin-2.min.js') }}"></script>
-
-</body>
-
-</html>
+        if (passwordInput.type == "password") {
+            passwordInput.type = "text";
+            button.innerHTML = '<i class="fa-regular fa-eye-slash"></i> Hide';
+        } else {
+            passwordInput.type = "password";
+            button.innerHTML = '<i class="fa-regular fa-eye"></i> Show';
+        }
+    }
+</script>
+<script>
+    document.getElementById('goBackButton').addEventListener('click', function() {
+        history.back();
+    });
+</script>
+@endsection

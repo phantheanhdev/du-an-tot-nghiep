@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -10,6 +11,7 @@ class CategoryRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      */
+
     public function authorize(): bool
     {
         return true;
@@ -58,4 +60,17 @@ class CategoryRequest extends FormRequest
 
         return $rules;
     }
+    public function messages(): array
+{
+    return [
+        'category_name.required' => 'Trường tên danh mục là bắt buộc.',
+        'category_name.unique' => 'Tên danh mục đã tồn tại.',
+        'category_name.max' => 'Tên danh mục không được vượt quá :max ký tự.',
+        'image.image' => 'Trường hình ảnh phải là một hình ảnh.',
+        'status.required' => 'Trường trạng thái là bắt buộc.',
+        'status.in' => 'Trường trạng thái không hợp lệ.',
+    ];
 }
+
+}
+
