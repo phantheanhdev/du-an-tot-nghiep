@@ -22,7 +22,7 @@
         .component__item-editor {
 
             /* -webkit-box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275);
-                                                                                                                                                                                                                                                                                                                        box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
+                                                                                                                                                                                                                                                                                                                                            box-shadow: 1px 2px 12px 0 rgba(0, 0, 0, .1215686275); */
             main padding: 2px;
             border-radius: 8px;
             margin-bottom: 10px;
@@ -165,15 +165,15 @@
 
         .rate {
             text-align: center;
-            width: 200px;
-            height: 200px;
+            /* width: 200px;
+                    height: 200px; */
             ouline: thin solid lightgray;
         }
 
         .emoji {
-            font-size: 120px;
-            height: 170px;
-            line-height: 170px;
+            font-size: 60px;
+            /* height: 170px;
+                    line-height: 170px; */
         }
 
         .rating-icon {
@@ -186,7 +186,7 @@
         }
 
         .rating-icon {
-            font-size: 30px;
+            font-size: 25px;
         }
 
         .feedback-comment {
@@ -437,8 +437,7 @@
                                                                 style="background-image:url({{ Storage::url($product->image) }}); background-size:cover;">
                                                             </div>
 
-                                                            <div class="product-desc" data-toggle="modal"
-                                                                data-target="#exampleModalScrollable-product-{{ $product->id }}">
+                                                            <div class="product-desc">
                                                                 @if ($product->flashSale == 1)
                                                                     @php
                                                                         $saleProduct = \App\Models\FlashSaleItem::where('product_id', $product->id)->first();
@@ -480,9 +479,22 @@
                                                                 <small class="text-muted"> {{ $categoryName }} </small>
                                                                 <a class="product-name"
                                                                     id="product-name-{{ $product->id }}">{{ $product->name }}</a>
-                                                                <div class="small m-t-xs" style="height:28px">
-                                                                    {{ $product->description }}
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <div class="m-t-xs"
+                                                                            style="height:28px; margin-top: -1px;">
+                                                                            {{ \Illuminate\Support\Str::limit($product->description, 20, $end = '...') }}
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-6">|
+                                                                        <a data-toggle="modal" style="color: #D9534F"
+                                                                            data-target="#exampleModalScrollable-product-review-{{ $product->id }}">
+                                                                            Đánh giá</a>
+                                                                    </div>
                                                                 </div>
+
+
                                                                 <div class="m-t mx-auto">
                                                                     <div class="row">
 
@@ -496,11 +508,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            {{-- <button class="btn btn-sm btn-outline btn-link btn-block"
-                                                                data-toggle="modal"
-                                                                data-target="#exampleModalScrollable-product-review-{{ $product->id }}">
-                                                                Đánh giá
-                                                            </button> --}}
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -524,6 +532,11 @@
                                                                     <input type="hidden"
                                                                         id="product-img-{{ $product->id }}"
                                                                         value="{{ $product->image }}">
+                                                                    <div>
+                                                                        <h5>Mô tả:</h5>
+                                                                        {{ $product->description }}
+                                                                    </div>
+                                                                    <hr>
                                                                     <div style="background-color:transparent">
                                                                         @if ($product->flashSale == 1)
                                                                             @php
@@ -617,13 +630,6 @@
                                                                     </div>
                                                                 </div>
 
-                                                                {{-- <div class="modal-footer">
-
-                                                                    <button type="button"
-                                                                        onclick="addToCart({{ $product->id }})"
-                                                                        class="btn btn-primary">Thêm</button>
-
-                                                                </div> --}}
                                                                 <div class="footer" style="position:inherit">
                                                                     <div class="row small-gutters">
                                                                         <div class="col-4">
@@ -663,9 +669,8 @@
                                                             @csrf
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h3 class="modal-title"
-                                                                        id="exampleModalScrollableTitle">
-                                                                        Đánh giá từ khách hàng : {{ $product->name }}</h3>
+                                                                    <h3 id="exampleModalScrollableTitle">
+                                                                        Đánh giá: {{ $product->name }}</h3>
                                                                     <button type="button" class="close"
                                                                         data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
@@ -732,6 +737,12 @@
                                                                                 </div>
 
                                                                             </div>
+                                                                            <center>
+                                                                                <button type="submit"
+                                                                                class="btn btn-outline-danger">Đánh
+                                                                                giá</button>
+                                                                            </center>
+
                                                                         @else
                                                                             <p>Hãy gọi món để đánh giá sản phẩm</p>
                                                                         @endif
@@ -753,14 +764,14 @@
 
                                                                             @foreach ($feedbacks as $feedback)
                                                                                 <div class=" mt-3">
-                                                                                    <h5 style="font-size: 15px;">
+                                                                                    <p style="font-size: 15px;">
                                                                                         {{ $feedback->customer->phone }}
                                                                                         <span>({{ date('d M Y', strtotime($feedback->created_at)) }})</span>
-                                                                                    </h5>
+                                                                                    </p>
 
                                                                                     <div>
 
-                                                                                        <div class="rating-point">
+                                                                                        <div class="rating-point" style="color: #910400">
                                                                                             @if ($feedback->rating == 1)
                                                                                                 <i
                                                                                                     class="fa-solid fa-star"></i>
@@ -809,8 +820,6 @@
                                                                                                     class="rating-icon">(😍)</span>
                                                                                             @endif
 
-
-
                                                                                         </div>
                                                                                         <p class="feedback-comment">
                                                                                             {{ $feedback->comment }}</p>
@@ -824,26 +833,10 @@
 
 
                                                                     </div>
-
-
-
-
-
-
-
-
                                                                 </div>
 
                                                                 <div class="modal-footer">
-                                                                    @if ($isBrought == true)
-                                                                        <button type="submit"
-                                                                            class="btn btn-primary">Đánh
-                                                                            giá</button>
-                                                                    @else
-                                                                        <button type="submit" disabled
-                                                                            class="btn btn-primary">Hãy đặt món
-                                                                            nào</button>
-                                                                    @endif
+
 
 
                                                                 </div>
@@ -885,6 +878,20 @@
     </script>
 
     <script>
+        function truncateString(inputString, maxLength) {
+            if (inputString.length <= maxLength) {
+                return inputString;
+            }
+
+            return inputString.substring(0, maxLength) + '...';
+        }
+
+        var originalString = "abcdefghijklmnopqrstuvwxyz";
+        var maxLength = 10;
+
+        var truncatedString = truncateString(originalString, maxLength);
+
+        // console.log(truncatedString); // In ra: "abcdefghij..."
         function validateInput(input) {
             // Lọc các ký tự không phải là số
             input.value = input.value.replace(/[^0-9]/g, '');
@@ -913,11 +920,13 @@
                     "hideMethod": "fadeOut"
                 };
             }
+
         }
     </script>
 
     <script>
         updateCart()
+
         // $(document).ready(function() {
         $(".inc").on("click", function() {
             var currentValue = parseInt($(".qty2").val());
@@ -945,35 +954,60 @@
 
         function layDiem() {
             if (!daThucHienFunction) {
-                var diem = document.getElementById('point').value;
+                var diem = parseInt($('#point').val());
                 if (diem > 0) {
-                    var tong = document.getElementById('total_price').value;
-                    tong = tong - diem;
-                    document.getElementById('total_price').value = tong;
-                    document.getElementById('pointAdd').value = diem;
-                    document.getElementById('total').innerHTML = formatNumberWithCommas(tong) + " đ"
-                    console.log(tong);
-                    daThucHienFunction = true;
-                    Command: toastr["success"]("Đã đổi POINT ");
+                    var tong = parseInt($('#total_price').val());
 
-                    toastr.options = {
-                        "closeButton": false,
-                        "debug": false,
-                        "newestOnTop": false,
-                        "progressBar": false,
-                        "positionClass": "toast-top-right",
-                        "preventDuplicates": false,
-                        "onclick": null,
-                        "showDuration": "300",
-                        "hideDuration": "1000",
-                        "timeOut": "5000",
-                        "extendedTimeOut": "1000",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
-                    };
+                    if (diem <= tong) {
+                        tong -= diem;
+                        $('#total_price').val(tong);
+                        $('#pointAdd').val(diem);
+                        $('#total').html(formatNumberWithCommas(tong) + " đ");
+                        console.log(tong);
+                        daThucHienFunction = true;
 
+                        toastr["success"]("Đã đổi Xu Foodie");
+
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+                    } else {
+                        $("#buttonSubmit").prop("checked", false);
+
+                        toastr["warning"]("Đặt thêm món để dùng Xu Foodie");
+
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+                    }
                 }
             }
         }
@@ -989,26 +1023,6 @@
                     document.getElementById('total').innerHTML = formatNumberWithCommas(tong) + " đ";
                     console.log(tong);
                     daThucHienFunction = false;
-
-                    Command: toastr["success"]("Đã bỏ POINT ");
-
-                    toastr.options = {
-                        "closeButton": false,
-                        "debug": false,
-                        "newestOnTop": false,
-                        "progressBar": false,
-                        "positionClass": "toast-top-right",
-                        "preventDuplicates": false,
-                        "onclick": null,
-                        "showDuration": "300",
-                        "hideDuration": "1000",
-                        "timeOut": "5000",
-                        "extendedTimeOut": "1000",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
-                    };
                 }
             }
         }
@@ -1218,37 +1232,13 @@
         };
 
         function submitOrder(id) {
-            updateCart()
-            var total_price = document.getElementById('total_price')
-            if (total_price.value > 0) {
-                Command: toastr["warning"]("Đang yêu cầu đặt món")
-
-                toastr.options = {
-                    "closeButton": false,
-                    "debug": false,
-                    "newestOnTop": false,
-                    "progressBar": false,
-                    "positionClass": "toast-top-right",
-                    "preventDuplicates": false,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                }
-                var formData = new FormData(document.getElementById('orderForm'));
-                $.ajax({
-                    type: 'POST',
-                    url: '/order', // Đặt đường dẫn đúng
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        Command: toastr["success"]("Đặt món thành công")
+            $.ajax({
+                type: 'GET',
+                url: '/get-cart',
+                success: function(response) {
+                    updateCart()
+                    if (Object.keys(response.cart).length > 0) {
+                        Command: toastr["warning"]("Đang yêu cầu đặt món")
 
                         toastr.options = {
                             "closeButton": false,
@@ -1267,39 +1257,70 @@
                             "showMethod": "fadeIn",
                             "hideMethod": "fadeOut"
                         }
-                        pusher_order(id);
-                        updateCart();
-                        $('#showpoint2').hide();
+                        var formData = new FormData(document.getElementById('orderForm'));
+                        $.ajax({
+                            type: 'POST',
+                            url: '/order', // Đặt đường dẫn đúng
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            success: function(response) {
+                                Command: toastr["success"]("Đặt món thành công")
 
-                    },
-                    error: function(error) {
-                        console.log('Error submitting order:', error);
+                                toastr.options = {
+                                    "closeButton": false,
+                                    "debug": false,
+                                    "newestOnTop": false,
+                                    "progressBar": false,
+                                    "positionClass": "toast-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+                                pusher_order(id);
+                                updateCart();
+                                updateCart();
+                                $('#showpoint2').hide();
+
+                            },
+                            error: function(error) {
+                                console.log('Error submitting order:', error);
+                            }
+                        })
                     }
-                })
-                // $('#showpoint2').hide();
-            }
-            else {
-                Command: toastr["warning"]("Giỏ hàng trống !")
 
-                toastr.options = {
-                    "closeButton": false,
-                    "debug": false,
-                    "newestOnTop": false,
-                    "progressBar": false,
-                    "positionClass": "toast-top-right",
-                    "preventDuplicates": false,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
+                },
+                error: function(error) {
+                    Command: toastr["warning"]("Giỏ hàng trống !")
+
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": false,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
                 }
-            }
+            });
         }
+
 
         function updateCart() {
             $.ajax({
@@ -1410,7 +1431,7 @@
                     cartContentsHtml += '<div class="">';
                     cartContentsHtml += '<input type="checkbox" class="mr-2" id="buttonSubmit">';
                     cartContentsHtml += '<label for="buttonSubmit" class="" style="font-size: 14px">Dùng ' +
-                        '{{ number_format(Auth::guard('customer')->user()->point) }} điểm Foodie</label>';
+                        '{{ number_format(Auth::guard('customer')->user()->point) }} Xu Foodie</label>';
                     cartContentsHtml += '</div>';
                     cartContentsHtml += '<div class="">';
                     cartContentsHtml += '<p class="text-danger" style="font-size: 14px">' +
@@ -1568,4 +1589,3 @@
         // })
     </script>
 @endsection
-/
