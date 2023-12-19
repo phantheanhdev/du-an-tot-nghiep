@@ -13,9 +13,9 @@
 
             <h3 class="text-qrRest-dark text-center">Tất cả bàn</h3>
             <div class="text-center">
-                <span class="badge badge-dark mr-2"><i class="fa fa-cutlery"></i> : Có khách</span>
+                <span class="badge badge-dark mr-2"><i class="fa fa-cutlery"></i> : Bàn có khách</span>
                 <span class="badge badge-dark mr-2"> <i class="fa fa-minus"></i> : Bàn trống</span>
-                <span class="badge badge-dark mr-2"> <i class="fa fa-bell"></i> : Đang có đơn</span>
+                <span class="badge badge-dark mr-2"> <i class="fa fa-bell"></i> : Có đơn mới</span>
             </div>
 
             <hr />

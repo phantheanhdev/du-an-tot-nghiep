@@ -36,7 +36,7 @@
                             {{-- img qr --}}
                             <img src="{{ $table->qr }}" class="card-img-top p-0 qr-image" alt="qr code">
 
-                            <div class="card-body text-center">
+                            <div class="card-body text-center pt-0">
                                 <div class="d-flex justify-content-center">
                                     <a href="{{ route('table.edit', $table->id) }}" class="mx-3">
                                         <button class="btn btn-success">
@@ -77,14 +77,8 @@
                             </div>
                         </div>
                     </div>
-                    {{-- ô trống --}}
-                    {{-- <div class="col-lg-1"></div> --}}
                 @endforeach
             </div>
-
-
-
-
         </div>
     </div>
 
