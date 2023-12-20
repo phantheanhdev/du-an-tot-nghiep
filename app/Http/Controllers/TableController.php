@@ -178,7 +178,15 @@ class TableController extends Controller
         $get_http_host = $_SERVER['HTTP_HOST'];
 
         $filename = 'Foodie_QR.pdf';
-        $html = '<img src="https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://' . $get_http_host . '/foodie?tableId=' . $table->id . '%26tableNo=' . $name . '" alt="">';
+        // $html = '<img src="https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://' . $get_http_host . '/foodie?tableId=' . $table->id . '%26tableNo=' . $name . '" alt="" style="text-align: center"> 
+        //     <h1 style="text-align: center">Bàn ' . $name . '</h1>
+        // ';
+        $html = ' <div >
+        <img src="https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://' . $get_http_host . '/foodie?tableId=' . $table->id . '%26tableNo=' . $name . '" alt=""> 
+        <h1>__________Bàn ' . $name . '__________</h1>
+        </div>
+    ';
+
 
         $pdf = new TCPDF;
 
